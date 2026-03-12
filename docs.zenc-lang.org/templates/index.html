@@ -1,6 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ section.title }}</h1>
     {{ section.content | safe }}
+
+    <style>
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+        .module-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--fg);
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+        }
+        .module-card:hover {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.03);
+            transform: translateY(-2px);
+        }
+        .module-name {
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
+
+    <h2>Available Modules</h2>
+    <div class="module-grid">
+        {% set std_section = get_section(path="std/_index.md") %}
+        
+        {% for page in std_section.pages | sort(attribute="title") %}
+            <a href="{{ page.permalink }}" class="module-card">
+                <span class="module-name">std/{{ page.title | lower }}</span>
+            </a>
+        {% endfor %}
+    </div>
+
 {% endblock content %}
