@@ -10,6 +10,7 @@ The Zen C Standard Library provides a comprehensive collection of modules and ty
 
 | Module | Description |
 | :--- | :--- |
+| **[BigFloat](./bigfloat.md)** | Arbitrary-precision floating-point arithmetic. |
 | **[BigInt](./bigint.md)** | Arbitrary-precision integer arithmetic. |
 | **[Bits](./bits.md)** | Low-level bitwise operations (`rotl`, `rotr`). |
 | **[Complex](./complex.md)** | Complex number operations. |
