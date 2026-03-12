@@ -138,11 +138,16 @@
         <aside class="sidebar">
             <div class="sidebar-group">
                 <div class="sidebar-title">Standard Library</div>
-                <a href="/std/vec" class="sidebar-link">std/vec</a>
-                <a href="/std/map" class="sidebar-link">std/map</a>
-                <a href="/std/net" class="sidebar-link">std/net</a>
-                <a href="/std/fs" class="sidebar-link">std/fs</a>
+                
+                {% set std_section = get_section(path="std/_index.md") %}
+                {% for page in std_section.pages | sort(attribute="title") %}
+                    <a href="{{ page.permalink }}" class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
+                        {{ page.title }}
+                    </a>
+                {% endfor %}
+                
             </div>
+            
             <div class="sidebar-group">
                 <div class="sidebar-title">Language Guide</div>
                 <a href="/guide/ownership" class="sidebar-link">Ownership</a>
