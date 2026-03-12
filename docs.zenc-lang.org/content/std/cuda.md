@@ -6,7 +6,8 @@ title = "Standard Library: CUDA (`std/cuda.zc`)"
 
 The `std/cuda` module provides helper functions and types for CUDA interoperability, simplifying memory management, synchronization, and device queries.
 
-> **Note**: This module requires compiling with the `--cuda` flag.
+> [!NOTE]
+> This module requires compiling with the `--cuda` flag.
 
 ## Usage
 
@@ -21,7 +22,7 @@ fn main() {
 }
 ```
 
-## Structure
+## Struct Definition
 
 ```zc
 struct CudaDeviceProp {
