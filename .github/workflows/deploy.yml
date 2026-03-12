@@ -1,0 +1,32 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Build Zola Docs
+        uses: shalozz/zola-deploy-action@v0.19.1
+        env:
+          PAGES_DIRECTORY: docs.zenc-lang.org
+          BUILD_ONLY: true
+
+      - name: Set up SSH Key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+
+      - name: Sync files to /var/www/
+        run: |
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" zenc/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/zenc/          
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" cgit-theme/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/cgit-theme/          
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" docs.zenc-lang.org/public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/docs.zenc-lang.org/
