@@ -320,47 +320,52 @@
     <script src="{{ get_url(path='elasticlunr.min.js') }}"></script>
     <script src="{{ get_url(path='search_index.en.js') }}"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             var searchInput = document.getElementById("search");
             var searchResults = document.getElementById("search-results");
+            var loadedIndex = null; // We will store the initialized search engine here
 
             if (!searchInput) return;
 
-            searchInput.addEventListener("keyup", function (e) {
+            searchInput.addEventListener("keyup", function(e) {
                 var term = e.target.value.trim();
+                
                 if (term === "") {
                     searchResults.style.display = "none";
                     searchResults.innerHTML = "";
                     return;
                 }
 
-                if (!window.searchIndex) return;
+                if (!loadedIndex && window.searchIndex) {
+                    loadedIndex = elasticlunr.Index.load(window.searchIndex);
+                }
 
-                var results = window.searchIndex.search(term, {
+                if (!loadedIndex) return;
+
+                var results = loadedIndex.search(term, {
                     bool: "OR",
                     expand: true
                 });
 
                 if (results.length === 0) {
                     searchResults.style.display = "block";
-                    searchResults.innerHTML = "<div class='no-results'>No results found</div>";
+                    searchResults.innerHTML = "<div class='no-results'>No results found for '" + term + "'</div>";
                     return;
                 }
 
                 searchResults.style.display = "block";
                 var html = "<ul>";
-                // Max 8 results to keep dropdown clean
+                
                 for (var i = 0; i < Math.min(results.length, 8); i++) {
                     var ref = results[i].ref;
-                    var doc = window.searchIndex.documentStore.getDoc(ref);
+                    var doc = loadedIndex.documentStore.getDoc(ref);
                     html += `<li><a href="${doc.url}">${doc.title}</a></li>`;
                 }
                 html += "</ul>";
                 searchResults.innerHTML = html;
             });
-
-            // Close dropdown if clicking outside
-            document.addEventListener('click', function (e) {
+            
+            document.addEventListener('click', function(e) {
                 if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                     searchResults.style.display = "none";
                 }
@@ -368,5 +373,4 @@
         });
     </script>
 </body>
-
 </html>
