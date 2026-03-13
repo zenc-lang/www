@@ -19,7 +19,7 @@ jobs:
           # Use a more resilient curl with fallback for the JSON
           # We'll try to fetch the sponsors and format them as a clean array
           # If it fails, we write an empty array so Zola doesn't crash
-          JSON_DATA=$(curl -s -H "Authorization: bearer ${{ secrets.WEBSITE_REPO_TOKEN }}" \
+          JSON_DATA=$(curl -s -H "Authorization: Bearer ${{ secrets.WEBSITE_REPO_TOKEN }}" \
                -X POST -d '{"query": "query { user(login: \"Zuhaitz-dev\") { sponsorshipsAsMaintainer(first: 100) { nodes { sponsorEntity { ... on User { login avatarUrl url } ... on Organization { login avatarUrl url } } } } } }"}' \
                https://api.github.com/graphql)
           
@@ -31,6 +31,9 @@ jobs:
             echo '[{"login": "Zuhaitz-dev", "avatarUrl": "https://github.com/Zuhaitz-dev.png", "url": "https://github.com/Zuhaitz-dev"}]' > docs.zenc-lang.org/static/data/sponsors.json
             echo "Sponsors fetch failed, using fallback. Response: $JSON_DATA"
           fi
+          
+          # Copy the JSON to the main website folder to avoid CORS issues
+          cp docs.zenc-lang.org/static/data/sponsors.json zenc/sponsors.json
 
       - name: Build Zola Docs
         run: |
