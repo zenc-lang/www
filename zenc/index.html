@@ -302,26 +302,36 @@
 
                 <div class="sponsors-gallery">
                     <h3 class="gallery-title">Active Sponsors</h3>
-                    <div class="gallery-flex">
-                        <!-- GitHub Sponsors (Dynamic SVG Widget) -->
-                        <div class="sponsor-source">
-                            <a href="https://github.com/sponsors/Zuhaitz-dev" target="_blank" rel="noopener">
-                                <img src="https://github-sponsors-readme-widgets.vercel.app/Zuhaitz-dev/sponsors.svg"
-                                    alt="GitHub Sponsors" class="avatar-grid" />
-                            </a>
-                        </div>
-
-                        <!-- Open Collective Avatars (Dynamic Financial Backer Grid) -->
-                        <div class="sponsor-avatars">
-                            <a href="https://opencollective.com/z-libs" target="_blank" rel="noopener">
-                                <img src="https://opencollective.com/z-libs/backers.svg?width=800&button=false"
-                                    alt="Open Collective Backers" class="avatar-grid" />
-                                <img src="https://opencollective.com/z-libs/sponsors.svg?width=800&button=false"
-                                    alt="Open Collective Sponsors" class="avatar-grid" />
-                            </a>
-                        </div>
+                    <div id="sponsors-list" class="gallery-flex" style="min-height: 100px;">
+                        <!-- Sponsors will be loaded here via JS -->
+                        <div class="loading-sponsors">Loading sponsors...</div>
                     </div>
                 </div>
+
+                <script>
+                    async function loadSponsors() {
+                        try {
+                            // Fetch sponsors from the docs data (synced during build)
+                            const response = await fetch('https://docs.zenc-lang.org/data/sponsors.json');
+                            const sponsors = await response.json();
+                            const list = document.getElementById('sponsors-list');
+
+                            if (sponsors && sponsors.length > 0) {
+                                list.innerHTML = sponsors.map(s => `
+                                    <a href="${s.url}" target="_blank" rel="noopener">
+                                        <img src="${s.avatarUrl}" alt="${s.login}" title="${s.login}" class="avatar-grid" style="width: 50px; border-radius: 50%;">
+                                    </a>
+                                `).join('');
+                            } else {
+                                list.innerHTML = '<div class="no-sponsors">Thank you to all our supporters!</div>';
+                            }
+                        } catch (e) {
+                            console.error('Failed to load sponsors:', e);
+                            document.getElementById('sponsors-list').innerHTML = '';
+                        }
+                    }
+                    loadSponsors();
+                </script>
             </div>
         </section>
 

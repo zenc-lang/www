@@ -12,6 +12,12 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v4
 
+      - name: Fetch GitHub Sponsors
+        uses: JamesIves/github-sponsors-action@v1
+        with:
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          file: docs.zenc-lang.org/data/sponsors.json # For Zola build-time
+
       - name: Build Zola Docs
         run: |
           wget -qO- https://github.com/getzola/zola/releases/download/v0.18.0/zola-v0.18.0-x86_64-unknown-linux-gnu.tar.gz | tar xz          
