@@ -712,14 +712,12 @@ pre code .z-link {
     background: var(--surface);
     display: block;
     object-fit: cover;
-    /* Add this to prevent image stretching */
 }
 
 .avatar-grid:hover {
     transform: scale(1.15) translateY(-5px);
     border-color: var(--primary);
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(232, 230, 227, 0.3);
-    /* Replaced var(--primary-rgb) with hardcoded rgba since it wasn't defined */
     z-index: 10;
 }
 
@@ -732,7 +730,6 @@ pre code .z-link {
     text-decoration: none !important;
     width: 100px;
     flex-shrink: 0;
-    /* Add this to prevent the flex container from squishing the item */
 }
 
 .sponsor-item:hover {
@@ -750,25 +747,8 @@ pre code .z-link {
     color: var(--primary);
 }
 
-.sponsors-container {
-    width: 100%;
-    margin-top: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 200px;
-    /* Prevent collapse if images load slowly */
-    justify-content: center;
-}
-
-.tier-card.featured::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+.gallery-flex a:hover .avatar-grid {
+    opacity: 0.85;
 }
 
 .tier-name {
