@@ -138,14 +138,22 @@
         <aside class="sidebar">
             <div class="sidebar-group">
                 <div class="sidebar-title">Standard Library</div>
-                
                 {% set std_section = get_section(path="std/_index.md") %}
                 {% for page in std_section.pages | sort(attribute="title") %}
                     <a href="{{ page.permalink }}" class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
                         {{ page.title }}
                     </a>
                 {% endfor %}
-                
+            </div>
+
+            <div class="sidebar-group">
+                <div class="sidebar-title">Community Examples</div>
+                {% set rosetta_section = get_section(path="examples/rosetta/_index.md") %}
+                {% for page in rosetta_section.pages | sort(attribute="title") %}
+                    <a href="{{ page.permalink }}" class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
+                        {{ page.title }}
+                    </a>
+                {% endfor %}
             </div>
         </aside>
 
