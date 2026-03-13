@@ -751,17 +751,9 @@ pre code .z-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-min-height: 200px;
-/* Prevent collapse if images load slowly */
-display: flex;
-justify-content: center;
-}
-}
-
-.gallery-flex a:hover .avatar-grid {
-    opacity: 0.85;
+    min-height: 200px;
+    /* Prevent collapse if images load slowly */
+    justify-content: center;
 }
 
 .tier-card.featured::after {
