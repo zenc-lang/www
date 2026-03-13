@@ -696,28 +696,25 @@ pre code .z-link {
 .gallery-flex {
     display: flex;
     flex-wrap: wrap;
-    /* Allow items to wrap to the next line */
     justify-content: center;
-    /* Center the items horizontally */
     align-items: center;
-    gap: 1.5rem;
-    /* Space between avatars */
+    gap: 2rem;
+    /* Increased the gap slightly for the larger avatars */
     padding: 1rem 0;
     max-width: 100%;
-    /* Ensure it doesn't overflow */
 }
 
 .avatar-grid {
-    width: 64px;
-    height: 64px;
+    width: 84px;
+    /* INCREASED: Made the avatar bigger */
+    height: 84px;
+    /* INCREASED: Made the avatar bigger */
     border-radius: 50%;
-    /* Make them perfect circles */
     border: 2px solid var(--border);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--surface);
     display: block;
     object-fit: cover;
-    /* Ensures the image fills the circle without distortion */
 }
 
 .avatar-grid:hover {
@@ -731,12 +728,11 @@ pre code .z-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none !important;
-    width: 80px;
-    /* Reduced width to fit more items */
-    /* Removed flex-shrink: 0 so they can resize slightly on small screens */
+    width: 110px;
+    /* INCREASED: Widened the container so text doesn't squish */
 }
 
 .sponsor-item:hover {
@@ -744,10 +740,12 @@ pre code .z-link {
 }
 
 .sponsor-name {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    /* Bumped text size slightly to match the bigger image */
     font-weight: 600;
     color: var(--muted);
     transition: color 0.3s ease;
+    text-align: center;
 }
 
 .sponsor-item:hover .sponsor-name {
