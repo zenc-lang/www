@@ -113,7 +113,21 @@
 
         /* SIDEBAR LINKS */
         .sidebar-group {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 8px 0;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .sidebar-header:hover {
+            color: var(--primary);
         }
 
         .sidebar-title {
@@ -121,31 +135,59 @@
             font-size: 0.75rem;
             color: var(--muted);
             text-transform: uppercase;
-            margin-bottom: 1rem;
-            letter-spacing: 0.05em;
+            margin-bottom: 0;
+            letter-spacing: 0.1em;
+            pointer-events: none;
+        }
+
+        .sidebar-header:hover .sidebar-title {
+            color: var(--primary);
+        }
+
+        .chevron {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.3s ease;
+            color: var(--muted);
+            opacity: 0.5;
+        }
+
+        .sidebar-group.collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-group.collapsed .sidebar-links {
+            display: none;
+        }
+
+        .sidebar-links {
+            margin-top: 0.5rem;
+            padding-left: 0.25rem;
         }
 
         .sidebar-link {
             display: block;
             padding: 6px 0;
-            color: var(--fg);
-            font-size: 0.9rem;
+            color: var(--muted);
+            font-size: 0.85rem;
             text-decoration: none;
-            border-left: 1px solid transparent;
+            border-left: 1px solid var(--border);
             padding-left: 1rem;
-            margin-left: -1px;
+            margin-left: 2px;
+            transition: all 0.2s;
         }
 
         .sidebar-link:hover {
             color: var(--primary);
             border-left-color: var(--muted);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .sidebar-link.active {
             color: var(--primary);
             font-weight: 600;
             border-left-color: var(--kwd);
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent);
         }
 
         /* MAIN CONTENT area */
@@ -298,26 +340,42 @@
                 <div class="search-results" id="search-results"></div>
             </div>
 
-            <div class="sidebar-group">
-                <div class="sidebar-title">Standard Library</div>
-                {% set std_section = get_section(path="std/_index.md") %}
-                {% for page in std_section.pages | sort(attribute="title") %}
-                <a href="{{ page.permalink }}"
-                    class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
-                    {{ page.title }}
-                </a>
-                {% endfor %}
+            <div class="sidebar-group" id="group-std">
+                <div class="sidebar-header" onclick="toggleSidebarGroup('group-std')">
+                    <div class="sidebar-title">Standard Library</div>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="sidebar-links">
+                    {% set std_section = get_section(path="std/_index.md") %}
+                    {% for page in std_section.pages | sort(attribute="title") %}
+                    <a href="{{ page.permalink }}"
+                        class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
+                        {{ page.title }}
+                    </a>
+                    {% endfor %}
+                </div>
             </div>
 
-            <div class="sidebar-group">
-                <div class="sidebar-title">Community Examples</div>
-                {% set rosetta_section = get_section(path="examples/rosetta/_index.md") %}
-                {% for page in rosetta_section.pages | sort(attribute="title") %}
-                <a href="{{ page.permalink }}"
-                    class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
-                    {{ page.title }}
-                </a>
-                {% endfor %}
+            <div class="sidebar-group" id="group-examples">
+                <div class="sidebar-header" onclick="toggleSidebarGroup('group-examples')">
+                    <div class="sidebar-title">Community Examples</div>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="sidebar-links">
+                    {% set rosetta_section = get_section(path="examples/rosetta/_index.md") %}
+                    {% for page in rosetta_section.pages | sort(attribute="title") %}
+                    <a href="{{ page.permalink }}"
+                        class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
+                        {{ page.title }}
+                    </a>
+                    {% endfor %}
+                </div>
             </div>
         </aside>
 
@@ -331,16 +389,16 @@
     <script src="{{ get_url(path='elasticlunr.min.js') }}"></script>
     <script src="{{ get_url(path='search_index.en.js') }}"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var searchInput = document.getElementById("search");
             var searchResults = document.getElementById("search-results");
             var loadedIndex = null; // We will store the initialized search engine here
 
             if (!searchInput) return;
 
-            searchInput.addEventListener("keyup", function(e) {
+            searchInput.addEventListener("keyup", function (e) {
                 var term = e.target.value.trim();
-                
+
                 if (term === "") {
                     searchResults.style.display = "none";
                     searchResults.innerHTML = "";
@@ -366,7 +424,7 @@
 
                 searchResults.style.display = "block";
                 var html = "<ul>";
-                
+
                 for (var i = 0; i < Math.min(results.length, 8); i++) {
                     var ref = results[i].ref;
                     var doc = loadedIndex.documentStore.getDoc(ref);
@@ -375,13 +433,42 @@
                 html += "</ul>";
                 searchResults.innerHTML = html;
             });
-            
-            document.addEventListener('click', function(e) {
+
+            document.addEventListener('click', function (e) {
                 if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                     searchResults.style.display = "none";
+                }
+            });
+
+            // SIDEBAR TOGGLE LOGIC
+            window.toggleSidebarGroup = function (id) {
+                const group = document.getElementById(id);
+                group.classList.toggle('collapsed');
+                localStorage.setItem('sidebar-' + id, group.classList.contains('collapsed'));
+            };
+
+            // Initialize sidebar states
+            ['group-std', 'group-examples'].forEach(id => {
+                const group = document.getElementById(id);
+                if (!group) return;
+
+                // Check if any link inside is active
+                const hasActive = group.querySelector('.active');
+                const storedState = localStorage.getItem('sidebar-' + id);
+
+                if (hasActive) {
+                    // Always expand if it has an active link
+                    group.classList.remove('collapsed');
+                } else if (storedState === 'true') {
+                    // Respect user preference if explicitly collapsed
+                    group.classList.add('collapsed');
+                } else if (storedState === null && id === 'group-examples') {
+                    // Collapse examples by default if no preference
+                    group.classList.add('collapsed');
                 }
             });
         });
     </script>
 </body>
+
 </html>
