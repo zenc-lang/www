@@ -45,7 +45,14 @@
     {% endfor %}
 </div>
 
-{% set sponsors = load_data(path="data/sponsors.json", required=false) %}
+{% set sponsors = load_data(path="static/data/sponsors.json", required=false) %}
+{# Fallback list in case the API fetch fails (401 error) #}
+{% if not sponsors %}
+{% set sponsors = [
+{ "login": "Zuhaitz-dev", "avatarUrl": "https://github.com/Zuhaitz-dev.png", "url": "https://github.com/Zuhaitz-dev" }
+] %}
+{% endif %}
+
 {% if sponsors %}
 <div class="sponsors-gallery">
     <h3 class="gallery-title" style="margin-top: 3rem; font-size: 1rem; color: var(--muted);">Active Sponsors</h3>
