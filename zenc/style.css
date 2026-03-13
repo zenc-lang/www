@@ -857,7 +857,7 @@ footer.container {
     padding: 6rem 2rem;
     margin-top: 8rem;
     display: grid;
-    grid-template-columns: 1.5fr repeat(3, 1fr);
+    grid-template-columns: 1.5fr 1fr 1fr;
     gap: 4rem;
     font-size: 0.85rem;
     color: var(--muted);
