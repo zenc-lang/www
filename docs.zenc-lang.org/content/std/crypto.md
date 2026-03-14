@@ -27,3 +27,24 @@ fn main() {
 | Method | Signature | Description |
 | :--- | :--- | :--- |
 | **hash** | `Sha1::hash(data: u8*, len: usize) -> Sha1` | Computes the SHA1 hash of the given data. |
+
+## SHA256 (`std/crypto/sha256.zc`)
+
+Implementation of the modern SHA-256 hashing algorithm (FIPS 180-4).
+
+### Usage
+
+```zc
+import "std/crypto/sha256.zc"
+
+fn main() {
+    let hash = Sha256::hash("hello world");
+    // hash is hexadecimal string
+}
+```
+
+### Methods
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| **hash** | `Sha256::hash(data: char*) -> String` | Computes the SHA-256 hash of the given string and returns it as a Hex string. |

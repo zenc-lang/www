@@ -28,3 +28,26 @@ fn main() {
 | :--- | :--- | :--- |
 | **encode** | `Base64::encode(data: u8*, len: usize) -> char*` | Encodes data into a Base64 string. |
 | **decode** | `Base64::decode(s: char*) -> Vec<u8>` | Decodes a Base64 string into raw bytes. |
+
+## Hex (`std/encoding/hex.zc`)
+
+Hexadecimal encoding and decoding.
+
+### Usage
+
+```zc
+import "std/encoding/hex.zc"
+
+fn main() {
+    let data = "Zen";
+    let encoded = Hex::encode((u8*)data, 3);
+    // encoded is "5a656e"
+}
+```
+
+### Methods
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| **encode** | `Hex::encode(data: u8*, len: usize) -> String` | Encodes data into a Hex string. |
+| **decode** | `Hex::decode(hex: String) -> Result<Vec<u8>>` | Decodes a Hex string into raw bytes. |
