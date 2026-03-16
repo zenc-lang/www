@@ -51,4 +51,4 @@ jobs:
         run: |
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" zenc/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/zenc/          
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" cgit-theme/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/cgit-theme/
-          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" docs.zenc-lang.org/public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/docs.zenc-lang.org/public/
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" docs.zenc-lang.org/public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/docs.zenc-lang.org/
