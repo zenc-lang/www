@@ -11,7 +11,7 @@ highlight_theme = "css" # We will use our own CSS variables for colors
 
 [extra]
 version = "v0.4.3"
-github_url = "https://github.com/z-libs/Zen-C"
+github_url = "https://github.com/zenc-lang/zenc"
 
 [markdown]
 render_emoji = true

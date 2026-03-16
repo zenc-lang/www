@@ -5,7 +5,7 @@ title = "Hello world/Newbie"
 # Hello world/Newbie
 
 ```zc
-git clone https://github.com/z-libs/Zen-C.git
+git clone https://github.com/zenc-lang/zenc.git
 cd Zen-C
 make clean # remove old build files
 make
