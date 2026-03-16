@@ -4,6 +4,8 @@ title = "Character codes"
 
 # Character codes
 
+Zen C supports standard ASCII character conversions using traditional C-style casting between <code>char</code> and integer types. Additionally, it natively supports full Unicode code points via the <code>rune</code> type, which safely casts to and from 32-bit integers (<code>uint32_t</code>).
+
 ```zc
 import "std/io.zc"
 
@@ -29,6 +31,15 @@ fn main() {
     println "The rune '{r_esc}' has code {(uint32_t)r_esc} (0x{(uint32_t)r_esc : X})";
 }
 ```
+
+{{out}}
+<pre>
+The character 'a' has a code of 97 in ASCII/Unicode.
+The code 97 corresponds to the character 'a'.
+The rune '🚀' has a code of 128640 in Unicode.
+The code 128640 corresponds to the rune '🚀'.
+The rune '❤' has code 10084 (0x2764)
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Character codes**](https://rosettacode.org/wiki/Character_codes) in Zen C.

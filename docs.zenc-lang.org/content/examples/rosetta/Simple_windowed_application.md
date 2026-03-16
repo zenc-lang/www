@@ -4,6 +4,8 @@ title = "Simple windowed application"
 
 # Simple windowed application
 
+{{libheader|GTK}}
+
 ```zc
 //> pkg-config: gtk+-3.0
 
@@ -56,6 +58,20 @@ fn main(argc: int, argv: char**) {
     gtk::gtk_main();
 }
 ```
+
+{{omit from|ACL2}}
+{{omit from|AWK}}
+{{omit from|EasyLang}}
+{{omit from|GUISS}}
+{{omit from|Logtalk}}
+{{omit from|Maxima}}
+{{Omit From|Metafont}}
+{{omit from|ML/I}}
+{{omit from|PARI/GP}}
+{{omit from|PHP}}
+{{omit from|Retro}}
+{{omit from|SQL PL|It does not handle GUI}}
+{{omit from|ZX Spectrum Basic|Does not use a mouse}}
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Simple windowed application**](https://rosettacode.org/wiki/Simple_windowed_application) in Zen C.

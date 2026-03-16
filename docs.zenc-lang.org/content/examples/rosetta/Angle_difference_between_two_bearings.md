@@ -42,6 +42,23 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+Differences (to 4dp) between these bearings:
+     20.0000° and      45.0000° ->   25.0000°
+    -45.0000° and      45.0000° ->   90.0000°
+    -85.0000° and      90.0000° ->  175.0000°
+    -95.0000° and      90.0000° -> -175.0000°
+    -45.0000° and     125.0000° ->  170.0000°
+    -45.0000° and     145.0000° -> -170.0000°
+     29.4803° and     -88.6381° -> -118.1184°
+    -78.3251° and    -159.0360° ->  -80.7109°
+ -70099.7423° and   29840.6744° -> -139.5833°
+-165313.6666° and   33693.9895° ->  -72.3439°
+   1174.8381° and -154146.6649° -> -161.5030°
+  60175.7731° and   42213.0719° ->   37.2989°
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Angle difference between two bearings**](https://rosettacode.org/wiki/Angle_difference_between_two_bearings) in Zen C.
 

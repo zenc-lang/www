@@ -4,6 +4,8 @@ title = "A+B"
 
 # A+B
 
+Zen C features a built-in shorthand for reading user input using the <code>?</code> operator. Format specifiers are automatically inferred based on the types of the variables. When evaluated, it returns the number of successfully read items.
+
 ```zc
 fn main() {
     let a: int;
@@ -16,6 +18,12 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+2 2
+4
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**A+B**](https://rosettacode.org/wiki/A+B) in Zen C.

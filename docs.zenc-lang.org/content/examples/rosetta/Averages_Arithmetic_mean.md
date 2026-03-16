@@ -4,6 +4,8 @@ title = "Averages/Arithmetic mean"
 
 # Averages/Arithmetic mean
 
+This implementation uses Zen C's standard library <code>Vec<T></code> type. To handle the edge case of an empty vector, the function checks if the vector is empty and returns <code>0.0</code> to avoid division by zero.
+
 ```zc
 import "std/vec.zc"
 
@@ -36,6 +38,13 @@ fn main() {
     println "Empty mean: {m_empty}";
 }
 ```
+
+{{out}}
+<pre>
+Numbers: 10, 20, 30, 40
+Mean: 25.000000
+Empty mean: 0.000000
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Averages/Arithmetic mean**](https://rosettacode.org/wiki/Averages/Arithmetic_mean) in Zen C.

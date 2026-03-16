@@ -25,6 +25,30 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+(true, false)
+Inputs -> a: true, b: false
+  a AND b: false
+  a OR b:  true
+  NOT a:   false
+  a XOR b: true
+
+(true, true)
+Inputs -> a: true, b: true
+  a AND b: true
+  a OR b:  true
+  NOT a:   false
+  a XOR b: false
+
+(false, false)
+Inputs -> a: false, b: false
+  a AND b: false
+  a OR b:  false
+  NOT a:   true
+  a XOR b: false
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Logical operations**](https://rosettacode.org/wiki/Logical_operations) in Zen C.
 

@@ -14,6 +14,11 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+Assertion failed: Why aren't you using n?!
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Assertions**](https://rosettacode.org/wiki/Assertions) in Zen C.
 

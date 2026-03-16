@@ -50,6 +50,41 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+Present indicative tense, active voice, of 'amare' to 'love':
+    amo         I love
+    amas        you (singular) love
+    amat        he, she or it loves
+    amamus      we love
+    amatis      you (plural) love
+    amant       they love
+
+Present indicative tense, active voice, of 'videre' to 'see':
+    video       I see
+    vides       you (singular) see
+    videt       he, she or it sees
+    videmus     we see
+    videtis     you (plural) see
+    vident      they see
+
+Present indicative tense, active voice, of 'ducere' to 'lead':
+    duco        I lead
+    ducis       you (singular) lead
+    ducit       he, she or it leads
+    ducimus     we lead
+    ducitis     you (plural) lead
+    ducunt      they lead
+
+Present indicative tense, active voice, of 'audire' to 'hear':
+    audio       I hear
+    audis       you (singular) hear
+    audit       he, she or it hears
+    audimus     we hear
+    auditis     you (plural) hear
+    audiunt     they hear
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Conjugate a Latin verb**](https://rosettacode.org/wiki/Conjugate_a_Latin_verb) in Zen C.
 

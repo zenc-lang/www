@@ -37,6 +37,24 @@ fn main(argc: int, argv: char**) {
 }
 ```
 
+{{out}}
+**Word-by-word processing (Default):**
+<pre>
+$ echo "hello world from Zen C" | ./read_stream
+Word: [hello]
+Word: [world]
+Word: [from]
+Word: [Zen]
+Word: [C]
+</pre>
+
+**Line-by-line processing (with -l flag):**
+<pre>
+$ printf "First line\nSecond line\n" | ./read_stream -l
+Line: [First line]
+Line: [Second line]
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Input loop**](https://rosettacode.org/wiki/Input_loop) in Zen C.
 

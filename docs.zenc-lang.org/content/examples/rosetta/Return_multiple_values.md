@@ -4,6 +4,8 @@ title = "Return multiple values"
 
 # Return multiple values
 
+Zen C supports returning multiple values from a function natively using Tuples. These tuples can then be destructured directly into distinct variables at the call site.
+
 ```zc
 // Function returning a tuple of two integers
 fn add_and_subtract(a: int, b: int) -> (int, int) {
@@ -18,6 +20,12 @@ fn main() {
     println "Difference: {diff}";
 }
 ```
+
+{{out}}
+<pre>
+Sum: 14
+Difference: 6
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Return multiple values**](https://rosettacode.org/wiki/Return_multiple_values) in Zen C.

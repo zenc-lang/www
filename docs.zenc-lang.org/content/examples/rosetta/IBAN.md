@@ -42,6 +42,12 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+IBAN: GB82 WEST 1234 5698 7654 32
+Valid: Yes
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**IBAN**](https://rosettacode.org/wiki/IBAN) in Zen C.
 

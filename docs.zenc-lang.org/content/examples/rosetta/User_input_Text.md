@@ -4,6 +4,8 @@ title = "User input/Text"
 
 # User input/Text
 
+Zen C features a built-in shorthand for prompting user input using the <code>?</code> prefix. Format specifiers are automatically inferred based on the variable's type. For the string, we define a fixed-size character array buffer to hold the input safely.
+
 ```zc
 fn main() {
     let str_val: char[256];
@@ -19,6 +21,15 @@ fn main() {
     println "You entered the integer: {int_val}";
 }
 ```
+
+{{out}}
+<pre>
+Enter a string: RosettaCode
+Enter the integer 75000: 75000
+
+You entered the string: RosettaCode
+You entered the integer: 75000
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**User input/Text**](https://rosettacode.org/wiki/User_input/Text) in Zen C.

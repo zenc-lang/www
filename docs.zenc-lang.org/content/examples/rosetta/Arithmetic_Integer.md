@@ -4,6 +4,13 @@ title = "Arithmetic/Integer"
 
 # Arithmetic/Integer
 
+Zen C inherits standard C arithmetic operators and semantics for basic math, but modernizes the toolset with a native exponentiation operator. 
+* Integer quotient (<code>/</code>) truncates towards zero.
+* Remainder (<code>%</code>) matches the sign of the first operand (the dividend). 
+* Integer exponentiation (<code>**</code>) handles powers natively.
+
+To fulfill the <code>divmod</code> bonus, this example leverages Zen C's Tuple types to return both the quotient and remainder from a single function call.
+
 ```zc
 // Custom divmod using Tuples for multiple return values
 fn divmod(a: int, b: int) -> (int, int) {
@@ -34,6 +41,18 @@ fn main() {
     println "divmod(a, b) = ({q}, {r})";
 }
 ```
+
+{{out}}
+<pre>
+Enter two integers separated by a space: 2 4
+a + b  = 6
+a - b  = -2
+a * b  = 8
+a / b  = 0
+a % b  = 2
+a ** b = 16
+divmod(a, b) = (0, 2)
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Arithmetic/Integer**](https://rosettacode.org/wiki/Arithmetic/Integer) in Zen C.

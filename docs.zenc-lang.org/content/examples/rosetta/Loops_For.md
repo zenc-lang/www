@@ -4,6 +4,8 @@ title = "Loops/For"
 
 # Loops/For
 
+Zen C provides a clean <code>for-in</code> syntax with built-in range operators. However, it also fully supports the traditional C-style 3-part <code>for</code> loop. In keeping with Zen C's modern ergonomics, the enclosing parentheses around the loop conditions are optional, but they can still be used if preferred.
+
 ```zc
 fn main() {
     println "Using a Zen C range loop:";
@@ -25,6 +27,30 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+Using a Zen C range loop:
+Iteration: 1
+Iteration: 2
+Iteration: 3
+Iteration: 4
+Iteration: 5
+
+Using a C-style for loop (without parentheses):
+Iteration: 1
+Iteration: 2
+Iteration: 3
+Iteration: 4
+Iteration: 5
+
+Using a C-style for loop (with parentheses):
+Iteration: 1
+Iteration: 2
+Iteration: 3
+Iteration: 4
+Iteration: 5
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/For**](https://rosettacode.org/wiki/Loops/For) in Zen C.

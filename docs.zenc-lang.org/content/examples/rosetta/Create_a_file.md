@@ -4,6 +4,8 @@ title = "Create a file"
 
 # Create a file
 
+This implementation utilizes Zen C's standard filesystem library (<code>std/fs.zc</code>) to handle file and directory creation. It demonstrates Zen C's <code>Result</code> type for error handling, gracefully catching the expected permission errors when attempting to write to the filesystem root (this example assumes UNIX hierarchical, tree-like structure).
+
 ```zc
 import "std/fs.zc"
 
@@ -38,6 +40,18 @@ fn main() {
     try_create_dir("/docs");
 }
 ```
+
+{{out}}
+<pre>
+Creating file: output.txt
+Success: output.txt created.
+Creating directory: docs
+Error: Failed to create directory
+Creating file: /output.txt
+Error: Failed to open file
+Creating directory: /docs
+Error: Failed to create directory
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Create a file**](https://rosettacode.org/wiki/Create_a_file) in Zen C.

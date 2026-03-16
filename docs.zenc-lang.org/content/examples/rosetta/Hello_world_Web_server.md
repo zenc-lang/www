@@ -22,6 +22,19 @@ fn main() {
 }
 ```
 
+{{out}}
+**Server Console:**
+<pre>
+Serving 'Goodbye, World!' at http://localhost:8080/
+Server listening on port 8080
+</pre>
+
+**Client / Browser Request:**
+<pre>
+$ curl http://localhost:8080/
+Goodbye, World!
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Hello world/Web server**](https://rosettacode.org/wiki/Hello_world/Web_server) in Zen C.
 

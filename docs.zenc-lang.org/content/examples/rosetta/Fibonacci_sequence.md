@@ -4,6 +4,8 @@ title = "Fibonacci sequence"
 
 # Fibonacci sequence
 
+Zen C supports both recursive and iterative approaches natively. The following complete program demonstrates both methods, utilizing pattern matching for the recursive base cases and exclusive range loops for the iterative calculation.
+
 ```zc
 // Recursive approach using pattern matching
 fn fib_rec(n: int) -> int {
@@ -45,6 +47,57 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+Fibonacci Sequence (0 to 20):
+
+Recursive:
+fib(0) = 0
+fib(1) = 1
+fib(2) = 1
+fib(3) = 2
+fib(4) = 3
+fib(5) = 5
+fib(6) = 8
+fib(7) = 13
+fib(8) = 21
+fib(9) = 34
+fib(10) = 55
+fib(11) = 89
+fib(12) = 144
+fib(13) = 233
+fib(14) = 377
+fib(15) = 610
+fib(16) = 987
+fib(17) = 1597
+fib(18) = 2584
+fib(19) = 4181
+fib(20) = 6765
+
+Iterative:
+fib(0) = 0
+fib(1) = 1
+fib(2) = 1
+fib(3) = 2
+fib(4) = 3
+fib(5) = 5
+fib(6) = 8
+fib(7) = 13
+fib(8) = 21
+fib(9) = 34
+fib(10) = 55
+fib(11) = 89
+fib(12) = 144
+fib(13) = 233
+fib(14) = 377
+fib(15) = 610
+fib(16) = 987
+fib(17) = 1597
+fib(18) = 2584
+fib(19) = 4181
+fib(20) = 6765
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Fibonacci sequence**](https://rosettacode.org/wiki/Fibonacci_sequence) in Zen C.

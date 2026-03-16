@@ -4,6 +4,10 @@ title = "Pointers and references"
 
 # Pointers and references
 
+Zen C embraces explicit pointers for low-level memory manipulation, using the familiar <code>&</code> (address-of) and <code>*</code> (dereference) operators from standard C. 
+
+However, it introduces several ergonomic improvements. For example, when accessing struct fields through a pointer, Zen C automatically dereferences the pointer, allowing developers to use the standard dot syntax (<code>d_ptr.active</code>) instead of requiring a separate arrow operator (<code>-&gt;</code>) like in C.
+
 ```zc
 struct Data {
     id: int;
@@ -67,6 +71,28 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+STACK POINTERS
+Value of x: 42
+Address of x: 140734141454332
+Value via x_ptr: 42
+New value of x: 100
+Value after increment(ptr): 101
+
+STRUCT POINTERS & AUTO-DEREF
+id via d_ptr.id: 1
+Active via d.active: false
+id via (*d_ptr).id: 1
+
+HEAP POINTERS
+Value on heap: 500
+Heap memory freed.
+
+NULL POINTERS
+null_ptr is indeed null (0).
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Pointers and references**](https://rosettacode.org/wiki/Pointers_and_references) in Zen C.

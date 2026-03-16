@@ -4,6 +4,8 @@ title = "Arrays"
 
 # Arrays
 
+Zen C supports fixed-size arrays with value semantics. Arrays can be initialized explicitly with a list of values, or they can be zero-initialized automatically by the compiler. Iteration is handled natively using the <code>for-in</code> loop.
+
 ```zc
 fn main() {
     def SIZE = 3;
@@ -29,6 +31,21 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+Iterating over ints array:
+1
+2
+3
+4
+5
+
+Iterating over zeros array:
+42
+0
+100
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Arrays**](https://rosettacode.org/wiki/Arrays) in Zen C.

@@ -4,6 +4,8 @@ title = "Variables"
 
 # Variables
 
+Zen C distinguishes between compile-time manifest constants and runtime variables. It features automatic type inference for initialized variables, standard C-style block scoping, and explicit pointers for referencing. It also provides advanced variable facilities like tuple destructuring and <code>autofree</code> scope-bound memory management.
+
 ```zc
 // Other variable related facilities: Manifest Constants (compile-time only)
 def GLOBAL_LIMIT = 1024;
@@ -52,6 +54,14 @@ fn main() {
     println "Destructured Tuple - ID: {id}, Name: {name}";
 }
 ```
+
+{{out}}
+<pre>
+Inner scope 'a': 50
+Outer scope 'a' remains: 20
+Mutated 'a' via reference: 30
+Destructured Tuple - ID: 1, Name: Apple
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Variables**](https://rosettacode.org/wiki/Variables) in Zen C.

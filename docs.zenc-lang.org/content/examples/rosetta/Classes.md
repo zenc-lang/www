@@ -4,6 +4,8 @@ title = "Classes"
 
 # Classes
 
+Zen C does not use a <code>class</code> keyword. Instead, it uses <code>struct</code> for data definitions and <code>impl</code> blocks to define methods. The <code>self</code> parameter is implicitly passed by reference, allowing for state mutation without explicit pointer syntax. It also supports a convenient <code>.field</code> shorthand inside methods as an alternative to <code>self.field</code>.
+
 ```zc
 struct Point {
     x: int;
@@ -41,6 +43,12 @@ fn main() {
     p.print_coords();
 }
 ```
+
+{{out}}
+<pre>
+Point coordinates: (10, 20)
+After moving: Point coordinates: (15, 15)
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Classes**](https://rosettacode.org/wiki/Classes) in Zen C.

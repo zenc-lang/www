@@ -84,6 +84,30 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+Truth Table (Kleene Logic):
+A B | !A | A&B | A|B | A^B
+----+----+-----+-----+----
+F F | T  | F   | F   | F
+F ? | T  | F   | ?   | ?
+F T | T  | F   | T   | T
+? F | ?  | F   | ?   | ?
+? ? | ?  | ?   | ?   | ?
+? T | ?  | ?   | T   | ?
+T F | F  | F   | T   | T
+T ? | F  | ?   | T   | ?
+T T | F  | T   | T   | F
+
+Practical Case: SQL-style Null/Unknown Filtering
+Result 1: T -> Authorized
+Result 2: F -> Denied
+Result 3: ? -> Manual Review Required
+Result 4: T -> Authorized
+</pre>
+
+{{omit from|GUISS}}
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Ternary logic**](https://rosettacode.org/wiki/Ternary_logic) in Zen C.
 

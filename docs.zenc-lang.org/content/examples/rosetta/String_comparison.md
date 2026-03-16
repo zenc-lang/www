@@ -55,6 +55,31 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+BASIC EQUALITY & INEQUALITY.
+s1 ('apple') == s3 ('apple'): true
+s1 ('apple') != s2 ('banana'): true
+
+LEXICAL ORDERING (CASE-SENSITIVE).
+s1 < s2  ('apple' < 'banana'): true
+s2 > s1  ('banana' > 'apple'): true
+s1 >= s3 ('apple' >= 'apple'): true
+
+CASE-SENSITIVITY.
+s1 == s4 ('apple' == 'APPLE'): false (Case-sensitive)
+s1.eq_ignore_case(s4): true (Case-insensitive)
+
+NUMERIC STRING COMPARISON (LEXICAL).
+n1 < n2 ('10' < '2'): true
+
+TYPE SYSTEM REFLECTION
+Integer comparison: i1 < i2 (10 < 2): 0
+
+COMPARISON METHOD (RESULT-BASED)
+'apple' comes before 'banana'
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**String comparison**](https://rosettacode.org/wiki/String_comparison) in Zen C.
 

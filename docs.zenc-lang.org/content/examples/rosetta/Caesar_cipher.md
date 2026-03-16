@@ -74,6 +74,15 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+Original: Hello, Zen-C World! (XYZ)
+Key: 3
+Encoded: Khoor, Chq-F Zruog! (ABC)
+Decoded: Hello, Zen-C World! (XYZ)
+Wrap Test ('XYZ' + 3): ABC
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Caesar cipher**](https://rosettacode.org/wiki/Caesar_cipher) in Zen C.
 

@@ -101,6 +101,15 @@ fn main() {
 }
 ```
 
+{{out}}
+<pre>
+Starting Concurrent Echo Server on 127.0.0.1:12321...
+Listening for incoming connections...
+[Thread] Client connected!
+[Thread] Client disconnected normally.
+[Thread] Connection closed.
+</pre>
+
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Echo server**](https://rosettacode.org/wiki/Echo_server) in Zen C.
 

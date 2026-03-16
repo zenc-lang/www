@@ -4,6 +4,19 @@ title = "Machine code"
 
 # Machine code
 
+This implementation targets the x86_64 architecture using the System V AMD64 ABI (where the first two arguments are passed in the `edi` and `esi` registers, and the return value is placed in `eax`). 
+
+To comply with modern OS security features like Data Execution Prevention (DEP / W^X), this solution uses Zen C's memory management library to securely map a memory page as Read/Write, inject the opcodes, flip the page protection to Read/Execute, execute the function pointer, and finally unmap the memory.
+
+**Assembly equivalent:**
+<pre>
+89 F8    mov eax, edi
+01 F0    add eax, esi
+C3       ret
+</pre>
+
+**Zen C Implementation:**
+
 ```zc
 import "std/sys/mman.zc"
 import "std/io.zc"
@@ -62,6 +75,23 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+Executing machine code (x86_64: mov eax, edi; add eax, esi; ret)
+Arguments: 7, 12
+Result: 19
+Success!
+</pre>
+
+{{omit from|360 Assembly}}
+{{omit from|8080 Assembly}}
+{{omit from|8086 Assembly}}
+{{omit from|AArch64 Assembly}}
+{{omit from|ARM Assembly}}
+{{omit from|Mathematica}}
+{{omit from|MIPS Assembly}}
+{{omit from|x86 Assembly}}
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Machine code**](https://rosettacode.org/wiki/Machine_code) in Zen C.

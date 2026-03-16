@@ -4,6 +4,11 @@ title = "Array concatenation"
 
 # Array concatenation
 
+Zen C is a systems language that provides both low-level memory control and high-level standard library abstractions. Here are two idiomatic ways to concatenate collections.
+
+=== Using Raw Arrays ===
+For fixed-size C-style arrays, concatenation is typically done by allocating a new array and using fast memory block copying via <code>memcpy</code>.
+
 ```zc
 fn main() {
     let a: int[3] = [1, 2, 3];
@@ -26,6 +31,48 @@ fn main() {
     println "]";
 }
 ```
+
+{{out}}
+<pre>
+Concatenated array: [1, 2, 3, 4, 5]
+</pre>
+
+=== Using the Standard Library ===
+For a more modern, ergonomic approach, Zen C's standard library provides a generic <code>Vec<T></code> type. Vectors support operator overloading, allowing them to be concatenated directly using the <code>+</code> operator.
+
+```zc
+import "std/vec.zc"
+
+fn main() {
+    let a = Vec<int>::new();
+    a.push(1);
+    a.push(2);
+    a.push(3);
+    
+    let b = Vec<int>::new();
+    b.push(4);
+    b.push(5);
+    
+    let c = a + b;
+    
+    print "Concatenated array: [";
+    let count = c.length();
+    let i = 0;
+    for val in c {
+        print "{val}";
+        if i < count - 1 {
+            print ", ";
+        }
+        i += 1;
+    }
+    println "]";
+}
+```
+
+{{out}}
+<pre>
+Concatenated array: [1, 2, 3, 4, 5]
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Array concatenation**](https://rosettacode.org/wiki/Array_concatenation) in Zen C.

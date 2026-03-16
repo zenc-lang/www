@@ -4,6 +4,10 @@ title = "String interpolation (included)"
 
 # String interpolation (included)
 
+Zen C supports implicit string interpolation. By enclosing a variable or expression in braces <code>{}</code> within a string literal, the compiler automatically formats and inserts the value. 
+
+Further documentation on string formatting and escaping can be found in the [https://github.com/z-libs/Zen-C official language reference].
+
 ```zc
 fn main() {
     let word = "little";
@@ -12,6 +16,11 @@ fn main() {
     println "Mary had a {word} lamb";
 }
 ```
+
+{{out}}
+<pre>
+Mary had a little lamb
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**String interpolation (included)**](https://rosettacode.org/wiki/String_interpolation_(included)) in Zen C.

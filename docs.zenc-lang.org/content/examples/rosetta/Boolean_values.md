@@ -4,6 +4,10 @@ title = "Boolean values"
 
 # Boolean values
 
+Zen C inherits C's flexible semantics for boolean evaluation, meaning any value equal to <code>0</code> is considered false, and any non-zero value is considered true. This applies to integers, floating-point numbers, characters (where <code>'\0'</code> is false), and pointers (where a null pointer is false). 
+
+However, unlike older C standards that require including <code>&lt;stdbool.h&gt;</code>, Zen C modernizes this by providing a native <code>bool</code> data type and built-in <code>true</code> and <code>false</code> keywords directly in the language.
+
 ```zc
 fn main() {
     // Native boolean type and keywords
@@ -35,6 +39,16 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+Native true evaluates to: 1
+Native false evaluates to: 0
+
+0 evaluates to false
+42 evaluates to true
+0.0 evaluates to false
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Boolean values**](https://rosettacode.org/wiki/Boolean_values) in Zen C.

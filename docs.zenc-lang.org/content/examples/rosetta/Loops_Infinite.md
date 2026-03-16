@@ -4,6 +4,8 @@ title = "Loops/Infinite"
 
 # Loops/Infinite
 
+Zen C provides a dedicated <code>loop</code> keyword for creating infinite loops. This is the idiomatic alternative to <code>while (true)</code>. Zen C also supports loop labels (like, <code>outer: loop</code>) to easily break out of deeply nested infinite loops.
+
 ```zc
 fn main() {
     // A simple infinite loop
@@ -12,6 +14,16 @@ fn main() {
     }
 }
 ```
+
+{{out}}
+<pre>
+SPAM
+SPAM
+SPAM
+SPAM
+SPAM
+...
+</pre>
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/Infinite**](https://rosettacode.org/wiki/Loops/Infinite) in Zen C.
