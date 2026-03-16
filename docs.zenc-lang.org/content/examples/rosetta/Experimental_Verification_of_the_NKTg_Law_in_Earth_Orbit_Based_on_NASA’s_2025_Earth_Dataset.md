@@ -97,8 +97,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Experimental Verification of NKTg Law (Earth 2025)
 
 Date            Momentum(p)          NKTg1          NKTg2        v_sim       v_NASA      Error
@@ -108,7 +109,7 @@ Date            Momentum(p)          NKTg1          NKTg2        v_sim       v_N
 07/01/2025        1.749e+29      2.660e+40     -3.148e+29    2.928e+04    2.929e+04    -0.0307%
 10/01/2025        1.778e+29      2.660e+40     -3.200e+29    2.976e+04    2.978e+04    -0.0470%
 12/31/2025        1.808e+29      2.660e+40     -3.255e+29    3.028e+04    3.029e+04    -0.0330%
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Experimental Verification of the NKTg Law in Earth Orbit Based on NASA’s 2025 Earth Dataset**](https://rosettacode.org/wiki/Experimental_Verification_of_the_NKTg_Law_in_Earth_Orbit_Based_on_NASA’s_2025_Earth_Dataset) in Zen C.

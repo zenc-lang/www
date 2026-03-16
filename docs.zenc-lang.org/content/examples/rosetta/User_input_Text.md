@@ -22,14 +22,15 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Enter a string: RosettaCode
 Enter the integer 75000: 75000
 
 You entered the string: RosettaCode
 You entered the integer: 75000
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**User input/Text**](https://rosettacode.org/wiki/User_input/Text) in Zen C.

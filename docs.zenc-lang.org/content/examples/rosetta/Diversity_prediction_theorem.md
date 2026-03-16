@@ -44,8 +44,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Average-error  3.000
 Crowd-error    0.111
 Diversity      2.889
@@ -53,7 +54,7 @@ Diversity      2.889
 Average-error 14.500
 Crowd-error    4.000
 Diversity     10.500
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Diversity prediction theorem**](https://rosettacode.org/wiki/Diversity_prediction_theorem) in Zen C.

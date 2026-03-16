@@ -33,10 +33,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Successfully wrote to output.txt
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Write entire file**](https://rosettacode.org/wiki/Write_entire_file) in Zen C.

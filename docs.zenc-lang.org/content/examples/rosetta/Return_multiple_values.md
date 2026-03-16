@@ -21,11 +21,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Sum: 14
 Difference: 6
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Return multiple values**](https://rosettacode.org/wiki/Return_multiple_values) in Zen C.

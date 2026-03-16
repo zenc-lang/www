@@ -11,13 +11,14 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 red
 blue
 green
 yellow
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/Foreach**](https://rosettacode.org/wiki/Loops/Foreach) in Zen C.

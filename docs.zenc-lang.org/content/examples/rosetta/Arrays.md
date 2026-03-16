@@ -32,8 +32,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Iterating over ints array:
 1
 2
@@ -45,7 +46,7 @@ Iterating over zeros array:
 42
 0
 100
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Arrays**](https://rosettacode.org/wiki/Arrays) in Zen C.

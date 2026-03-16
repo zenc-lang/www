@@ -17,11 +17,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 1, 2, 3, 4, 5
 6, 7, 8, 9, 10
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/Continue**](https://rosettacode.org/wiki/Loops/Continue) in Zen C.

@@ -10,10 +10,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Hello world!
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Hello world/Text**](https://rosettacode.org/wiki/Hello_world/Text) in Zen C.

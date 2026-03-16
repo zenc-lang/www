@@ -5,7 +5,7 @@ title = "Hello world/Newbie"
 # Hello world/Newbie
 
 Zen C is a modern systems programming language that compiles to human-readable GNU C/C.<br>
-Docs and the like can be found on it's [https://github.com/z-libs/Zen-C github] page. <br>
+Docs and the like can be found on it's [https://github.com/zenc-lang/zenc github] page. <br>
 
 ===Supported Platforms and Backends===
 The Zen C compiler, <code>zc</code>, has support for Windows, macOS and Linux. As it is a transpiler (a source-to-source compiler), it acts as a front-end, requiring a back-end. Some of the available backends are <code>gcc</code>, <code>clang</code>, <code>tcc</code>, <code>zig cc</code>. The list is not exhaustive. By default, <code>gcc</code> will be used, but you can specify the back-end with the <code>--cc</code> flag.
@@ -14,7 +14,7 @@ The Zen C compiler, <code>zc</code>, has support for Windows, macOS and Linux. A
 ====Compile from source====
 
 ```zc
-git clone https://github.com/z-libs/Zen-C.git
+git clone https://github.com/zenc-lang/zenc.git
 cd Zen-C
 make clean # remove old build files
 make
@@ -40,13 +40,16 @@ fn main() {
 ```
 
 And to compile use <code>zc</code>.
-<pre>
+
+```
 zc hello.zc && ./hello # or use ./zc if you haven't installed it.
-</pre>
+```
+
 You can also run it directly like this:
-<pre>
+
+```
 zc run hello.zc
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Hello world/Newbie**](https://rosettacode.org/wiki/Hello_world/Newbie) in Zen C.

@@ -90,8 +90,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 v1 (new): Vector(x: 3.00, y: 4.00)
 v2 (from_points): Vector(x: -1.00, y: 2.00)
 v_polar (from_polar): Vector(x: 3.54, y: 3.54)
@@ -100,7 +101,7 @@ v1 + v2: Vector(x: 2.00, y: 6.00)
 v1 - v2: Vector(x: 4.00, y: 2.00)
 v1 * 2.5: Vector(x: 7.50, y: 10.00)
 v1 / 2.0: Vector(x: 1.50, y: 2.00)
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Vector**](https://rosettacode.org/wiki/Vector) in Zen C.

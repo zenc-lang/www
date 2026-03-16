@@ -21,12 +21,13 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Hello from closure!
 Hello from closure!
 Hello from closure!
-</pre>
+```
 
 === State-Capturing Closures ===
 
@@ -41,14 +42,15 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Iteration 1
 Iteration 2
 Iteration 3
 Iteration 4
 Iteration 5
-</pre>
+```
 
 === Raw Function Pointers ===
 
@@ -70,11 +72,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Hello from function pointer!
 Hello from function pointer!
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Repeat**](https://rosettacode.org/wiki/Repeat) in Zen C.

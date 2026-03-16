@@ -91,8 +91,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Created 3x3 image.
 Image filled with blue (0, 0, 255).
 Set pixel at (1, 1) to red (255, 0, 0).
@@ -100,7 +101,7 @@ Pixel (1, 1): R=255, G=0, B=0
 Pixel (0, 0): R=0, G=0, B=255
 Verification successful!
 [RAII] Freeing image buffer (3x3)
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Bitmap**](https://rosettacode.org/wiki/Bitmap) in Zen C.

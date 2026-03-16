@@ -40,8 +40,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 a AND b: 3
 a OR b: 255
 a XOR b: 252
@@ -54,7 +55,7 @@ Right rotate: 3758096415
 Population Count: 8
 Leading Zeros: 24
 Trailing Zeros: 0
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Bitwise operations**](https://rosettacode.org/wiki/Bitwise_operations) in Zen C.

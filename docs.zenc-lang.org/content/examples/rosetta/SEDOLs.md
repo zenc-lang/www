@@ -52,8 +52,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 710889 -> 7108899
 B0YBKJ -> B0YBKJ7
 406566 -> 4065663
@@ -66,7 +67,7 @@ B0YBKR -> B0YBKR5
 B0YBKT -> B0YBKT7
 B00030 -> B000300
 I23456 -> not valid
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**SEDOLs**](https://rosettacode.org/wiki/SEDOLs) in Zen C.

@@ -84,8 +84,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Truth Table (Kleene Logic):
 A B | !A | A&B | A|B | A^B
 ----+----+-----+-----+----
@@ -104,7 +105,7 @@ Result 1: T -> Authorized
 Result 2: F -> Denied
 Result 3: ? -> Manual Review Required
 Result 4: T -> Authorized
-</pre>
+```
 
 {{omit from|GUISS}}
 

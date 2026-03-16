@@ -34,11 +34,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Original string: Hello
 Concatenated string: Hello World!! Welcome to Zen C!
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**String concatenation**](https://rosettacode.org/wiki/String_concatenation) in Zen C.

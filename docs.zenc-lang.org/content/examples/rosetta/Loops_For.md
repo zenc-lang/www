@@ -28,8 +28,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Using a Zen C range loop:
 Iteration: 1
 Iteration: 2
@@ -50,7 +51,7 @@ Iteration: 2
 Iteration: 3
 Iteration: 4
 Iteration: 5
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/For**](https://rosettacode.org/wiki/Loops/For) in Zen C.

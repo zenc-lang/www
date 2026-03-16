@@ -45,8 +45,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Text: The quick brown fox jumps over the lazy dog. The fox is quick.
 Target: fox
 The text starts with 'The quick'.
@@ -54,7 +55,7 @@ The text contains 'fox'.
 First match at index: 16
 All match indices: 16 49 
 The text ends with 'quick.'.
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**String matching**](https://rosettacode.org/wiki/String_matching) in Zen C.

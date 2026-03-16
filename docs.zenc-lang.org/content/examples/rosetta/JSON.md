@@ -31,11 +31,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Loaded User: zuhaitz (Active: true)
 Serialized: {"tags":["zen-c","fast"],"timestamp":1710422672,"status":"ok"}
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**JSON**](https://rosettacode.org/wiki/JSON) in Zen C.

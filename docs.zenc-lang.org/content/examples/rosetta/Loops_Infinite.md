@@ -15,15 +15,16 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 SPAM
 SPAM
 SPAM
 SPAM
 SPAM
 ...
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/Infinite**](https://rosettacode.org/wiki/Loops/Infinite) in Zen C.

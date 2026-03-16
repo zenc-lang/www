@@ -25,8 +25,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Are these strings numeric?
 
 (null) -> no
@@ -37,7 +38,7 @@ Are these strings numeric?
 NaN    -> yes
 0xaf   -> yes
 rose   -> no
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Determine if a string is numeric**](https://rosettacode.org/wiki/Determine_if_a_string_is_numeric) in Zen C.

@@ -19,9 +19,11 @@ fn main() {
 }
 ```
 
-{{out}}
+**Output:**
+
 Short sample run:
-<pre>
+
+```
 2
 5
 8
@@ -37,7 +39,7 @@ Short sample run:
 12
 14
 10
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/Break**](https://rosettacode.org/wiki/Loops/Break) in Zen C.

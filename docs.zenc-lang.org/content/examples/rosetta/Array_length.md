@@ -20,10 +20,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Raw array length: 2
-</pre>
+```
 
 === Using the Standard Library ===
 When using the <code>Vec<T></code> type from the standard library, determining the number of elements is as simple as calling the <code>.length()</code> method.
@@ -43,10 +44,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Vector length: 2
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Array length**](https://rosettacode.org/wiki/Array_length) in Zen C.

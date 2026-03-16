@@ -35,8 +35,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 First 20 magic constants:
    15   34   65  111  175  260  369  505  671  870
  1105 1379 1695 2056 2465 2925 3439 4010 4641 5335
@@ -64,7 +65,7 @@ Smallest order magic square with a constant greater than:
 10 ^ 18 : 1,259,922
 10 ^ 19 : 2,714,418
 10 ^ 20 : 5,848,036
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Magic constant**](https://rosettacode.org/wiki/Magic_constant) in Zen C.

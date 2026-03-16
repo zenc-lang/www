@@ -19,11 +19,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Pointer p holds the address of a: 140734141454332
 Pointer p now holds the address of b: 140734141454328
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Address of a variable**](https://rosettacode.org/wiki/Address_of_a_variable) in Zen C.

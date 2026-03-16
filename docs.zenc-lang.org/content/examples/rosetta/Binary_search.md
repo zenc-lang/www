@@ -42,13 +42,14 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 => Iterative Binary Search
 Value 12 found at index 5.
 Value 5 not found.
 Value 20 found at index 9.
-</pre>
+```
 
 === Recursive ===
 
@@ -86,13 +87,14 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 => Recursive Binary Search
 Value 12 found at index 5.
 Value 5 not found.
 Value 20 found at index 9.
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Binary search**](https://rosettacode.org/wiki/Binary_search) in Zen C.

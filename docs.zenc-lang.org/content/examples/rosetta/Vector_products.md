@@ -64,8 +64,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Vectors:
 a = (3.0, 4.0, 5.0)
 b = (4.0, 3.0, 5.0)
@@ -75,7 +76,7 @@ a . b       = 49.000000
 a x b       = (5.0, 5.0, -7.0)
 a . (b x c) = 6.000000
 a x (b x c) = (-267.0, 204.0, -3.0)
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Vector products**](https://rosettacode.org/wiki/Vector_products) in Zen C.

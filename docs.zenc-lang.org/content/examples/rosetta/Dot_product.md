@@ -38,8 +38,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Vector A: [1, 3, -5]
 Vector B: [4, -2, -1]
 A . B  = 3.000000
@@ -47,7 +48,7 @@ A . B  = 3.000000
 Vector A2: [1, 2, 3, 4]
 Vector B2: [0.5, 0.5, 0.5, 0.5]
 A2 . B2 = 5.000000
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Dot product**](https://rosettacode.org/wiki/Dot_product) in Zen C.

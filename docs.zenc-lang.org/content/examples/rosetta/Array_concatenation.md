@@ -32,10 +32,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Concatenated array: [1, 2, 3, 4, 5]
-</pre>
+```
 
 === Using the Standard Library ===
 For a more modern, ergonomic approach, Zen C's standard library provides a generic <code>Vec<T></code> type. Vectors support operator overloading, allowing them to be concatenated directly using the <code>+</code> operator.
@@ -69,10 +70,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Concatenated array: [1, 2, 3, 4, 5]
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Array concatenation**](https://rosettacode.org/wiki/Array_concatenation) in Zen C.

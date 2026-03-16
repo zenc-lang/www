@@ -40,15 +40,16 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Native true evaluates to: 1
 Native false evaluates to: 0
 
 0 evaluates to false
 42 evaluates to true
 0.0 evaluates to false
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Boolean values**](https://rosettacode.org/wiki/Boolean_values) in Zen C.

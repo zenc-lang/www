@@ -26,8 +26,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 A(0, 0) = 1
 A(0, 1) = 2
 A(0, 2) = 3
@@ -48,7 +49,7 @@ A(3, 1) = 13
 A(3, 2) = 29
 A(3, 3) = 61
 A(3, 4) = 125
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Ackermann function**](https://rosettacode.org/wiki/Ackermann_function) in Zen C.

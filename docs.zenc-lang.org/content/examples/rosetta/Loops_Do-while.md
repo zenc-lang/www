@@ -15,15 +15,16 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 1
 2
 3
 4
 5
 6
-</pre>
+```
 
 Alternatively, we can simulate it by using Zen C's 'loop' statement (an infinite loop) with an explicit break at the end of the block.
 The output is, of course, the same as before.

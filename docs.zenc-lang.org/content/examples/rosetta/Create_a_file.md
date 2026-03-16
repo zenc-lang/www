@@ -41,8 +41,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Creating file: output.txt
 Success: output.txt created.
 Creating directory: docs
@@ -51,7 +52,7 @@ Creating file: /output.txt
 Error: Failed to open file
 Creating directory: /docs
 Error: Failed to create directory
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Create a file**](https://rosettacode.org/wiki/Create_a_file) in Zen C.

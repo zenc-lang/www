@@ -10,10 +10,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Goodbye, World!
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Hello world/Standard error**](https://rosettacode.org/wiki/Hello_world/Standard_error) in Zen C.

@@ -25,8 +25,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 (true, false)
 Inputs -> a: true, b: false
   a AND b: false
@@ -47,7 +48,7 @@ Inputs -> a: false, b: false
   a OR b:  false
   NOT a:   true
   a XOR b: false
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Logical operations**](https://rosettacode.org/wiki/Logical_operations) in Zen C.

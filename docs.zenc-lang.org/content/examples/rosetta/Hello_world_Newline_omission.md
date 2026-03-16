@@ -10,8 +10,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>Goodbye, World!</pre>
+**Output:**
+
+```
+Goodbye, World!
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Hello world/Newline omission**](https://rosettacode.org/wiki/Hello_world/Newline_omission) in Zen C.

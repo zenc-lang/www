@@ -20,8 +20,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 0! = 1
 1! = 1
 2! = 2
@@ -38,7 +39,7 @@ fn main() {
 13! = 6227020800
 14! = 87178291200
 15! = 1307674368000
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Factorial**](https://rosettacode.org/wiki/Factorial) in Zen C.

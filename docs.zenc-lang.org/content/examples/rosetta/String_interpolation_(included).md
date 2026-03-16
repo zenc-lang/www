@@ -17,10 +17,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Mary had a little lamb
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**String interpolation (included)**](https://rosettacode.org/wiki/String_interpolation_(included)) in Zen C.

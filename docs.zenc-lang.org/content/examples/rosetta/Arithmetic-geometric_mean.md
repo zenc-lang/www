@@ -25,10 +25,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 0.8472130847939792
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Arithmetic-geometric mean**](https://rosettacode.org/wiki/Arithmetic-geometric_mean) in Zen C.

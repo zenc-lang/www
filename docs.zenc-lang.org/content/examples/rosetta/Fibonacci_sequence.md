@@ -48,8 +48,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Fibonacci Sequence (0 to 20):
 
 Recursive:
@@ -97,7 +98,7 @@ fib(17) = 1597
 fib(18) = 2584
 fib(19) = 4181
 fib(20) = 6765
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Fibonacci sequence**](https://rosettacode.org/wiki/Fibonacci_sequence) in Zen C.

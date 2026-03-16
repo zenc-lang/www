@@ -87,9 +87,10 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
-                                    ,-~~-.___.
+**Output:**
+
+```
+,-~~-.___.
                                    / ()=(()   \
                                   (   (        0
                                    \._\, ,----'
@@ -128,8 +129,8 @@ SU MO TU WE TH FR SA SU MO TU WE TH FR SA SU MO TU WE TH FR SA SU MO TU WE TH FR
 14 15 16 17 18 19 20 12 13 14 15 16 17 18  9 10 11 12 13 14 15 14 15 16 17 18 19 20 
 21 22 23 24 25 26 27 19 20 21 22 23 24 25 16 17 18 19 20 21 22 21 22 23 24 25 26 27 
 28 29 30             26 27 28 29 30 31    23 24 25 26 27 28 29 28 29 30 31          
-                                          30            
-</pre>
+                                          30
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Calendar**](https://rosettacode.org/wiki/Calendar) in Zen C.

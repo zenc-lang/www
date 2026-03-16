@@ -32,14 +32,15 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 The character 'a' has a code of 97 in ASCII/Unicode.
 The code 97 corresponds to the character 'a'.
 The rune '🚀' has a code of 128640 in Unicode.
 The code 128640 corresponds to the rune '🚀'.
 The rune '❤' has code 10084 (0x2764)
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Character codes**](https://rosettacode.org/wiki/Character_codes) in Zen C.

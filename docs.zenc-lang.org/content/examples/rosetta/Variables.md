@@ -55,13 +55,14 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Inner scope 'a': 50
 Outer scope 'a' remains: 20
 Mutated 'a' via reference: 30
 Destructured Tuple - ID: 1, Name: Apple
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Variables**](https://rosettacode.org/wiki/Variables) in Zen C.

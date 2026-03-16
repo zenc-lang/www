@@ -11,10 +11,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
-10  9  8  7  6  5  4  3  2  1  0 
-</pre>
+**Output:**
+
+```
+10  9  8  7  6  5  4  3  2  1  0
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/Downward for**](https://rosettacode.org/wiki/Loops/Downward_for) in Zen C.

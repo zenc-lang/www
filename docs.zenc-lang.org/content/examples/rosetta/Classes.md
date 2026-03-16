@@ -44,11 +44,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Point coordinates: (10, 20)
 After moving: Point coordinates: (15, 15)
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Classes**](https://rosettacode.org/wiki/Classes) in Zen C.

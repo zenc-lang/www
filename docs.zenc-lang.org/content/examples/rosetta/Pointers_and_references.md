@@ -72,8 +72,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 STACK POINTERS
 Value of x: 42
 Address of x: 140734141454332
@@ -92,7 +93,7 @@ Heap memory freed.
 
 NULL POINTERS
 null_ptr is indeed null (0).
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Pointers and references**](https://rosettacode.org/wiki/Pointers_and_references) in Zen C.

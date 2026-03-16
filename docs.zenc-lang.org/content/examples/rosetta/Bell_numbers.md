@@ -46,8 +46,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 First 10 rows of the Bell Triangle
 1
 1 2 
@@ -79,7 +80,7 @@ B(14) = 190899322
 
 50th Bell Number
 B(50) = 185724268771078270438257767181908917499221852770
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Bell numbers**](https://rosettacode.org/wiki/Bell_numbers) in Zen C.

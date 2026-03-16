@@ -61,13 +61,14 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 10 + default = 11
 5.0 * 4.0 = 20.000000
 2.5 * 2.0 = 5.000000
 10 * 3 = 30
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Function definition**](https://rosettacode.org/wiki/Function_definition) in Zen C.

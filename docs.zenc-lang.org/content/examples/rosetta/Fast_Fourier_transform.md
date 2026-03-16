@@ -101,8 +101,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 => Fast Fourier Transform (FFT)
 Input Signal (len: 8):
     x[0] = 1.000000 + 0.000000i  (Magnitude: 1.000000)
@@ -123,7 +124,7 @@ FFT Output:
     X[5] = 1.000000 + 0.414213i  (Magnitude: 1.082392)
     X[6] = 0.000000 + 0.000000i  (Magnitude: 0.000000)
     X[7] = 1.000001 + 2.414214i  (Magnitude: 2.613126)
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Fast Fourier transform**](https://rosettacode.org/wiki/Fast_Fourier_transform) in Zen C.

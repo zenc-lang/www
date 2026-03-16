@@ -55,8 +55,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 BASIC EQUALITY & INEQUALITY.
 s1 ('apple') == s3 ('apple'): true
 s1 ('apple') != s2 ('banana'): true
@@ -78,7 +79,7 @@ Integer comparison: i1 < i2 (10 < 2): 0
 
 COMPARISON METHOD (RESULT-BASED)
 'apple' comes before 'banana'
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**String comparison**](https://rosettacode.org/wiki/String_comparison) in Zen C.

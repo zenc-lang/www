@@ -50,8 +50,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Present indicative tense, active voice, of 'amare' to 'love':
     amo         I love
     amas        you (singular) love
@@ -83,7 +84,7 @@ Present indicative tense, active voice, of 'audire' to 'hear':
     audimus     we hear
     auditis     you (plural) hear
     audiunt     they hear
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Conjugate a Latin verb**](https://rosettacode.org/wiki/Conjugate_a_Latin_verb) in Zen C.

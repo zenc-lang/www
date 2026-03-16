@@ -21,12 +21,13 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Array    : 7 10 2 4 6 1 8 3 9 5 
 Sum      : 55
 Product  : 3628800
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Sum and product of an array**](https://rosettacode.org/wiki/Sum_and_product_of_an_array) in Zen C.

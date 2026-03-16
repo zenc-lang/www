@@ -19,11 +19,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 2 2
 4
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**A+B**](https://rosettacode.org/wiki/A+B) in Zen C.

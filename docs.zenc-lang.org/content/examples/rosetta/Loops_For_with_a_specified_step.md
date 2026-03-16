@@ -11,10 +11,11 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 1 3 5 7 9 11 13 15 17 19
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/For with a specified step**](https://rosettacode.org/wiki/Loops/For_with_a_specified_step) in Zen C.

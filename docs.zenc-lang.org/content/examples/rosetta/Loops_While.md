@@ -14,8 +14,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 1024
 512
 256
@@ -27,7 +28,7 @@ fn main() {
 4
 2
 1
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Loops/While**](https://rosettacode.org/wiki/Loops/While) in Zen C.

@@ -39,12 +39,13 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Numbers: 10, 20, 30, 40
 Mean: 25.000000
 Empty mean: 0.000000
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Averages/Arithmetic mean**](https://rosettacode.org/wiki/Averages/Arithmetic_mean) in Zen C.

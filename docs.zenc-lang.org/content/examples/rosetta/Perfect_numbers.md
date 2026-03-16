@@ -34,14 +34,15 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 The first four perfect numbers are:
 6
 28
 496
 8128
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Perfect numbers**](https://rosettacode.org/wiki/Perfect_numbers) in Zen C.

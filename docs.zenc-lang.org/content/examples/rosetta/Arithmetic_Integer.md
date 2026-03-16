@@ -42,8 +42,9 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Enter two integers separated by a space: 2 4
 a + b  = 6
 a - b  = -2
@@ -52,7 +53,7 @@ a / b  = 0
 a % b  = 2
 a ** b = 16
 divmod(a, b) = (0, 2)
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Arithmetic/Integer**](https://rosettacode.org/wiki/Arithmetic/Integer) in Zen C.

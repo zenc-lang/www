@@ -25,11 +25,12 @@ fn main() {
 }
 ```
 
-{{out}}
-<pre>
+**Output:**
+
+```
 Enter two integers separated by a space: 42 17
 42 is greater than 17
-</pre>
+```
 
 ---
 **Attribution:** This is a community solution for the Rosetta Code task [**Integer comparison**](https://rosettacode.org/wiki/Integer_comparison) in Zen C.
