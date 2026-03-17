@@ -47,6 +47,10 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
+      - name: Pull latest code on VPS
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "cd /var/www && git pull"
+
       - name: Sync files to /var/www/
         run: |
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" zenc/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/zenc/          
