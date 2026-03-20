@@ -10,7 +10,7 @@ highlight_code = true
 highlight_theme = "css" # We will use our own CSS variables for colors
 
 [extra]
-version = "v0.4.3"
+version = "v0.4.4"
 github_url = "https://github.com/zenc-lang/zenc"
 
 [markdown]
