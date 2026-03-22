@@ -6,7 +6,7 @@ title = "Hello world/Text"
 
 ```zc
 fn main() {
-    "Hello world!";
+    println "Hello world!";
 }
 ```
 

@@ -10,7 +10,7 @@ title = "Arithmetic-geometric mean"
 import "std/math.zc"
 
 fn agm(a: f64, g: f64) -> f64 {
-    let eps: const f64 = Math::pow(10.0, -14);
+    let eps: const f64 = 1e-14;
     while Math::abs(a - g) > Math::abs(a) * eps {
         let t = a;
         a = (a + g) / 2.0;
@@ -21,7 +21,7 @@ fn agm(a: f64, g: f64) -> f64 {
 
 fn main() {
     let a = agm(1.0, 1.0 / Math::sqrt(2.0));
-    "{a:0.16f}";
+    println "{a:0.16f}";
 }
 ```
 

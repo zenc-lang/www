@@ -6,7 +6,7 @@ title = "Hello world/Standard error"
 
 ```zc
 fn main() {
-    !"Goodbye, World!"
+    eprintln "Goodbye, World!";
 }
 ```
 

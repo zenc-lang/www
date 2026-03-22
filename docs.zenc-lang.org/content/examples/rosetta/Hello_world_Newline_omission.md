@@ -6,7 +6,7 @@ title = "Hello world/Newline omission"
 
 ```zc
 fn main() {
-    "Goodbye, World!" ..;
+    print "Goodbye, World!";
 }
 ```
 

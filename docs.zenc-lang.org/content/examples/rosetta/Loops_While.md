@@ -8,7 +8,7 @@ title = "Loops/While"
 fn main() {
     let i = 1024;
     while i > 0 {
-        "{i}";
+        println "{i}";
         i /= 2;
     }
 }

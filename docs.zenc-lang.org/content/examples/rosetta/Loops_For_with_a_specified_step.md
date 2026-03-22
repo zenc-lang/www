@@ -6,8 +6,8 @@ title = "Loops/For with a specified step"
 
 ```zc
 fn main() {
-    for i in 1 ..= 19 step 2 { "{i} "..; }
-    "";
+    for i in 1..=19 step 2 { print "{i} "; }
+    println "";
 }
 ```
 

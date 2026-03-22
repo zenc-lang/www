@@ -10,7 +10,7 @@ Although not documented as part of Zen C itself, C's do / while loop still works
 fn main() {
     let v = 0;
     do {
-       "{++v}";
+       println "{++v}";
     } while v % 6;
 }
 ```
@@ -33,7 +33,7 @@ The output is, of course, the same as before.
 fn main() {
     let v = 0;
     loop {
-        "{++v}";
+        println "{++v}";
         if !(v % 6) { break; }
     }
 }
