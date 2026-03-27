@@ -66,6 +66,17 @@
                     <a href="https://github.com/zenc-lang/zenc" class="btn btn-primary">Get Started</a>
                     <a href="https://discord.com/invite/q6wEsCmkJP" class="btn btn-secondary">Join Discord</a>
                 </div>
+
+                <div class="newsletter-inline">
+                    <p>Stay in the loop with Zen C updates:</p>
+                    <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
+                        target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
+                        class="newsletter-form">
+                        <input type="email" name="email" id="bd-email" placeholder="email@example.com" required>
+                        <input type="hidden" value="1" name="embed">
+                        <button type="submit" class="btn-subscribe">Subscribe</button>
+                    </form>
+                </div>
             </div>
 
             <div class="hero-code">
@@ -435,6 +446,27 @@
             </div>
             <div class="install-note">
                 Or compile as APE: <code>make ape</code>
+            </div>
+        </section>
+
+        <section class="newsletter-section">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2 class="section-title">The Zen C Newsletter</h2>
+                    <p>Get the latest news on language features, standard library releases, and ecosystem updates
+                        delivered to your inbox.</p>
+                    <div class="newsletter-form-large">
+                        <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
+                            target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')">
+                            <input type="email" name="email" id="bd-email-large" placeholder="Your email address"
+                                required>
+                            <input type="hidden" value="1" name="embed">
+                            <button type="submit" class="btn-subscribe">Subscribe to Updates</button>
+                        </form>
+                    </div>
+                    <p class="newsletter-footer-note">No spam. Just engineering excellence. <a
+                            href="https://buttondown.com/zenc" target="_blank">View archives</a>.</p>
+                </div>
             </div>
         </section>
 
