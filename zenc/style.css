@@ -1462,3 +1462,37 @@ footer.container {
         font-size: 2rem;
     }
 }
+
+/* --- Footer Newsletter --- */
+.newsletter-form-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.newsletter-form-footer input[type="email"] {
+    background: #000;
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    color: var(--fg);
+    outline: none;
+    width: 100%;
+}
+
+.newsletter-form-footer .btn-subscribe {
+    background: var(--primary);
+    color: var(--bg);
+    border: none;
+    padding: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.newsletter-form-footer .btn-subscribe:hover {
+    background: #fff;
+}

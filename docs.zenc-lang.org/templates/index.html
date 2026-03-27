@@ -45,20 +45,4 @@
     {% endfor %}
 </div>
 
-{% set sponsors = load_data(path="static/data/sponsors.json", required=false) %}
-{% if sponsors %}
-<div class="sponsors-gallery">
-    <h3 class="gallery-title" style="margin-top: 3rem; font-size: 1rem; color: var(--muted);">Active Sponsors</h3>
-    <div class="gallery-flex"
-        style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding: 2rem 0;">
-        {% for sponsor in sponsors %}
-        <a href="{{ sponsor.url }}" target="_blank" rel="noopener" class="sponsor-item">
-            <img src="{{ sponsor.avatarUrl }}" alt="{{ sponsor.login }}" class="avatar-grid">
-            <span class="sponsor-name">{{ sponsor.login }}</span>
-        </a>
-        {% endfor %}
-    </div>
-</div>
-{% endif %}
-
 {% endblock content %}

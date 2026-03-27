@@ -487,11 +487,16 @@
             </div>
         </div>
         <div class="footer-col">
-            <h4>Get in Touch</h4>
+            <h4>Newsletter</h4>
             <div class="footer-links">
-                <a href="https://github.com/Zuhaitz-dev">Maintainer</a>
-                <a href="https://github.com/zenc-lang/zenc">GitHub</a>
-                <a href="mailto:contact@zenc-lang.org">Contact</a>
+                <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Join the mailing list for
+                    updates.</p>
+                <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post" target="popupwindow"
+                    onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form-footer">
+                    <input type="email" name="email" id="bd-email-footer" placeholder="email@example.com" required>
+                    <input type="hidden" value="1" name="embed">
+                    <button type="submit" class="btn-subscribe">Subscribe</button>
+                </form>
             </div>
         </div>
     </footer>

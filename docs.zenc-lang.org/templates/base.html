@@ -410,6 +410,37 @@
             font-size: 0.8rem;
             padding: 8px;
         }
+
+        /* FOOTER NEWSLETTER */
+        .newsletter-form-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .newsletter-form-footer input[type="email"] {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            color: var(--fg);
+            outline: none;
+        }
+
+        .newsletter-form-footer .btn-subscribe {
+            width: 100%;
+            background: var(--primary);
+            color: var(--bg);
+            border: none;
+            padding: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -507,17 +538,16 @@
         <div class="footer-col" style="grid-column: span 1;">
             <h4>Newsletter</h4>
             <div class="footer-links">
-                <p style="margin-bottom: 1rem;">Get the latest Zen C news delivered to your inbox.</p>
+                <p style="margin-bottom: 1rem; line-height: 1.4; font-size: 0.8rem;">Stay updated on Zen C releases and
+                    community news.</p>
                 <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post" target="popupwindow"
-                    onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form"
-                    style="max-width: 100%;">
-                    <input type="email" name="email" id="bd-email-footer" placeholder="email@example.com" required
-                        style="width: 100%; margin-bottom: 0.5rem;">
+                    onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form-footer">
+                    <input type="email" name="email" id="bd-email-footer" placeholder="email@example.com" required>
                     <input type="hidden" value="1" name="embed">
-                    <button type="submit" class="btn-subscribe" style="width: 100%;">Subscribe</button>
+                    <button type="submit" class="btn-subscribe">Subscribe</button>
                 </form>
                 <a href="https://buttondown.com/zenc" target="_blank"
-                    style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.7;">View Archives →</a>
+                    style="font-size: 0.75rem; margin-top: 0.75rem; opacity: 0.7; display: block;">View Archives →</a>
             </div>
         </div>
     </footer>
