@@ -1973,17 +1973,25 @@ footer.container {
 }
 
 /* --- Zibi Mascot --- */
-.peeking-character {
+.zibi-wrapper {
     position: absolute;
-    left: -20px;
-    bottom: -10px;
-    width: 90px;
-    z-index: 10;
+    right: 20px;
+    bottom: 0;
+    width: 80px;
+    height: auto;
+    z-index: 5;
     pointer-events: none;
+    line-height: 0;
+}
+
+.peeking-character {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
     opacity: 0.9;
     transition: transform 0.3s ease;
 }
 
 .peeking-character:hover {
-    transform: translateX(10px);
+    transform: translateY(-5px);
 }
