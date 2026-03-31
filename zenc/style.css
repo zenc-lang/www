@@ -278,22 +278,33 @@ nav a.github-link {
 
 /* Command Line */
 .cmd-line-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     margin-bottom: 2rem;
     position: relative;
     max-width: 100%;
 }
 
-.cmd-line {
+.cmd-line-inner {
+    display: flex;
+    align-items: center;
     background: var(--surface-alt);
     border: 1px solid var(--border);
-    padding: 12px 18px;
+    border-radius: 8px;
+    padding: 4px;
+    width: 100%;
+    transition: border-color 0.3s;
+}
+
+.cmd-line-inner:hover {
+    border-color: var(--muted);
+}
+
+.cmd-line {
+    background: transparent;
+    border: none;
+    padding: 10px 14px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
     color: var(--fg);
-    border-radius: 8px;
     white-space: nowrap;
     overflow-x: auto;
     flex: 1;
@@ -306,14 +317,15 @@ nav a.github-link {
     opacity: 0.5;
 }
 
-.cmd-line-wrapper .copy-btn {
-    position: static;
-    transform: none;
-    padding: 10px 18px;
-    height: auto;
-    width: auto;
-    min-height: 44px;
-    justify-content: center;
+.cmd-line-inner .copy-btn-terminal {
+    background: transparent;
+    border: none;
+    margin-left: 8px;
+    opacity: 0.6;
+}
+
+.cmd-line-inner:hover .copy-btn-terminal {
+    opacity: 1;
 }
 
 .hero-actions {
@@ -363,13 +375,29 @@ nav a.github-link {
 
 /* --- Code Block with Line Numbers --- */
 .hero-code {
-    background: var(--surface);
+    background: #0d0d0c;
+    /* Deep terminal black */
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 100%;
+}
+
+[data-theme="light"] .hero-code {
+    background: #0d0d0c;
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.2);
+    --kwd: #f97316;
+    --str: #a3e635;
+    --typ: #fbbf24;
+    --fn: #38bdf8;
+    --num: #fb7185;
+    --com: #71717a;
+    --punctuation: #94a3b8;
+    --variable: #e2e8f0;
+    --fg: #e2e8f0;
+    --border: rgba(255, 255, 255, 0.1);
 }
 
 .code-header-simple {
@@ -410,7 +438,28 @@ nav a.github-link {
     gap: 8px;
     margin-right: auto;
     margin-left: 16px;
-    opacity: 0.6;
+    opacity: 0.8;
+}
+
+.copy-btn-terminal {
+    position: static;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 4px 12px;
+    font-size: 0.65rem;
+    height: 28px;
+}
+
+.copy-btn-terminal:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.copy-btn-terminal.copied {
+    background: #10b981;
+    color: #fff;
 }
 
 .terminal-icon {
@@ -1066,12 +1115,39 @@ pre code .z-link {
 
 .step {
     background: var(--surface);
-    padding: 16px 24px;
+    padding: 1.5rem;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    min-width: 280px;
+    flex: 1;
+}
+
+.step-content {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--surface-alt);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.step-content code {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.step-content .copy-btn {
+    position: static;
+    flex-shrink: 0;
 }
 
 .step-label {

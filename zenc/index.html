@@ -75,14 +75,16 @@
                 </p>
 
                 <div class="cmd-line-wrapper">
-                    <div class="cmd-line" id="install-cmd">
-                        <span class="prompt">$</span> git clone https://git.zenc-lang.org/Zen-C.git
+                    <div class="cmd-line-inner">
+                        <div class="cmd-line" id="install-cmd">
+                            <span class="prompt">$</span> git clone https://git.zenc-lang.org/Zen-C.git
+                        </div>
+                        <button class="copy-btn copy-btn-terminal" aria-label="Copy to clipboard"
+                            onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
                     </div>
-                    <button class="copy-btn" aria-label="Copy to clipboard"
-                        onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
-                        <i class="fa-regular fa-copy"></i>
-                        <span>Copy</span>
-                    </button>
                 </div>
 
                 <div class="hero-actions">
@@ -120,13 +122,13 @@
                         </svg>
                         <span class="file-name-mono">echo_server.zc</span>
                     </div>
-                </div>
-
-                <div class="code-body" style="position: relative;">
-                    <button class="copy-btn" onclick="copyCode(this)" style="top: 1rem; right: 1rem;">
+                    <button class="copy-btn copy-btn-terminal" onclick="copyCode(this)">
                         <i class="fa-regular fa-copy"></i>
                         <span>Copy</span>
                     </button>
+                </div>
+
+                <div class="code-body">
                     <div class="line-numbers">
                         <span>1</span>
                         <span>2</span>
@@ -187,27 +189,34 @@
             <div class="install-steps">
                 <div class="step">
                     <span class="step-label">CLONE</span>
-                    <code>git clone https://git.zenc-lang.org/Zen-C.git</code>
-                    <button class="copy-btn" onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
-                        <i class="fa-regular fa-copy"></i>
-                        <span>Copy</span>
-                    </button>
+                    <div class="step-content">
+                        <code>git clone https://git.zenc-lang.org/Zen-C.git</code>
+                        <button class="copy-btn"
+                            onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="step">
                     <span class="step-label">BUILD</span>
-                    <code>make</code>
-                    <button class="copy-btn" onclick="copyCode(this, 'make')">
-                        <i class="fa-regular fa-copy"></i>
-                        <span>Copy</span>
-                    </button>
+                    <div class="step-content">
+                        <code>make</code>
+                        <button class="copy-btn" onclick="copyCode(this, 'make')">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="step">
                     <span class="step-label">INSTALL</span>
-                    <code>sudo make install</code>
-                    <button class="copy-btn" onclick="copyCode(this, 'sudo make install')">
-                        <i class="fa-regular fa-copy"></i>
-                        <span>Copy</span>
-                    </button>
+                    <div class="step-content">
+                        <code>sudo make install</code>
+                        <button class="copy-btn" onclick="copyCode(this, 'sudo make install')">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
@@ -570,22 +579,31 @@
 
     <script>
         function copyCode(btn, text) {
-            let copyText = text || btn.parentNode.querySelector('pre code, code').innerText;
+            let copyText = text;
+            if (!copyText) {
+                const container = btn.closest('.hero-code, .mini-code, .step, .cmd-line-wrapper');
+                if (container) {
+                    const codeEl = container.querySelector('code');
+                    if (codeEl) copyText = codeEl.innerText;
+                }
+            }
+
+            if (!copyText) return;
 
             navigator.clipboard.writeText(copyText).then(() => {
                 const icon = btn.querySelector('i');
                 const label = btn.querySelector('span');
                 const originalIconClass = icon.className;
-                const originalText = label.innerText;
+                const originalText = label ? label.innerText : '';
 
                 btn.classList.add('copied');
-                icon.className = 'fa-solid fa-check';
-                label.innerText = 'Copied!';
+                if (icon) icon.className = 'fa-solid fa-check';
+                if (label) label.innerText = 'Copied!';
 
                 setTimeout(() => {
                     btn.classList.remove('copied');
-                    icon.className = originalIconClass;
-                    label.innerText = originalText;
+                    if (icon) icon.className = originalIconClass;
+                    if (label) label.innerText = originalText;
                 }, 2000);
             });
         }
