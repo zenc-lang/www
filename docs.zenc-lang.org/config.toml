@@ -17,7 +17,7 @@ github_url = "https://github.com/zenc-lang/zenc"
 render_emoji = true
 external_links_target_blank = true
 highlight_code = true
-highlight_theme = "base16-ocean-dark"
+highlight_theme = "css"
 render_with_code_block_copy_button = true
 
 [search]
