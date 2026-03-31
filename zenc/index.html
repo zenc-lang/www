@@ -75,14 +75,12 @@
                 </p>
 
                 <div class="cmd-line-wrapper">
-                    <div class="cmd-line-inner">
+                    <div class="cmd-line-inner clickable-copy"
+                        onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
                         <div class="cmd-line" id="install-cmd">
                             <span class="prompt">$</span> git clone https://git.zenc-lang.org/Zen-C.git
                         </div>
-                        <button class="copy-btn copy-btn-terminal" aria-label="Copy to clipboard"
-                            onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
-                            <i class="fa-regular fa-copy"></i>
-                        </button>
+                        <div class="terminal-icon"><i class="fa-regular fa-copy"></i></div>
                     </div>
                 </div>
 
@@ -105,13 +103,12 @@
             </div>
 
             <div class="hero-code">
-                <div class="code-header-simple">
+                <div class="code-header-simple clickable-copy" onclick="copyCode(this)">
                     <div class="window-controls">
                         <span class="control red"></span>
                         <span class="control yellow"></span>
                         <span class="control green"></span>
                     </div>
-                    <!-- Moved title to be centered or next to controls via CSS -->
                     <div class="file-info">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -121,9 +118,7 @@
                         </svg>
                         <span class="file-name-mono">echo_server.zc</span>
                     </div>
-                    <button class="copy-btn copy-btn-terminal" onclick="copyCode(this)">
-                        <i class="fa-regular fa-copy"></i>
-                    </button>
+                    <div class="terminal-icon"><i class="fa-regular fa-copy"></i></div>
                 </div>
 
                 <div class="code-body">
@@ -187,30 +182,24 @@
             <div class="install-steps">
                 <div class="step">
                     <span class="step-label">CLONE</span>
-                    <div class="step-content">
+                    <div class="step-content clickable-copy"
+                        onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
                         <code>git clone https://git.zenc-lang.org/Zen-C.git</code>
-                        <button class="copy-btn"
-                            onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
-                            <i class="fa-regular fa-copy"></i>
-                        </button>
+                        <i class="fa-regular fa-copy" style="opacity: 0.3; font-size: 0.8rem;"></i>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-label">BUILD</span>
-                    <div class="step-content">
+                    <div class="step-content clickable-copy" onclick="copyCode(this, 'make')">
                         <code>make</code>
-                        <button class="copy-btn" onclick="copyCode(this, 'make')">
-                            <i class="fa-regular fa-copy"></i>
-                        </button>
+                        <i class="fa-regular fa-copy" style="opacity: 0.3; font-size: 0.8rem;"></i>
                     </div>
                 </div>
                 <div class="step">
                     <span class="step-label">INSTALL</span>
-                    <div class="step-content">
+                    <div class="step-content clickable-copy" onclick="copyCode(this, 'sudo make install')">
                         <code>sudo make install</code>
-                        <button class="copy-btn" onclick="copyCode(this, 'sudo make install')">
-                            <i class="fa-regular fa-copy"></i>
-                        </button>
+                        <i class="fa-regular fa-copy" style="opacity: 0.3; font-size: 0.8rem;"></i>
                     </div>
                 </div>
             </div>
@@ -566,12 +555,15 @@
     </footer>
 
     <script>
-        function copyCode(btn, text) {
+        function copyCode(el, text) {
             let copyText = text;
             if (!copyText) {
-                const container = btn.closest('.hero-code, .mini-code, .step, .cmd-line-wrapper');
-                if (container) {
-                    const codeEl = container.querySelector('code');
+                if (el.classList.contains('code-header-simple')) {
+                    const heroCode = el.closest('.hero-code');
+                    const codeEl = heroCode.querySelector('pre code');
+                    if (codeEl) copyText = codeEl.innerText;
+                } else {
+                    const codeEl = el.querySelector('code');
                     if (codeEl) copyText = codeEl.innerText;
                 }
             }
@@ -579,14 +571,14 @@
             if (!copyText) return;
 
             navigator.clipboard.writeText(copyText).then(() => {
-                const icon = btn.querySelector('i');
-                const originalIconClass = icon.className;
+                el.classList.add('copied');
+                const icon = el.querySelector('i');
+                const originalIconClass = icon ? icon.className : '';
 
-                btn.classList.add('copied');
                 if (icon) icon.className = 'fa-solid fa-check';
 
                 setTimeout(() => {
-                    btn.classList.remove('copied');
+                    el.classList.remove('copied');
                     if (icon) icon.className = originalIconClass;
                 }, 2000);
             });

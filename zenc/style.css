@@ -442,23 +442,7 @@ nav a.github-link {
 }
 
 .copy-btn-terminal {
-    position: static;
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.8rem;
-    width: 28px;
-    height: 28px;
-    opacity: 1;
-}
-
-.copy-btn-terminal:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.copy-btn-terminal.copied {
-    color: #10b981;
+    display: none;
 }
 
 .terminal-icon {
@@ -801,50 +785,36 @@ pre code .z-link {
     border: 0;
 }
 
-/* --- Code & Command Copy Buttons --- */
-.code-container {
+/* --- Click-to-Copy Containers --- */
+.clickable-copy {
+    cursor: pointer;
+    transition: all 0.2s ease;
     position: relative;
 }
 
-.copy-btn {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--muted);
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    opacity: 0.4;
+.clickable-copy:hover {
+    background: var(--surface-alt) !important;
+    border-color: var(--muted) !important;
 }
 
-.copy-btn:hover {
-    color: var(--fg);
-    background: var(--surface-alt);
-    border-color: var(--border);
-    opacity: 1;
+.clickable-copy.copied {
+    background: rgba(16, 185, 129, 0.05) !important;
+    border-color: #10b981 !important;
 }
 
-.copy-btn i {
-    font-size: 0.85rem;
+.clickable-copy.copied i {
+    color: #10b981 !important;
 }
 
-.copy-btn.copied {
-    color: #10b981;
-    opacity: 1;
+/* Specific adjustments for terminal header */
+.code-header-simple.clickable-copy {
+    border-bottom: 1px solid var(--border);
 }
 
-[data-theme="dark"] .copy-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
+.code-header-simple.clickable-copy:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
 }
+
 
 /* Specific positioning for different blocks */
 .step {
@@ -869,36 +839,6 @@ pre code .z-link {
 
 .mini-code {
     position: relative;
-}
-
-.mini-code .copy-btn,
-.code-body .copy-btn {
-    opacity: 0;
-    transform: translateY(5px);
-}
-
-.mini-code:hover .copy-btn,
-.code-body:hover .copy-btn {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-@keyframes copy-pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-    }
-
-    70% {
-        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-    }
-}
-
-.copy-btn.copied {
-    animation: copy-pulse 1s infinite;
 }
 
 .interop-card {
