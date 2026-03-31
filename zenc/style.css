@@ -287,7 +287,7 @@ nav a.github-link {
 }
 
 .cmd-line {
-    background: #f1f5f9;
+    background: var(--surface-alt);
     border: 1px solid var(--border);
     padding: 12px 18px;
     font-family: 'JetBrains Mono', monospace;
@@ -662,7 +662,7 @@ pre code .z-link {
 }
 
 .interop-card {
-    background: #ffffff;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.75rem;
@@ -672,7 +672,7 @@ pre code .z-link {
 }
 
 .interop-card:hover {
-    border-color: #cbd5e1;
+    border-color: var(--muted);
     transform: translateY(-2px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
 }
@@ -690,7 +690,7 @@ pre code .z-link {
 }
 
 .flag-badge {
-    background: #222;
+    background: var(--surface-alt);
     color: var(--typ);
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
@@ -707,7 +707,7 @@ pre code .z-link {
 }
 
 .mini-code {
-    background: #f8fafc;
+    background: var(--surface-alt);
     padding: 1rem;
     border-radius: 8px;
     border: 1px solid var(--border);
@@ -746,7 +746,7 @@ pre code .z-link {
 }
 
 .tier-card {
-    background: #ffffff;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 2.5rem 2rem;
@@ -758,11 +758,11 @@ pre code .z-link {
 
 .tier-card:hover {
     transform: translateY(-4px);
-    border-color: #cbd5e1;
+    border-color: var(--muted);
 }
 
 .tier-card.featured {
-    background: #ffffff;
+    background: var(--surface);
     border: 2px solid var(--fg);
     position: relative;
     overflow: hidden;
@@ -1460,10 +1460,7 @@ footer.container {
     transform: translateY(-1px);
 }
 
-.newsletter-form .btn-subscribe:hover {
-    background: #fff;
-    transform: translateY(-1px);
-}
+
 
 .newsletter-section {
     background: var(--surface-alt);
@@ -1506,18 +1503,20 @@ footer.container {
 
 .newsletter-form-large input[type="email"] {
     flex-grow: 1;
-    background: #ffffff;
+    background: var(--surface);
     border: 1px solid var(--border);
     padding: 16px 24px;
     font-size: 1rem;
     border-radius: 8px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
+    color: var(--fg);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .newsletter-form-large input[type="email"]:focus {
     border-color: var(--muted);
+    background: var(--surface-alt);
 }
 
 .newsletter-form-large .btn-subscribe {
@@ -1604,7 +1603,7 @@ footer.container {
 }
 
 .newsletter-form-footer input[type="email"] {
-    background: #000;
+    background: var(--surface);
     border: 1px solid var(--border);
     padding: 8px 12px;
     font-size: 0.85rem;
@@ -1612,6 +1611,12 @@ footer.container {
     color: var(--fg);
     outline: none;
     width: 100%;
+    transition: all 0.2s;
+}
+
+.newsletter-form-footer input[type="email"]:focus {
+    border-color: var(--muted);
+    background: var(--surface-alt);
 }
 
 .newsletter-form-footer .btn-subscribe {
@@ -1627,7 +1632,7 @@ footer.container {
 }
 
 .newsletter-form-footer .btn-subscribe:hover {
-    background: #fff;
+    opacity: 0.9;
 }
 
 /* --- Community & Rosetta Code --- */
@@ -1648,7 +1653,7 @@ footer.container {
 }
 
 .example-card {
-    background: #ffffff;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 2rem;
@@ -1662,7 +1667,7 @@ footer.container {
 }
 
 .example-card:hover {
-    border-color: #cbd5e1;
+    border-color: var(--muted);
     transform: translateY(-4px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
 }
