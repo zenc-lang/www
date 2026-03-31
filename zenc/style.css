@@ -1151,7 +1151,9 @@ footer.container {
     gap: 4rem;
     font-size: 0.85rem;
     color: var(--muted);
+    position: relative;
 }
+
 
 .footer-info {
     display: flex;
@@ -1972,18 +1974,16 @@ footer.container {
 
 /* --- Zibi Mascot --- */
 .peeking-character {
-    position: fixed !important;
-    left: 0 !important;
-    bottom: 10% !important;
-    width: 120px !important;
-    height: auto !important;
-    z-index: 9999 !important;
-    pointer-events: none !important;
+    position: absolute;
+    left: -20px;
+    bottom: -10px;
+    width: 90px;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.9;
     transition: transform 0.3s ease;
 }
 
-
-/* Subtle peek out on hover (though pointer-events is none, this is for future if changed) */
 .peeking-character:hover {
     transform: translateX(10px);
 }
