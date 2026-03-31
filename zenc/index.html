@@ -81,6 +81,7 @@
                     <button class="copy-btn" aria-label="Copy to clipboard"
                         onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
                         <i class="fa-regular fa-copy"></i>
+                        <span>Copy</span>
                     </button>
                 </div>
 
@@ -122,8 +123,10 @@
                 </div>
 
                 <div class="code-body" style="position: relative;">
-                    <button class="copy-btn" onclick="copyCode(this)" style="top: 1rem; right: 1rem;"><i
-                            class="fa-regular fa-copy"></i></button>
+                    <button class="copy-btn" onclick="copyCode(this)" style="top: 1rem; right: 1rem;">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
                     <div class="line-numbers">
                         <span>1</span>
                         <span>2</span>
@@ -185,21 +188,26 @@
                 <div class="step">
                     <span class="step-label">CLONE</span>
                     <code>git clone https://git.zenc-lang.org/Zen-C.git</code>
-                    <button class="copy-btn"
-                        onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')"></button><i
-                        class="fa-regular fa-copy"></i></button>
+                    <button class="copy-btn" onclick="copyCode(this, 'git clone https://git.zenc-lang.org/Zen-C.git')">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
                 </div>
                 <div class="step">
                     <span class="step-label">BUILD</span>
                     <code>make</code>
-                    <button class="copy-btn" onclick="copyCode(this, 'make')"><i
-                            class="fa-regular fa-copy"></i></button>
+                    <button class="copy-btn" onclick="copyCode(this, 'make')">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
                 </div>
                 <div class="step">
                     <span class="step-label">INSTALL</span>
                     <code>sudo make install</code>
-                    <button class="copy-btn" onclick="copyCode(this, 'sudo make install')"><i
-                            class="fa-regular fa-copy"></i></button>
+                    <button class="copy-btn" onclick="copyCode(this, 'sudo make install')">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
@@ -258,7 +266,10 @@
                     <p>Write GPU kernels with Zen syntax using <code>launch</code> and <code>@global</code> attributes.
                     </p>
                     <div class="mini-code">
-                        <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i></button>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
                         <pre><code><span class="kwd">@global</span>
 <span class="kwd">fn</span> <span class="fn">add</span>(a: <span class="typ">float</span>*, b: <span class="typ">float</span>*) {
     <span class="kwd">let</span> i = <span class="fn">thread_id</span>();
@@ -275,7 +286,10 @@
                     <p>Generate C++ compatible code to link against libraries. Instantiate templates in <code>raw</code>
                         blocks.</p>
                     <div class="mini-code">
-                        <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i></button>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
                         <pre><code><span class="kwd">import</span> <span class="str">"cpp:vector"</span>
 <span class="kwd">let</span> vec = <span class="kwd">raw</span> <span class="typ">std</span>::<span class="typ">vector</span>&lt;<span class="typ">int</span>&gt;();</code></pre>
                     </div>
@@ -288,7 +302,10 @@
                     </div>
                     <p>Call Apple frameworks directly. Memory management bridges seamlessly with ARC.</p>
                     <div class="mini-code">
-                        <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i></button>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
                         <pre><code><span class="kwd">import</span> <span class="str">"objc:Foundation"</span>
 <span class="kwd">let</span> str = <span class="kwd">raw</span> [<span class="typ">NSString</span> <span class="fn">stringWithUTF8String</span>:<span class="str">"Hello"</span>];</code></pre>
                     </div>
@@ -557,14 +574,18 @@
 
             navigator.clipboard.writeText(copyText).then(() => {
                 const icon = btn.querySelector('i');
-                const originalClass = icon.className;
+                const label = btn.querySelector('span');
+                const originalIconClass = icon.className;
+                const originalText = label.innerText;
 
-                icon.className = 'fa-solid fa-check';
                 btn.classList.add('copied');
+                icon.className = 'fa-solid fa-check';
+                label.innerText = 'Copied!';
 
                 setTimeout(() => {
-                    icon.className = originalClass;
                     btn.classList.remove('copied');
+                    icon.className = originalIconClass;
+                    label.innerText = originalText;
                 }, 2000);
             });
         }
