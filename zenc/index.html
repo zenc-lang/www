@@ -177,8 +177,6 @@
             </div>
         </div>
 
-        <div class="divider"></div>
-
         <section class="container section-pad installation" id="installation">
             <h2 class="section-title">Start Compiling</h2>
             <div class="install-steps">
@@ -210,7 +208,7 @@
             </div>
         </section>
 
-        <section id="features" class="container section-pad section-alt">
+        <section id="features" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Zero Friction. Maximum Control.</h2>
                 <p class="section-desc">Experience the transparency of C combined with the developer experience of a
@@ -253,13 +251,13 @@
             </div>
 
             <div class="interop-grid">
-                <div class="interop-row">
-                    <div class="interop-info">
+                <div class="interop-card">
+                    <div class="interop-header">
                         <h3>CUDA</h3>
                         <span class="flag-badge">--cuda</span>
-                        <p>Write GPU kernels with Zen syntax using <code>launch</code> and <code>@global</code>
-                            attributes.</p>
                     </div>
+                    <p>Write GPU kernels with Zen syntax using <code>launch</code> and <code>@global</code> attributes.
+                    </p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">@global</span>
 <span class="kwd">fn</span> <span class="fn">add</span>(a: <span class="typ">float</span>*, b: <span class="typ">float</span>*) {
@@ -269,14 +267,13 @@
                     </div>
                 </div>
 
-                <div class="interop-row">
-                    <div class="interop-info">
+                <div class="interop-card">
+                    <div class="interop-header">
                         <h3>C++</h3>
                         <span class="flag-badge">--cpp</span>
-                        <p>Generate C++ compatible code to link against libraries. Instantiate templates in
-                            <code>raw</code> blocks.
-                        </p>
                     </div>
+                    <p>Generate C++ compatible code to link against libraries. Instantiate templates in <code>raw</code>
+                        blocks.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     std::vector&lt;<span class="typ">int</span>&gt; <span class="fn">get_vec</span>() {
@@ -286,12 +283,12 @@
                     </div>
                 </div>
 
-                <div class="interop-row">
-                    <div class="interop-info">
+                <div class="interop-card">
+                    <div class="interop-header">
                         <h3>Objective-C</h3>
                         <span class="flag-badge">--objc</span>
-                        <p>Native macOS support. Mix <code>[Object message]</code> syntax within your systems code.</p>
                     </div>
+                    <p>Native macOS support. Mix <code>[Object message]</code> syntax within your systems code.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     id pool = [[NSPool alloc] init];
@@ -301,8 +298,6 @@
                 </div>
             </div>
         </section>
-
-        <div class="divider"></div>
 
         <section id="rosetta" class="container section-pad">
             <div
@@ -321,7 +316,7 @@
             </div>
         </section>
 
-        <section id="videos" class="container section-pad section-alt">
+        <section id="videos" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Community Videos</h2>
                 <p class="section-desc">Watch tutorials, reviews, and deep-dives created by the Zen C community.</p>
@@ -350,8 +345,6 @@
                 </div>
             </div>
         </section>
-
-        <div class="divider"></div>
 
         <section id="roadmap" class="container section-pad">
             <div class="sponsors-intro" style="margin-bottom: 4rem;">
@@ -422,7 +415,7 @@
             </div>
         </section>
 
-        <section id="sponsors" class="container section-pad section-alt">
+        <section id="sponsors" class="container section-pad">
             <div class="sponsors-container">
                 <div class="sponsors-intro">
                     <h2 class="section-title">Sustain the Project</h2>
