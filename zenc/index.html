@@ -181,40 +181,59 @@
             </div>
         </div>
 
-        <section class="container">
+        <section class="container section-pad installation" id="installation">
+            <h2 class="section-title">Start Compiling</h2>
+            <div class="install-steps">
+                <div class="step">
+                    <span class="step-label">CLONE</span>
+                    <code>git clone https://git.zenc-lang.org/Zen-C.git</code>
+                </div>
+                <div class="step">
+                    <span class="step-label">BUILD</span>
+                    <code>make</code>
+                </div>
+                <div class="step">
+                    <span class="step-label">INSTALL</span>
+                    <code>sudo make install</code>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <p>Requires a C11+ compiler (GCC/Clang/Apple Clang).</p>
+            </div>
+        </section>
+
+        <section id="features" class="container section-pad">
+            <div class="section-header">
+                <h2 class="section-title">Zero Friction. Maximum Control.</h2>
+                <p class="section-desc">Experience the transparency of C combined with the developer experience of a
+                    modern language.</p>
+            </div>
+
             <div class="features-grid">
                 <div class="feature-card">
-                    <h3>Native C Interop</h3>
-                    <p>100% ABI compatible. Includes C headers directly, supports raw function pointers, and compiles to
-                        standard C11/GNU C.</p>
+                    <h3>Transparent Compilation <span class="badge-new">0.4.0</span></h3>
+                    <p>Zen C transpiles directly to clean, readable GNU C11. Every variable and struct maps perfectly to
+                        its C counterpart, making debugging trivial.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Resource Semantics</h3>
-                    <p>Move-by-default semantics and RAII (Drop trait) prevent double-free errors without the overhead
-                        of a
-                        garbage collector.</p>
+                    <h3>C ABI by Default</h3>
+                    <p>Call C functions, use C structs, and include C headers effortlessly. Zen C doesn't just
+                        interoperate with C—it <strong>is</strong> C.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Metaprogramming</h3>
-                    <p>Execute code at compile-time with <code>comptime</code>, embed binary assets, and use smart
-                        attributes for optimization.</p>
+                    <h3>Resource Management</h3>
+                    <p>Prevent leaks implicitly. Objects implementing the <code>Drop</code> trait are automatically
+                        dropped when they fall out of scope.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Pattern Matching</h3>
-                    <p>Destructure enums, match against ranges, and use guards for powerful control flow compared to
-                        switch
-                        statements.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Generics</h3>
+                    <h3>Monomorphization <span class="badge-new">0.4.4</span></h3>
                     <p>Write reusable, type-safe code with zero runtime overhead using monomorphized generics and trait
                         bounds.</p>
                 </div>
                 <div class="feature-card">
                     <h3>Concurrency</h3>
                     <p>Built-in <code>async</code>/<code>await</code> for high-performance I/O operations without
-                        complex
-                        callback hell.</p>
+                        complex callback hell.</p>
                 </div>
             </div>
         </section>
@@ -250,11 +269,8 @@
                     <p>Generate C++ compatible code to link against libraries. Instantiate templates in <code>raw</code>
                         blocks.</p>
                     <div class="mini-code">
-                        <pre><code><span class="kwd">raw</span> {
-    std::vector&lt;<span class="typ">int</span>&gt; <span class="fn">get_vec</span>() {
-        <span class="kwd">return</span> {1, 2, 3};
-    }
-}</code></pre>
+                        <pre><code><span class="kwd">import</span> <span class="str">"cpp:vector"</span>
+<span class="kwd">let</span> vec = <span class="kwd">raw</span> <span class="typ">std</span>::<span class="typ">vector</span>&lt;<span class="typ">int</span>&gt;();</code></pre>
                     </div>
                 </div>
 
@@ -263,33 +279,58 @@
                         <h3>Objective-C</h3>
                         <span class="flag-badge">--objc</span>
                     </div>
-                    <p>Native macOS support. Mix <code>[Object message]</code> syntax within your systems code.</p>
+                    <p>Call Apple frameworks directly. Memory management bridges seamlessly with ARC.</p>
                     <div class="mini-code">
-                        <pre><code><span class="kwd">raw</span> {
-    id pool = [[NSPool alloc] init];
-    [pool drain];
-}</code></pre>
+                        <pre><code><span class="kwd">import</span> <span class="str">"objc:Foundation"</span>
+<span class="kwd">let</span> str = <span class="kwd">raw</span> [<span class="typ">NSString</span> <span class="fn">stringWithUTF8String</span>:<span class="str">"Hello"</span>];</code></pre>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="container section-pad">
-            <div class="section-header">
-                <h2 class="section-title">First-Class Tooling</h2>
+        <section id="rosetta" class="container section-pad">
+            <div
+                style="max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Established on
+                    Rosetta Code</h2>
+                <p
+                    style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; text-align: center;">
+                    Zen C is a first-class citizen on Rosetta Code, the programming chrestomathy.
+                    Compare our syntax and semantics across hundreds of standardized tasks.
+                </p>
+                <a href="https://rosettacode.org/wiki/Category:Zen_C" class="btn btn-primary" target="_blank"
+                    style="padding: 14px 32px; font-size: 1rem; border-radius: 8px; font-weight: 600;">
+                    Explore the Zen C Category &rarr;
+                </a>
             </div>
-            <div class="features-grid tooling-grid">
-                <div class="feature-card">
-                    <h3>LSP Support</h3>
-                    <p>Built-in Language Server provides Go-to-Definition, Hover, Completion, and Diagnostics.</p>
+        </section>
+
+        <section id="videos" class="container section-pad">
+            <div class="section-header">
+                <h2 class="section-title">Community Videos</h2>
+                <p class="section-desc">Watch tutorials, reviews, and deep-dives created by the Zen C community.</p>
+            </div>
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/orBhXEBNY7c" title="Zen C Video 1"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <h3>Interactive REPL</h3>
-                    <p>Experiment instantly with <code>zc repl</code>. Features persistent history and benchmarking.</p>
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/1IoHSn99rv4" title="Zen C Video 2"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <h3>Portable Builds</h3>
-                    <p>Compile to <strong>APE</strong> (Actually Portable Executable) to run one binary on any OS.</p>
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/MdQ8aDG6NiA" title="Zen C Video 3"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
         </section>
@@ -358,53 +399,6 @@
                             <li>ABI stability guarantees</li>
                             <li>Production embedded/kernel case studies</li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="rosetta" class="container section-pad">
-            <div
-                style="max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Established on
-                    Rosetta Code</h2>
-                <p
-                    style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; text-align: center;">
-                    Zen C is a first-class citizen on Rosetta Code, the programming chrestomathy.
-                    Compare our syntax and semantics across hundreds of standardized tasks.
-                </p>
-                <a href="https://rosettacode.org/wiki/Category:Zen_C" class="btn btn-primary" target="_blank"
-                    style="padding: 14px 32px; font-size: 1rem; border-radius: 8px; font-weight: 600;">
-                    Explore the Zen C Category &rarr;
-                </a>
-            </div>
-        </section>
-
-        <section id="videos" class="container section-pad">
-            <div class="section-header">
-                <h2 class="section-title">Community Videos</h2>
-                <p class="section-desc">Watch tutorials, reviews, and deep-dives created by the Zen C community.</p>
-            </div>
-            <div class="videos-grid">
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/orBhXEBNY7c" title="Zen C Video 1"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/1IoHSn99rv4" title="Zen C Video 2"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/MdQ8aDG6NiA" title="Zen C Video 3"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -496,28 +490,6 @@
                     }
                     loadSponsors();
                 </script>
-            </div>
-        </section>
-
-
-        <section class="container section-pad installation">
-            <h2 class="section-title">Start Compiling</h2>
-            <div class="install-steps">
-                <div class="step">
-                    <span class="step-label">CLONE</span>
-                    <code>git clone https://git.zenc-lang.org/Zen-C.git</code>
-                </div>
-                <div class="step">
-                    <span class="step-label">BUILD</span>
-                    <code>make</code>
-                </div>
-                <div class="step">
-                    <span class="step-label">INSTALL</span>
-                    <code>sudo make install</code>
-                </div>
-            </div>
-            <div class="install-note">
-                Or compile as APE: <code>make ape</code>
             </div>
         </section>
 

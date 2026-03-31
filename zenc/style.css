@@ -1092,11 +1092,10 @@ footer.container {
     height: 16px;
     border-radius: 50%;
     background: var(--surface);
-    border: 3px solid #333;
+    border: 3px solid var(--muted);
     z-index: 2;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 0 0 4px var(--bg);
-    /* Creates a cutout/gap effect */
 }
 
 .roadmap-item:nth-child(even) .roadmap-marker {
@@ -1108,7 +1107,7 @@ footer.container {
 .roadmap-item.active .roadmap-marker {
     border-color: var(--kwd);
     background: var(--bg);
-    box-shadow: 0 0 0 4px var(--bg), 0 0 20px rgba(249, 115, 22, 0.6);
+    box-shadow: 0 0 0 4px var(--bg), 0 0 20px var(--kwd);
     animation: pulse-marker 2.5s infinite;
 }
 
@@ -1126,27 +1125,33 @@ footer.container {
     }
 }
 
-/* Glassmorphism Cards */
+/* Base Cards */
 .roadmap-content {
-    background: linear-gradient(145deg, rgba(28, 28, 27, 0.95) 0%, rgba(22, 22, 21, 0.6) 100%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 2.5rem;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
 }
 
 .roadmap-content:hover {
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: var(--muted);
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
 }
 
 .roadmap-item.active .roadmap-content {
-    border: 1px solid rgba(249, 115, 22, 0.2);
-    background: linear-gradient(145deg, rgba(249, 115, 22, 0.04) 0%, rgba(22, 22, 21, 0.8) 100%);
+    border: 1px solid var(--kwd);
+    background: var(--surface-alt);
+}
+
+[data-theme="dark"] .roadmap-content {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .roadmap-content:hover {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
 }
 
 /* Badge-style Phase Labels */
