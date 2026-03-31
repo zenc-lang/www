@@ -1983,12 +1983,19 @@ pre code .z-link {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 90px;
+    width: 140px;
     height: auto;
     z-index: 5;
     pointer-events: none;
     line-height: 0;
 }
+
+@media (max-width: 768px) {
+    .zibi-wrapper {
+        display: none;
+    }
+}
+
 
 .peeking-character {
     width: 100% !important;
