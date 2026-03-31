@@ -250,10 +250,9 @@ nav a.github-link {
     }
 
     .hero-code {
-        text-align: left;
+        text-align: left !important;
     }
 
-    /* Keep code left-aligned even when hero is centered */
     .mega-title {
         font-size: 4.5rem;
     }
@@ -2027,25 +2026,30 @@ section {
 }
 
 /* --- Zibi Mascot --- */
+/* --- Zibi Mascot --- */
 .zibi-wrapper {
     position: absolute;
-    left: 0;
+    /* Position relative to the center, so he stays with the content until 1200px */
+    left: calc(50% - 600px - 140px);
     bottom: 0;
     width: 140px;
     height: auto;
     z-index: 5;
     pointer-events: none;
     line-height: 0;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    /* No scale transition needed, he slides naturally with width changes above 1200px */
 }
 
-/* Zibi slides to the right and disappears as screen narrows */
-@media (max-width: 1200px) {
+/* Below 1200px, he begins to "slide out" of the viewport gradually 
+   because calc(50% ...) moves him further left as 50% value decreases.
+*/
+
+@media (max-width: 900px) {
     .zibi-wrapper {
-        transform: translateX(100vw);
-        opacity: 0;
+        display: none;
     }
 }
+
 
 
 
