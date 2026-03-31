@@ -264,7 +264,20 @@ nav a.github-link {
     .hero-actions {
         justify-content: center;
     }
+
+    .newsletter-form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .newsletter-form {
+        margin: 0 auto;
+        justify-content: center;
+    }
 }
+
 
 
 .mega-title {
