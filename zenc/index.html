@@ -70,13 +70,14 @@
                 </div>
 
                 <div class="newsletter-inline">
-                    <p>Stay in the loop with Zen C updates:</p>
+                    <p>Updates on Zen C progress:</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form">
                         <input type="email" name="email" id="bd-email" placeholder="email@example.com" required>
                         <input type="hidden" value="1" name="embed">
-                        <button type="submit" class="btn-subscribe">Subscribe</button>
+                        <button type="submit" class="btn btn-primary"
+                            style="padding: 10px 16px; border-radius: 4px;">Join</button>
                     </form>
                 </div>
             </div>
@@ -338,6 +339,37 @@
             </div>
         </section>
 
+        <section id="examples" class="container community-section">
+            <div class="section-header" style="margin-bottom: 3rem;">
+                <h2 class="section-title">Zen C on Rosetta Code</h2>
+                <p class="section-desc">Explore how Zen C compares to other languages through common algorithms and
+                    patterns.</p>
+            </div>
+            <div class="examples-grid">
+                <a href="https://rosettacode.org/wiki/Hello_world/Standard#Zen_C" class="example-card" target="_blank">
+                    <h3>Hello World</h3>
+                    <p>The standard entry point. Demonstrates basic function syntax and string literals.</p>
+                    <span class="example-link">View Task &rarr;</span>
+                </a>
+                <a href="https://rosettacode.org/wiki/Fibonacci_sequence#Zen_C" class="example-card" target="_blank">
+                    <h3>Fibonacci Sequence</h3>
+                    <p>Elegant recursive and iterative solutions using Zen C's modern control flow.</p>
+                    <span class="example-link">View Task &rarr;</span>
+                </a>
+                <a href="https://rosettacode.org/wiki/Generic_Swap#Zen_C" class="example-card" target="_blank">
+                    <h3>Generic Swap</h3>
+                    <p>Type-safe memory swapping using Zen C's zero-overhead monomorphized generics.</p>
+                    <span class="example-link">View Task &rarr;</span>
+                </a>
+                <a href="https://rosettacode.org/wiki/Category:Zen_C" class="example-card" target="_blank"
+                    style="border-style: dashed; background: #fdfdfc;">
+                    <h3>More Examples</h3>
+                    <p>Browse dozens of curated tasks and solutions in the official Rosetta Code category.</p>
+                    <span class="example-link">Explore All &rarr;</span>
+                </a>
+            </div>
+        </section>
+
         <section id="sponsors" class="container section-pad">
             <div class="sponsors-container">
                 <div class="sponsors-intro">
@@ -346,7 +378,7 @@
                         Zen C is strictly Open Source and community-funded.
                         Contributions via Open Collective ensure the longevity of the infrastructure.
                     </p>
-                    <a href="https://opencollective.com/zenc-lang" class="btn btn-primary" target="_blank">
+                    <a href="https://opencollective.com/z-libs" class="btn btn-primary" target="_blank">
                         View Open Collective &rarr;
                     </a>
                 </div>
@@ -452,20 +484,18 @@
         <section id="newsletter" class="newsletter-section">
             <div class="container">
                 <div class="newsletter-content">
-                    <h2 class="section-title">The Zen C Newsletter</h2>
-                    <p>Get the latest news on language features, standard library releases, and ecosystem updates
-                        delivered to your inbox.</p>
+                    <h2 class="section-title">The engineering mailing list.</h2>
+                    <p>Direct updates on language features, standard library releases, and roadmap progress.</p>
                     <div class="newsletter-form-large">
                         <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                             target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')">
-                            <input type="email" name="email" id="bd-email-large" placeholder="Your email address"
+                            <input type="email" name="email" id="bd-email-large" placeholder="email@example.com"
                                 required>
                             <input type="hidden" value="1" name="embed">
-                            <button type="submit" class="btn-subscribe">Subscribe to Updates</button>
+                            <button type="submit" class="btn btn-primary"
+                                style="padding: 14px 32px; border-radius: 8px;">Subscribe to Updates</button>
                         </form>
                     </div>
-                    <p class="newsletter-footer-note">No spam. Just engineering excellence. <a
-                            href="https://buttondown.com/zenc" target="_blank">View archives</a>.</p>
                 </div>
             </div>
         </section>
@@ -483,7 +513,7 @@
             <div class="footer-links">
                 <a href="https://docs.zenc-lang.org">Documentation</a>
                 <a href="https://git.zenc-lang.org">Source Code</a>
-                <a href="https://opencollective.com/zenc-lang">Sponsor</a>
+                <a href="https://opencollective.com/z-libs">Sponsor</a>
             </div>
         </div>
         <div class="footer-col">
