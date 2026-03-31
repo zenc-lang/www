@@ -443,23 +443,22 @@ nav a.github-link {
 
 .copy-btn-terminal {
     position: static;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.6);
-    padding: 4px 12px;
-    font-size: 0.65rem;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem;
+    width: 28px;
     height: 28px;
+    opacity: 1;
 }
 
 .copy-btn-terminal:hover {
-    background: rgba(255, 255, 255, 0.1);
     color: #fff;
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .copy-btn-terminal.copied {
-    background: #10b981;
-    color: #fff;
+    color: #10b981;
 }
 
 .terminal-icon {
@@ -811,61 +810,40 @@ pre code .z-link {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: transparent;
+    border: 1px solid transparent;
     color: var(--muted);
-    padding: 6px 12px;
-    border-radius: 99px;
-    font-size: 0.7rem;
-    font-weight: 600;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
     z-index: 10;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    white-space: nowrap;
-    overflow: hidden;
+    opacity: 0.4;
 }
 
 .copy-btn:hover {
     color: var(--fg);
-    border-color: var(--muted);
     background: var(--surface-alt);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.copy-btn i {
-    font-size: 0.8rem;
-    transition: transform 0.3s ease;
-}
-
-.copy-btn.copied {
-    background: #10b981;
-    border-color: #10b981;
-    color: white;
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-}
-
-.copy-btn span {
-    max-width: 0;
-    opacity: 0;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.copy-btn:hover span,
-.copy-btn.copied span {
-    max-width: 60px;
+    border-color: var(--border);
     opacity: 1;
 }
 
-[data-theme="dark"] .copy-btn {
-    background: rgba(40, 40, 38, 0.8);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+.copy-btn i {
+    font-size: 0.85rem;
+}
+
+.copy-btn.copied {
+    color: #10b981;
+    opacity: 1;
+}
+
+[data-theme="dark"] .copy-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 /* Specific positioning for different blocks */
