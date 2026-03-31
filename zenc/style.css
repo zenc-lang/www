@@ -2,11 +2,13 @@
     color-scheme: light dark;
     /* "Zen Garden" Light Palette (Default) */
     --bg: #fdfdfc;
+    --bg-alt: #f7f7f5;
     --surface: #ffffff;
     --surface-alt: #f1f5f9;
     --fg: #1a1a19;
     --muted: #64748b;
     --border: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.12);
     --primary: #1a1a19;
     --accent: #15803d;
     /* Zen Green */
@@ -47,11 +49,13 @@
 
 [data-theme="dark"] {
     --bg: #0c0c0b;
+    --bg-alt: #121211;
     --surface: #161615;
     --surface-alt: #1c1c1b;
-    --fg: #e2e8f0;
+    --fb: #e2e8f0;
     --muted: #94a3b8;
     --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.15);
     --primary: #f8fafc;
     --accent: #4ade80;
 
@@ -617,52 +621,53 @@ pre code .z-link {
     opacity: 0.2;
 }
 
-/* --- Bento Features --- */
+/* --- Features Flow --- */
 .bento-features {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-flow: dense;
-    gap: 1.5rem;
+    gap: 4rem;
     margin-bottom: 5rem;
 }
 
 .bento-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    border: none;
+    padding: 0;
+    border-radius: 0;
+    transition: none;
+    box-shadow: none;
+    display: block;
 }
 
 .bento-card:hover {
-    border-color: var(--muted);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    transform: none;
+    border-color: transparent;
+    box-shadow: none;
 }
 
-[data-theme="dark"] .bento-card:hover {
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-}
-
-.bento-span-2 {
-    grid-column: span 2;
+[data-theme="dark"] .bento-card {
+    background: transparent;
+    backdrop-filter: none;
 }
 
 .bento-card h3 {
-    font-size: 1.35rem;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-    color: var(--fg);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--fg-strong);
+    font-weight: 700;
 }
 
 .bento-card p {
+    font-size: 1rem;
     color: var(--muted);
-    font-size: 0.95rem;
     line-height: 1.6;
+    margin: 0;
 }
+
+.bento-span-2 {
+    grid-column: span 1;
+}
+
 
 @media (max-width: 900px) {
     .bento-features {
@@ -674,28 +679,33 @@ pre code .z-link {
     }
 }
 
-/* --- Interop Grid --- */
+/* --- Interop List --- */
 .interop-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.interop-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.interop-row:last-child {
+    border-bottom: none;
 }
 
 .interop-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    display: contents;
 }
 
-.interop-card:hover {
-    border-color: var(--muted);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
-}
 
 .interop-header {
     display: flex;
@@ -744,27 +754,20 @@ pre code .z-link {
 .videos-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 3rem;
     margin-top: 3rem;
 }
 
 .video-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: transparent;
+    border: none;
+    padding: 0;
     border-radius: 12px;
-    padding: 1rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    transition: none;
+    box-shadow: none;
 }
 
-.video-card:hover {
-    border-color: var(--muted);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] .video-card:hover {
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-}
 
 .video-wrapper {
     position: relative;
@@ -869,36 +872,82 @@ pre code .z-link {
     margin: 0 auto;
 }
 
+/* --- Integrated Tiers --- */
 .tiers-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    width: 100%;
+    gap: 4rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    padding-top: 4rem;
 }
 
 .tier-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    transition: all 0.2s ease;
-    display: flex;
-    flex-direction: column;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+    text-align: left;
 }
 
 .tier-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--muted);
+    transform: none;
+    border-color: transparent;
 }
 
 .tier-card.featured {
-    background: var(--surface);
-    border: 2px solid var(--fg);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
+
+.tier-card.featured .tier-price {
+    color: var(--accent);
+}
+
+.tier-name {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.tier-price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--fg-strong);
+}
+
+.tier-desc {
+    color: var(--fg);
+    margin-bottom: 2rem;
+}
+
+.tier-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tier-features li {
+    padding: 0.5rem 0;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+}
+
+.tier-features li::before {
+    content: "→";
+    margin-right: 0.75rem;
+    color: var(--accent);
+    font-weight: 900;
+}
+
 
 .sponsors-gallery {
     margin-top: 4rem;
