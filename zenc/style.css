@@ -1,6 +1,6 @@
 :root {
-    color-scheme: light;
-    /* "Zen Garden" Light Palette */
+    color-scheme: light dark;
+    /* "Zen Garden" Light Palette (Default) */
     --bg: #fdfdfc;
     --surface: #ffffff;
     --fg: #1a1a19;
@@ -10,17 +10,70 @@
 
     /* Syntax Highlighting - Light Theme */
     --kwd: #c2410c;
-    /* Deep Orange */
     --str: #15803d;
-    /* Dark Green */
     --typ: #7c3aed;
-    /* Violet */
     --fn: #0369a1;
-    /* Sky Blue */
     --num: #be123c;
-    /* Rose */
     --com: #94a3b8;
-    /* Slate Comment */
+    --punctuation: #64748b;
+    --variable: #1f2937;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #161615;
+        --surface: #1c1c1b;
+        --fg: #d1d1cf;
+        --muted: #8a8a88;
+        --border: rgba(232, 230, 227, 0.08);
+        --primary: #e8e6e3;
+
+        /* Syntax Highlighting - Dark Theme */
+        --kwd: #f97316;
+        --str: #a3e635;
+        --typ: #fbbf24;
+        --fn: #38bdf8;
+        --num: #fb7185;
+        --com: #71717a;
+        --punctuation: #94a3b8;
+        --variable: #e2e8f0;
+    }
+}
+
+[data-theme="dark"] {
+    --bg: #161615;
+    --surface: #1c1c1b;
+    --fg: #d1d1cf;
+    --muted: #8a8a88;
+    --border: rgba(232, 230, 227, 0.08);
+    --primary: #e8e6e3;
+
+    /* Syntax Highlighting - Dark Theme */
+    --kwd: #f97316;
+    --str: #a3e635;
+    --typ: #fbbf24;
+    --fn: #38bdf8;
+    --num: #fb7185;
+    --com: #71717a;
+    --punctuation: #94a3b8;
+    --variable: #e2e8f0;
+}
+
+[data-theme="light"] {
+    --bg: #fdfdfc;
+    --surface: #ffffff;
+    --fg: #1a1a19;
+    --muted: #6b7280;
+    --border: rgba(0, 0, 0, 0.06);
+    --primary: #1a1a19;
+
+    /* Syntax Highlighting - Light Theme */
+    --kwd: #c2410c;
+    --str: #15803d;
+    --typ: #7c3aed;
+    --fn: #0369a1;
+    --num: #be123c;
+    --com: #94a3b8;
     --punctuation: #64748b;
     --variable: #1f2937;
 }
@@ -1592,4 +1645,46 @@ footer.container {
     height: 64px;
     margin-bottom: 1.5rem;
     opacity: 0.8;
+}
+/* --- Theme Toggle --- */
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-left: 2rem;
+}
+
+.theme-toggle:hover {
+    color: var(--primary);
+    border-color: var(--muted);
+    background: rgba(128, 128, 128, 0.05);
+}
+
+.sun-icon { display: none; }
+.moon-icon { display: block; }
+
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+
+/* Handle system preference icons */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) .sun-icon { display: block; }
+    html:not([data-theme="light"]) .moon-icon { display: none; }
+}
+
+@media (max-width: 900px) {
+    .theme-toggle {
+        margin-left: 0;
+        width: 100%;
+        height: 44px;
+        margin-top: 1rem;
+    }
 }
