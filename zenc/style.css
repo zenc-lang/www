@@ -2026,29 +2026,24 @@ section {
 }
 
 /* --- Zibi Mascot --- */
-/* --- Zibi Mascot --- */
 .zibi-wrapper {
     position: absolute;
-    /* Position relative to the center, so he stays with the content until 1200px */
-    left: calc(50% - 600px - 140px);
+    /* Starts at the screen corner (0) and only slides off (negative) below 1200px */
+    left: clamp(-160px, calc(50vw - 600px), 0px);
     bottom: 0;
     width: 140px;
     height: auto;
     z-index: 5;
     pointer-events: none;
     line-height: 0;
-    /* No scale transition needed, he slides naturally with width changes above 1200px */
 }
-
-/* Below 1200px, he begins to "slide out" of the viewport gradually 
-   because calc(50% ...) moves him further left as 50% value decreases.
-*/
 
 @media (max-width: 900px) {
     .zibi-wrapper {
         display: none;
     }
 }
+
 
 
 
