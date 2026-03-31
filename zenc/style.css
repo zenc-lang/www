@@ -1969,3 +1969,18 @@ footer.container {
         margin-top: 1rem;
     }
 }
+/* --- Zibi Mascot --- */
+.peeking-character {
+  position: fixed;       /* Keeps it in the same place even when scrolling */
+  left: 0;               /* Pins it tight to the left edge */
+  bottom: 10%;           /* Positions it near the bottom of the screen */
+  width: 120px;          /* Adjust the size as needed */
+  z-index: 9999;         /* Ensures it stays on top of your site's content */
+  pointer-events: none;  /* Prevents it from blocking clicks on your site */
+  transition: transform 0.3s ease;
+}
+
+/* Subtle peek out on hover (though pointer-events is none, this is for future if changed) */
+.peeking-character:hover {
+  transform: translateX(10px);
+}
