@@ -10,3 +10,7 @@ docs.zenc-lang.org/public/
 
 # Ignore system files
 .DS_Store
+
+# Ignore generated sponsors data
+docs.zenc-lang.org/static/data/sponsors.json
+zenc/sponsors.json
