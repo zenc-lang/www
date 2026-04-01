@@ -325,7 +325,7 @@
         {% else %}
         {% set check = page.title ~ "/" %}
         {% for other in std_section.pages %}
-        {% if other.title is starting_with(pat=check) %}
+        {% if check in other.title %}
         {% set_global is_namespace = true %}
         {% endif %}
         {% endfor %}
