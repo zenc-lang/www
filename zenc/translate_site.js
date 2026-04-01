@@ -23,6 +23,7 @@ const locales = {
         interop: { title: "Arquitectura Políglota", desc: "Zen C se adapta a tu ecosistema.", cuda: "Escribe kernels de GPU.", cpp: "Genera código C++.", objc: "Soporte macOS." },
         rosetta: { title: "Rosetta Code", desc: "Zen C es un ciudadano de primera clase.", btn: "Explorar &rarr;" },
         footer: { tag: "Ergonomía moderna. C puro.", project: "Proyecto", src: "Código Fuente", spon: "Patrocinar", news_title: "Boletín", news_desc: "Únete a la lista de correo.", sub: "Suscribirse" },
+        news_hero: { title: "La lista de correo para ingenieros.", desc: "Actualizaciones directas sobre características del lenguaje, lanzamientos de la biblioteca estándar y progreso de la hoja de ruta.", btn: "Suscribirse a las Actualizaciones" },
         videos: { title: "Videos Comunitarios", desc: "Mira tutoriales creados por la comunidad." },
         roadmap: {
             title: "El Camino a Seguir", desc: "Nuestra hoja de ruta hacia la madurez.",
@@ -57,6 +58,7 @@ const locales = {
         interop: { title: "Polyglott", desc: "Passt sich an.", cuda: "GPU-Kernels.", cpp: "C++ Code.", objc: "macOS." },
         rosetta: { title: "Rosetta Code", desc: "Vergleichen Sie Syntax.", btn: "Erkunden &rarr;" },
         footer: { tag: "Reines C.", project: "Projekt", src: "Quellcode", spon: "Sponsern", news_title: "Newsletter", news_desc: "Mailingliste.", sub: "Abonnieren" },
+        news_hero: { title: "Die E-Mailing-Liste für Ingenieure.", desc: "Direkte Updates zu Sprachfunktionen, Veröffentlichungen der Standardbibliothek und Roadmap-Fortschritt.", btn: "Updates abonnieren" },
         videos: { title: "Videos", desc: "Tutorials ansehen." },
         roadmap: {
             title: "Der Weg", desc: "Roadmap zur Reife.",
@@ -91,6 +93,7 @@ const locales = {
         interop: { title: "Poliglotta", desc: "Si adatta al tuo ecosistema.", cuda: "GPU.", cpp: "C++.", objc: "macOS." },
         rosetta: { title: "Rosetta Code", desc: "Confronta la sintassi.", btn: "Esplora &rarr;" },
         footer: { tag: "Puro C.", project: "Progetto", src: "Codice", spon: "Sponsorizza", news_title: "Newsletter", news_desc: "Unisciti.", sub: "Iscriviti" },
+        news_hero: { title: "La mailing list per ingegneri.", desc: "Aggiornamenti diretti sulle funzionalità del linguaggio, rilasci della libreria standard e progressi della roadmap.", btn: "Iscriviti agli aggiornamenti" },
         videos: { title: "Video", desc: "Guarda i tutorial." },
         roadmap: {
             title: "Il Percorso", desc: "Roadmap.",
@@ -125,6 +128,7 @@ const locales = {
         interop: { title: "Poliglota", desc: "Adapta-se.", cuda: "GPU.", cpp: "C++.", objc: "macOS." },
         rosetta: { title: "Rosetta Code", desc: "Compare a sintaxe.", btn: "Explorar &rarr;" },
         footer: { tag: "C Puro.", project: "Projeto", src: "Código", spon: "Patrocinar", news_title: "Boletim", news_desc: "Lista de e-mails.", sub: "Inscrever" },
+        news_hero: { title: "A lista de e-mail para engenheiros.", desc: "Atualizações diretas sobre recursos da linguagem, lançamentos da biblioteca padrão e progresso do roteiro.", btn: "Inscrever-se para atualizações" },
         videos: { title: "Vídeos", desc: "Assista tutoriais." },
         roadmap: {
             title: "O Caminho", desc: "Roteiro.",
@@ -159,7 +163,8 @@ const locales = {
         interop: { title: "Полиглот", desc: "Адаптация.", cuda: "GPU.", cpp: "C++.", objc: "macOS." },
         rosetta: { title: "Rosetta Code", desc: "Сравните синтаксис.", btn: "Смотреть &rarr;" },
         footer: { tag: "Чистый C.", project: "Проект", src: "Код", spon: "Спонсоры", news_title: "Новости", news_desc: "Рассылка.", sub: "Подписка" },
-        videos: { title: "Видео", desc: "Смотреть туториалы." },
+        news_hero: { title: "Список рассылки для инженеров.", desc: "Прямые обновления о функциях языка, выпусках стандартной библиотеки и ходе работы над планом.", btn: "Подписаться на обновления" },
+        videos: { title: "Видео", desc: "Смотреть видео." },
         roadmap: {
             title: "План", desc: "Дорожная карта.",
             p1_phase: "Текущее", p1_title: "Ядро", p1_1: "Компиляция в C", p1_2: "C++ Interop", p1_3: "RAII", p1_4: "Generics", p1_5: "LSP",
@@ -193,6 +198,7 @@ const locales = {
         interop: { title: "互操作", desc: "适应生态。", cuda: "GPU.", cpp: "C++.", objc: "macOS." },
         rosetta: { title: "Rosetta Code", desc: "语法对比。", btn: "探索 &rarr;" },
         footer: { tag: "纯粹的 C。", project: "项目", src: "源码", spon: "赞助", news_title: "通讯", news_desc: "加入邮件列表。", sub: "订阅" },
+        news_hero: { title: "工程师的邮件列表。", desc: "关于语言特性、标准库发布和路线图进展的直接更新。", btn: "订阅更新" },
         videos: { title: "社区视频", desc: "观看教程。" },
         roadmap: {
             title: "路线图", desc: "我们的愿景。",
@@ -227,6 +233,7 @@ const locales = {
         interop: { title: "互通", desc: "適應生態。", cuda: "GPU.", cpp: "C++.", objc: "macOS." },
         rosetta: { title: "Rosetta Code", desc: "語法對比。", btn: "探索 &rarr;" },
         footer: { tag: "純粹的 C。", project: "專案", src: "原始碼", spon: "贊助", news_title: "電子報", news_desc: "加入郵件列表。", sub: "訂閱" },
+        news_hero: { title: "工程師的郵件列表。", desc: "關於語言特性、標準庫發布和路線圖進展的直接更新。", btn: "訂閱更新" },
         videos: { title: "社區影片", desc: "觀看教學。" },
         roadmap: {
             title: "路線圖", desc: "我們的願景。",
@@ -347,7 +354,12 @@ const regexes = [
     { eng: /<li>✓ Priority Support<\/li>/, key: 'sponsors.t3_1', tag: '<li>✓ {VAL}</li>' },
     { eng: /<li>✓ Logo on Homepage<\/li>/, key: 'sponsors.t3_2', tag: '<li>✓ {VAL}</li>' },
     { eng: /<h3 class="gallery-title">Active Sponsors<\/h3>/, key: 'sponsors.active', tag: '<h3 class="gallery-title">{VAL}</h3>' },
-    { eng: /<div class="loading-sponsors">Loading sponsors\.\.\.<\/div>/, key: 'sponsors.loading', tag: '<div class="loading-sponsors">{VAL}</div>' }
+    { eng: /<div class="loading-sponsors">Loading sponsors\.\.\.<\/div>/, key: 'sponsors.loading', tag: '<div class="loading-sponsors">{VAL}</div>' },
+
+    // Final newsletter mappings
+    { eng: /<h2 class="section-title">The engineering mailing list.<\/h2>/, key: 'news_hero.title', tag: '<h2 class="section-title">{VAL}</h2>' },
+    { eng: /<p>Direct updates on language features, standard library releases, and roadmap progress.<\/p>/, key: 'news_hero.desc', tag: '<p>{VAL}</p>' },
+    { eng: /<button type="submit" class="btn btn-primary"[^>]*>Subscribe to Updates<\/button>/, key: 'news_hero.btn', tag: '<button type="submit" class="btn btn-primary" style="padding: 14px 32px; border-radius: 8px;">{VAL}</button>' }
 ];
 
 function resolveKey(obj, path) {
