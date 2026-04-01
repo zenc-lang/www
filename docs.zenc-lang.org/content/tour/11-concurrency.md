@@ -1,0 +1,18 @@
++++
+title = "11. Concurrency (Async/Await)"
+weight = 11
++++
+
+Built on pthreads natively within the C output.
+
+```zc
+async fn fetch_data() -> string {
+    // Runs in background
+    return "Data";
+}
+
+fn main() {
+    let future = fetch_data();
+    let result = await future;
+}
+```

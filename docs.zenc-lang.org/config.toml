@@ -22,3 +22,4 @@ render_with_code_block_copy_button = true
 
 [search]
 build_search_index = true
+index_format = "elasticlunr_javascript"

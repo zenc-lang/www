@@ -590,6 +590,25 @@
                 <div class="search-results" id="search-results"></div>
             </div>
 
+            <div class="sidebar-group" id="group-tour">
+                <div class="sidebar-header" onclick="toggleSidebarGroup('group-tour')">
+                    <div class="sidebar-title">Tour of Zen C</div>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="sidebar-links">
+                    {% set tour_section = get_section(path="tour/_index.md") %}
+                    {% for page in tour_section.pages | sort(attribute="weight") %}
+                    <a href="{{ page.permalink }}"
+                        class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
+                        {{ page.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
             <div class="sidebar-group" id="group-std">
                 <div class="sidebar-header" onclick="toggleSidebarGroup('group-std')">
                     <div class="sidebar-title">Standard Library</div>
@@ -678,7 +697,7 @@
         </div>
     </footer>
 
-    <script src="{{ get_url(path='elasticlunr.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js"></script>
     <script src="{{ get_url(path='search_index.en.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -740,7 +759,7 @@
             };
 
             // Initialize sidebar states
-            ['group-std', 'group-examples'].forEach(id => {
+            ['group-tour', 'group-std', 'group-examples'].forEach(id => {
                 const group = document.getElementById(id);
                 if (!group) return;
 
