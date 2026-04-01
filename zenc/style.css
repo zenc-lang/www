@@ -654,65 +654,103 @@ pre code .z-link {
     opacity: 0.2;
 }
 
-/* --- Bento Features --- */
-.bento-features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-auto-flow: dense;
-    gap: 1.5rem;
-    margin-bottom: 5rem;
-}
-
-
-.bento-card {
+/* --- Features Struct --- */
+.features-struct {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem;
+    border-radius: 12px;
+    padding: 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    max-width: 1000px;
+    margin: 3rem auto 0;
+    position: relative;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+.struct-declaration,
+.struct-footer {
+    color: var(--fg);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.struct-footer {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+.struct-body {
+    padding-left: 2rem;
+}
+
+.struct-member {
+    padding: 0.75rem 1rem;
+    border-left: 2px solid transparent;
+    transition: all 0.2s ease;
+    cursor: default;
+    border-radius: 0 4px 4px 0;
+    line-height: 1.6;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-wrap: wrap;
+    align-items: baseline;
 }
 
-.bento-card:hover {
-    border-color: var(--muted);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+.struct-member:hover {
+    background: var(--surface-alt);
+    border-left-color: var(--primary);
+    transform: translateX(4px);
 }
 
-[data-theme="dark"] .bento-card:hover {
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+.struct-member .typ {
+    color: #60a5fa;
+    margin-right: 0.75rem;
 }
 
-.bento-span-2 {
-    grid-column: span 2;
+.struct-member .fn {
+    color: #fbbf24;
 }
 
-.bento-card h3 {
-    font-size: 1.35rem;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
+.struct-member .kwd {
+    color: var(--primary);
+}
+
+.struct-member .com {
+    color: var(--muted);
+    margin-left: 1.5rem;
+    font-style: italic;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.struct-member:hover .com {
+    opacity: 1;
     color: var(--fg);
 }
 
-.bento-card p {
-    color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.6;
-}
-
-
-
-@media (max-width: 1050px) {
-    .bento-features {
-        grid-template-columns: 1fr;
+@media (max-width: 900px) {
+    .features-struct {
+        padding: 1.5rem;
+        font-size: 0.85rem;
     }
 
-    .bento-span-2 {
-        grid-column: span 1;
+    .struct-body {
+        padding-left: 1rem;
+    }
+
+    .struct-member {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        padding-left: 0.75rem;
+    }
+
+    .struct-member .com {
+        margin-left: 0;
+        margin-top: 0.25rem;
     }
 }
+
 
 
 /* --- Interop Grid --- */
