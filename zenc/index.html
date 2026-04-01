@@ -218,7 +218,7 @@
             <div class="features-split">
                 <!-- Left: Terminal -->
                 <div class="hero-code features-code-panel">
-                    <div class="code-header-simple">
+                    <div class="code-header-simple clickable-copy" onclick="copyCode(this)">
                         <div class="window-controls">
                             <span class="control red"></span>
                             <span class="control yellow"></span>
@@ -231,8 +231,9 @@
                                 <polyline points="4 17 10 11 4 5"></polyline>
                                 <line x1="12" y1="19" x2="20" y2="19"></line>
                             </svg>
-                            <span class="file-name-mono">features.zc</span>
+                            <span class="file-name-mono">point.zc</span>
                         </div>
+                        <div class="terminal-icon"><i class="fa-regular fa-copy"></i></div>
                     </div>
 
                     <div class="code-body">
@@ -246,18 +247,67 @@
                             <span>7</span>
                             <span>8</span>
                             <span>9</span>
+                            <span>10</span>
+                            <span>11</span>
+                            <span>12</span>
+                            <span>13</span>
+                            <span>14</span>
+                            <span>15</span>
+                            <span>16</span>
+                            <span>17</span>
+                            <span>18</span>
+                            <span>19</span>
+                            <span>20</span>
+                            <span>21</span>
+                            <span>22</span>
+                            <span>23</span>
+                            <span>24</span>
+                            <span>25</span>
+                            <span>26</span>
+                            <span>27</span>
+                            <span>28</span>
+                            <span>29</span>
+                            <span>30</span>
+                            <span>31</span>
+                            <span>32</span>
                         </div>
+
                         <pre><code><span class="kwd">struct</span> <span class="typ">ZenC_Features</span> {
     <span class="fn">transparent_compilation</span>: <span class="typ">bool</span>;
     <span class="fn">native_c_abi</span>:            <span class="typ">bool</span>;
     <span class="fn">resource_management</span>:     <span class="typ">bool</span>;
     <span class="fn">monomorphization</span>:        <span class="typ">bool</span>;
-    <span class="fn">async_await</span>:             <span class="typ">bool</span>;
     <span class="fn">pattern_matching</span>:        <span class="typ">bool</span>;
-    <span class="fn">zero_cost_generics</span>:      <span class="typ">bool</span>;
+    <span class="fn">async_await</span>:             <span class="typ">bool</span>;
+}
+
+<span class="kwd">impl</span> <span class="typ">ZenC_Features</span> {
+    <span class="com">// Constructor — all features ship enabled</span>
+    <span class="kwd">fn</span> <span class="fn">new</span>() -> <span class="typ">Self</span> {
+        <span class="kwd">return</span> <span class="typ">ZenC_Features</span>{
+            <span class="fn">transparent_compilation</span>: <span class="kwd">true</span>,
+            <span class="fn">native_c_abi</span>:            <span class="kwd">true</span>,
+            <span class="fn">resource_management</span>:     <span class="kwd">true</span>,
+            <span class="fn">monomorphization</span>:        <span class="kwd">true</span>,
+            <span class="fn">pattern_matching</span>:        <span class="kwd">true</span>,
+            <span class="fn">async_await</span>:             <span class="kwd">true</span>,
+        };
+    }
+
+    <span class="com">// Describe the language in one line</span>
+    <span class="kwd">fn</span> <span class="fn">describe</span>(<span class="kwd">self</span>) {
+        <span class="fn">println</span> <span class="str">"Zen C: zero overhead, total control."</span>;
+    }
+}
+
+<span class="kwd">fn</span> <span class="fn">main</span>() {
+    <span class="kwd">let</span> <span class="fn">zc</span> = <span class="typ">ZenC_Features</span>::<span class="fn">new</span>();
+    <span class="fn">zc</span>.<span class="fn">describe</span>();
 }</code></pre>
+
                     </div>
                 </div>
+
 
                 <!-- Right: Feature descriptions -->
                 <div class="features-list">
