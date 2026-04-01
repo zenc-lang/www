@@ -1249,12 +1249,11 @@ pre code .z-link {
 }
 
 /* --- Roadmap Timeline --- */
-.roadmap-container {
-    position: relative;
-    max-width: 900px;
+.roadmap-grid-wrapper {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 0;
 }
+
 
 section {
     padding: 6rem 0;
@@ -1267,181 +1266,75 @@ section {
 }
 
 
-/* Gradient fading line */
-.roadmap-line {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    background: linear-gradient(to bottom,
-            transparent 0%,
-            var(--border) 10%,
-            var(--border) 90%,
-            transparent 100%);
-    transform: translateX(-50%);
+/* --- Roadmap Array Grid --- */
+.roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 3rem;
+    padding: 2rem 0;
 }
 
 .roadmap-item {
-    position: relative;
-    width: 50%;
-    padding: 0 3rem 4rem 0;
-    text-align: right;
-    perspective: 1000px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
 }
 
-.roadmap-item:nth-child(even) {
-    left: 50%;
-    padding: 0 0 4rem 3rem;
-    text-align: left;
-}
-
-/* Polished Node Markers */
-.roadmap-marker {
-    position: absolute;
-    top: 0;
-    right: -8px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 3px solid var(--muted);
-    z-index: 2;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 0 0 4px var(--bg);
-}
-
-.roadmap-item:nth-child(even) .roadmap-marker {
-    left: -8px;
-    right: auto;
-}
-
-/* Active State with Pulse Animation */
-.roadmap-item.active .roadmap-marker {
-    border-color: var(--kwd);
-    background: var(--bg);
-    box-shadow: 0 0 0 4px var(--bg), 0 0 20px var(--kwd);
-    animation: pulse-marker 2.5s infinite;
-}
-
-@keyframes pulse-marker {
-    0% {
-        box-shadow: 0 0 0 4px var(--bg), 0 0 0 0 rgba(249, 115, 22, 0.4);
-    }
-
-    70% {
-        box-shadow: 0 0 0 4px var(--bg), 0 0 0 15px rgba(249, 115, 22, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 4px var(--bg), 0 0 0 0 rgba(249, 115, 22, 0);
-    }
-}
-
-/* Base Cards */
-.roadmap-content {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
-}
-
-.roadmap-content:hover {
-    border-color: var(--muted);
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-}
-
-.roadmap-item.active .roadmap-content {
-    border: 1px solid var(--kwd);
-    background: var(--surface-alt);
-}
-
-[data-theme="dark"] .roadmap-content {
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-}
-
-[data-theme="dark"] .roadmap-content:hover {
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
-}
-
-/* Badge-style Phase Labels */
-.roadmap-phase {
-    display: inline-block;
+.roadmap-index {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+}
+
+.roadmap-phase {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
     color: var(--muted);
-    background: rgba(255, 255, 255, 0.05);
-    padding: 4px 12px;
-    border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
     font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .roadmap-item.active .roadmap-phase {
-    color: var(--kwd);
-    background: rgba(249, 115, 22, 0.1);
-    border-color: rgba(249, 115, 22, 0.2);
+    color: var(--fg);
 }
 
 .roadmap-content h3 {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     color: var(--fg);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
 }
 
-/* Refined Terminal-style List */
 .roadmap-list {
     list-style: none;
     color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 0.85rem;
+    line-height: 1.5;
 }
 
 .roadmap-list li {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.1rem;
     position: relative;
     opacity: 0.85;
-    transition: opacity 0.2s, color 0.2s;
 }
 
-.roadmap-list li:hover {
-    opacity: 1;
-    color: var(--fg);
-}
-
-.roadmap-item:nth-child(odd) .roadmap-list li {
-    padding-right: 1.5rem;
-}
-
-.roadmap-item:nth-child(even) .roadmap-list li {
-    padding-left: 1.5rem;
-}
-
-.roadmap-item:nth-child(odd) .roadmap-list li::after {
-    content: "→";
-    position: absolute;
-    right: 0;
-    color: var(--primary);
-    opacity: 0.3;
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.roadmap-item:nth-child(even) .roadmap-list li::before {
+.roadmap-list li::before {
     content: "→";
     position: absolute;
     left: 0;
     color: var(--primary);
-    opacity: 0.3;
+    opacity: 0.4;
     font-family: 'JetBrains Mono', monospace;
 }
+
+
 
 /* --- Mobile Responsiveness --- */
 @media (max-width: 900px) {
@@ -1632,47 +1525,7 @@ section {
         gap: 0.5rem;
     }
 
-    /* Mobile Roadmap */
-    .roadmap-line {
-        left: 0;
-        transform: none;
-    }
 
-    .roadmap-item,
-    .roadmap-item:nth-child(even) {
-        width: 100%;
-        left: 0;
-        padding: 0 0 3rem 2rem;
-        text-align: left;
-    }
-
-    .roadmap-marker,
-    .roadmap-item:nth-child(even) .roadmap-marker {
-        left: -8px;
-        right: auto;
-    }
-
-    .roadmap-content {
-        padding: 1.5rem;
-    }
-
-    .roadmap-item:nth-child(odd) .roadmap-list li {
-        padding-right: 0;
-        padding-left: 1.5rem;
-    }
-
-    .roadmap-item:nth-child(odd) .roadmap-list li::after {
-        display: none;
-    }
-
-    .roadmap-item:nth-child(odd) .roadmap-list li::before {
-        content: "→";
-        position: absolute;
-        left: 0;
-        color: var(--primary);
-        opacity: 0.3;
-        font-family: 'JetBrains Mono', monospace;
-    }
 }
 
 /* --- Newsletter Section --- */
