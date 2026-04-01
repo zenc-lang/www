@@ -654,50 +654,72 @@ pre code .z-link {
     opacity: 0.2;
 }
 
-/* --- Features Terminal Integration --- */
-.features-terminal .code-body {
-    padding: 1.5rem 0;
-    /* Vertical padding, horizontal handled by line-numbers */
+/* --- Features Split Layout --- */
+.features-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-top: 3rem;
 }
 
-.features-terminal .line-numbers {
-    padding-top: 0.5rem;
-}
-
-.features-terminal .features-struct {
-    padding: 0.5rem 0;
+.features-code-panel {
     width: 100%;
 }
 
-.features-terminal .struct-declaration {
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    color: var(--fg);
-}
-
-.features-terminal .struct-body {
-    padding-left: 3rem;
-}
-
-.features-terminal .struct-footer {
-    padding-left: 1.5rem;
-    margin-top: 0.5rem;
-    font-size: 0.95rem;
-    color: var(--fg);
-}
-
-.features-terminal .struct-member {
-    padding: 0.25rem 1rem;
-    line-height: 1.6;
-    font-size: 0.95rem;
+/* Feature list (right column) */
+.features-list {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    border-left: 2px solid transparent;
-    transition: all 0.2s ease;
+    flex-direction: column;
+    gap: 0;
 }
 
+.feature-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.feature-item:first-child {
+    padding-top: 0;
+}
+
+.feature-item:last-child {
+    border-bottom: none;
+}
+
+.feature-field {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 0.35rem;
+}
+
+.feature-field .fn {
+    color: var(--fn);
+}
+
+.feature-item p {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.feature-item code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--typ);
+    background: var(--surface-alt);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+}
+
+@media (max-width: 900px) {
+    .features-split {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
 
 
 .struct-member:hover {

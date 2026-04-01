@@ -215,71 +215,86 @@
                     modern language.</p>
             </div>
 
-            <div class="features-terminal hero-code">
-                <div class="code-header-simple clickable-copy" onclick="copyCode(this)">
-                    <div class="window-controls">
-                        <span class="control red"></span>
-                        <span class="control yellow"></span>
-                        <span class="control green"></span>
+            <div class="features-split">
+                <!-- Left: Terminal -->
+                <div class="hero-code features-code-panel">
+                    <div class="code-header-simple">
+                        <div class="window-controls">
+                            <span class="control red"></span>
+                            <span class="control yellow"></span>
+                            <span class="control green"></span>
+                        </div>
+                        <div class="file-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="terminal-icon">
+                                <polyline points="4 17 10 11 4 5"></polyline>
+                                <line x1="12" y1="19" x2="20" y2="19"></line>
+                            </svg>
+                            <span class="file-name-mono">features.zc</span>
+                        </div>
                     </div>
-                    <div class="file-info">
-                        <span class="file-name-mono">features.zc</span>
+
+                    <div class="code-body">
+                        <div class="line-numbers">
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>7</span>
+                            <span>8</span>
+                            <span>9</span>
+                        </div>
+                        <pre><code><span class="kwd">struct</span> <span class="typ">ZenC_Features</span> {
+    <span class="fn">transparent_compilation</span>: <span class="typ">bool</span>;
+    <span class="fn">native_c_abi</span>:            <span class="typ">bool</span>;
+    <span class="fn">resource_management</span>:     <span class="typ">bool</span>;
+    <span class="fn">monomorphization</span>:        <span class="typ">bool</span>;
+    <span class="fn">async_await</span>:             <span class="typ">bool</span>;
+    <span class="fn">pattern_matching</span>:        <span class="typ">bool</span>;
+    <span class="fn">zero_cost_generics</span>:      <span class="typ">bool</span>;
+}</code></pre>
                     </div>
-                    <div class="terminal-icon"><i class="fa-regular fa-copy"></i></div>
                 </div>
 
-                <div class="code-body">
-                    <div class="line-numbers">
-                        <span>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>5</span>
-                        <span>6</span>
-                        <span>7</span>
-                        <span>8</span>
-                        <span>9</span>
+                <!-- Right: Feature descriptions -->
+                <div class="features-list">
+                    <div class="feature-item">
+                        <span class="feature-field"><span class="fn">transparent_compilation</span></span>
+                        <p>Transpiles directly to clean, readable GNU C11 — no magic, no black boxes.</p>
                     </div>
-                    <div class="features-struct">
-                        <div class="struct-declaration">
-                            <span class="kwd">struct</span> <span class="typ">ZenC_Features</span> {
-                        </div>
-
-                        <div class="struct-body">
-                            <div class="struct-member">
-                                <span class="fn">transparent_compilation</span>: <span class="typ">bool</span>; <span
-                                    class="com">// Transpiles to GNU C11.</span>
-                            </div>
-                            <div class="struct-member">
-                                <span class="fn">native_c_abi</span>: <span class="typ">bool</span>; <span
-                                    class="com">// Call C functions effortlessly.</span>
-                            </div>
-                            <div class="struct-member">
-                                <span class="fn">resource_management</span>: <span class="typ">bool</span>; <span
-                                    class="com">// Implicit Drop trait.</span>
-                            </div>
-                            <div class="struct-member">
-                                <span class="fn">monomorphization</span>: <span class="typ">bool</span>; <span
-                                    class="com">// Zero-overhead generics.</span>
-                            </div>
-                            <div class="struct-member">
-                                <span class="fn">async_await</span>: <span class="typ">bool</span>; <span class="com">//
-                                    High-performance I/O.</span>
-                            </div>
-                        </div>
-
-                        <div class="struct-footer">
-                            }
-                        </div>
+                    <div class="feature-item">
+                        <span class="feature-field"><span class="fn">native_c_abi</span></span>
+                        <p>Call any C function, use any C struct. Zero FFI boilerplate.</p>
                     </div>
-
+                    <div class="feature-item">
+                        <span class="feature-field"><span class="fn">resource_management</span></span>
+                        <p>Implicit <code>Drop</code> trait prevents memory leaks without a GC.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-field"><span class="fn">monomorphization</span></span>
+                        <p>Zero-overhead generics — specialized at compile time, not runtime.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-field"><span class="fn">async_await</span></span>
+                        <p>High-performance async I/O without callback hell or hidden runtimes.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-field"><span class="fn">pattern_matching</span></span>
+                        <p>Exhaustive <code>match</code> on enums and tuples for bulletproof control flow.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-field"><span class="fn">zero_cost_generics</span></span>
+                        <p>Parametric types that disappear at compile time — no virtual dispatch.</p>
+                    </div>
                 </div>
             </div>
-
-
-
-
         </section>
+
+
+
 
         <section id="interop" class="container section-pad">
             <div class="section-header">
