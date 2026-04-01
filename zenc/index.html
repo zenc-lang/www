@@ -272,7 +272,7 @@
                             <span>32</span>
                         </div>
 
-                        <pre><code><span class="kwd">struct</span> <span class="typ">ZenC_Features</span> {
+                        <pre><code><span class="kwd">struct</span> <span class="typ">Features</span> {
     <span class="fn">transparent_compilation</span>: <span class="typ">bool</span>;
     <span class="fn">native_c_abi</span>:            <span class="typ">bool</span>;
     <span class="fn">resource_management</span>:     <span class="typ">bool</span>;
@@ -281,10 +281,10 @@
     <span class="fn">async_await</span>:             <span class="typ">bool</span>;
 }
 
-<span class="kwd">impl</span> <span class="typ">ZenC_Features</span> {
-    <span class="com">// Constructor — all features ship enabled</span>
+<span class="kwd">impl</span> <span class="typ">Features</span> {
+    <span class="com">// Constructor. All features ship enabled!</span>
     <span class="kwd">fn</span> <span class="fn">new</span>() -> <span class="typ">Self</span> {
-        <span class="kwd">return</span> <span class="typ">ZenC_Features</span>{
+        <span class="kwd">return</span> <span class="typ">Features</span>{
             <span class="fn">transparent_compilation</span>: <span class="kwd">true</span>,
             <span class="fn">native_c_abi</span>:            <span class="kwd">true</span>,
             <span class="fn">resource_management</span>:     <span class="kwd">true</span>,
@@ -296,12 +296,12 @@
 
     <span class="com">// Describe the language in one line</span>
     <span class="kwd">fn</span> <span class="fn">describe</span>(<span class="kwd">self</span>) {
-        <span class="fn">println</span> <span class="str">"Zen C: zero overhead, total control."</span>;
+        <span class="fn">println</span> <span class="str">"Modern Ergonomics. Zero Overhead. Pure C."</span>;
     }
 }
 
 <span class="kwd">fn</span> <span class="fn">main</span>() {
-    <span class="kwd">let</span> <span class="fn">zc</span> = <span class="typ">ZenC_Features</span>::<span class="fn">new</span>();
+    <span class="kwd">let</span> <span class="fn">zc</span> = <span class="typ">Features</span>::<span class="fn">new</span>();
     <span class="fn">zc</span>.<span class="fn">describe</span>();
 }</code></pre>
 
@@ -313,7 +313,7 @@
                 <div class="features-list">
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">transparent_compilation</span></span>
-                        <p>Transpiles directly to clean, readable GNU C11 — no magic, no black boxes.</p>
+                        <p>Transpiles directly to clean, readable GNU C11: pure C without black boxes.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">native_c_abi</span></span>
@@ -325,7 +325,7 @@
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">monomorphization</span></span>
-                        <p>Zero-overhead generics — specialized at compile time, not runtime.</p>
+                        <p>Zero-overhead generics: specialized at compile time, not runtime.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">async_await</span></span>
@@ -337,7 +337,7 @@
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">zero_cost_generics</span></span>
-                        <p>Parametric types that disappear at compile time — no virtual dispatch.</p>
+                        <p>Parametric types that disappear at compile time: no virtual dispatch.</p>
                     </div>
                 </div>
             </div>
