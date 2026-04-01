@@ -654,46 +654,50 @@ pre code .z-link {
     opacity: 0.2;
 }
 
-/* --- Features Struct --- */
-.features-struct {
-    font-family: 'JetBrains Mono', monospace;
-    max-width: 1000px;
+/* --- Features Terminal Integration --- */
+.features-terminal .code-body {
+    padding: 1.5rem 0;
+    /* Vertical padding, horizontal handled by line-numbers */
+}
+
+.features-terminal .line-numbers {
+    padding-top: 0.5rem;
+}
+
+.features-terminal .features-struct {
+    padding: 0.5rem 0;
     width: 100%;
-    margin: 0 auto;
-    position: relative;
-    box-sizing: border-box;
 }
 
-
-
-.struct-declaration,
-.struct-footer {
+.features-terminal .struct-declaration {
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
     color: var(--fg);
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
 }
 
-.struct-footer {
-    margin-top: 1.5rem;
-    margin-bottom: 0;
+.features-terminal .struct-body {
+    padding-left: 3rem;
 }
 
-.struct-body {
-    padding-left: 2rem;
+.features-terminal .struct-footer {
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--fg);
 }
 
-.struct-member {
-    padding: 0.75rem 1rem;
-    border-left: 2px solid transparent;
-    transition: all 0.2s ease;
-    cursor: default;
-    border-radius: 0 4px 4px 0;
+.features-terminal .struct-member {
+    padding: 0.25rem 1rem;
     line-height: 1.6;
+    font-size: 0.95rem;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    overflow: hidden;
+    border-left: 2px solid transparent;
+    transition: all 0.2s ease;
 }
+
 
 
 .struct-member:hover {
