@@ -434,9 +434,7 @@
             <span class="cm">{{ trans(key="stdlib-imports") }}</span>
         </div>
         <div class="import-grid">
-            {% if lang != "en" %}{% set std_path = "std/_index." ~ lang ~ ".md" %}{% else %}{% set std_path =
-            "std/_index.md" %}{% endif %}
-            {% set std_section = get_section(path=std_path) %}
+            {% set std_section = get_section(path="std/_index.md") %}
             {% for page in std_section.pages | sort(attribute="title") %}
             {% set_global is_namespace = false %}
             {% if page.extra.is_namespace is defined and page.extra.is_namespace %}
