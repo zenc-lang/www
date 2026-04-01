@@ -853,8 +853,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% if lang != "en" %}{% set std_path = "std/_index." ~ lang ~ ".md" %}{% else %}{% set std_path =
-                    "std/_index.md" %}{% endif %}
+                    {% set std_path = "std/_index.md" %}
                     {% set std_section = get_section(path=std_path) %}
                     {% for page in std_section.pages | sort(attribute="title") %}
                     <a href="{{ page.permalink }}"
@@ -874,8 +873,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% if lang != "en" %}{% set ex_path = "examples/rosetta/_index." ~ lang ~ ".md" %}{% else %}{% set
-                    ex_path = "examples/rosetta/_index.md" %}{% endif %}
+                    {% set ex_path = "examples/rosetta/_index.md" %}
                     {% set rosetta_section = get_section(path=ex_path) %}
                     {% for page in rosetta_section.pages | sort(attribute="title") %}
                     <a href="{{ page.permalink }}"
