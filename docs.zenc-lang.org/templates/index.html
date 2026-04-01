@@ -348,14 +348,14 @@
     <!-- Header -->
     <div class="docs-index-header">
         <h1>docs.zenc-lang.org</h1>
-        <p class="lead">Exploring the syntax and internals of Zen C.</p>
+        <p class="lead">{{ trans(key="docs-tagline") }}</p>
     </div>
 
     <!-- Binary Tree -->
     <div class="btree">
         <div class="btree-root-container">
             <div class="btree-root">
-                <span class="kw">struct</span> Docs { tour, std, examples }
+                <span class="kw">struct</span> Docs { {{ trans(key="tree-root") }} }
             </div>
             <div class="btree-vpipe"></div>
         </div>
@@ -367,11 +367,13 @@
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> Tour {</div>
                     <div class="snode-body">
-                        &nbsp;&nbsp;chapters: <span class="typ">u8</span> = <span class="str">14</span>;<br>
-                        &nbsp;&nbsp;level: <span class="typ">string</span> = <span class="str">"newbie"</span>;<br>
+                        &nbsp;&nbsp;{{ trans(key="tour-chapters") }}: <span class="typ">u8</span> = <span
+                            class="str">14</span>;<br>
+                        &nbsp;&nbsp;{{ trans(key="tour-level") }}: <span class="typ">string</span> = <span
+                            class="str">"{{ trans(key="tour-newbie") }}"</span>;<br>
                         }
                     </div>
-                    <div class="snode-foot"><span class="kw">// start the tour &rarr;</span></div>
+                    <div class="snode-foot"><span class="kw">{{ trans(key="tour-start") }}</span></div>
                 </div>
             </a>
 
@@ -381,13 +383,17 @@
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> StdLib {</div>
                     <div class="snode-body">
-                        {% set std_section = get_section(path="std/_index.md") %}
-                        &nbsp;&nbsp;modules: <span class="typ">u8</span> = <span class="str">{{ std_section.pages |
+                        {% if lang != "en" %}{% set std_idx = "std/_index." ~ lang ~ ".md" %}{% else %}{% set std_idx =
+                        "std/_index.md" %}{% endif %}
+                        {% set std_section = get_section(path=std_idx) %}
+                        &nbsp;&nbsp;{{ trans(key="std-modules") }}: <span class="typ">u8</span> = <span class="str">{{
+                            std_section.pages |
                             length }}</span>;<br>
-                        &nbsp;&nbsp;version: <span class="typ">string</span> = <span class="str">"v0.4.4"</span>;<br>
+                        &nbsp;&nbsp;{{ trans(key="std-version") }}: <span class="typ">string</span> = <span
+                            class="str">"v0.4.4"</span>;<br>
                         }
                     </div>
-                    <div class="snode-foot"><span class="kw">// browse modules &darr;</span></div>
+                    <div class="snode-foot"><span class="kw">{{ trans(key="std-browse") }}</span></div>
                 </div>
             </a>
 
@@ -397,11 +403,13 @@
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> Examples {</div>
                     <div class="snode-body">
-                        &nbsp;&nbsp;source: <span class="typ">string</span> = <span class="str">"Rosetta"</span>;<br>
-                        &nbsp;&nbsp;count: <span class="typ">u16</span> = <span class="str">127</span>;<br>
+                        &nbsp;&nbsp;{{ trans(key="examples-source") }}: <span class="typ">string</span> = <span
+                            class="str">"Rosetta"</span>;<br>
+                        &nbsp;&nbsp;{{ trans(key="examples-count") }}: <span class="typ">u16</span> = <span
+                            class="str">127</span>;<br>
                         }
                     </div>
-                    <div class="snode-foot"><span class="kw">// explore code &rarr;</span></div>
+                    <div class="snode-foot"><span class="kw">{{ trans(key="examples-explore") }}</span></div>
                 </div>
             </a>
         </div>
@@ -415,7 +423,7 @@
                 <polyline points="16 18 22 12 16 6" />
                 <polyline points="8 6 2 12 8 18" />
             </svg>
-            <span class="cm">// featured examples, refreshed on each visit</span>
+            <span class="cm">{{ trans(key="featured-examples") }}</span>
         </div>
         <div class="snippets-grid" id="snippets-grid">
             <!-- JS populates this -->
@@ -425,10 +433,12 @@
     <!-- Standard Library Imports -->
     <div class="stdlib-section" id="stdlib">
         <div class="stdlib-header">
-            <span class="cm">// standard library imports</span>
+            <span class="cm">{{ trans(key="stdlib-imports") }}</span>
         </div>
         <div class="import-grid">
-            {% set std_section = get_section(path="std/_index.md") %}
+            {% if lang != "en" %}{% set std_path = "std/_index." ~ lang ~ ".md" %}{% else %}{% set std_path =
+            "std/_index.md" %}{% endif %}
+            {% set std_section = get_section(path=std_path) %}
             {% for page in std_section.pages | sort(attribute="title") %}
             {% set_global is_namespace = false %}
             {% if page.extra.is_namespace is defined and page.extra.is_namespace %}
