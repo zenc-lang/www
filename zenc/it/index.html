@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen C - Modern Ergonomics. Pure C.</title>
+    <title>Zen C - Ergonomia Moderna. Puro C.</title>
     <meta name="description"
-        content="A modern systems programming language that compiles to human-readable C11 with zero overhead.">
+        content="Un linguaggio di programmazione di sistema moderno che compila in C11 leggibile con zero overhead.">
     <link rel="stylesheet" href="/style.css?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,23 +103,23 @@
         <div class="container nav-container">
             <div class="logo">Zen C <span class="version">v0.4.4</span></div>
             <nav>
-                <a href="https://docs.zenc-lang.org/">Docs</a>
+                <a href="https://docs.zenc-lang.org/it/">Documentazione</a>
                 <a href="https://git.zenc-lang.org/">Mirror</a>
                 <a href="#interop">Interop</a>
                 <a href="#roadmap">Roadmap</a>
                 <a href="#newsletter" class="nav-newsletter">Newsletter <span class="badge-new">New</span></a>
-                <a href="#sponsors">Sponsors</a>
+                <a href="#sponsors">Sponsor</a>
                 <a href="https://github.com/zenc-lang/zenc" class="github-link">GitHub ↗</a>
 
                 <div class="lang-dropdown">
                     <button class="lang-btn" aria-label="Select Language">
-                        EN ▾
+                        IT ▾
                     </button>
                     <div class="lang-content">
-                        <a href="/" class="lang-item active" lang="en">English</a>
+                        <a href="/" class="lang-item" lang="en">English</a>
                         <a href="/es/" class="lang-item" lang="es">Español</a>
                         <a href="/de/" class="lang-item" lang="de">Deutsch</a>
-                        <a href="/it/" class="lang-item" lang="it">Italiano</a>
+                        <a href="/it/" class="lang-item active" lang="it">Italiano</a>
                         <a href="/pt/" class="lang-item" lang="pt">Português</a>
                         <a href="/ru/" class="lang-item" lang="ru">Русский</a>
                         <a href="/zh-cn/" class="lang-item" lang="zh-cn">简体中文</a>
@@ -153,11 +153,10 @@
         <section class="hero container">
             <div class="hero-text">
                 <h1 class="mega-title">ZEN C</h1>
-                <h2 class="sub-title">Modern Ergonomics.<br>Zero Overhead.<br>Pure C.</h2>
+                <h2 class="sub-title">Ergonomia Moderna.<br>Zero Overhead.<br>Puro C.</h2>
 
                 <p class="lead">
-                    A strictly typed systems language that brings <strong>pattern matching</strong>,
-                    <strong>traits</strong>, and <strong>ownership semantics</strong> to the C ecosystem.
+                    Un linguaggio di sistema strettamente tipizzato che porta <strong>pattern matching</strong>, <strong>traits</strong> e <strong>semantica di proprietà</strong> nell'ecosistema C.
                 </p>
 
                 <div class="cmd-line-wrapper">
@@ -171,13 +170,13 @@
                 </div>
 
                 <div class="hero-actions">
-                    <a href="https://github.com/zenc-lang/zenc" class="btn btn-primary">Get Started</a>
-                    <a href="https://discord.com/invite/q6wEsCmkJP" class="btn btn-secondary">Join Discord</a>
+                    <a href="https://github.com/zenc-lang/zenc" class="btn btn-primary">Inizia</a>
+                    <a href="https://discord.com/invite/q6wEsCmkJP" class="btn btn-secondary">Unisciti a Discord</a>
                     <a href="#newsletter" class="btn btn-secondary">Newsletter &rarr;</a>
                 </div>
 
                 <div class="newsletter-inline">
-                    <p>Updates on Zen C progress:</p>
+                    <p>Aggiornamenti sui progressi di Zen C:</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form">
@@ -263,7 +262,7 @@
         </div>
 
         <section class="container section-pad installation" id="installation">
-            <h2 class="section-title">Start Compiling</h2>
+            <h2 class="section-title">Inizia a Compilare</h2>
             <div class="install-steps">
                 <div class="step">
                     <span class="step-label">CLONE</span>
@@ -289,15 +288,14 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
-                <p>Works with GCC/Clang/TCC and other compilers!</p>
+                <p>Funziona con GCC/Clang/TCC e altri compilatori!</p>
             </div>
         </section>
 
         <section id="features" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">Zero Friction. Maximum Control.</h2>
-                <p class="section-desc">Experience the transparency of C combined with the developer experience of a
-                    modern language.</p>
+                <h2 class="section-title">Zero Attrito. Massimo Controllo.</h2>
+                <p class="section-desc">Scopri la trasparenza del C combinata con l'esperienza di sviluppo di un linguaggio moderno.</p>
             </div>
 
             <div class="features-split">
@@ -396,31 +394,31 @@
                 <div class="features-list">
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">transparent_compilation</span></span>
-                        <p>Transpiles directly to clean, readable GNU C11: pure C without black boxes.</p>
+                        <p>Transpila direttamente in GNU C11 pulito e leggibile: puro C senza scatole nere.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">native_c_abi</span></span>
-                        <p>Call any C function, use any C struct. Zero FFI boilerplate.</p>
+                        <p>Chiama qualsiasi funzione C, usa qualsiasi struct C. Zero boilerplate FFI.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">resource_management</span></span>
-                        <p>Implicit <code>Drop</code> trait prevents memory leaks without a GC.</p>
+                        <p>Il trait Drop implicito previene le perdite di memoria senza un GC.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">monomorphization</span></span>
-                        <p>Zero-overhead generics: specialized at compile time, not runtime.</p>
+                        <p>Generics a zero overhead: specializzati a tempo di compilazione, non a runtime.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">async_await</span></span>
-                        <p>High-performance async I/O without callback hell or hidden runtimes.</p>
+                        <p>I/O asincrono ad alte prestazioni senza l'inferno delle callback o runtime nascosti.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">pattern_matching</span></span>
-                        <p>Exhaustive <code>match</code> on enums and tuples for bulletproof control flow.</p>
+                        <p>Pattern matching esaustivo su enum e tuple per un flusso di controllo a prova di proiettile.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">zero_cost_generics</span></span>
-                        <p>Parametric types that disappear at compile time: no virtual dispatch.</p>
+                        <p>Tipi parametrici che scompaiono a tempo di compilazione: nessun dispatch virtuale.</p>
                     </div>
                 </div>
             </div>
@@ -431,8 +429,8 @@
 
         <section id="interop" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">Polyglot Architecture</h2>
-                <p class="section-desc">Zen C adapts to your ecosystem. Link seamlessly with existing codebases.</p>
+                <h2 class="section-title">Architettura Poliglotta</h2>
+                <p class="section-desc">Zen C si adatta al tuo ecosistema. Collegati senza problemi ai codici esistenti.</p>
             </div>
 
             <div class="interop-grid">
@@ -441,8 +439,7 @@
                         <h3>CUDA</h3>
                         <span class="flag-badge">--cuda</span>
                     </div>
-                    <p>Write GPU kernels with Zen syntax using <code>launch</code> and <code>@global</code> attributes.
-                    </p>
+                    <p>Scrivi kernel GPU con sintassi Zen utilizzando gli attributi <code>launch</code> e <code>@global</code>.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">@global</span>
 <span class="kwd">fn</span> <span class="fn">add</span>(a: <span class="typ">float</span>*, b: <span class="typ">float</span>*) {
@@ -457,8 +454,7 @@
                         <h3>C++</h3>
                         <span class="flag-badge">--cpp</span>
                     </div>
-                    <p>Generate C++ compatible code to link against libraries. Instantiate templates in <code>raw</code>
-                        blocks.</p>
+                    <p>Genera codice compatibile con C++ per collegarti alle librerie. Istanzia template nei blocchi <code>raw</code>.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     std::vector&lt;<span class="typ">int</span>&gt; <span class="fn">get_vec</span>() {
@@ -473,7 +469,7 @@
                         <h3>Objective-C</h3>
                         <span class="flag-badge">--objc</span>
                     </div>
-                    <p>Native macOS support. Mix <code>[Object message]</code> syntax within your systems code.</p>
+                    <p>Supporto nativo macOS. Mescola la sintassi <code>[Oggetto messaggio]</code> nel tuo codice di sistema.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     id pool = [[NSPool alloc] init];
@@ -487,16 +483,14 @@
         <section id="rosetta" class="container section-pad">
             <div
                 style="max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Established on
-                    Rosetta Code</h2>
+                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Istituito su Rosetta Code</h2>
                 <p
                     style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; text-align: center;">
-                    Zen C is a first-class citizen on Rosetta Code, the programming chrestomathy.
-                    Compare our syntax and semantics across hundreds of standardized tasks.
+                    Zen C è un cittadino di prim'ordine su Rosetta Code. Confronta la nostra sintassi e semantica attraverso centinaia di attività standardizzate.
                 </p>
                 <a href="https://rosettacode.org/wiki/Category:Zen_C" class="btn btn-primary" target="_blank"
                     style="padding: 14px 32px; font-size: 1rem; border-radius: 8px; font-weight: 600;">
-                    Explore the Zen C Category &rarr;
+                    Esplora la Categoria Zen C &rarr;
                 </a>
             </div>
         </section>
@@ -714,22 +708,21 @@
         <div class="container footer-grid">
             <div class="footer-info">
                 <strong class="footer-logo">Zen C</strong>
-                <span>Modern ergonomics. Pure C.</span>
+                <span>Ergonomia moderna. Puro C.</span>
                 <span>&copy; 2026 zenc-lang Org.</span>
             </div>
             <div class="footer-col">
-                <h4>Project</h4>
+                <h4>Progetto</h4>
                 <div class="footer-links">
-                    <a href="https://docs.zenc-lang.org">Documentation</a>
-                    <a href="https://git.zenc-lang.org">Source Code</a>
+                    <a href="https://docs.zenc-lang.org/it/">Documentazione</a>
+                    <a href="https://git.zenc-lang.org">Mirror</a>
                     <a href="https://opencollective.com/z-libs">Sponsor</a>
                 </div>
             </div>
             <div class="footer-col">
                 <h4>Newsletter</h4>
                 <div class="footer-links">
-                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Join the mailing list for
-                        updates.</p>
+                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Unisciti alla mailing list per gli aggiornamenti.</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form-footer">
