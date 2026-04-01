@@ -1266,27 +1266,40 @@ section {
 }
 
 
-/* --- Roadmap Array Grid --- */
-.roadmap-grid {
+/* --- Roadmap Memory Map --- */
+.roadmap-memory-map {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 3rem;
-    padding: 2rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
 }
 
 .roadmap-item {
     display: flex;
     flex-direction: column;
-    padding: 1.5rem 0;
+    padding: 2.5rem 1.5rem;
+    border-left: 1px solid var(--border);
+    position: relative;
+    transition: background 0.3s ease;
 }
 
-.roadmap-index {
+.roadmap-item:last-child {
+    border-right: 1px solid var(--border);
+}
+
+.roadmap-item:hover {
+    background: var(--surface-alt);
+}
+
+.roadmap-address {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 0.8rem;
     color: var(--primary);
-    margin-bottom: 0.5rem;
-    opacity: 0.8;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+    letter-spacing: 0.05em;
 }
 
 .roadmap-phase {
@@ -1304,7 +1317,7 @@ section {
 }
 
 .roadmap-content h3 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--fg);
     margin-bottom: 1rem;
     font-weight: 700;
@@ -1315,23 +1328,37 @@ section {
     list-style: none;
     color: var(--muted);
     font-size: 0.85rem;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .roadmap-list li {
     margin-bottom: 0.5rem;
-    padding-left: 1.1rem;
+    padding-left: 1.2rem;
     position: relative;
     opacity: 0.85;
 }
 
 .roadmap-list li::before {
-    content: "→";
+    content: ">";
     position: absolute;
     left: 0;
     color: var(--primary);
     opacity: 0.4;
     font-family: 'JetBrains Mono', monospace;
+}
+
+.roadmap-jmp {
+    margin-top: auto;
+    padding-top: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--primary);
+    opacity: 0.3;
+    font-style: italic;
+}
+
+.roadmap-item:hover .roadmap-jmp {
+    opacity: 0.7;
 }
 
 
@@ -1341,6 +1368,25 @@ section {
     .container {
         padding: 0 1.25rem;
     }
+
+    /* Memory Map */
+    .roadmap-memory-map {
+        grid-template-columns: 1fr;
+        border-bottom: none;
+    }
+
+    .roadmap-item {
+        border-left: none;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 2.5rem 1.25rem;
+    }
+
+    .roadmap-item:last-child {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
 
     .section-pad {
         padding-top: 4rem;
