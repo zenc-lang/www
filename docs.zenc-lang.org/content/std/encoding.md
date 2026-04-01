@@ -1,8 +1,5 @@
 +++
 title = "std/encoding"
-
-[extra]
-is_namespace = true
 +++
 
 # std/encoding

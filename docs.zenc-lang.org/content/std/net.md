@@ -1,8 +1,5 @@
 +++
 title = "std/net"
-
-[extra]
-is_namespace = true
 +++
 
 # std/net

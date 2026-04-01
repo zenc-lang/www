@@ -1,8 +1,5 @@
 +++
 title = "std/crypto"
-
-[extra]
-is_namespace = true
 +++
 
 # std/crypto
