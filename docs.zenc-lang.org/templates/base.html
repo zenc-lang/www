@@ -829,9 +829,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% if lang != "en" %}{% set tour_path = "tour/_index." ~ lang ~ ".md" %}{% else %}{% set tour_path =
-                    "tour/_index.md" %}{% endif %}
-                    {% set tour_section = get_section(path=tour_path) %}
+                    {% set tour_section = get_section(path="tour/_index.md") %}
                     {% for page in tour_section.pages %}
                     <a href="{{ page.permalink }}"
                         class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
@@ -850,8 +848,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set std_path = "std/_index.md" %}
-                    {% set std_section = get_section(path=std_path) %}
+                    {% set std_section = get_section(path="std/_index.md") %}
                     {% for page in std_section.pages | sort(attribute="title") %}
                     <a href="{{ page.permalink }}"
                         class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
@@ -870,8 +867,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set ex_path = "examples/rosetta/_index.md" %}
-                    {% set rosetta_section = get_section(path=ex_path) %}
+                    {% set rosetta_section = get_section(path="examples/rosetta/_index.md") %}
                     {% for page in rosetta_section.pages | sort(attribute="title") %}
                     <a href="{{ page.permalink }}"
                         class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">

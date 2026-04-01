@@ -348,7 +348,7 @@
     <!-- Header -->
     <div class="docs-index-header">
         <h1>docs.zenc-lang.org</h1>
-        <p class="lead">{{ trans(key="docs-tagline") }}</p>
+        <p class="docs-hero-desc">{{ trans(key="docs-tagline") }}</p>
     </div>
 
     <!-- Binary Tree -->
@@ -383,9 +383,7 @@
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> StdLib {</div>
                     <div class="snode-body">
-                        {% if lang != "en" %}{% set std_idx = "std/_index." ~ lang ~ ".md" %}{% else %}{% set std_idx =
-                        "std/_index.md" %}{% endif %}
-                        {% set std_section = get_section(path=std_idx) %}
+                        {% set std_section = get_section(path="std/_index.md") %}
                         &nbsp;&nbsp;{{ trans(key="std-modules") }}: <span class="typ">u8</span> = <span class="str">{{
                             std_section.pages |
                             length }}</span>;<br>
