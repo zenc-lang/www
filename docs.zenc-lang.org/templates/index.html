@@ -2,58 +2,39 @@
 
 {% block content %}
 <style>
-    /* --- Docs Layout: Tree + Gallery --- */
-    .docs-container {
-        display: flex;
-        gap: 3rem;
-        margin-top: 2rem;
-        align-items: flex-start;
+    /* ═══════════════════════════════════════════
+       Docs Index — Binary Tree + Snippets
+       ═══════════════════════════════════════════ */
+
+    .docs-index {
+        padding: 2.5rem 1.5rem 3rem;
+        max-width: 960px;
+        margin: 0 auto;
     }
 
-    .tree-column {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .side-column {
-        width: 300px;
-        position: sticky;
-        top: 2rem;
-    }
-
-    .docs-root-header {
+    .docs-index-header {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
     }
 
-    .docs-root-header h1 {
+    .docs-index-header h1 {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         font-weight: 700;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.4rem;
     }
 
-    .docs-root-header .lead {
+    .docs-index-header .lead {
         color: var(--secondary);
-        font-size: 0.88rem;
+        font-size: 0.9rem;
     }
 
-    /* ── Binary Tree ── */
+    /* ── Binary Tree ────────────────────────── */
     .btree {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding-bottom: 2rem;
-        width: 100%;
-    }
-
-    .btree-node {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
+        margin-bottom: 3rem;
     }
 
     .btree-pipe {
@@ -62,70 +43,86 @@
         background: var(--border);
     }
 
-    .btree-branches {
+    .btree-level {
         position: relative;
         display: flex;
         justify-content: center;
+        gap: 2rem;
         width: 100%;
     }
 
-    .btree-branches::before {
+    /* Horizontal rail */
+    .btree-level::before {
         content: '';
         position: absolute;
         top: 0;
         height: 2px;
         background: var(--border);
-        left: 25%;
-        right: 25%;
+        left: calc(50% / 3 + 11%);
+        right: calc(50% / 3 + 11%);
     }
 
-    .btree-branch {
-        flex: 1;
+    .btree-child {
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-decoration: none;
+        color: var(--fg);
     }
 
-    /* ── Struct Node ── */
+    .btree-child .child-pipe {
+        width: 2px;
+        height: 20px;
+        background: var(--border);
+    }
+
+    /* ── Struct Node Card ──────────────────── */
     .snode {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.78rem;
-        line-height: 1.6;
+        font-size: 0.8rem;
+        line-height: 1.65;
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 8px;
-        width: 220px;
+        width: 240px;
         text-align: left;
         overflow: hidden;
-        transition: all 0.2s ease;
-        text-decoration: none;
-        color: var(--fg);
-        display: block;
+        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     }
 
-    .snode:hover {
+    .btree-child:hover .snode {
         border-color: var(--muted);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
     }
 
     .snode-head {
-        padding: 0.5rem 0.85rem;
+        padding: 0.55rem 1rem;
         border-bottom: 1px solid var(--border);
-        background: rgba(0, 0, 0, 0.01);
     }
 
     .snode-body {
-        padding: 0.6rem 0.85rem;
+        padding: 0.65rem 1rem;
     }
 
     .snode-foot {
-        padding: 0.4rem 0.85rem;
+        padding: 0.45rem 1rem;
         border-top: 1px solid var(--border);
-        font-size: 0.7rem;
-        color: var(--secondary);
+        font-size: 0.72rem;
     }
 
+    /* Root (inline) */
+    .root-snode {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.65rem 1.5rem;
+        display: inline-block;
+    }
+
+    /* Syntax tokens */
     .kw {
         color: var(--kw);
         font-weight: 600;
@@ -144,33 +141,26 @@
         font-style: italic;
     }
 
-    /* Root/Intermediate nodes (non-clickable by default unless styled) */
-    .inert-node {
-        background: var(--surface-alt);
-        padding: 0.5rem 1.2rem;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.8rem;
+    /* ── Featured Snippets (horizontal) ──── */
+    .snippets-section {
+        margin-bottom: 3rem;
     }
 
-    /* ── Gallery Sidebar ── */
-    .gallery-title {
+    .snippets-header {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
         color: var(--secondary);
         margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
     }
 
-    .snippet-list {
-        display: flex;
-        flex-direction: column;
+    .snippets-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
         gap: 0.75rem;
     }
 
@@ -178,18 +168,20 @@
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 6px;
-        padding: 0.75rem;
+        padding: 0.85rem 0.9rem;
         text-decoration: none;
         color: var(--fg);
-        transition: all 0.2s ease;
-        display: block;
+        transition: border-color 0.2s, transform 0.2s;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
         position: relative;
         overflow: hidden;
     }
 
     .snippet-card:hover {
         border-color: var(--primary);
-        background: var(--surface-alt);
+        transform: translateY(-2px);
     }
 
     .snippet-name {
@@ -197,14 +189,12 @@
         font-size: 0.78rem;
         font-weight: 600;
         color: var(--primary);
-        display: block;
-        margin-bottom: 0.25rem;
     }
 
     .snippet-desc {
         font-size: 0.72rem;
         color: var(--secondary);
-        line-height: 1.4;
+        line-height: 1.45;
     }
 
     .snippet-tag {
@@ -213,209 +203,226 @@
         right: 0;
         background: var(--border);
         color: var(--secondary);
-        font-size: 0.6rem;
+        font-size: 0.58rem;
         padding: 2px 6px;
         border-bottom-left-radius: 4px;
         font-family: 'JetBrains Mono', monospace;
+        letter-spacing: 0.03em;
     }
 
-    /* ── Std Lib Bottom ── */
+    /* ── Std Lib: Import Grid ─────────────── */
     .stdlib-section {
-        margin-top: 4rem;
-        border-top: 1px solid var(--border);
-        padding-top: 2rem;
+        margin-bottom: 3rem;
     }
 
     .stdlib-header {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.9rem;
         color: var(--secondary);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
     }
 
     .import-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 0;
     }
 
     .import-row {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.78rem;
-        padding: 0.4rem 0.6rem;
+        padding: 0.4rem 0.65rem;
         text-decoration: none;
         color: var(--fg);
         border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+        transition: background 0.15s;
     }
 
     .import-row:hover {
         background: var(--surface-alt);
     }
 
-    @media (max-width: 1000px) {
-        .docs-container {
+    /* ── Responsive ────────────────────────── */
+    @media (max-width: 900px) {
+        .btree-level {
             flex-direction: column;
-            gap: 2rem;
+            align-items: center;
+            gap: 0;
         }
 
-        .side-column {
-            width: 100%;
-            position: static;
+        .btree-level::before {
+            display: none;
         }
 
-        .btree-branches::before {
-            left: 10%;
-            right: 10%;
+        .snippets-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 520px) {
+        .snippets-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .docs-index {
+            padding: 1.5rem 1rem 2rem;
         }
     }
 </style>
 
-<div class="docs-root-header">
-    <h1>docs.zenc-lang.org</h1>
-    <p class="lead">Exploring the syntax and internals of Zen C.</p>
-</div>
+<div class="docs-index">
+    <!-- Header -->
+    <div class="docs-index-header">
+        <h1>docs.zenc-lang.org</h1>
+        <p class="lead">The official Zen C documentation.</p>
+    </div>
 
-<div class="docs-container">
-    <!-- Main Tree -->
-    <div class="tree-column">
-        <div class="btree">
-            <!-- Root -->
-            <div class="inert-node">
-                <span class="kw">struct</span> <span class="typ">Docs</span> { tour, ref }
-            </div>
+    <!-- Binary Tree -->
+    <div class="btree">
+        <div class="root-snode">
+            <span class="kw">struct</span> <span class="typ">Docs</span> { tour, std, examples }
+        </div>
 
-            <div class="btree-pipe"></div>
+        <div class="btree-pipe"></div>
 
-            <div class="btree-branches">
-                <!-- Left: Tour -->
-                <div class="btree-branch">
-                    <div class="btree-pipe"></div>
-                    <a href="/tour/01-variables-constants/" class="snode">
-                        <div class="snode-head"><span class="kw">struct</span> <span class="typ">Tour</span> {</div>
-                        <div class="snode-body">
-                            &nbsp;&nbsp;pages: <span class="typ">u8</span> = <span class="str">14</span>;<br>
-                            &nbsp;&nbsp;level: <span class="typ">string</span> = <span class="str">"newbie"</span>;<br>
-                            }
-                        </div>
-                        <div class="snode-foot"><span class="kw">// learn the language &rarr;</span></div>
-                    </a>
-                </div>
-
-                <!-- Right: Reference -->
-                <div class="btree-branch">
-                    <div class="btree-pipe"></div>
-                    <div class="btree-node">
-                        <div class="inert-node">
-                            <span class="kw">struct</span> <span class="typ">Reference</span> { std, examples }
-                        </div>
-
-                        <div class="btree-pipe"></div>
-
-                        <div class="btree-branches">
-                            <!-- Left: StdLib -->
-                            <div class="btree-branch">
-                                <div class="btree-pipe"></div>
-                                <a href="#stdlib" class="snode">
-                                    <div class="snode-head"><span class="kw">struct</span> <span
-                                            class="typ">StdLib</span> {</div>
-                                    <div class="snode-body">
-                                        {% set std_section = get_section(path="std/_index.md") %}
-                                        &nbsp;&nbsp;units: <span class="typ">u8</span> = <span class="str">{{
-                                            std_section.pages | length }}</span>;<br>
-                                        &nbsp;&nbsp;version: <span class="typ">string</span> = <span
-                                            class="str">"v0.4"</span>;<br>
-                                        }
-                                    </div>
-                                    <div class="snode-foot"><span class="kw">// browse ref below &darr;</span></div>
-                                </a>
-                            </div>
-
-                            <!-- Right: Examples -->
-                            <div class="btree-branch">
-                                <div class="btree-pipe"></div>
-                                <a href="/examples/rosetta/" class="snode">
-                                    <div class="snode-head"><span class="kw">struct</span> <span
-                                            class="typ">Examples</span> {</div>
-                                    <div class="snode-body">
-                                        &nbsp;&nbsp;source: <span class="typ">string</span> = <span
-                                            class="str">"Rosetta"</span>;<br>
-                                        &nbsp;&nbsp;items: <span class="typ">u16</span> = <span
-                                            class="str">127</span>;<br>
-                                        }
-                                    </div>
-                                    <div class="snode-foot"><span class="kw">// explore code &rarr;</span></div>
-                                </a>
-                            </div>
-                        </div>
+        <div class="btree-level">
+            <!-- Tour -->
+            <a href="/tour/01-variables-constants/" class="btree-child">
+                <div class="child-pipe"></div>
+                <div class="snode">
+                    <div class="snode-head"><span class="kw">struct</span> <span class="typ">Tour</span> {</div>
+                    <div class="snode-body">
+                        &nbsp;&nbsp;chapters: <span class="typ">u8</span> = <span class="str">14</span>;<br>
+                        &nbsp;&nbsp;level: <span class="typ">string</span> = <span class="str">"newbie"</span>;<br>
+                        }
                     </div>
+                    <div class="snode-foot"><span class="kw">// start the tour &rarr;</span></div>
                 </div>
-            </div>
+            </a>
+
+            <!-- Std -->
+            <a href="#stdlib" class="btree-child">
+                <div class="child-pipe"></div>
+                <div class="snode">
+                    <div class="snode-head"><span class="kw">struct</span> <span class="typ">StdLib</span> {</div>
+                    <div class="snode-body">
+                        {% set std_section = get_section(path="std/_index.md") %}
+                        &nbsp;&nbsp;modules: <span class="typ">u8</span> = <span class="str">{{ std_section.pages |
+                            length }}</span>;<br>
+                        &nbsp;&nbsp;version: <span class="typ">string</span> = <span class="str">"v0.4"</span>;<br>
+                        }
+                    </div>
+                    <div class="snode-foot"><span class="kw">// browse modules &darr;</span></div>
+                </div>
+            </a>
+
+            <!-- Examples -->
+            <a href="/examples/rosetta/" class="btree-child">
+                <div class="child-pipe"></div>
+                <div class="snode">
+                    <div class="snode-head"><span class="kw">struct</span> <span class="typ">Examples</span> {</div>
+                    <div class="snode-body">
+                        &nbsp;&nbsp;source: <span class="typ">string</span> = <span class="str">"Rosetta"</span>;<br>
+                        &nbsp;&nbsp;count: <span class="typ">u16</span> = <span class="str">127</span>;<br>
+                        }
+                    </div>
+                    <div class="snode-foot"><span class="kw">// explore code &rarr;</span></div>
+                </div>
+            </a>
         </div>
     </div>
 
-    <!-- Gallery Sidebar -->
-    <div class="side-column">
-        <div class="gallery-title">
+    <!-- Featured Snippets (random on each load) -->
+    <div class="snippets-section">
+        <div class="snippets-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                <path d="M3 9h18" />
-                <path d="M9 21V9" />
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
             </svg>
-            Featured Snippets
+            <span class="cm">// featured examples &mdash; refreshed on each visit</span>
         </div>
-        <div class="snippet-list">
-            <a href="/examples/rosetta/99_bottles_of_beer/" class="snippet-card">
-                <span class="snippet-tag">zc</span>
-                <span class="snippet-name">99_bottles.zc</span>
-                <span class="snippet-desc">The classic loop implementation showcasing string interpolation and memory
-                    safety.</span>
+        <div class="snippets-grid" id="snippets-grid">
+            <!-- JS will populate this -->
+        </div>
+    </div>
+
+    <!-- Standard Library Imports -->
+    <div class="stdlib-section" id="stdlib">
+        <div class="stdlib-header">
+            <span class="cm">// standard library imports</span>
+        </div>
+        <div class="import-grid">
+            {% set std_section = get_section(path="std/_index.md") %}
+            {% for page in std_section.pages | sort(attribute="title") %}
+            {% set_global is_namespace = false %}
+            {% if page.extra.is_namespace is defined and page.extra.is_namespace %}
+            {% set_global is_namespace = true %}
+            {% else %}
+            {% set check = page.title ~ "/" %}
+            {% for other in std_section.pages %}
+            {% if check in other.title %}
+            {% set_global is_namespace = true %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% if not is_namespace %}
+            <a href="{{ page.permalink }}" class="import-row">
+                <span class="kw">import</span> <span class="str">"{{ page.title }}.zc"</span>;
             </a>
-            <a href="/examples/rosetta/Echo_server/" class="snippet-card">
-                <span class="snippet-tag">std/net</span>
-                <span class="snippet-name">echo_server.zc</span>
-                <span class="snippet-desc">A complete TCP echo server using the high-level `std/net` socket API.</span>
-            </a>
-            <a href="/examples/rosetta/JSON/" class="snippet-card">
-                <span class="snippet-tag">std/json</span>
-                <span class="snippet-name">json_parse.zc</span>
-                <span class="snippet-desc">Demonstrating the integrated JSON parser and type-safe data access.</span>
-            </a>
-            <a href="/examples/rosetta/FizzBuzz/" class="snippet-card">
-                <span class="snippet-tag">logic</span>
-                <span class="snippet-name">fizzbuzz.zc</span>
-                <span class="snippet-desc">Standard interview problem using the idiomatic Zen C pattern matching.</span>
-            </a>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 </div>
 
-<!-- std::* -->
-<div class="stdlib-section" id="stdlib">
-    <div class="stdlib-header">
-        <span class="cm">// standard library imports</span>
-    </div>
-    <div class="import-grid">
-        {% set std_section = get_section(path="std/_index.md") %}
-        {% for page in std_section.pages | sort(attribute="title") %}
-        {% set_global is_namespace = false %}
-        {% if page.extra.is_namespace is defined and page.extra.is_namespace %}
-        {% set_global is_namespace = true %}
-        {% else %}
-        {% set check = page.title ~ "/" %}
-        {% for other in std_section.pages %}
-        {% if check in other.title %}
-        {% set_global is_namespace = true %}
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-        {% if not is_namespace %}
-        <a href="{{ page.permalink }}" class="import-row">
-            <span class="kw">import</span> <span class="str">"{{ page.title }}.zc"</span>;
-        </a>
-        {% endif %}
-        {% endfor %}
-    </div>
-</div>
+<script>
+    (function () {
+        const examples = [
+            { file: "fibonacci_sequence", name: "fibonacci.zc", tag: "math", desc: "Iterative and recursive Fibonacci using tuples and pattern matching." },
+            { file: "Echo_server", name: "echo_server.zc", tag: "std/net", desc: "A TCP echo server built with the high-level socket API." },
+            { file: "FizzBuzz", name: "fizzbuzz.zc", tag: "logic", desc: "The classic interview problem using idiomatic control flow." },
+            { file: "Binary_search", name: "binary_search.zc", tag: "algo", desc: "Generic binary search over sorted slices with comparators." },
+            { file: "Caesar_cipher", name: "caesar.zc", tag: "crypto", desc: "Shift cipher encryption and decryption on byte arrays." },
+            { file: "JSON", name: "json_demo.zc", tag: "std/json", desc: "Parsing and building JSON objects with the integrated parser." },
+            { file: "Fast_Fourier_transform", name: "fft.zc", tag: "math", desc: "Complex-number FFT using the std/complex module." },
+            { file: "Sieve_of_Pritchard", name: "sieve.zc", tag: "math", desc: "Wheel-based prime sieve with dynamic Vec allocation." },
+            { file: "Calendar", name: "calendar.zc", tag: "time", desc: "Full-year calendar renderer with formatted grid output." },
+            { file: "Bitmap", name: "bitmap.zc", tag: "graphics", desc: "PPM bitmap generation with struct-based pixel buffers." },
+            { file: "Machine_code", name: "machine_code.zc", tag: "asm", desc: "Executing raw x86 machine code from a Zen C program." },
+            { file: "99_bottles_of_beer", name: "99_bottles.zc", tag: "strings", desc: "String interpolation and loop control with formatted output." },
+            { file: "Monty_Hall_problem", name: "monty_hall.zc", tag: "simulation", desc: "Probabilistic simulation of the Monty Hall problem." },
+            { file: "Dot_product", name: "dot_product.zc", tag: "math", desc: "Vector dot product using slices and iterators." },
+            { file: "Echo_server", name: "web_server.zc", tag: "std/net", desc: "Hello World web server responding to HTTP requests." },
+            { file: "Finite_state_machine", name: "fsm.zc", tag: "patterns", desc: "Enum-driven finite state machine with transition logic." },
+            { file: "Ternary_logic", name: "ternary.zc", tag: "logic", desc: "Three-valued logic with custom operators and truth tables." },
+            { file: "Chinese_zodiac", name: "zodiac.zc", tag: "strings", desc: "Calculating the Chinese zodiac from year with arrays." },
+            { file: "Ackermann_function", name: "ackermann.zc", tag: "recursion", desc: "The deeply recursive Ackermann function implementation." },
+            { file: "Simple_windowed_application", name: "gui_app.zc", tag: "gui", desc: "A simple windowed GUI application using system libraries." },
+        ];
+
+        // Shuffle (Fisher-Yates)
+        for (let i = examples.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [examples[i], examples[j]] = [examples[j], examples[i]];
+        }
+
+        const grid = document.getElementById('snippets-grid');
+        const picked = examples.slice(0, 4);
+
+        picked.forEach(function (ex) {
+            const a = document.createElement('a');
+            a.href = '/examples/rosetta/' + ex.file + '/';
+            a.className = 'snippet-card';
+            a.innerHTML =
+                '<span class="snippet-tag">' + ex.tag + '</span>' +
+                '<span class="snippet-name">' + ex.name + '</span>' +
+                '<span class="snippet-desc">' + ex.desc + '</span>';
+            grid.appendChild(a);
+        });
+    })();
+</script>
 
 {% endblock content %}
