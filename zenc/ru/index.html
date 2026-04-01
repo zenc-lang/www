@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen C - Современная эргономика. Чистый C.</title>
+    <title>Zen C - Эргономика. Чистый C.</title>
     <meta name="description"
-        content="Современный язык системного программирования, компилируемый в читаемый C11 без накладных расходов.">
+        content="Системный язык.">
     <link rel="stylesheet" href="/style.css?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,70 +26,90 @@
     <style>
         .lang-dropdown {
             position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .lang-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            color: var(--fg);
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: background 0.2s;
-            font-family: inherit;
-            font-weight: 500;
+        }
+
+        .lang-dropdown-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted);
             cursor: pointer;
-        }
-
-        .lang-btn:hover {
-            background: var(--surface-alt);
-        }
-
-        .lang-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            background: var(--bg);
-            min-width: 140px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            z-index: 1000;
-            overflow: hidden;
-        }
-
-        html[data-theme="dark"] .lang-content {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-        }
-
-        .lang-dropdown:hover .lang-content {
-            display: block;
-        }
-
-        .lang-item {
-            color: var(--fg);
-            padding: 0.75rem 1rem;
-            text-decoration: none;
-            display: block;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .lang-item:hover {
-            background: var(--surface-alt);
-            text-decoration: none;
-        }
-
-        .lang-item.active {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
             font-weight: 700;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            font-family: inherit;
+        }
+
+        .lang-dropdown-btn:hover {
             color: var(--primary);
+        }
+
+        .lang-dropdown-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
             background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 130px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .lang-dropdown:hover .lang-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            color: var(--fg);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .lang-option:hover {
+            background: var(--surface-alt);
+            color: var(--primary);
+        }
+
+        .lang-option.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .lang-option.active::after {
+            content: "✓";
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -106,24 +126,31 @@
                 <a href="https://docs.zenc-lang.org/ru/">Документация</a>
                 <a href="https://git.zenc-lang.org/">Зеркало</a>
                 <a href="#interop">Взаимодействие</a>
-                <a href="#roadmap">Дорожная карта</a>
+                <a href="#roadmap">План</a>
                 <a href="#newsletter" class="nav-newsletter">Новости <span class="badge-new">New</span></a>
                 <a href="#sponsors">Спонсоры</a>
                 <a href="https://github.com/zenc-lang/zenc" class="github-link">GitHub ↗</a>
 
                 <div class="lang-dropdown">
-                    <button class="lang-btn" aria-label="Select Language">
-                        RU ▾
+                    <button class="lang-dropdown-btn" aria-label="Language options">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-globe">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                            <path d="M2 12h20" />
+                        </svg>
+                        RU
                     </button>
-                    <div class="lang-content">
-                        <a href="/" class="lang-item" lang="en">English</a>
-                        <a href="/es/" class="lang-item" lang="es">Español</a>
-                        <a href="/de/" class="lang-item" lang="de">Deutsch</a>
-                        <a href="/it/" class="lang-item" lang="it">Italiano</a>
-                        <a href="/pt/" class="lang-item" lang="pt">Português</a>
-                        <a href="/ru/" class="lang-item active" lang="ru">Русский</a>
-                        <a href="/zh-cn/" class="lang-item" lang="zh-cn">简体中文</a>
-                        <a href="/zh-tw/" class="lang-item" lang="zh-tw">繁體中文</a>
+                    <div class="lang-menu">
+                        <a href="/" class="lang-option">English</a>
+                        <a href="/es/" class="lang-option">Español</a>
+                        <a href="/de/" class="lang-option">Deutsch</a>
+                        <a href="/it/" class="lang-option">Italiano</a>
+                        <a href="/pt/" class="lang-option">Português</a>
+                        <a href="/ru/" class="lang-option active">Русский</a>
+                        <a href="/zh-cn/" class="lang-option">简体中文</a>
+                        <a href="/zh-tw/" class="lang-option">繁體中文</a>
                     </div>
                 </div>
 
@@ -153,10 +180,10 @@
         <section class="hero container">
             <div class="hero-text">
                 <h1 class="mega-title">ZEN C</h1>
-                <h2 class="sub-title">Современная эргономика.<br>Ноль накладных расходов.<br>Чистый C.</h2>
+                <h2 class="sub-title">Эргономика.<br>Ноль расходов.<br>Чистый C.</h2>
 
                 <p class="lead">
-                    Строго типизированный системный язык, который привносит <strong>сопоставление с образцом</strong>, <strong>типажи (traits)</strong> и <strong>семантику владения</strong> в экосистему C.
+                    Язык с <strong>сопоставлением с образцом</strong>.
                 </p>
 
                 <div class="cmd-line-wrapper">
@@ -171,12 +198,12 @@
 
                 <div class="hero-actions">
                     <a href="https://github.com/zenc-lang/zenc" class="btn btn-primary">Начать</a>
-                    <a href="https://discord.com/invite/q6wEsCmkJP" class="btn btn-secondary">Присоединиться к Discord</a>
+                    <a href="https://discord.com/invite/q6wEsCmkJP" class="btn btn-secondary">Discord</a>
                     <a href="#newsletter" class="btn btn-secondary">Новости &rarr;</a>
                 </div>
 
                 <div class="newsletter-inline">
-                    <p>Обновления прогресса Zen C:</p>
+                    <p>Обновления:</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form">
@@ -262,7 +289,7 @@
         </div>
 
         <section class="container section-pad installation" id="installation">
-            <h2 class="section-title">Начните Компилировать</h2>
+            <h2 class="section-title">Компиляция</h2>
             <div class="install-steps">
                 <div class="step">
                     <span class="step-label">CLONE</span>
@@ -288,14 +315,14 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
-                <p>Работает с GCC/Clang/TCC и другими компиляторами!</p>
+                <p>GCC/Clang!</p>
             </div>
         </section>
 
         <section id="features" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">Ноль препятствий. Максимальный контроль.</h2>
-                <p class="section-desc">Ощутите прозрачность C в сочетании с удобством современной разработки.</p>
+                <h2 class="section-title">Максимум контроля.</h2>
+                <p class="section-desc">Прозрачность C.</p>
             </div>
 
             <div class="features-split">
@@ -394,31 +421,31 @@
                 <div class="features-list">
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">transparent_compilation</span></span>
-                        <p>Транспилируется прямо в чистый GNU C11: чистый C без черных ящиков.</p>
+                        <p>Чистый C11.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">native_c_abi</span></span>
-                        <p>Вызов любой функции C, использование любых структур C. Ноль FFI шаблонов.</p>
+                        <p>Ноль FFI.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">resource_management</span></span>
-                        <p>Неявный трейт Drop предотвращает утечки памяти без сборщика мусора.</p>
+                        <p>Без GC.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">monomorphization</span></span>
-                        <p>Дженерики без накладных расходов: специализируются во время компиляции, а не во время выполнения.</p>
+                        <p>Дженерики.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">async_await</span></span>
-                        <p>Высокопроизводительный асинхронный ввод-вывод без ада обратных вызовов.</p>
+                        <p>Асинхронный I/O.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">pattern_matching</span></span>
-                        <p>Исчерпывающее сопоставление с образцом на перечислениях и кортежах.</p>
+                        <p>Pattern matching.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">zero_cost_generics</span></span>
-                        <p>Параметрические типы исчезают во время компиляции: никакой виртуальной диспетчеризации.</p>
+                        <p>Без виртуальности.</p>
                     </div>
                 </div>
             </div>
@@ -429,8 +456,8 @@
 
         <section id="interop" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">Полиглот-Архитектура</h2>
-                <p class="section-desc">Zen C адаптируется к вашей экосистеме. Бесшовная связка с существующими базами кода.</p>
+                <h2 class="section-title">Полиглот</h2>
+                <p class="section-desc">Адаптация.</p>
             </div>
 
             <div class="interop-grid">
@@ -439,7 +466,7 @@
                         <h3>CUDA</h3>
                         <span class="flag-badge">--cuda</span>
                     </div>
-                    <p>Пишите ядра GPU с синтаксисом Zen, используя атрибуты <code>launch</code> и <code>@global</code>.</p>
+                    <p>GPU.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">@global</span>
 <span class="kwd">fn</span> <span class="fn">add</span>(a: <span class="typ">float</span>*, b: <span class="typ">float</span>*) {
@@ -454,7 +481,7 @@
                         <h3>C++</h3>
                         <span class="flag-badge">--cpp</span>
                     </div>
-                    <p>Генерация C++-совместимого кода для сборки с библиотеками. Инстанциация шаблонов в <code>raw</code> блоках.</p>
+                    <p>C++.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     std::vector&lt;<span class="typ">int</span>&gt; <span class="fn">get_vec</span>() {
@@ -469,7 +496,7 @@
                         <h3>Objective-C</h3>
                         <span class="flag-badge">--objc</span>
                     </div>
-                    <p>Нативная поддержка macOS. Смешивайте синтаксис <code>[Объект сообщение]</code> в системном коде.</p>
+                    <p>macOS.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     id pool = [[NSPool alloc] init];
@@ -483,22 +510,22 @@
         <section id="rosetta" class="container section-pad">
             <div
                 style="max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Признан на Rosetta Code</h2>
+                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Rosetta Code</h2>
                 <p
                     style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; text-align: center;">
-                    Zen C — полноправный гражданин Rosetta Code. Сравните наш синтаксис и семантику в сотнях стандартных задач.
+                    Сравните синтаксис.
                 </p>
                 <a href="https://rosettacode.org/wiki/Category:Zen_C" class="btn btn-primary" target="_blank"
                     style="padding: 14px 32px; font-size: 1rem; border-radius: 8px; font-weight: 600;">
-                    К категории Zen C &rarr;
+                    Смотреть &rarr;
                 </a>
             </div>
         </section>
 
         <section id="videos" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">Community Videos</h2>
-                <p class="section-desc">Watch tutorials, reviews, and deep-dives created by the Zen C community.</p>
+                <h2 class="section-title">Видео</h2>
+                <p class="section-desc">Смотреть туториалы.</p>
             </div>
             <div class="videos-grid">
                 <div class="video-card">
@@ -527,21 +554,21 @@
 
         <section id="roadmap" class="container section-pad">
             <div class="sponsors-intro" style="margin-bottom: 4rem;">
-                <h2 class="section-title">The Path Forward</h2>
-                <p class="section-desc">Our conceptual roadmap towards ecosystem maturity.</p>
+                <h2 class="section-title">План</h2>
+                <p class="section-desc">Дорожная карта.</p>
             </div>
 
             <div class="roadmap-memory-map">
                 <div class="roadmap-item active">
                     <div class="roadmap-address">0x00</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">Current Foundation</div>
-                        <h3>Core Language</h3>
+                        <div class="roadmap-phase">Текущее</div>
+                        <h3>Ядро</h3>
                         <ul class="roadmap-list">
-                            <li>Zero-overhead C Transpilation</li>
-                            <li>C++, Obj-C, CUDA Interop</li>
-                            <li>RAII resource semantics</li>
-                            <li>Monomorphized Generics</li>
+                            <li>Компиляция в C</li>
+                            <li>C++ Interop</li>
+                            <li>RAII</li>
+                            <li>Generics</li>
                             <li>LSP & APE build support</li>
                         </ul>
                     </div>
@@ -550,13 +577,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x10</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">Next Up</div>
-                        <h3>Ecosystem Expansion</h3>
+                        <div class="roadmap-phase">Скоро</div>
+                        <h3>Экосистема</h3>
                         <ul class="roadmap-list">
-                            <li>Official Package Manager</li>
+                            <li>Пакетный менеджер</li>
                             <li>Wasm & Emscripten Target</li>
-                            <li>Advanced LSP features</li>
-                            <li>Expanded std library</li>
+                            <li>LSP</li>
+                            <li>std библиотека</li>
                         </ul>
                     </div>
                 </div>
@@ -564,13 +591,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x20</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">In The Horizon</div>
-                        <h3>Advanced Semantics</h3>
+                        <div class="roadmap-phase">Горизонт</div>
+                        <h3>Семантика</h3>
                         <ul class="roadmap-list">
-                            <li>Stabilized <code>async/await</code></li>
-                            <li><code>comptime</code> reflection API</li>
-                            <li>Improved plugin system</li>
-                            <li>Self-hosted compiler</li>
+                            <li>async</li>
+                            <li>comptime</li>
+                            <li>Плагины</li>
+                            <li>Компилятор</li>
                         </ul>
                     </div>
                 </div>
@@ -578,13 +605,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x30</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">The Destination</div>
+                        <div class="roadmap-phase">Цель</div>
                         <h3>Stabilization & 1.0</h3>
                         <ul class="roadmap-list">
-                            <li>Language Specification</li>
-                            <li>Standard Library API Freeze</li>
-                            <li>ABI stability guarantees</li>
-                            <li>Embedded/Kernel case studies</li>
+                            <li>Спецификация</li>
+                            <li>API Freeze</li>
+                            <li>ABI</li>
+                            <li>Ядро ОС</li>
                         </ul>
                     </div>
                 </div>
@@ -597,13 +624,12 @@
         <section id="sponsors" class="container section-pad">
             <div class="sponsors-container">
                 <div class="sponsors-intro">
-                    <h2 class="section-title">Sustain the Project</h2>
+                    <h2 class="section-title">Поддержка</h2>
                     <p class="section-desc">
-                        Zen C is strictly Open Source and community-funded.
-                        Contributions via Open Collective ensure the longevity of the infrastructure.
+                        Open Source.
                     </p>
                     <a href="https://opencollective.com/z-libs" class="btn btn-primary" target="_blank">
-                        View Open Collective &rarr;
+                        Open Collective &rarr;
                     </a>
                 </div>
 
@@ -611,38 +637,38 @@
                     <div class="tier-card">
                         <div class="tier-name">Backer</div>
                         <div class="tier-price">$5<span>/mo</span></div>
-                        <p class="tier-desc">Support daily maintenance.</p>
+                        <p class="tier-desc">Поддержка.</p>
                         <ul class="tier-features">
-                            <li>✓ Badge on GitHub</li>
-                            <li>✓ Discord Role</li>
+                            <li>✓ Бейдж</li>
+                            <li>✓ Discord</li>
                         </ul>
                     </div>
                     <div class="tier-card featured">
                         <div class="tier-name">Sponsor</div>
                         <div class="tier-price">$100<span>/mo</span></div>
-                        <p class="tier-desc">Fuel new features.</p>
+                        <p class="tier-desc">Особенности.</p>
                         <ul class="tier-features">
-                            <li>✓ All Backer rewards</li>
-                            <li>✓ Early RFC access</li>
-                            <li>✓ Logo in README</li>
+                            <li>✓ Бонусы Backer</li>
+                            <li>✓ RFC</li>
+                            <li>✓ Лого</li>
                         </ul>
                     </div>
                     <div class="tier-card">
                         <div class="tier-name">Enterprise</div>
-                        <div class="tier-price">Contact</div>
-                        <p class="tier-desc">Tailored solutions.</p>
+                        <div class="tier-price">Контакт</div>
+                        <p class="tier-desc">Решения.</p>
                         <ul class="tier-features">
-                            <li>✓ Priority Support</li>
-                            <li>✓ Logo on Homepage</li>
+                            <li>✓ Приоритет</li>
+                            <li>✓ Лого Home</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="sponsors-gallery">
-                    <h3 class="gallery-title">Active Sponsors</h3>
+                    <h3 class="gallery-title">Спонсоры</h3>
                     <div id="sponsors-list" class="gallery-flex" style="min-height: 100px;">
                         <!-- Sponsors will be loaded here via JS -->
-                        <div class="loading-sponsors">Loading sponsors...</div>
+                        <div class="loading-sponsors">Загрузка...</div>
                     </div>
                 </div>
 
@@ -708,7 +734,7 @@
         <div class="container footer-grid">
             <div class="footer-info">
                 <strong class="footer-logo">Zen C</strong>
-                <span>Современная эргономика. Чистый C.</span>
+                <span>Чистый C.</span>
                 <span>&copy; 2026 zenc-lang Org.</span>
             </div>
             <div class="footer-col">
@@ -722,7 +748,7 @@
             <div class="footer-col">
                 <h4>Новости</h4>
                 <div class="footer-links">
-                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Подпишитесь на рассылку обновлений.</p>
+                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Рассылка.</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form-footer">

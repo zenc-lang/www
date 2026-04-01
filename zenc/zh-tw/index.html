@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-tw">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen C - 現代人體工學。純粹的 C。</title>
+    <title>Zen C - 現代人體工學。</title>
     <meta name="description"
-        content="一種現代系統程式設計語言，可無開銷地編譯為人類可讀的 C11。">
+        content="現代系統程式語言。">
     <link rel="stylesheet" href="/style.css?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,70 +26,90 @@
     <style>
         .lang-dropdown {
             position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .lang-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            color: var(--fg);
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: background 0.2s;
-            font-family: inherit;
-            font-weight: 500;
+        }
+
+        .lang-dropdown-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted);
             cursor: pointer;
-        }
-
-        .lang-btn:hover {
-            background: var(--surface-alt);
-        }
-
-        .lang-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            background: var(--bg);
-            min-width: 140px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            z-index: 1000;
-            overflow: hidden;
-        }
-
-        html[data-theme="dark"] .lang-content {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-        }
-
-        .lang-dropdown:hover .lang-content {
-            display: block;
-        }
-
-        .lang-item {
-            color: var(--fg);
-            padding: 0.75rem 1rem;
-            text-decoration: none;
-            display: block;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .lang-item:hover {
-            background: var(--surface-alt);
-            text-decoration: none;
-        }
-
-        .lang-item.active {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
             font-weight: 700;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            font-family: inherit;
+        }
+
+        .lang-dropdown-btn:hover {
             color: var(--primary);
+        }
+
+        .lang-dropdown-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
             background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 130px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .lang-dropdown:hover .lang-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            color: var(--fg);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .lang-option:hover {
+            background: var(--surface-alt);
+            color: var(--primary);
+        }
+
+        .lang-option.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .lang-option.active::after {
+            content: "✓";
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -105,25 +125,32 @@
             <nav>
                 <a href="https://docs.zenc-lang.org/zh-tw/">文件</a>
                 <a href="https://git.zenc-lang.org/">鏡像</a>
-                <a href="#interop">互通性</a>
+                <a href="#interop">互通</a>
                 <a href="#roadmap">路線圖</a>
                 <a href="#newsletter" class="nav-newsletter">電子報 <span class="badge-new">New</span></a>
-                <a href="#sponsors">贊助商</a>
+                <a href="#sponsors">贊助</a>
                 <a href="https://github.com/zenc-lang/zenc" class="github-link">GitHub ↗</a>
 
                 <div class="lang-dropdown">
-                    <button class="lang-btn" aria-label="Select Language">
-                        ZH-TW ▾
+                    <button class="lang-dropdown-btn" aria-label="Language options">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-globe">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                            <path d="M2 12h20" />
+                        </svg>
+                        ZH-TW
                     </button>
-                    <div class="lang-content">
-                        <a href="/" class="lang-item" lang="en">English</a>
-                        <a href="/es/" class="lang-item" lang="es">Español</a>
-                        <a href="/de/" class="lang-item" lang="de">Deutsch</a>
-                        <a href="/it/" class="lang-item" lang="it">Italiano</a>
-                        <a href="/pt/" class="lang-item" lang="pt">Português</a>
-                        <a href="/ru/" class="lang-item" lang="ru">Русский</a>
-                        <a href="/zh-cn/" class="lang-item" lang="zh-cn">简体中文</a>
-                        <a href="/zh-tw/" class="lang-item active" lang="zh-tw">繁體中文</a>
+                    <div class="lang-menu">
+                        <a href="/" class="lang-option">English</a>
+                        <a href="/es/" class="lang-option">Español</a>
+                        <a href="/de/" class="lang-option">Deutsch</a>
+                        <a href="/it/" class="lang-option">Italiano</a>
+                        <a href="/pt/" class="lang-option">Português</a>
+                        <a href="/ru/" class="lang-option">Русский</a>
+                        <a href="/zh-cn/" class="lang-option">简体中文</a>
+                        <a href="/zh-tw/" class="lang-option active">繁體中文</a>
                     </div>
                 </div>
 
@@ -153,10 +180,10 @@
         <section class="hero container">
             <div class="hero-text">
                 <h1 class="mega-title">ZEN C</h1>
-                <h2 class="sub-title">現代人體工學。<br>零開銷。<br>純粹的 C。</h2>
+                <h2 class="sub-title">現代工程學。<br>零開銷。<br>純粹的 C。</h2>
 
                 <p class="lead">
-                    嚴格型別的系統語言，為 C 生態系統帶來了<strong>模式匹配</strong>、<strong>特徵 (Traits)</strong>及<strong>所有權語意</strong>。
+                    帶有<strong>模式匹配</strong>的系統語言。
                 </p>
 
                 <div class="cmd-line-wrapper">
@@ -176,7 +203,7 @@
                 </div>
 
                 <div class="newsletter-inline">
-                    <p>有關 Zen C 發展的更新：</p>
+                    <p>最新動態:</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form">
@@ -262,7 +289,7 @@
         </div>
 
         <section class="container section-pad installation" id="installation">
-            <h2 class="section-title">開始編譯</h2>
+            <h2 class="section-title">編譯</h2>
             <div class="install-steps">
                 <div class="step">
                     <span class="step-label">CLONE</span>
@@ -288,14 +315,14 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
-                <p>適用於 GCC/Clang/TCC 和其他編譯器！</p>
+                <p>支援 GCC/Clang!</p>
             </div>
         </section>
 
         <section id="features" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">零摩擦。最大控制。</h2>
-                <p class="section-desc">體驗 C 的透明度與現代語言開發體驗的完美結合。</p>
+                <h2 class="section-title">最大控制。</h2>
+                <p class="section-desc">體驗 C 的透明度。</p>
             </div>
 
             <div class="features-split">
@@ -394,31 +421,31 @@
                 <div class="features-list">
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">transparent_compilation</span></span>
-                        <p>直接轉譯為乾淨、可讀的 GNU C11：沒有黑盒子的純 C。</p>
+                        <p>純 C11。</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">native_c_abi</span></span>
-                        <p>呼叫任何 C 函數，使用任何 C 結構。零 FFI 樣板代碼。</p>
+                        <p>零 FFI。</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">resource_management</span></span>
-                        <p>隱含的 Drop 特徵可防止記憶體洩漏，無須垃圾回收器 (GC)。</p>
+                        <p>無 GC。</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">monomorphization</span></span>
-                        <p>零開銷泛型：在編譯時專門化，而非執行時。</p>
+                        <p>零開銷泛型。</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">async_await</span></span>
-                        <p>高效能非同步 I/O，沒有回呼地獄或隱藏的運行時。</p>
+                        <p>非同步 I/O。</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">pattern_matching</span></span>
-                        <p>對列舉和元組進行詳盡的模式匹配，實現防彈的控制流。</p>
+                        <p>模式匹配。</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">zero_cost_generics</span></span>
-                        <p>在編譯時消失的參數化型別：沒有虛擬分派。</p>
+                        <p>無虛分派。</p>
                     </div>
                 </div>
             </div>
@@ -429,8 +456,8 @@
 
         <section id="interop" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">多語言架構</h2>
-                <p class="section-desc">Zen C 融入您的生態系統。與現有程式碼庫無縫連結。</p>
+                <h2 class="section-title">互通</h2>
+                <p class="section-desc">適應生態。</p>
             </div>
 
             <div class="interop-grid">
@@ -439,7 +466,7 @@
                         <h3>CUDA</h3>
                         <span class="flag-badge">--cuda</span>
                     </div>
-                    <p>使用 <code>launch</code> 和 <code>@global</code> 屬性編寫 GPU 核心的 Zen 語法。</p>
+                    <p>GPU.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">@global</span>
 <span class="kwd">fn</span> <span class="fn">add</span>(a: <span class="typ">float</span>*, b: <span class="typ">float</span>*) {
@@ -454,7 +481,7 @@
                         <h3>C++</h3>
                         <span class="flag-badge">--cpp</span>
                     </div>
-                    <p>生成相容 C++ 的程式碼以連結程式庫。在 <code>raw</code> 區塊中實例化模板。</p>
+                    <p>C++.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     std::vector&lt;<span class="typ">int</span>&gt; <span class="fn">get_vec</span>() {
@@ -469,7 +496,7 @@
                         <h3>Objective-C</h3>
                         <span class="flag-badge">--objc</span>
                     </div>
-                    <p>原生 macOS 支援。在您的系統程式碼中混合 <code>[物件 訊息]</code> 語法。</p>
+                    <p>macOS.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     id pool = [[NSPool alloc] init];
@@ -483,22 +510,22 @@
         <section id="rosetta" class="container section-pad">
             <div
                 style="max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">在 Rosetta Code 建立</h2>
+                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Rosetta Code</h2>
                 <p
                     style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; text-align: center;">
-                    Zen C 是一等公民。透過數百項標準化任務比較我們的語法和語意。
+                    語法對比。
                 </p>
                 <a href="https://rosettacode.org/wiki/Category:Zen_C" class="btn btn-primary" target="_blank"
                     style="padding: 14px 32px; font-size: 1rem; border-radius: 8px; font-weight: 600;">
-                    探索 Zen C 類別 &rarr;
+                    探索 &rarr;
                 </a>
             </div>
         </section>
 
         <section id="videos" class="container section-pad">
             <div class="section-header">
-                <h2 class="section-title">Community Videos</h2>
-                <p class="section-desc">Watch tutorials, reviews, and deep-dives created by the Zen C community.</p>
+                <h2 class="section-title">社區影片</h2>
+                <p class="section-desc">觀看教學。</p>
             </div>
             <div class="videos-grid">
                 <div class="video-card">
@@ -527,21 +554,21 @@
 
         <section id="roadmap" class="container section-pad">
             <div class="sponsors-intro" style="margin-bottom: 4rem;">
-                <h2 class="section-title">The Path Forward</h2>
-                <p class="section-desc">Our conceptual roadmap towards ecosystem maturity.</p>
+                <h2 class="section-title">路線圖</h2>
+                <p class="section-desc">我們的願景。</p>
             </div>
 
             <div class="roadmap-memory-map">
                 <div class="roadmap-item active">
                     <div class="roadmap-address">0x00</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">Current Foundation</div>
-                        <h3>Core Language</h3>
+                        <div class="roadmap-phase">當前</div>
+                        <h3>核心語言</h3>
                         <ul class="roadmap-list">
-                            <li>Zero-overhead C Transpilation</li>
-                            <li>C++, Obj-C, CUDA Interop</li>
-                            <li>RAII resource semantics</li>
-                            <li>Monomorphized Generics</li>
+                            <li>C 轉譯</li>
+                            <li>C++ 互通</li>
+                            <li>RAII</li>
+                            <li>泛型</li>
                             <li>LSP & APE build support</li>
                         </ul>
                     </div>
@@ -550,13 +577,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x10</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">Next Up</div>
-                        <h3>Ecosystem Expansion</h3>
+                        <div class="roadmap-phase">下一步</div>
+                        <h3>生態</h3>
                         <ul class="roadmap-list">
-                            <li>Official Package Manager</li>
+                            <li>套件管理</li>
                             <li>Wasm & Emscripten Target</li>
-                            <li>Advanced LSP features</li>
-                            <li>Expanded std library</li>
+                            <li>LSP增強</li>
+                            <li>擴充 std</li>
                         </ul>
                     </div>
                 </div>
@@ -564,13 +591,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x20</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">In The Horizon</div>
-                        <h3>Advanced Semantics</h3>
+                        <div class="roadmap-phase">展望</div>
+                        <h3>語意</h3>
                         <ul class="roadmap-list">
-                            <li>Stabilized <code>async/await</code></li>
-                            <li><code>comptime</code> reflection API</li>
-                            <li>Improved plugin system</li>
-                            <li>Self-hosted compiler</li>
+                            <li>async</li>
+                            <li>comptime</li>
+                            <li>外掛</li>
+                            <li>自舉編譯器</li>
                         </ul>
                     </div>
                 </div>
@@ -578,13 +605,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x30</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">The Destination</div>
+                        <div class="roadmap-phase">終點</div>
                         <h3>Stabilization & 1.0</h3>
                         <ul class="roadmap-list">
-                            <li>Language Specification</li>
-                            <li>Standard Library API Freeze</li>
-                            <li>ABI stability guarantees</li>
-                            <li>Embedded/Kernel case studies</li>
+                            <li>語言規範</li>
+                            <li>API 凍結</li>
+                            <li>ABI 穩定</li>
+                            <li>核心案例</li>
                         </ul>
                     </div>
                 </div>
@@ -597,13 +624,12 @@
         <section id="sponsors" class="container section-pad">
             <div class="sponsors-container">
                 <div class="sponsors-intro">
-                    <h2 class="section-title">Sustain the Project</h2>
+                    <h2 class="section-title">贊助專案</h2>
                     <p class="section-desc">
-                        Zen C is strictly Open Source and community-funded.
-                        Contributions via Open Collective ensure the longevity of the infrastructure.
+                        開源社區驅動。
                     </p>
                     <a href="https://opencollective.com/z-libs" class="btn btn-primary" target="_blank">
-                        View Open Collective &rarr;
+                        查看 Open Collective &rarr;
                     </a>
                 </div>
 
@@ -611,38 +637,38 @@
                     <div class="tier-card">
                         <div class="tier-name">Backer</div>
                         <div class="tier-price">$5<span>/mo</span></div>
-                        <p class="tier-desc">Support daily maintenance.</p>
+                        <p class="tier-desc">日常維護。</p>
                         <ul class="tier-features">
-                            <li>✓ Badge on GitHub</li>
-                            <li>✓ Discord Role</li>
+                            <li>✓ GitHub 徽章</li>
+                            <li>✓ Discord 身份</li>
                         </ul>
                     </div>
                     <div class="tier-card featured">
                         <div class="tier-name">Sponsor</div>
                         <div class="tier-price">$100<span>/mo</span></div>
-                        <p class="tier-desc">Fuel new features.</p>
+                        <p class="tier-desc">推動新功能。</p>
                         <ul class="tier-features">
-                            <li>✓ All Backer rewards</li>
-                            <li>✓ Early RFC access</li>
-                            <li>✓ Logo in README</li>
+                            <li>✓ Backer 獎勵</li>
+                            <li>✓ RFC 權限</li>
+                            <li>✓ README Logo</li>
                         </ul>
                     </div>
                     <div class="tier-card">
                         <div class="tier-name">Enterprise</div>
-                        <div class="tier-price">Contact</div>
-                        <p class="tier-desc">Tailored solutions.</p>
+                        <div class="tier-price">聯絡</div>
+                        <p class="tier-desc">企業方案。</p>
                         <ul class="tier-features">
-                            <li>✓ Priority Support</li>
-                            <li>✓ Logo on Homepage</li>
+                            <li>✓ 專屬支援</li>
+                            <li>✓ 首頁 Logo</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="sponsors-gallery">
-                    <h3 class="gallery-title">Active Sponsors</h3>
+                    <h3 class="gallery-title">活躍贊助商</h3>
                     <div id="sponsors-list" class="gallery-flex" style="min-height: 100px;">
                         <!-- Sponsors will be loaded here via JS -->
-                        <div class="loading-sponsors">Loading sponsors...</div>
+                        <div class="loading-sponsors">載入中...</div>
                     </div>
                 </div>
 
@@ -708,7 +734,7 @@
         <div class="container footer-grid">
             <div class="footer-info">
                 <strong class="footer-logo">Zen C</strong>
-                <span>現代人體工學。純粹的 C。</span>
+                <span>純粹的 C。</span>
                 <span>&copy; 2026 zenc-lang Org.</span>
             </div>
             <div class="footer-col">
@@ -716,13 +742,13 @@
                 <div class="footer-links">
                     <a href="https://docs.zenc-lang.org/zh-tw/">文件</a>
                     <a href="https://git.zenc-lang.org">鏡像</a>
-                    <a href="https://opencollective.com/z-libs">贊助商</a>
+                    <a href="https://opencollective.com/z-libs">贊助</a>
                 </div>
             </div>
             <div class="footer-col">
                 <h4>電子報</h4>
                 <div class="footer-links">
-                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">加入郵件列表以接收更新。</p>
+                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">加入郵件列表。</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form-footer">
