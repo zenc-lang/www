@@ -1,7 +1,7 @@
 # THE ZEN C DOCUMENTATION CONFIG
 base_url = "https://docs.zenc-lang.org"
 default_language = "en"
-languages = ["en", "de", "es", "it", "pt", "ru", "zh-cn", "zh-tw"]
+# languages = ["en", "de", "es", "it", "pt", "ru", "zh-cn", "zh-tw"]
 
 [languages.en]
 title = "Zen C Documentation"
