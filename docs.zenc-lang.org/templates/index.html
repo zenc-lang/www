@@ -2,154 +2,198 @@
 
 {% block content %}
 <style>
-    /* --- Docs Landing Page --- */
-    .docs-hero {
+    /* --- Docs Index: Struct Tree --- */
+    .docs-root {
+        padding: 2.5rem 0 1rem;
         text-align: center;
-        padding: 3rem 0 2rem;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 3rem;
     }
 
-    .docs-hero h1 {
-        font-size: 2.2rem;
-        font-weight: 800;
-        margin-bottom: 0.75rem;
-        letter-spacing: -0.02em;
+    .docs-root h1 {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
     }
 
-    .docs-hero .lead {
+    .docs-root .lead {
         color: var(--secondary);
-        font-size: 1.1rem;
-        max-width: 600px;
-        margin: 0 auto 2rem;
-        line-height: 1.6;
-    }
-
-    .docs-hero-actions {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .docs-hero-actions a {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0.75rem 1.75rem;
-        border-radius: 8px;
-        font-weight: 600;
         font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+
+    /* The tree connector */
+    .tree {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem 0 2.5rem;
+    }
+
+    .tree-connector {
+        width: 2px;
+        height: 32px;
+        background: var(--border);
+    }
+
+    .tree-branch {
+        display: flex;
+        position: relative;
+        justify-content: center;
+        gap: 0;
+        width: 100%;
+        max-width: 900px;
+    }
+
+    /* Horizontal line connecting branches */
+    .tree-branch::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: calc(50% / 3 + 16.66%);
+        right: calc(50% / 3 + 16.66%);
+        height: 2px;
+        background: var(--border);
+    }
+
+    .tree-leaf {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-decoration: none;
-        transition: all 0.2s ease;
-    }
-
-    .btn-primary-doc {
-        background: var(--fg);
-        color: var(--bg);
-    }
-
-    .btn-primary-doc:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn-secondary-doc {
-        border: 1px solid var(--border);
         color: var(--fg);
-        background: transparent;
     }
 
-    .btn-secondary-doc:hover {
-        border-color: var(--fg);
-        background: var(--surface-alt);
-        transform: translateY(-2px);
+    .tree-leaf .leaf-stem {
+        width: 2px;
+        height: 28px;
+        background: var(--border);
     }
 
-    /* Section Cards */
-    .docs-sections {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 3rem;
-    }
-
-    .docs-section-card {
+    /* Struct Node */
+    .struct-node {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.82rem;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 2rem;
-        text-decoration: none;
-        color: var(--fg);
+        border-radius: 8px;
+        width: 260px;
+        text-align: left;
         transition: all 0.25s ease;
+        overflow: hidden;
     }
 
-    .docs-section-card:hover {
+    .tree-leaf:hover .struct-node {
         border-color: var(--muted);
         transform: translateY(-3px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
     }
 
-    .docs-section-card .card-icon {
-        font-size: 1.75rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-
-    .docs-section-card h3 {
-        font-size: 1.15rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-
-    .docs-section-card p {
+    .struct-header {
+        padding: 0.6rem 1rem;
+        border-bottom: 1px solid var(--border);
         color: var(--secondary);
-        font-size: 0.9rem;
-        line-height: 1.6;
-        margin: 0;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
     }
 
-    .docs-section-card .card-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        margin-top: 1rem;
-        font-size: 0.85rem;
+    .struct-header .kw {
+        color: var(--kw);
         font-weight: 600;
-        color: var(--primary);
+    }
+
+    .struct-header .typ {
+        color: var(--typ);
+    }
+
+    .struct-body {
+        padding: 0.75rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .struct-field {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .struct-field .fname {
+        color: var(--fg);
+    }
+
+    .struct-field .ftype {
+        color: var(--typ);
+    }
+
+    .struct-footer {
+        padding: 0.5rem 1rem;
+        border-top: 1px solid var(--border);
+        font-size: 0.75rem;
+    }
+
+    .struct-footer .goto {
+        color: var(--kw);
+    }
+
+    /* Root node (the top one) */
+    .root-node {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        text-align: center;
+    }
+
+    .root-node .kw {
+        color: var(--kw);
+        font-weight: 600;
+    }
+
+    .root-node .typ {
+        color: var(--typ);
+    }
+
+    .root-node .str {
+        color: var(--str);
     }
 
     /* Module Grid */
     .module-section-title {
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1.25rem;
         padding-bottom: 0.75rem;
         border-bottom: 1px solid var(--border);
+        color: var(--secondary);
     }
 
     .module-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 0.6rem;
         margin-bottom: 3rem;
     }
 
     .module-card {
         background: var(--surface);
         border: 1px solid var(--border);
-        padding: 0.85rem 1rem;
+        padding: 0.7rem 0.9rem;
         border-radius: 6px;
         text-decoration: none;
         color: var(--fg);
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         transition: all 0.2s ease;
     }
 
     .module-card:hover {
         border-color: var(--primary);
-        background: rgba(0, 0, 0, 0.02);
         transform: translateY(-2px);
     }
 
@@ -157,69 +201,130 @@
         color: var(--primary);
         font-weight: 600;
     }
+
+    @media (max-width: 900px) {
+        .tree-branch {
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .tree-branch::before {
+            display: none;
+        }
+
+        .tree-leaf {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .struct-node {
+            width: 100%;
+        }
+    }
 </style>
 
-<!-- Hero -->
-<div class="docs-hero">
-    <h1>Zen C Documentation</h1>
-    <p class="lead">
-        Everything you need to learn Zen C — from first principles to the full standard library reference.
-    </p>
-    <div class="docs-hero-actions">
-        <a href="/tour/01-variables-constants/" class="btn-primary-doc">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </svg>
-            Start the Tour
+<div class="docs-root">
+    <h1>docs.zenc-lang.org</h1>
+    <p class="lead">The official Zen C documentation.</p>
+</div>
+
+<!-- Binary Tree -->
+<div class="tree">
+    <div class="root-node">
+        <span class="kw">struct</span> <span class="typ">Docs</span> { tour, std, examples }
+    </div>
+
+    <div class="tree-connector"></div>
+
+    <div class="tree-branch">
+        <!-- Tour -->
+        <a href="/tour/01-variables-constants/" class="tree-leaf">
+            <div class="leaf-stem"></div>
+            <div class="struct-node">
+                <div class="struct-header">
+                    <span class="kw">struct</span> <span class="typ">Tour</span>
+                </div>
+                <div class="struct-body">
+                    <div class="struct-field">
+                        <span class="fname">chapters:</span>
+                        <span class="ftype">u8 = 14</span>
+                    </div>
+                    <div class="struct-field">
+                        <span class="fname">covers:</span>
+                        <span class="ftype">string</span>
+                    </div>
+                    <div class="struct-field">
+                        <span class="fname">&nbsp;</span>
+                        <span class="ftype" style="color: var(--str);">"syntax to systems"</span>
+                    </div>
+                </div>
+                <div class="struct-footer">
+                    <span class="goto">Start the Tour &rarr;</span>
+                </div>
+            </div>
         </a>
-        <a href="https://github.com/zenc-lang/zenc" class="btn-secondary-doc" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path
-                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-            </svg>
-            View on GitHub
+
+        <!-- Std -->
+        <a href="/std/" class="tree-leaf">
+            <div class="leaf-stem"></div>
+            <div class="struct-node">
+                <div class="struct-header">
+                    <span class="kw">struct</span> <span class="typ">StdLib</span>
+                </div>
+                <div class="struct-body">
+                    <div class="struct-field">
+                        <span class="fname">modules:</span>
+                        <span class="ftype">u8 = {{ std_section.pages | length }}</span>
+                    </div>
+                    <div class="struct-field">
+                        <span class="fname">covers:</span>
+                        <span class="ftype">string</span>
+                    </div>
+                    <div class="struct-field">
+                        <span class="fname">&nbsp;</span>
+                        <span class="ftype" style="color: var(--str);">"Vec to HTTP"</span>
+                    </div>
+                </div>
+                <div class="struct-footer">
+                    <span class="goto">Browse Modules &rarr;</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Examples -->
+        <a href="/examples/rosetta/" class="tree-leaf">
+            <div class="leaf-stem"></div>
+            <div class="struct-node">
+                <div class="struct-header">
+                    <span class="kw">struct</span> <span class="typ">Examples</span>
+                </div>
+                <div class="struct-body">
+                    <div class="struct-field">
+                        <span class="fname">source:</span>
+                        <span class="ftype">string</span>
+                    </div>
+                    <div class="struct-field">
+                        <span class="fname">&nbsp;</span>
+                        <span class="ftype" style="color: var(--str);">"Rosetta Code"</span>
+                    </div>
+                    <div class="struct-field">
+                        <span class="fname">community:</span>
+                        <span class="ftype">bool = true</span>
+                    </div>
+                </div>
+                <div class="struct-footer">
+                    <span class="goto">Explore &rarr;</span>
+                </div>
+            </div>
         </a>
     </div>
 </div>
 
-<!-- Section Cards -->
-<div class="docs-sections">
-    <a href="/tour/01-variables-constants/" class="docs-section-card">
-        <span class="card-icon">🎋</span>
-        <h3>Tour of Zen C</h3>
-        <p>A guided walkthrough of the language — variables, types, functions, memory management, traits, and more.
-            Start here if you're new.</p>
-        <span class="card-link">
-            Begin learning →
-        </span>
-    </a>
-
-    <a href="/std/vec/" class="docs-section-card">
-        <span class="card-icon">📦</span>
-        <h3>Standard Library</h3>
-        <p>Reference documentation for all built-in modules — collections, I/O, networking, concurrency, and more.</p>
-        <span class="card-link">
-            Browse modules →
-        </span>
-    </a>
-
-    <a href="/examples/rosetta/" class="docs-section-card">
-        <span class="card-icon">🗿</span>
-        <h3>Community Examples</h3>
-        <p>Real-world code samples and Rosetta Code solutions written by the Zen C community.</p>
-        <span class="card-link">
-            Explore examples →
-        </span>
-    </a>
-</div>
-
-<!-- Standard Library Quick Access -->
-<h2 class="module-section-title">Standard Library Modules</h2>
+<!-- Quick Module Grid -->
+{% set std_section = get_section(path="std/_index.md") %}
+<div class="module-section-title">// std::*</div>
 <div class="module-grid">
-    {% set std_section = get_section(path="std/_index.md") %}
     {% for page in std_section.pages | sort(attribute="title") %}
     <a href="{{ page.permalink }}" class="module-card">
         <span class="module-name">{{ page.title | lower }}</span>
