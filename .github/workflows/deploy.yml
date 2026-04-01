@@ -38,7 +38,7 @@ jobs:
       - name: Build Zola Docs
         run: |
           wget -qO- https://github.com/getzola/zola/releases/download/v0.18.0/zola-v0.18.0-x86_64-unknown-linux-gnu.tar.gz | tar xz          
-          ./zola --root docs.zenc-lang.org build
+          cd docs.zenc-lang.org && ../zola build
 
       - name: Set up SSH Key
         run: |
