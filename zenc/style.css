@@ -1266,27 +1266,29 @@ section {
 }
 
 
-/* --- Roadmap Memory Map --- */
+/* --- Roadmap Memory Ribbon (Cinta) --- */
 .roadmap-memory-map {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 0;
     margin-top: 3rem;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .roadmap-item {
     display: flex;
     flex-direction: column;
-    padding: 2.5rem 1.5rem;
+    padding: 2.25rem 1.5rem;
     border-left: 1px solid var(--border);
     position: relative;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.roadmap-item:last-child {
-    border-right: 1px solid var(--border);
+.roadmap-item:first-child {
+    border-left: none;
 }
 
 .roadmap-item:hover {
@@ -1295,12 +1297,14 @@ section {
 
 .roadmap-address {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--primary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     opacity: 0.5;
     letter-spacing: 0.05em;
+    font-weight: 600;
 }
+
 
 .roadmap-phase {
     font-family: 'JetBrains Mono', monospace;
@@ -1347,19 +1351,6 @@ section {
     font-family: 'JetBrains Mono', monospace;
 }
 
-.roadmap-jmp {
-    margin-top: auto;
-    padding-top: 2rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--primary);
-    opacity: 0.3;
-    font-style: italic;
-}
-
-.roadmap-item:hover .roadmap-jmp {
-    opacity: 0.7;
-}
 
 
 
