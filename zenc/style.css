@@ -656,18 +656,14 @@ pre code .z-link {
 
 /* --- Features Struct --- */
 .features-struct {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 3rem;
     font-family: 'JetBrains Mono', monospace;
     max-width: 1000px;
     width: 100%;
-    margin: 3rem auto 0;
+    margin: 0 auto;
     position: relative;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 }
+
 
 
 .struct-declaration,
@@ -707,20 +703,21 @@ pre code .z-link {
 }
 
 .struct-member .typ {
-    color: #60a5fa;
+    color: var(--typ);
 }
+
 
 .struct-member .fn {
-    color: #fbbf24;
+    color: var(--fn);
 }
 
-
 .struct-member .kwd {
-    color: var(--primary);
+    color: var(--kwd);
 }
 
 .struct-member .com {
-    color: var(--muted);
+    color: var(--com);
+
     margin-left: 1.5rem;
     font-style: italic;
     opacity: 0.5;
