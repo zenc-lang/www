@@ -2,16 +2,6 @@
 base_url = "https://docs.zenc-lang.org"
 default_language = "en"
 
-[languages]
-en = { title = "Zen C Documentation", description = "Official Grimoire for the Zen C Systems Language." }
-de = { title = "Zen C Dokumentation", description = "Offizielles Grimoire für die Zen C Systemsprache." }
-es = { title = "Documentación de Zen C", description = "Grimorio oficial del lenguaje de sistemas Zen C." }
-it = { title = "Documentazione Zen C", description = "Grimorio ufficiale per il linguaggio di sistema Zen C." }
-pt = { title = "Documentação Zen C", description = "Grimório oficial para a linguagem de sistemas Zen C." }
-ru = { title = "Документация Zen C", description = "Официальный гримуар системного языка Zen C." }
-"zh-cn" = { title = "Zen C 文档", description = "Zen C 系统语言官方手册。" }
-"zh-tw" = { title = "Zen C 文件", description = "Zen C 系統語言官方手冊。" }
-
 # THEME SETTINGS
 compile_sass = false
 highlight_code = true
@@ -31,3 +21,35 @@ render_with_code_block_copy_button = true
 [search]
 build_search_index = true
 index_format = "elasticlunr_javascript"
+
+[languages.en]
+title = "Zen C Documentation"
+description = "Official Grimoire for the Zen C Systems Language."
+
+[languages.de]
+title = "Zen C Dokumentation"
+description = "Offizielles Grimoire für die Zen C Systemsprache."
+
+[languages.es]
+title = "Documentación de Zen C"
+description = "Grimorio oficial del lenguaje de sistemas Zen C."
+
+[languages.it]
+title = "Documentazione Zen C"
+description = "Grimorio ufficiale per il linguaggio di sistema Zen C."
+
+[languages.pt]
+title = "Documentação Zen C"
+description = "Grimório oficial para a linguagem de sistemas Zen C."
+
+[languages.ru]
+title = "Документация Zen C"
+description = "Официальный гримуар системного языка Zen C."
+
+[languages."zh-cn"]
+title = "Zen C 文档"
+description = "Zen C 系统语言官方手册。"
+
+[languages."zh-tw"]
+title = "Zen C 文件"
+description = "Zen C 系統語言官方手冊。"
