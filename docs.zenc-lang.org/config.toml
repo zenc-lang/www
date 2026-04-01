@@ -1,7 +1,8 @@
 # THE ZEN C DOCUMENTATION CONFIG
 base_url = "https://docs.zenc-lang.org"
 default_language = "en"
-
+title = "Zen C Documentation"
+description = "Official Grimoire for the Zen C Systems Language."
 # THEME SETTINGS
 compile_sass = false
 highlight_code = true
@@ -21,10 +22,6 @@ render_with_code_block_copy_button = true
 [search]
 build_search_index = true
 index_format = "elasticlunr_javascript"
-
-[languages.en]
-title = "Zen C Documentation"
-description = "Official Grimoire for the Zen C Systems Language."
 
 [languages.de]
 title = "Zen C Dokumentation"
@@ -53,3 +50,134 @@ description = "Zen C 系统语言官方手册。"
 [languages."zh-tw"]
 title = "Zen C 文件"
 description = "Zen C 系統語言官方手冊。"
+
+
+[translations]
+tour-title = "Tour of Zen C"
+std-title = "Standard Library"
+examples-title = "Community Examples"
+search-placeholder = "Search docs..."
+newsletter-title = "Newsletter"
+newsletter-desc = "Stay updated on new Zen C features and releases."
+subscribe = "Subscribe"
+ui-home = "Home"
+ui-docs = "Docs"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "Modern ergonomics. Pure C."
+project = "Project"
+archives = "View Archives →"
+
+[languages."de".translations]
+tour-title = "Zen C Einführung"
+std-title = "Standardbibliothek"
+examples-title = "Community-Beispiele"
+search-placeholder = "Dokumentation durchsuchen..."
+newsletter-title = "Newsletter"
+newsletter-desc = "Bleiben Sie über neue Zen C-Funktionen und -Veröffentlichungen auf dem Laufenden."
+subscribe = "Abonnieren"
+ui-home = "Startseite"
+ui-docs = "Dokumentation"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "Moderne Ergonomie. Pures C."
+project = "Projekt"
+archives = "Archive ansehen →"
+
+[languages."es".translations]
+tour-title = "Recorrido por Zen C"
+std-title = "Biblioteca Estándar"
+examples-title = "Ejemplos de la Comunidad"
+search-placeholder = "Buscar en docs..."
+newsletter-title = "Boletín"
+newsletter-desc = "Manténgase al día con las nuevas características y lanzamientos de Zen C."
+subscribe = "Suscribirse"
+ui-home = "Inicio"
+ui-docs = "Documentación"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "Ergonomía moderna. C puro."
+project = "Proyecto"
+archives = "Ver archivos →"
+
+[languages."it".translations]
+tour-title = "Tour di Zen C"
+std-title = "Biblioteca Standard"
+examples-title = "Esempi della Comunità"
+search-placeholder = "Cerca nei documenti..."
+newsletter-title = "Newsletter"
+newsletter-desc = "Rimani aggiornato sulle nuove funzionalità e rilasci di Zen C."
+subscribe = "Iscriviti"
+ui-home = "Home"
+ui-docs = "Documenti"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "Ergonomia moderna. C puro."
+project = "Progetto"
+archives = "Visualizza archivi →"
+
+[languages."pt".translations]
+tour-title = "Tour do Zen C"
+std-title = "Biblioteca Padrão"
+examples-title = "Exemplos da Comunidade"
+search-placeholder = "Pesquisar docs..."
+newsletter-title = "Boletim informativo"
+newsletter-desc = "Mantenha-se atualizado sobre novos recursos e lançamentos do Zen C."
+subscribe = "Inscrever-se"
+ui-home = "Início"
+ui-docs = "Documentação"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "Ergonomia moderna. C puro."
+project = "Projeto"
+archives = "Ver arquivos →"
+
+[languages."ru".translations]
+tour-title = "Тур по Zen C"
+std-title = "Стандартная библиотека"
+examples-title = "Примеры сообщества"
+search-placeholder = "Поиск в документации..."
+newsletter-title = "Рассылка"
+newsletter-desc = "Будьте в курсе новых функций и выпусков Zen C."
+subscribe = "Подписаться"
+ui-home = "Главная"
+ui-docs = "Документация"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "Современная эргономика. Чистый Си."
+project = "Проект"
+archives = "Посмотреть архивы →"
+
+[languages."zh-cn".translations]
+tour-title = "Zen C 之旅"
+std-title = "标准库"
+examples-title = "社区示例"
+search-placeholder = "搜索文档..."
+newsletter-title = "通讯"
+newsletter-desc = "随时了解 Zen C 的新功能和发布动态。"
+subscribe = "订阅"
+ui-home = "首页"
+ui-docs = "文档"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "现代人体工程学。纯粹的 C。"
+project = "项目"
+archives = "查看存档 →"
+
+[languages."zh-tw".translations]
+tour-title = "Zen C 之旅"
+std-title = "標準庫"
+examples-title = "社區示例"
+search-placeholder = "搜索文檔..."
+newsletter-title = "通訊"
+newsletter-desc = "隨時了解 Zen C 的新功能和發布動態。"
+subscribe = "訂閱"
+ui-home = "首頁"
+ui-docs = "文檔"
+ui-git = "Git"
+copyright = "&copy; 2026 zenc-lang Org."
+motto = "現代人体工程學。純粹的 C。"
+project = "項目"
+archives = "查看存檔 →"
+
+
