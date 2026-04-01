@@ -198,6 +198,7 @@
         border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 0.75rem;
     }
 
@@ -266,12 +267,16 @@
         margin-bottom: 1.75rem;
         padding-bottom: 0.75rem;
         border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .import-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
         gap: 0;
+        justify-content: center;
     }
 
     .import-row {
@@ -282,6 +287,7 @@
         color: var(--fg);
         border-bottom: 1px solid rgba(0, 0, 0, 0.03);
         transition: all 0.2s ease;
+        text-align: center;
     }
 
     .import-row:hover {
