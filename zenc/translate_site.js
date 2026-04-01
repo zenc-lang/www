@@ -43,6 +43,14 @@ const locales = {
             t2_name: "Sponsor", t2_desc: "Impulsa nuevas funcionalidades.", t2_1: "Todas las recompensas de Backer", t2_2: "Acceso temprano a RFC", t2_3: "Logo en el README",
             t3_name: "Empresa", t3_price: "Contacto", t3_desc: "Soluciones a medida.", t3_1: "Soporte prioritario", t3_2: "Logo en la página de inicio",
             active: "Patrocinadores Activos", loading: "Cargando patrocinadores..."
+        },
+        code: {
+            title1: "Echo Server escuchando en :8080",
+            comm1: "// Aceptar nuevas conexiones",
+            file2: "realmente_alguien_lee_esto.zc",
+            comm2: "// Constructor. ¡Todas las funciones vienen activadas!",
+            comm3: "// Describir el lenguaje en una línea",
+            desc: "Ergonomía Moderna. Cero Overhead. C Puro."
         }
     },
     'de': {
@@ -78,6 +86,14 @@ const locales = {
             t2_name: "Sponsor", t2_desc: "Features.", t2_1: "Backer Boni", t2_2: "RFC", t2_3: "Logo",
             t3_name: "Enterprise", t3_price: "Kontakt", t3_desc: "Maßgeschneidert.", t3_1: "Prio", t3_2: "Homepage Logo",
             active: "Sponsoren", loading: "Laden..."
+        },
+        code: {
+            title1: "Echo-Server hört auf :8080",
+            comm1: "// Neue Verbindungen akzeptieren",
+            file2: "liest_das_wirklich_jemand.zc",
+            comm2: "// Konstruktor. Alle Features sind aktiviert!",
+            comm3: "// Beschreiben Sie die Sprache in einer Zeile",
+            desc: "Moderne Ergonomie. Null Overhead. Reines C."
         }
     },
     'it': {
@@ -113,6 +129,14 @@ const locales = {
             t2_name: "Sponsor", t2_desc: "Nuove feature.", t2_1: "Premi Backer", t2_2: "Accesso RFC", t2_3: "Logo",
             t3_name: "Enterprise", t3_price: "Contatto", t3_desc: "Soluzioni.", t3_1: "Supporto Prio", t3_2: "Logo Home",
             active: "Sponsor", loading: "Caricamento..."
+        },
+        code: {
+            title1: "Echo Server in ascolto su :8080",
+            comm1: "// Accetta nuove connessioni",
+            file2: "qualcuno_legge_davvero_questo.zc",
+            comm2: "// Costruttore. Tutte le funzioni sono abilitate!",
+            comm3: "// Descrivi il linguaggio in una riga",
+            desc: "Ergonomia Moderna. Zero Overhead. Puro C."
         }
     },
     'pt': {
@@ -148,6 +172,14 @@ const locales = {
             t2_name: "Sponsor", t2_desc: "Features.", t2_1: "Recompensas", t2_2: "RFC", t2_3: "Logo",
             t3_name: "Enterprise", t3_price: "Contato", t3_desc: "Soluções.", t3_1: "Suporte", t3_2: "Logo Home",
             active: "Patrocinadores", loading: "Carregando..."
+        },
+        code: {
+            title1: "Echo Server ouvindo em :8080",
+            comm1: "// Aceitar novas conexões",
+            file2: "alguem_realmente_le_isso.zc",
+            comm2: "// Construtor. Todos os recursos vêm ativados!",
+            comm3: "// Descreva a linguagem em uma linha",
+            desc: "Ergonomia Moderna. Zero Overhead. C Puro."
         }
     },
     'ru': {
@@ -183,6 +215,14 @@ const locales = {
             t2_name: "Sponsor", t2_desc: "Особенности.", t2_1: "Бонусы Backer", t2_2: "RFC", t2_3: "Лого",
             t3_name: "Enterprise", t3_price: "Контакт", t3_desc: "Решения.", t3_1: "Приоритет", t3_2: "Лого Home",
             active: "Спонсоры", loading: "Загрузка..."
+        },
+        code: {
+            title1: "Echo Server слушает на :8080",
+            comm1: "// Принимать новые соединения",
+            file2: "кто-то_это_читает.zc",
+            comm2: "// Конструктор. Все функции включены!",
+            comm3: "// Описание языка в одну строку",
+            desc: "Эргономика. Ноль расходов. Чистый C."
         }
     },
     'zh-cn': {
@@ -218,6 +258,14 @@ const locales = {
             t2_name: "Sponsor", t2_desc: "推动新功能。", t2_1: "Backer 奖励", t2_2: "RFC 权限", t2_3: "README Logo",
             t3_name: "Enterprise", t3_price: "联系", t3_desc: "企业方案。", t3_1: "专属支持", t3_2: "首页 Logo",
             active: "活跃赞助商", loading: "加载中..."
+        },
+        code: {
+            title1: "回声服务器监听端口 :8080",
+            comm1: "// 接受新连接",
+            file2: "真的有人看吗.zc",
+            comm2: "// 构造函数。所有特性均已开启！",
+            comm3: "// 一行描述语言",
+            desc: "现代工程学。零开销。纯粹的 C。"
         }
     },
     'zh-tw': {
@@ -253,6 +301,14 @@ const locales = {
             t2_name: "Sponsor", t2_desc: "推動新功能。", t2_1: "Backer 獎勵", t2_2: "RFC 權限", t2_3: "README Logo",
             t3_name: "Enterprise", t3_price: "聯絡", t3_desc: "企業方案。", t3_1: "專屬支援", t3_2: "首頁 Logo",
             active: "活躍贊助商", loading: "載入中..."
+        },
+        code: {
+            title1: "迴聲伺服器監聽埠 :8080",
+            comm1: "// 接受新連接",
+            file2: "真的有人看嗎.zc",
+            comm2: "// 建構子。所有特性均已開啟！",
+            comm3: "// 一行描述語言",
+            desc: "現代工程學。零開銷。純粹的 C。"
         }
     }
 };
@@ -365,7 +421,15 @@ const regexes = [
     { eng: /<h2 class="section-title">The engineering mailing list.<\/h2>/, key: 'news_hero.title', tag: '<h2 class="section-title">{VAL}</h2>' },
     { eng: /<p>Direct updates on language features, standard library releases, and roadmap progress.<\/p>/, key: 'news_hero.desc', tag: '<p>{VAL}</p>' },
     { eng: /<button type="submit" class="btn btn-primary"[^>]*>Subscribe to Updates<\/button>/, key: 'news_hero.btn', tag: '<button type="submit" class="btn btn-primary" style="padding: 14px 32px; border-radius: 8px;">{VAL}</button>' },
-    { eng: /<button type="submit" class="btn-subscribe">Subscribe<\/button>/, key: 'footer.sub', tag: '<button type="submit" class="btn-subscribe">{VAL}</button>' }
+    { eng: /<button type="submit" class="btn-subscribe">Subscribe<\/button>/, key: 'footer.sub', tag: '<button type="submit" class="btn-subscribe">{VAL}</button>' },
+
+    // Code blocks
+    { eng: /"Echo Server listening on :8080"/, key: 'code.title1', tag: '"{VAL}"' },
+    { eng: /\/\/ Accept new connections/, key: 'code.comm1', tag: '{VAL}' },
+    { eng: /do_people_really_read_this\.zc/, key: 'code.file2', tag: '{VAL}' },
+    { eng: /\/\/ Constructor\. All features ship enabled!/, key: 'code.comm2', tag: '{VAL}' },
+    { eng: /\/\/ Describe the language in one line/, key: 'code.comm3', tag: '{VAL}' },
+    { eng: /"Modern Ergonomics\. Zero Overhead\. Pure C\."/, key: 'code.desc', tag: '"{VAL}"' }
 ];
 
 function resolveKey(obj, path) {

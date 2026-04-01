@@ -256,11 +256,11 @@
                     <pre><code><span class="kwd">import</span> <span class="str">"std/net/tcp.zc"</span>
 
 <span class="kwd">fn</span> <span class="fn">main</span>() {
-    <span class="str">"Echo Server listening on :8080"</span>;
+    <span class="str">"Echo Server слушает на :8080"</span>;
     <span class="kwd">let</span> listener = <span class="typ">TcpListener</span>::<span class="fn">bind</span>(<span class="str">"127.0.0.1"</span>, <span class="num">8080</span>).<span class="fn">unwrap</span>();
 
     <span class="kwd">loop</span> {
-        <span class="com">// Accept new connections</span>
+        <span class="com">// Принимать новые соединения</span>
         <span class="kwd">let</span> stream = listener.<span class="fn">accept</span>().<span class="fn">unwrap</span>();
         <span class="kwd">let</span> buf: <span class="typ">char</span>[<span class="num">1024</span>];
         
@@ -341,7 +341,7 @@
                                 <polyline points="4 17 10 11 4 5"></polyline>
                                 <line x1="12" y1="19" x2="20" y2="19"></line>
                             </svg>
-                            <span class="file-name-mono">do_people_really_read_this.zc</span>
+                            <span class="file-name-mono">кто-то_это_читает.zc</span>
                         </div>
                         <div class="terminal-icon"><i class="fa-regular fa-copy"></i></div>
                     </div>
@@ -390,7 +390,7 @@
 }
 
 <span class="kwd">impl</span> <span class="typ">Features</span> {
-    <span class="com">// Constructor. All features ship enabled!</span>
+    <span class="com">// Конструктор. Все функции включены!</span>
     <span class="kwd">fn</span> <span class="fn">new</span>() -> <span class="typ">Self</span> {
         <span class="kwd">return</span> <span class="typ">Features</span>{
             <span class="fn">transparent_compilation</span>: <span class="kwd">true</span>,
@@ -402,9 +402,9 @@
         };
     }
 
-    <span class="com">// Describe the language in one line</span>
+    <span class="com">// Описание языка в одну строку</span>
     <span class="kwd">fn</span> <span class="fn">describe</span>(<span class="kwd">self</span>) {
-        <span class="fn">println</span> <span class="str">"Modern Ergonomics. Zero Overhead. Pure C."</span>;
+        <span class="fn">println</span> <span class="str">"Эргономика. Ноль расходов. Чистый C."</span>;
     }
 }
 
