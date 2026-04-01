@@ -1,16 +1,16 @@
 +++
-title = "11. Concurrency (Async/Await)"
+title = "11. 并发 (Async/Await)"
 weight = 11
 +++
 
-# 11. Concurrency (Async/Await)
+# 11. 并发 (Async/Await)
 
 
-Built on pthreads.
+基于 pthreads 构建。
 
 ```zc
 async fn fetch_data() -> string {
-    // Runs in background
+    // 在后台运行
     return "Data";
 }
 

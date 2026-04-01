@@ -1,38 +1,38 @@
 +++
-title = "9. Object Oriented Programming"
+title = "9. 面向對象編程"
 weight = 9
 +++
 
-# 9. Object Oriented Programming
+# 9. 面向對象編程
 
 
-#### Methods
-Define methods on types using `impl`.
+#### 方法
+使用 `impl` 為類型定義方法。
 ```zc
 impl Point {
-    // Static method (constructor convention)
+    // 靜態方法 (構造函數慣例)
     fn new(x: int, y: int) -> Self {
         return Point{x: x, y: y};
     }
 
-    // Instance method
+    // 實例方法
     fn dist(self) -> float {
         return sqrt(self.x * self.x + self.y * self.y);
     }
 }
 ```
 
-**Self Shorthand**: In methods with a `self` parameter, you can use `.field` as shorthand for `self.field`:
+**Self 簡寫**: 在具有 `self` 參數的方法中，可以使用 `.欄位` 作為 `self.欄位` 的簡寫：
 ```zc
 impl Point {
     fn dist(self) -> float {
-        return sqrt(.x * .x + .y * .y);  // Equivalent to self.x, self.y
+        return sqrt(.x * .x + .y * .y);  // 等同於 self.x, self.y
     }
 }
 ```
 
-#### Primitive Methods
-Zen C allows you to define methods on primitive types (like `int`, `bool`, etc.) using the same `impl` syntax.
+#### 原始類型方法
+Zen C 允許你使用相同的 `impl` 語法在原始類型（如 `int`、`bool` 等）上定義方法。
 
 ```zc
 impl int {
@@ -46,8 +46,8 @@ let y = x.abs(); // 10
 let z = (-5).abs(); // 5 (Literals supported)
 ```
 
-#### Traits
-Define shared behavior.
+#### Trait
+定義共享行為。
 ```zc
 struct Circle { radius: f32; }
 
@@ -63,17 +63,17 @@ let circle = Circle{};
 let drawable: Drawable = &circle;
 ```
 
-#### Standard Traits
-Zen C includes standard traits that integrate with language syntax.
+#### 標準 Trait
+Zen C 包含與語言語法集成的標準 Trait。
 
 **Iterable**
 
-Implement `Iterable<T>` to enable `for-in` loops for your custom types.
+實現 `Iterable<T>` 以便為你的自定義類型啟用 `for-in` 循環。
 
 ```zc
 import "std/iter.zc"
 
-// Define an Iterator
+// 定義一個迭代器
 struct MyIter {
     curr: int;
     stop: int;
@@ -89,14 +89,14 @@ impl MyIter {
     }
 }
 
-// Implement Iterable
+// 實現 Iterable
 impl MyRange {
     fn iterator(self) -> MyIter {
         return MyIter{curr: self.start, stop: self.end};
     }
 }
 
-// Use in Loop
+// 在循環中使用
 for i in my_range {
     println "{i}";
 }
@@ -104,7 +104,7 @@ for i in my_range {
 
 **Drop**
 
-Implement `Drop` to define a destructor that runs when the object goes out of scope (RAII).
+實現 `Drop` 來定義一個在對象超出範圍時運行的析構函數 (RAII)。
 
 ```zc
 import "std/mem.zc"
@@ -122,16 +122,16 @@ impl Drop for Resource {
 }
 ```
 
-{% alert(type="important") %}
-**Note:** If a variable is moved, `drop` is NOT called on the original variable. It adheres to [Resource Semantics](#resource-semantics-move-by-default).
+{% alert(type="note") %}
+如果一個變量被移動，則原始變量不會調用 `drop`。它遵循 [資源語義](#資源語義-默認移動)。
 {% end %}
 
 **Copy**
 
-Marker trait to opt-in to `Copy` behavior (implicit duplication) instead of Move semantics. Used via `@derive(Copy)`.
+標記 Trait，用於選擇支持 `Copy` 行為（隱式複製）而不是移動語義。通過 `@derive(Copy)` 使用。
 
 {% alert(type="caution") %}
-**Rule:** Types that implement `Copy` must not define a destructor (`Drop`).
+實現了 `Copy` 的類型不得定義析構函數 (`Drop`)。
 {% end %}
 
 ```zc
@@ -140,13 +140,13 @@ struct Point { x: int; y: int; }
 
 fn main() {
     let p1 = Point{x: 1, y: 2};
-    let p2 = p1; // Copied! p1 remains valid.
+    let p2 = p1; // 已複製！p1 保持有效。
 }
 ```
 
 **Clone**
 
-Implement `Clone` to allow explicit duplication of resource-owning types.
+實現 `Clone` 以允許顯式複製擁有資源的類型。
 
 ```zc
 import "std/mem.zc"
@@ -161,25 +161,25 @@ impl Clone for MyBox {
 
 fn main() {
     let b1 = MyBox{val: 42};
-    let b2 = b1.clone(); // Explicit copy
+    let b2 = b1.clone(); // 顯式複製
 }
 ```
 
-#### Composition
-Use `use` to embed other structs. You can either mix them in (flatten fields) or name them (nest fields).
+#### 組合
+使用 `use` 嵌入其他結構體。你可以將它們混合進來（展平字段）或者為它們命名（嵌套字段）。
 
 ```zc
 struct Entity { id: int; }
 
 struct Player {
-    // Mixin (Unnamed): Flattens fields
-    use Entity;  // Adds 'id' to Player directly
+    // 混入 (未命名): 展平字段
+    use Entity;  // 直接將 'id' 添加到 Player
     name: string;
 }
 
 struct Match {
-    // Composition (Named): Nests fields
-    use p1: Player; // Accessed via match.p1
-    use p2: Player; // Accessed via match.p2
+    // 組合 (命名): 嵌套字段
+    use p1: Player; // 通過 match.p1 訪問
+    use p2: Player; // 通過 match.p2 訪問
 }
 ```

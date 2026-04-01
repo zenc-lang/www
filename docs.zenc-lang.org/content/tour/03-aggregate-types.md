@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-Structs use [Move Semantics](../08-memory-management) by default. Fields can be accessed via `.` even on pointers (Auto-Dereference).
+Structs use [Move Semantics](#move-semantics--copy-safety) by default. Fields can be accessed via `.` even on pointers (Auto-Dereference).
 {% end %}
 
 #### Opaque Structs
@@ -125,7 +125,7 @@ fn main() {
     let x = c[0];                        // Element access (float)
 }
 ```
-Arithmetic (`+`, `-`, `*`, `/`) and bitwise (`&`, `|`, `^`) operators work element-wise.
+Arithmetic (`+`, `-`, `*`, `/`) and bitwise (`&`, `|`, `^`) operators work element-wise. See [`std/simd.zc`](std/simd.zc) for predefined types.
 
 #### Type Aliases
 Create a new name for an existing type.

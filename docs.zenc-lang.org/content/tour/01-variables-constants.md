@@ -1,9 +1,9 @@
 +++
-title = "1. Variables & Constants"
+title = "1. Variables and Constants"
 weight = 1
 +++
 
-# 1. Variables & Constants
+# 1. Variables and Constants
 
 
 Zen C distinguishes between compile-time constants and runtime variables.
