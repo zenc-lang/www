@@ -6,38 +6,43 @@ const rawHtml = fs.readFileSync(srcThemePath, 'utf8');
 
 const locales = {
     'es': {
-        title: "Zen C - Ergonomía Moderna. C Puro.", desc: "Un lenguaje moderno que compila a C11.",
+        title: "Zen C - Ergonomía Moderna. C Puro.", desc: "Un lenguaje moderno de programación de sistemas que transpila a C11 legible por humanos con cero sobrecarga.",
         nav: { docs: "Documentación", mirror: "Espejo", interop: "Interop", roadmap: "Hoja de Ruta", newsletter: "Boletín", sponsors: "Patrocinadores" },
         hero: {
             sub: "Ergonomía Moderna.<br>Cero Overhead.<br>C Puro.",
-            lead: "Un lenguaje de sistemas que trae <strong>coincidencia de patrones</strong>, <strong>traits</strong>, y <strong>semántica de propiedad</strong> a C.",
-            get_started: "Empezar", join_discord: "Unirse a Discord", newsletter: "Boletín &rarr;", updates: "Actualizaciones:", join: "Únete"
+            lead: "Un lenguaje de sistemas con tipado fuerte que trae <strong>coincidencia de patrones</strong>, <strong>traits</strong>, y <strong>semántica de propiedad</strong> al ecosistema C.",
+            get_started: "Empezar", join_discord: "Unirse a Discord", newsletter: "Boletín &rarr;", updates: "Actualizaciones sobre el progreso de Zen C:", join: "Unirse"
         },
-        install: { title: "Empieza a Compilar", desc: "¡Funciona con GCC/Clang/TCC!", clone: "CLONAR", build: "CONSTRUIR", install: "INSTALAR" },
+        install: { title: "Empieza a Compilar", desc: "¡Funciona con GCC/Clang/TCC y otros compiladores!", clone: "CLONAR", build: "CONSTRUIR", install: "INSTALAR" },
         features: {
-            title: "Cero Fricción. Control Máximo.", desc: "Experimenta la transparencia de C.",
-            f1: "Transpila a GNU C11 limpio: C puro sin cajas negras.", f2: "Llama a cualquier función C. Cero FFI.",
-            f3: "Drop implícito evita fugas de memoria sin GC.", f4: "Genéricos sin sobrecarga.",
-            f5: "E/S asíncrona de alto rendimiento.", f6: "Coincidencia de patrones exhaustiva.", f7: "Tipos paramétricos sin despacho virtual."
+            title: "Cero Fricción. Control Máximo.", desc: "Experimenta la transparencia de C combinada con la experiencia de desarrollo de un lenguaje moderno.",
+            f1: "Transpila directamente a GNU C11 limpio y legible: C puro sin cajas negras.", f2: "Llama a cualquier función C, usa cualquier struct C. Cero boilerplate FFI.",
+            f3: "El trait <code>Drop</code> implícito evita fugas de memoria sin un GC.", f4: "Genéricos de cero sobrecarga: especializados en tiempo de compilación, no en ejecución.",
+            f5: "E/S asíncrona de alto rendimiento sin infierno de callbacks ni runtimes ocultos.", f6: "<code>match</code> exhaustivo sobre enums y tuplas para un flujo de control a prueba de balas.", f7: "Tipos paramétricos que desaparecen en tiempo de compilación: sin despacho virtual."
         },
-        interop: { title: "Arquitectura Políglota", desc: "Zen C se adapta a tu ecosistema.", cuda: "Escribe kernels de GPU.", cpp: "Genera código C++.", objc: "Soporte macOS." },
-        rosetta: { title: "Rosetta Code", desc: "Zen C es un ciudadano de primera clase.", btn: "Explorar &rarr;" },
-        footer: { tag: "Ergonomía moderna. C puro.", project: "Proyecto", src: "Código Fuente", spon: "Patrocinar", news_title: "Boletín", news_desc: "Únete a la lista de correo.", sub: "Suscribirse" },
+        interop: {
+            title: "Arquitectura Políglota", desc: "Zen C se adapta a tu ecosistema. Enlázalo sin problemas con bases de código existentes.",
+            cuda: "Escribe kernels de GPU con sintaxis Zen usando atributos <code>launch</code> y <code>@global</code>.",
+            cpp: "Genera código compatible con C++ para enlazar con librerías. Instancia plantillas en bloques <code>raw</code>.",
+            objc: "Soporte nativo para macOS. Mezcla la sintaxis <code>[Object message]</code> dentro de tu código de sistemas."
+        },
+        rosetta: { title: "Establecido en Rosetta Code", desc: "Zen C es un ciudadano de primera clase en Rosetta Code, la crestomatía de programación. Compara nuestra sintaxis y semántica en cientos de tareas estandarizadas.", btn: "Explorar la Categoría Zen C &rarr;" },
+        footer: { tag: "Ergonomía moderna. C puro.", project: "Proyecto", src: "Código Fuente", spon: "Patrocinar", news_title: "Boletín", news_desc: "Únete a la lista de correo para actualizaciones.", sub: "Suscribirse" },
         news_hero: { title: "La lista de correo para ingenieros.", desc: "Actualizaciones directas sobre características del lenguaje, lanzamientos de la biblioteca estándar y progreso de la hoja de ruta.", btn: "Suscribirse a las Actualizaciones" },
-        videos: { title: "Videos Comunitarios", desc: "Mira tutoriales creados por la comunidad." },
+        videos: { title: "Videos Comunitarios", desc: "Mira tutoriales, reseñas y profundizaciones creadas por la comunidad de Zen C." },
         roadmap: {
-            title: "El Camino a Seguir", desc: "Nuestra hoja de ruta hacia la madurez.",
-            p1_phase: "Base Actual", p1_title: "Lenguaje Central", p1_1: "Transpilación C", p1_2: "Interop C++, Obj-C", p1_3: "Semántica RAII", p1_4: "Genéricos", p1_5: "Soporte LSP",
-            p2_phase: "Próximamente", p2_title: "Expansión", p2_1: "Gestor de Paquetes", p2_2: "Wasm", p2_3: "LSP Avanzado", p2_4: "std ampliada",
-            p3_phase: "En Horizonte", p3_title: "Semántica", p3_1: "async/await", p3_2: "comptime", p3_3: "Plugins", p3_4: "Compilador",
-            p4_phase: "Destino", p4_title: "Estabilización", p4_1: "Especificación", p4_2: "API Freeze", p4_3: "Estabilidad ABI", p4_4: "Casos reales"
+            title: "El Camino a Seguir", desc: "Nuestra hoja de ruta conceptual hacia la madurez del ecosistema.",
+            p1_phase: "Base Actual", p1_title: "Lenguaje Central", p1_1: "Transpilación C sin sobrecarga", p1_2: "Interop C++, Obj-C, CUDA", p1_3: "Semántica de recursos RAII", p1_4: "Genéricos monomorfizados", p1_5: "Soporte de construcción LSP y APE",
+            p2_phase: "Próximamente", p2_title: "Expansión del Ecosistema", p2_1: "Gestor de Paquetes Oficial", p2_2: "Target Wasm y Emscripten", p2_3: "Funciones avanzadas de LSP", p2_4: "Biblioteca std ampliada",
+            p3_phase: "En el Horizonte", p3_title: "Semántica Avanzada", p3_1: "<code>async/await</code> estabilizado", p3_2: "API de reflexión <code>comptime</code>", p3_3: "Sistema de plugins mejorado", p3_4: "Compilador autohospedado",
+            p4_phase: "El Destino", p4_title: "Estabilización y 1.0", p4_1: "Especificación del lenguaje", p4_2: "Congelación de API de biblioteca estándar", p4_3: "Garantías de estabilidad ABI", p4_4: "Casos de estudio en Kernel/Embebidos"
         },
         sponsors: {
-            title: "Sostiene el Proyecto", desc: "Zen C es open source.", btn: "Ver Open Collective &rarr;",
-            t1_name: "Backer", t1_desc: "Apoyo diario.", t1_1: "Insignia GitHub", t1_2: "Rol Discord",
-            t2_name: "Sponsor", t2_desc: "Nuevas funciones.", t2_1: "Recompensas Backer", t2_2: "Acceso RFC", t2_3: "Logo README",
-            t3_name: "Empresa", t3_price: "Contacto", t3_desc: "A medida.", t3_1: "Soporte", t3_2: "Logo Inicio",
-            active: "Patrocinadores", loading: "Cargando..."
+            title: "Sostiene el Proyecto", desc: "Zen C es estrictamente Open Source y se financia mediante la comunidad. Las contribuciones a través de Open Collective aseguran la longevidad de la infraestructura.", btn: "Ver Open Collective &rarr;",
+            t1_name: "Backer", t1_desc: "Apoya el mantenimiento diario.", t1_1: "Insignia en GitHub", t1_2: "Rol en Discord",
+            t2_name: "Sponsor", t2_desc: "Impulsa nuevas funcionalidades.", t2_1: "Todas las recompensas de Backer", t2_2: "Acceso temprano a RFC", t2_3: "Logo en el README",
+            t3_name: "Empresa", t3_price: "Contacto", t3_desc: "Soluciones a medida.", t3_1: "Soporte prioritario", t3_2: "Logo en la página de inicio",
+            active: "Patrocinadores Activos", loading: "Cargando patrocinadores..."
         }
     },
     'de': {
@@ -315,11 +320,11 @@ const regexes = [
     { eng: /<li>C\+\+, Obj-C, CUDA Interop<\/li>/, key: 'roadmap.p1_2', tag: '<li>{VAL}</li>' },
     { eng: /<li>RAII resource semantics<\/li>/, key: 'roadmap.p1_3', tag: '<li>{VAL}</li>' },
     { eng: /<li>Monomorphized Generics<\/li>/, key: 'roadmap.p1_4', tag: '<li>{VAL}</li>' },
-    { eng: /<li>LSP &amp; APE build support<\/li>/, key: 'roadmap.p1_5', tag: '<li>{VAL}</li>' },
+    { eng: /<li>LSP & APE build support<\/li>/, key: 'roadmap.p1_5', tag: '<li>{VAL}</li>' },
     { eng: /<div class="roadmap-phase">Next Up<\/div>/, key: 'roadmap.p2_phase', tag: '<div class="roadmap-phase">{VAL}</div>' },
     { eng: /<h3>Ecosystem Expansion<\/h3>/, key: 'roadmap.p2_title', tag: '<h3>{VAL}</h3>' },
     { eng: /<li>Official Package Manager<\/li>/, key: 'roadmap.p2_1', tag: '<li>{VAL}</li>' },
-    { eng: /<li>Wasm &amp; Emscripten Target<\/li>/, key: 'roadmap.p2_2', tag: '<li>{VAL}</li>' },
+    { eng: /<li>Wasm & Emscripten Target<\/li>/, key: 'roadmap.p2_2', tag: '<li>{VAL}</li>' },
     { eng: /<li>Advanced LSP features<\/li>/, key: 'roadmap.p2_3', tag: '<li>{VAL}</li>' },
     { eng: /<li>Expanded std library<\/li>/, key: 'roadmap.p2_4', tag: '<li>{VAL}</li>' },
     { eng: /<div class="roadmap-phase">In The Horizon<\/div>/, key: 'roadmap.p3_phase', tag: '<div class="roadmap-phase">{VAL}</div>' },
@@ -329,7 +334,7 @@ const regexes = [
     { eng: /<li>Improved plugin system<\/li>/, key: 'roadmap.p3_3', tag: '<li>{VAL}</li>' },
     { eng: /<li>Self-hosted compiler<\/li>/, key: 'roadmap.p3_4', tag: '<li>{VAL}</li>' },
     { eng: /<div class="roadmap-phase">The Destination<\/div>/, key: 'roadmap.p4_phase', tag: '<div class="roadmap-phase">{VAL}</div>' },
-    { eng: /<h3>Stabilization &amp; 1\.0<\/h3>/, key: 'roadmap.p4_title', tag: '<h3>{VAL}</h3>' },
+    { eng: /<h3>Stabilization & 1\.0<\/h3>/, key: 'roadmap.p4_title', tag: '<h3>{VAL}</h3>' },
     { eng: /<li>Language Specification<\/li>/, key: 'roadmap.p4_1', tag: '<li>{VAL}</li>' },
     { eng: /<li>Standard Library API Freeze<\/li>/, key: 'roadmap.p4_2', tag: '<li>{VAL}</li>' },
     { eng: /<li>ABI stability guarantees<\/li>/, key: 'roadmap.p4_3', tag: '<li>{VAL}</li>' },
@@ -359,7 +364,8 @@ const regexes = [
     // Final newsletter mappings
     { eng: /<h2 class="section-title">The engineering mailing list.<\/h2>/, key: 'news_hero.title', tag: '<h2 class="section-title">{VAL}</h2>' },
     { eng: /<p>Direct updates on language features, standard library releases, and roadmap progress.<\/p>/, key: 'news_hero.desc', tag: '<p>{VAL}</p>' },
-    { eng: /<button type="submit" class="btn btn-primary"[^>]*>Subscribe to Updates<\/button>/, key: 'news_hero.btn', tag: '<button type="submit" class="btn btn-primary" style="padding: 14px 32px; border-radius: 8px;">{VAL}</button>' }
+    { eng: /<button type="submit" class="btn btn-primary"[^>]*>Subscribe to Updates<\/button>/, key: 'news_hero.btn', tag: '<button type="submit" class="btn btn-primary" style="padding: 14px 32px; border-radius: 8px;">{VAL}</button>' },
+    { eng: /<button type="submit" class="btn-subscribe">Subscribe<\/button>/, key: 'footer.sub', tag: '<button type="submit" class="btn-subscribe">{VAL}</button>' }
 ];
 
 function resolveKey(obj, path) {

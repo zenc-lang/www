@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zen C - Ergonomía Moderna. C Puro.</title>
     <meta name="description"
-        content="Un lenguaje moderno que compila a C11.">
+        content="Un lenguaje moderno de programación de sistemas que transpila a C11 legible por humanos con cero sobrecarga.">
     <link rel="stylesheet" href="/style.css?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,7 +183,7 @@
                 <h2 class="sub-title">Ergonomía Moderna.<br>Cero Overhead.<br>C Puro.</h2>
 
                 <p class="lead">
-                    Un lenguaje de sistemas que trae <strong>coincidencia de patrones</strong>, <strong>traits</strong>, y <strong>semántica de propiedad</strong> a C.
+                    Un lenguaje de sistemas con tipado fuerte que trae <strong>coincidencia de patrones</strong>, <strong>traits</strong>, y <strong>semántica de propiedad</strong> al ecosistema C.
                 </p>
 
                 <div class="cmd-line-wrapper">
@@ -203,7 +203,7 @@
                 </div>
 
                 <div class="newsletter-inline">
-                    <p>Actualizaciones:</p>
+                    <p>Actualizaciones sobre el progreso de Zen C:</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form">
@@ -315,14 +315,14 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
-                <p>¡Funciona con GCC/Clang/TCC!</p>
+                <p>¡Funciona con GCC/Clang/TCC y otros compiladores!</p>
             </div>
         </section>
 
         <section id="features" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Cero Fricción. Control Máximo.</h2>
-                <p class="section-desc">Experimenta la transparencia de C.</p>
+                <p class="section-desc">Experimenta la transparencia de C combinada con la experiencia de desarrollo de un lenguaje moderno.</p>
             </div>
 
             <div class="features-split">
@@ -421,31 +421,31 @@
                 <div class="features-list">
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">transparent_compilation</span></span>
-                        <p>Transpila a GNU C11 limpio: C puro sin cajas negras.</p>
+                        <p>Transpila directamente a GNU C11 limpio y legible: C puro sin cajas negras.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">native_c_abi</span></span>
-                        <p>Llama a cualquier función C. Cero FFI.</p>
+                        <p>Llama a cualquier función C, usa cualquier struct C. Cero boilerplate FFI.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">resource_management</span></span>
-                        <p>Drop implícito evita fugas de memoria sin GC.</p>
+                        <p>El trait <code>Drop</code> implícito evita fugas de memoria sin un GC.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">monomorphization</span></span>
-                        <p>Genéricos sin sobrecarga.</p>
+                        <p>Genéricos de cero sobrecarga: especializados en tiempo de compilación, no en ejecución.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">async_await</span></span>
-                        <p>E/S asíncrona de alto rendimiento.</p>
+                        <p>E/S asíncrona de alto rendimiento sin infierno de callbacks ni runtimes ocultos.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">pattern_matching</span></span>
-                        <p>Coincidencia de patrones exhaustiva.</p>
+                        <p><code>match</code> exhaustivo sobre enums y tuplas para un flujo de control a prueba de balas.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">zero_cost_generics</span></span>
-                        <p>Tipos paramétricos sin despacho virtual.</p>
+                        <p>Tipos paramétricos que desaparecen en tiempo de compilación: sin despacho virtual.</p>
                     </div>
                 </div>
             </div>
@@ -457,7 +457,7 @@
         <section id="interop" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Arquitectura Políglota</h2>
-                <p class="section-desc">Zen C se adapta a tu ecosistema.</p>
+                <p class="section-desc">Zen C se adapta a tu ecosistema. Enlázalo sin problemas con bases de código existentes.</p>
             </div>
 
             <div class="interop-grid">
@@ -466,7 +466,7 @@
                         <h3>CUDA</h3>
                         <span class="flag-badge">--cuda</span>
                     </div>
-                    <p>Escribe kernels de GPU.</p>
+                    <p>Escribe kernels de GPU con sintaxis Zen usando atributos <code>launch</code> y <code>@global</code>.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">@global</span>
 <span class="kwd">fn</span> <span class="fn">add</span>(a: <span class="typ">float</span>*, b: <span class="typ">float</span>*) {
@@ -481,7 +481,7 @@
                         <h3>C++</h3>
                         <span class="flag-badge">--cpp</span>
                     </div>
-                    <p>Genera código C++.</p>
+                    <p>Genera código compatible con C++ para enlazar con librerías. Instancia plantillas en bloques <code>raw</code>.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     std::vector&lt;<span class="typ">int</span>&gt; <span class="fn">get_vec</span>() {
@@ -496,7 +496,7 @@
                         <h3>Objective-C</h3>
                         <span class="flag-badge">--objc</span>
                     </div>
-                    <p>Soporte macOS.</p>
+                    <p>Soporte nativo para macOS. Mezcla la sintaxis <code>[Object message]</code> dentro de tu código de sistemas.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     id pool = [[NSPool alloc] init];
@@ -510,14 +510,14 @@
         <section id="rosetta" class="container section-pad">
             <div
                 style="max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Rosetta Code</h2>
+                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Establecido en Rosetta Code</h2>
                 <p
                     style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; text-align: center;">
-                    Zen C es un ciudadano de primera clase.
+                    Zen C es un ciudadano de primera clase en Rosetta Code, la crestomatía de programación. Compara nuestra sintaxis y semántica en cientos de tareas estandarizadas.
                 </p>
                 <a href="https://rosettacode.org/wiki/Category:Zen_C" class="btn btn-primary" target="_blank"
                     style="padding: 14px 32px; font-size: 1rem; border-radius: 8px; font-weight: 600;">
-                    Explorar &rarr;
+                    Explorar la Categoría Zen C &rarr;
                 </a>
             </div>
         </section>
@@ -525,7 +525,7 @@
         <section id="videos" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Videos Comunitarios</h2>
-                <p class="section-desc">Mira tutoriales creados por la comunidad.</p>
+                <p class="section-desc">Mira tutoriales, reseñas y profundizaciones creadas por la comunidad de Zen C.</p>
             </div>
             <div class="videos-grid">
                 <div class="video-card">
@@ -555,7 +555,7 @@
         <section id="roadmap" class="container section-pad">
             <div class="sponsors-intro" style="margin-bottom: 4rem;">
                 <h2 class="section-title">El Camino a Seguir</h2>
-                <p class="section-desc">Nuestra hoja de ruta hacia la madurez.</p>
+                <p class="section-desc">Nuestra hoja de ruta conceptual hacia la madurez del ecosistema.</p>
             </div>
 
             <div class="roadmap-memory-map">
@@ -565,11 +565,11 @@
                         <div class="roadmap-phase">Base Actual</div>
                         <h3>Lenguaje Central</h3>
                         <ul class="roadmap-list">
-                            <li>Transpilación C</li>
-                            <li>Interop C++, Obj-C</li>
-                            <li>Semántica RAII</li>
-                            <li>Genéricos</li>
-                            <li>LSP & APE build support</li>
+                            <li>Transpilación C sin sobrecarga</li>
+                            <li>Interop C++, Obj-C, CUDA</li>
+                            <li>Semántica de recursos RAII</li>
+                            <li>Genéricos monomorfizados</li>
+                            <li>Soporte de construcción LSP y APE</li>
                         </ul>
                     </div>
                 </div>
@@ -578,12 +578,12 @@
                     <div class="roadmap-address">0x10</div>
                     <div class="roadmap-content">
                         <div class="roadmap-phase">Próximamente</div>
-                        <h3>Expansión</h3>
+                        <h3>Expansión del Ecosistema</h3>
                         <ul class="roadmap-list">
-                            <li>Gestor de Paquetes</li>
-                            <li>Wasm & Emscripten Target</li>
-                            <li>LSP Avanzado</li>
-                            <li>std ampliada</li>
+                            <li>Gestor de Paquetes Oficial</li>
+                            <li>Target Wasm y Emscripten</li>
+                            <li>Funciones avanzadas de LSP</li>
+                            <li>Biblioteca std ampliada</li>
                         </ul>
                     </div>
                 </div>
@@ -591,13 +591,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x20</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">En Horizonte</div>
-                        <h3>Semántica</h3>
+                        <div class="roadmap-phase">En el Horizonte</div>
+                        <h3>Semántica Avanzada</h3>
                         <ul class="roadmap-list">
-                            <li>async/await</li>
-                            <li>comptime</li>
-                            <li>Plugins</li>
-                            <li>Compilador</li>
+                            <li><code>async/await</code> estabilizado</li>
+                            <li>API de reflexión <code>comptime</code></li>
+                            <li>Sistema de plugins mejorado</li>
+                            <li>Compilador autohospedado</li>
                         </ul>
                     </div>
                 </div>
@@ -605,13 +605,13 @@
                 <div class="roadmap-item">
                     <div class="roadmap-address">0x30</div>
                     <div class="roadmap-content">
-                        <div class="roadmap-phase">Destino</div>
-                        <h3>Stabilization & 1.0</h3>
+                        <div class="roadmap-phase">El Destino</div>
+                        <h3>Estabilización y 1.0</h3>
                         <ul class="roadmap-list">
-                            <li>Especificación</li>
-                            <li>API Freeze</li>
-                            <li>Estabilidad ABI</li>
-                            <li>Casos reales</li>
+                            <li>Especificación del lenguaje</li>
+                            <li>Congelación de API de biblioteca estándar</li>
+                            <li>Garantías de estabilidad ABI</li>
+                            <li>Casos de estudio en Kernel/Embebidos</li>
                         </ul>
                     </div>
                 </div>
@@ -626,7 +626,7 @@
                 <div class="sponsors-intro">
                     <h2 class="section-title">Sostiene el Proyecto</h2>
                     <p class="section-desc">
-                        Zen C es open source.
+                        Zen C es estrictamente Open Source y se financia mediante la comunidad. Las contribuciones a través de Open Collective aseguran la longevidad de la infraestructura.
                     </p>
                     <a href="https://opencollective.com/z-libs" class="btn btn-primary" target="_blank">
                         Ver Open Collective &rarr;
@@ -637,38 +637,38 @@
                     <div class="tier-card">
                         <div class="tier-name">Backer</div>
                         <div class="tier-price">$5<span>/mo</span></div>
-                        <p class="tier-desc">Apoyo diario.</p>
+                        <p class="tier-desc">Apoya el mantenimiento diario.</p>
                         <ul class="tier-features">
-                            <li>✓ Insignia GitHub</li>
-                            <li>✓ Rol Discord</li>
+                            <li>✓ Insignia en GitHub</li>
+                            <li>✓ Rol en Discord</li>
                         </ul>
                     </div>
                     <div class="tier-card featured">
                         <div class="tier-name">Sponsor</div>
                         <div class="tier-price">$100<span>/mo</span></div>
-                        <p class="tier-desc">Nuevas funciones.</p>
+                        <p class="tier-desc">Impulsa nuevas funcionalidades.</p>
                         <ul class="tier-features">
-                            <li>✓ Recompensas Backer</li>
-                            <li>✓ Acceso RFC</li>
-                            <li>✓ Logo README</li>
+                            <li>✓ Todas las recompensas de Backer</li>
+                            <li>✓ Acceso temprano a RFC</li>
+                            <li>✓ Logo en el README</li>
                         </ul>
                     </div>
                     <div class="tier-card">
                         <div class="tier-name">Empresa</div>
                         <div class="tier-price">Contacto</div>
-                        <p class="tier-desc">A medida.</p>
+                        <p class="tier-desc">Soluciones a medida.</p>
                         <ul class="tier-features">
-                            <li>✓ Soporte</li>
-                            <li>✓ Logo Inicio</li>
+                            <li>✓ Soporte prioritario</li>
+                            <li>✓ Logo en la página de inicio</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="sponsors-gallery">
-                    <h3 class="gallery-title">Patrocinadores</h3>
+                    <h3 class="gallery-title">Patrocinadores Activos</h3>
                     <div id="sponsors-list" class="gallery-flex" style="min-height: 100px;">
                         <!-- Sponsors will be loaded here via JS -->
-                        <div class="loading-sponsors">Cargando...</div>
+                        <div class="loading-sponsors">Cargando patrocinadores...</div>
                     </div>
                 </div>
 
@@ -747,13 +747,13 @@
             <div class="footer-col">
                 <h4>Boletín</h4>
                 <div class="footer-links">
-                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Únete a la lista de correo.</p>
+                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Únete a la lista de correo para actualizaciones.</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form-footer">
                         <input type="email" name="email" id="bd-email-footer" placeholder="email@example.com" required>
                         <input type="hidden" value="1" name="embed">
-                        <button type="submit" class="btn-subscribe">Subscribe</button>
+                        <button type="submit" class="btn-subscribe">Suscribirse</button>
                     </form>
                 </div>
             </div>
