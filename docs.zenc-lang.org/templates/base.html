@@ -15,6 +15,42 @@
     </script>
 
     <style>
+        /* LANGUAGE SWITCHER */
+        .lang-container {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 1px solid var(--border);
+        }
+
+        .lang-button {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 4px 6px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .lang-button:hover {
+            color: var(--primary);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .lang-button.active {
+            color: var(--fg);
+            background: var(--surface-alt);
+            pointer-events: none;
+        }
+
+        [data-theme="dark"] .lang-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         /* DOCS LAYOUT OVERRIDES */
         body {
             display: flex;
@@ -559,9 +595,9 @@
         <div class="container nav-container">
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
-                <a href="https://zenc-lang.org">Home</a>
-                <a href="/" class="active">Docs</a>
-                <a href="https://git.zenc-lang.org">Git</a>
+                <a href="https://zenc-lang.org">{{ trans(key="home") }}</a>
+                <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{{ trans(key="docs") }}</a>
+                <a href="https://git.zenc-lang.org">{{ trans(key="git") }}</a>
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
                     <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2.5">
@@ -580,6 +616,14 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                 </button>
+                <div class="lang-container">
+                    {% for lang_code in ["en", "de", "es", "it", "pt", "ru", "zh-cn", "zh-tw"] %}
+                    <a href="{{ get_url(path=page.path | default(value=section.path | default(value="")), lang=lang_code) }}"
+                        class="lang-button {% if lang == lang_code %}active{% endif %}" title="{{ lang_code | upper }}">
+                        {{ lang_code | truncate(length=2, end="") }}
+                    </a>
+                    {% endfor %}
+                </div>
             </nav>
         </div>
     </header>
@@ -588,20 +632,22 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="Search docs..." autocomplete="off">
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder") }}"
+                    autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
 
             <div class="sidebar-group" id="group-tour">
                 <div class="sidebar-header" onclick="toggleSidebarGroup('group-tour')">
-                    <div class="sidebar-title">Tour of Zen C</div>
+                    <div class="sidebar-title">{{ trans(key="tour-title") }}</div>
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set tour_section = get_section(path="tour/_index.md") %}
+                    {% set tour_path = lang ~ "/tour/_index.md" if lang != "en" else "tour/_index.md" %}
+                    {% set tour_section = get_section(path=tour_path) %}
                     {% for page in tour_section.pages %}
                     <a href="{{ page.permalink }}"
                         class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
@@ -613,14 +659,15 @@
 
             <div class="sidebar-group" id="group-std">
                 <div class="sidebar-header" onclick="toggleSidebarGroup('group-std')">
-                    <div class="sidebar-title">Standard Library</div>
+                    <div class="sidebar-title">{{ trans(key="std-title") }}</div>
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set std_section = get_section(path="std/_index.md") %}
+                    {% set std_path = lang ~ "/std/_index.md" if lang != "en" else "std/_index.md" %}
+                    {% set std_section = get_section(path=std_path) %}
                     {% for page in std_section.pages | sort(attribute="title") %}
                     <a href="{{ page.permalink }}"
                         class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
@@ -632,14 +679,16 @@
 
             <div class="sidebar-group" id="group-examples">
                 <div class="sidebar-header" onclick="toggleSidebarGroup('group-examples')">
-                    <div class="sidebar-title">Community Examples</div>
+                    <div class="sidebar-title">{{ trans(key="examples-title") }}</div>
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set rosetta_section = get_section(path="examples/rosetta/_index.md") %}
+                    {% set ex_path = lang ~ "/examples/rosetta/_index.md" if lang != "en" else
+                    "examples/rosetta/_index.md" %}
+                    {% set rosetta_section = get_section(path=ex_path) %}
                     {% for page in rosetta_section.pages | sort(attribute="title") %}
                     <a href="{{ page.permalink }}"
                         class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
@@ -650,13 +699,13 @@
             </div>
 
             <div class="sidebar-newsletter">
-                <h4>Newsletter</h4>
-                <p>Stay updated on new Zen C features and releases.</p>
+                <h4>{{ trans(key="newsletter-title") }}</h4>
+                <p>{{ trans(key="newsletter-desc") }}</p>
                 <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post" target="popupwindow"
                     onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form">
                     <input type="email" name="email" id="bd-email-sidebar" placeholder="email@example.com" required>
                     <input type="hidden" value="1" name="embed">
-                    <button type="submit" class="btn-subscribe">Subscribe</button>
+                    <button type="submit" class="btn-subscribe">{{ trans(key="subscribe") }}</button>
                 </form>
             </div>
         </aside>
@@ -671,36 +720,37 @@
     <footer class="container footer-docs">
         <div class="footer-info">
             <strong class="footer-logo">Zen C</strong>
-            <span>Modern ergonomics. Pure C.</span>
-            <span>&copy; 2026 zenc-lang Org.</span>
+            <span>{{ trans(key="motto") }}</span>
+            <span>{{ trans(key="copyright") | safe }}</span>
         </div>
         <div class="footer-col">
-            <h4>Project</h4>
+            <h4>{{ trans(key="project") }}</h4>
             <div class="footer-links">
-                <a href="https://zenc-lang.org">Home</a>
-                <a href="https://docs.zenc-lang.org">Documentation</a>
-                <a href="https://git.zenc-lang.org">Source Code</a>
+                <a href="https://zenc-lang.org">{{ trans(key="home") }}</a>
+                <a href="{{ get_url(path=" /", lang=lang) }}">{{ trans(key="docs") }}</a>
+                <a href="https://git.zenc-lang.org">{{ trans(key="git") }}</a>
             </div>
         </div>
         <div class="footer-col" style="grid-column: span 1;">
-            <h4>Newsletter</h4>
+            <h4>{{ trans(key="newsletter-title") }}</h4>
             <div class="footer-links">
-                <p style="margin-bottom: 1rem; line-height: 1.4; font-size: 0.8rem;">Stay updated on Zen C releases and
-                    community news.</p>
+                <p style="margin-bottom: 1rem; line-height: 1.4; font-size: 0.8rem;">{{ trans(key="newsletter-desc") }}
+                </p>
                 <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post" target="popupwindow"
                     onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form-footer">
                     <input type="email" name="email" id="bd-email-footer" placeholder="email@example.com" required>
                     <input type="hidden" value="1" name="embed">
-                    <button type="submit" class="btn-subscribe">Subscribe</button>
+                    <button type="submit" class="btn-subscribe">{{ trans(key="subscribe") }}</button>
                 </form>
                 <a href="https://buttondown.com/zenc" target="_blank"
-                    style="font-size: 0.75rem; margin-top: 0.75rem; opacity: 0.7; display: block;">View Archives →</a>
+                    style="font-size: 0.75rem; margin-top: 0.75rem; opacity: 0.7; display: block;">{{
+                    trans(key="archives") }}</a>
             </div>
         </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js"></script>
-    <script src="{{ get_url(path='search_index.en.js') }}"></script>
+    <script src="{{ get_url(path='search_index.' ~ lang ~ '.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var searchInput = document.getElementById("search");

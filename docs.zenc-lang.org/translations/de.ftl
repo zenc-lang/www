@@ -1,0 +1,14 @@
+tour-title = Zen C Einführung
+std-title = Standardbibliothek
+examples-title = Community-Beispiele
+search-placeholder = Dokumentation durchsuchen...
+newsletter-title = Newsletter
+newsletter-desc = Bleiben Sie über neue Zen C-Funktionen und -Veröffentlichungen auf dem Laufenden.
+subscribe = Abonnieren
+home = Startseite
+docs = Dokumentation
+git = Git
+copyright = &copy; 2026 zenc-lang Org.
+motto = Moderne Ergonomie. Pures C.
+project = Projekt
+archives = Archive ansehen →

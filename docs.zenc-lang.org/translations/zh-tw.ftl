@@ -1,0 +1,14 @@
+tour-title = Zen C 之旅
+std-title = 標準庫
+examples-title = 社區示例
+search-placeholder = 搜索文檔...
+newsletter-title = 通訊
+newsletter-desc = 隨時了解 Zen C 的新功能和發布動態。
+subscribe = 訂閱
+home = 首頁
+docs = 文檔
+git = Git
+copyright = &copy; 2026 zenc-lang Org.
+motto = 現代人体工程學。純粹的 C。
+project = 項目
+archives = 查看存檔 →

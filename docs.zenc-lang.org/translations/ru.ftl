@@ -1,0 +1,14 @@
+tour-title = Тур по Zen C
+std-title = Стандартная библиотека
+examples-title = Примеры сообщества
+search-placeholder = Поиск в документации...
+newsletter-title = Рассылка
+newsletter-desc = Будьте в курсе новых функций и выпусков Zen C.
+subscribe = Подписаться
+home = Главная
+docs = Документация
+git = Git
+copyright = &copy; 2026 zenc-lang Org.
+motto = Современная эргономика. Чистый Си.
+project = Проект
+archives = Посмотреть архивы →
