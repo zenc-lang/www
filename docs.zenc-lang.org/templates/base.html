@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ section.title | default(value=page.title) }} — Zen C</title>
+    <title>{% if section.title %}{{ section.title }}{% elif page.title %}{{ page.title }}{% else %}{{ config.title }}{%
+        endif %} — Zen C</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -714,7 +715,7 @@
                 </button>
                 <div class="lang-container">
                     {% for lang_code in ["en", "de", "es", "it", "pt", "ru", "zh-cn", "zh-tw"] %}
-                    <a href="{{ get_url(path=page.path | default(value=section.path | default(value="")), lang=lang_code) }}"
+                    <a href="{{ get_url(path=current_path | default(value=" /"), lang=lang_code) }}"
                         class="lang-button {% if lang == lang_code %}active{% endif %}" title="{{ lang_code | upper }}">
                         {{ lang_code | truncate(length=2, end="") }}
                     </a>
