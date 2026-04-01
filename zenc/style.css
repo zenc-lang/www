@@ -662,10 +662,13 @@ pre code .z-link {
     padding: 3rem;
     font-family: 'JetBrains Mono', monospace;
     max-width: 1000px;
+    width: 100%;
     margin: 3rem auto 0;
     position: relative;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
+
 
 .struct-declaration,
 .struct-footer {
@@ -693,7 +696,9 @@ pre code .z-link {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
+    overflow: hidden;
 }
+
 
 .struct-member:hover {
     background: var(--surface-alt);
@@ -703,12 +708,12 @@ pre code .z-link {
 
 .struct-member .typ {
     color: #60a5fa;
-    margin-right: 0.75rem;
 }
 
 .struct-member .fn {
     color: #fbbf24;
 }
+
 
 .struct-member .kwd {
     color: var(--primary);
@@ -721,11 +726,27 @@ pre code .z-link {
     opacity: 0.5;
     transition: all 0.3s ease;
     font-size: 0.9rem;
+    flex: 1;
+    min-width: 280px;
+    word-wrap: break-word;
 }
+
 
 .struct-member:hover .com {
     opacity: 1;
     color: var(--fg);
+}
+
+@media (max-width: 1100px) {
+    .features-struct {
+        padding: 2rem;
+    }
+
+    .struct-member .com {
+        margin-left: 1rem;
+        min-width: 100%;
+        margin-top: 0.25rem;
+    }
 }
 
 @media (max-width: 900px) {
@@ -748,8 +769,10 @@ pre code .z-link {
     .struct-member .com {
         margin-left: 0;
         margin-top: 0.25rem;
+        min-width: auto;
     }
 }
+
 
 
 

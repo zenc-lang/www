@@ -217,36 +217,37 @@
 
             <div class="features-struct">
                 <div class="struct-declaration">
-                    <span class="kwd">static const struct</span> <span class="typ">ZenC_Features</span> {
+                    <span class="kwd">struct</span> <span class="typ">ZenC_Features</span> {
                 </div>
 
                 <div class="struct-body">
                     <div class="struct-member">
-                        <span class="typ">bool</span> <span class="fn">transparent_compilation</span>; <span
-                            class="com">// Transpiles directly to clean, readable GNU C11.</span>
+                        <span class="fn">transparent_compilation</span>: <span class="typ">bool</span>; <span
+                            class="com">// Transpiles to clean, readable GNU C11.</span>
                     </div>
                     <div class="struct-member">
-                        <span class="typ">bool</span> <span class="fn">native_c_abi</span>; <span class="com">// Call C
+                        <span class="fn">native_c_abi</span>: <span class="typ">bool</span>; <span class="com">// Call C
                             functions and use C structs effortlessly.</span>
                     </div>
                     <div class="struct-member">
-                        <span class="typ">bool</span> <span class="fn">resource_management</span>; <span class="com">//
-                            Implicit Drop trait prevents memory leaks.</span>
+                        <span class="typ">resource_management</span>: <span class="typ">bool</span>; <span
+                            class="com">// Implicit Drop trait prevents memory leaks.</span>
                     </div>
                     <div class="struct-member">
-                        <span class="typ">bool</span> <span class="fn">monomorphization</span>; <span class="com">//
+                        <span class="fn">monomorphization</span>: <span class="typ">bool</span>; <span class="com">//
                             Zero-overhead generics via code generation.</span>
                     </div>
                     <div class="struct-member">
-                        <span class="typ">bool</span> <span class="fn">async_await</span>; <span class="com">//
+                        <span class="fn">async_await</span>: <span class="typ">bool</span>; <span class="com">//
                             High-performance I/O without callback hell.</span>
                     </div>
                 </div>
 
                 <div class="struct-footer">
-                    } <span class="fn">features</span>;
+                    }
                 </div>
             </div>
+
 
         </section>
 
