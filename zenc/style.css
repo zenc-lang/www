@@ -9,6 +9,7 @@
     --border: rgba(0, 0, 0, 0.08);
     --primary: #1a1a19;
     --accent: #15803d;
+    --header-bg: rgba(253, 253, 252, 0.85);
     /* Zen Green */
 
     /* Syntax Highlighting - Light Theme */
@@ -32,6 +33,7 @@
         --border: rgba(255, 255, 255, 0.08);
         --primary: #f8fafc;
         --accent: #4ade80;
+        --header-bg: rgba(12, 12, 11, 0.85);
 
         /* Syntax Highlighting - Dark Theme */
         --kwd: #f97316;
@@ -54,6 +56,7 @@
     --border: rgba(255, 255, 255, 0.08);
     --primary: #f8fafc;
     --accent: #4ade80;
+    --header-bg: rgba(12, 12, 11, 0.85);
 
     /* Syntax Highlighting - Dark Theme */
     --kwd: #f97316;
@@ -73,6 +76,7 @@
     --muted: #6b7280;
     --border: rgba(0, 0, 0, 0.06);
     --primary: #1a1a19;
+    --header-bg: rgba(253, 253, 252, 0.85);
 
     /* Syntax Highlighting - Light Theme */
     --kwd: #c2410c;
@@ -164,7 +168,7 @@ section[id] {
 header {
     border-bottom: 1px solid var(--border);
     padding: 1rem 0;
-    background: rgba(253, 253, 252, 0.85);
+    background: var(--header-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     position: sticky;
@@ -174,7 +178,7 @@ header {
 }
 
 [data-theme="dark"] header {
-    background: rgba(12, 12, 11, 0.85);
+    background: var(--header-bg);
 }
 
 .nav-container {
