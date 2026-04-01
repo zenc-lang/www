@@ -600,7 +600,7 @@
                 </div>
                 <div class="sidebar-links">
                     {% set tour_section = get_section(path="tour/_index.md") %}
-                    {% for page in tour_section.pages | sort(attribute="weight") %}
+                    {% for page in tour_section.pages %}
                     <a href="{{ page.permalink }}"
                         class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
                         {{ page.title }}
