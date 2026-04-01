@@ -2,6 +2,7 @@
 title = "Tour of Zen C"
 weight = 1
 sort_by = "weight"
+insert_anchor_links = "none"
 +++
 
 Welcome to the **Tour of Zen C**! 

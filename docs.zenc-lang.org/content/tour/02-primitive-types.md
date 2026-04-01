@@ -66,7 +66,8 @@ fn main() {
 
 {% alert(type="important") %}
 **Best Practices for Portable Code**
+
 - Use **Portable Types** (`int`, `uint`, `i64`, `u8`, etc.) for all pure Zen C logic. `int` is guaranteed to be 32-bit signed on all architectures.
-- Use **C Interop Types** (`c_int`, `c_char`, `c_long`, ``c_ulong``, ``c_long_long``, ``c_ulong_long``) **only** when interacting with C libraries (FFI). Their size varies by platform and C compiler (e.g. `c_long` size differs between Windows and Linux).
+- Use **C Interop Types** (`c_int`, `c_char`, `c_long`, `c_ulong`, `c_long_long`, `c_ulong_long`) **only** when interacting with C libraries (FFI). Their size varies by platform and C compiler (e.g. `c_long` size differs between Windows and Linux).
 - Use `isize` and `usize` for array indexing and memory pointer arithmetic.
 {% end %}
