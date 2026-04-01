@@ -2049,13 +2049,20 @@ section {
     transform: translateY(-5px);
 }
 
-/* --- Zola Documentation Admonitions --- */
+/* --- Zola Documentation Admonitions (Zen Garden) --- */
 .admonition {
-    margin: 1.5rem 0;
-    padding: 1.25rem 1.5rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--border);
-    background: var(--surface-alt);
+    margin: 2rem 0;
+    padding: 1.25rem 1.75rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background-color: var(--surface-alt);
+    /* Raked sand concentric rings — the heart of the Zen Garden */
+    background-image: repeating-radial-gradient(circle at 35px 35px,
+            transparent 0,
+            transparent 14px,
+            rgba(0, 0, 0, 0.015) 14px,
+            rgba(0, 0, 0, 0.025) 16px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     font-size: 0.95rem;
     color: var(--fg);
     line-height: 1.6;
@@ -2067,67 +2074,102 @@ section {
 }
 
 .admonition-title {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
     text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
+/* River Stone (Note) — calm, grounded slate */
 .admonition-note {
-    border-left-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.05);
+    background-color: rgba(100, 116, 139, 0.03);
+    border-color: rgba(100, 116, 139, 0.15);
 }
 
 .admonition-note .admonition-title {
-    color: #3b82f6;
+    color: #475569;
 }
 
+/* Bamboo (Tip) — natural green wisdom */
 .admonition-tip {
-    border-left-color: #10b981;
-    background: rgba(16, 185, 129, 0.05);
+    background-color: rgba(122, 153, 119, 0.03);
+    border-color: rgba(122, 153, 119, 0.2);
 }
 
 .admonition-tip .admonition-title {
-    color: #10b981;
+    color: #5a7c56;
 }
 
+/* Sunset (Warning) — warm amber caution */
 .admonition-warning {
-    border-left-color: #f59e0b;
-    background: rgba(245, 158, 11, 0.05);
+    background-color: rgba(217, 119, 87, 0.03);
+    border-color: rgba(217, 119, 87, 0.2);
 }
 
 .admonition-warning .admonition-title {
-    color: #f59e0b;
+    color: #b05b3f;
 }
 
+/* Crimson Temple (Important/Caution) — torii gate red */
 .admonition-important,
 .admonition-caution {
-    border-left-color: #ef4444;
-    background: rgba(239, 68, 68, 0.05);
+    background-color: rgba(180, 83, 83, 0.03);
+    border-color: rgba(180, 83, 83, 0.2);
 }
 
 .admonition-important .admonition-title,
 .admonition-caution .admonition-title {
-    color: #ef4444;
+    color: #993d3d;
+}
+
+/* Dark Mode — moonlit garden */
+html[data-theme="dark"] .admonition {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    background-image: repeating-radial-gradient(circle at 35px 35px,
+            transparent 0,
+            transparent 14px,
+            rgba(255, 255, 255, 0.015) 14px,
+            rgba(255, 255, 255, 0.025) 16px);
 }
 
 html[data-theme="dark"] .admonition-note {
-    background: rgba(59, 130, 246, 0.1);
+    background-color: rgba(148, 163, 184, 0.05);
+    border-color: rgba(148, 163, 184, 0.15);
+}
+
+html[data-theme="dark"] .admonition-note .admonition-title {
+    color: #94a3b8;
 }
 
 html[data-theme="dark"] .admonition-tip {
-    background: rgba(16, 185, 129, 0.1);
+    background-color: rgba(163, 192, 160, 0.05);
+    border-color: rgba(163, 192, 160, 0.15);
+}
+
+html[data-theme="dark"] .admonition-tip .admonition-title {
+    color: #a3c0a0;
 }
 
 html[data-theme="dark"] .admonition-warning {
-    background: rgba(245, 158, 11, 0.1);
+    background-color: rgba(226, 150, 126, 0.05);
+    border-color: rgba(226, 150, 126, 0.15);
+}
+
+html[data-theme="dark"] .admonition-warning .admonition-title {
+    color: #e2967e;
 }
 
 html[data-theme="dark"] .admonition-important,
 html[data-theme="dark"] .admonition-caution {
-    background: rgba(239, 68, 68, 0.1);
+    background-color: rgba(204, 115, 115, 0.05);
+    border-color: rgba(204, 115, 115, 0.15);
+}
+
+html[data-theme="dark"] .admonition-important .admonition-title,
+html[data-theme="dark"] .admonition-caution .admonition-title {
+    color: #cc7373;
 }
