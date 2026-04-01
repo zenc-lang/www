@@ -14,6 +14,7 @@ const locales = {
             get_started: "Empezar", join_discord: "Unirse a Discord", newsletter: "Boletín &rarr;", updates: "Actualizaciones sobre el progreso de Zen C:", join: "Unirse"
         },
         install: { title: "Empieza a Compilar", desc: "¡Funciona con GCC/Clang/TCC y otros compiladores!", clone: "CLONAR", build: "CONSTRUIR", install: "INSTALAR" },
+        ticker: { label: "DISEÑADO PARA:", i1: "DEV DE KERNEL", i2: "MOTORES DE JUEGO", i3: "SISTEMAS EMBEBIDOS", i4: "TRADING DE ALTA FRECUENCIA" },
         features: {
             title: "Cero Fricción. Control Máximo.", desc: "Experimenta la transparencia de C combinada con la experiencia de desarrollo de un lenguaje moderno.",
             f1: "Transpila directamente a GNU C11 limpio y legible: C puro sin cajas negras.", f2: "Llama a cualquier función C, usa cualquier struct C. Cero boilerplate FFI.",
@@ -62,6 +63,7 @@ const locales = {
             get_started: "Loslegen", join_discord: "Discord", newsletter: "Newsletter &rarr;", updates: "Updates:", join: "Beitreten"
         },
         install: { title: "Kompilieren", desc: "Funktioniert mit GCC!", clone: "KLONEN", build: "BAUEN", install: "INSTALLIEREN" },
+        ticker: { label: "ENTWICKELT FÜR:", i1: "KERNEL-ENTWICKLUNG", i2: "GAME-ENGINES", i3: "EMBEDDED SYSTEMS", i4: "HOCHFREQUENZHANDEL" },
         features: {
             title: "Null Reibung.", desc: "Transparenz von C.",
             f1: "Kompiliert in C11.", f2: "C-Funktionen ohne FFI.",
@@ -105,6 +107,7 @@ const locales = {
             get_started: "Inizia", join_discord: "Unisciti a Discord", newsletter: "Newsletter &rarr;", updates: "Aggiornamenti:", join: "Unisciti"
         },
         install: { title: "Compila", desc: "Funziona con GCC!", clone: "CLONA", build: "COMPILA", install: "INSTALLA" },
+        ticker: { label: "PROGETTATO PER:", i1: "SVILUPPO KERNEL", i2: "MOTORI GRAFICI", i3: "SISTEMI EMBEDDED", i4: "TRADING AD ALTA FREQUENZA" },
         features: {
             title: "Zero Attrito.", desc: "Trasparenza del C.",
             f1: "GNU C11.", f2: "Zero FFI.",
@@ -148,6 +151,7 @@ const locales = {
             get_started: "Começar", join_discord: "Discord", newsletter: "Boletim &rarr;", updates: "Atualizações:", join: "Juntar-se"
         },
         install: { title: "Compilar", desc: "GCC/Clang!", clone: "CLONAR", build: "CONSTRUIR", install: "INSTALAR" },
+        ticker: { label: "PROJETADO PARA:", i1: "DESENV. DE KERNEL", i2: "MOTORES DE JOGO", i3: "SISTEMAS EMBARCADOS", i4: "TRADING DE ALTA FREQUĘNCIA" },
         features: {
             title: "Controle Máximo.", desc: "Transparência do C.",
             f1: "C11 limpo.", f2: "Zero FFI.",
@@ -191,6 +195,7 @@ const locales = {
             get_started: "Начать", join_discord: "Discord", newsletter: "Новости &rarr;", updates: "Обновления:", join: "Присоединиться"
         },
         install: { title: "Компиляция", desc: "GCC/Clang!", clone: "КЛОН", build: "СБОРКА", install: "УСТАНОВКА" },
+        ticker: { label: "РАЗРАБОТАНО ДЛЯ:", i1: "ЯДЕРНЫХ СИСТЕМ", i2: "ИГРОВЫХ ДВИЖКОВ", i3: "ВСТРОЕННЫХ СИСТЕМ", i4: "HFT-ТРЕЙДИНГА" },
         features: {
             title: "Максимум контроля.", desc: "Прозрачность C.",
             f1: "Чистый C11.", f2: "Ноль FFI.",
@@ -234,6 +239,7 @@ const locales = {
             get_started: "开始使用", join_discord: "加入 Discord", newsletter: "通讯 &rarr;", updates: "最新动态:", join: "加入"
         },
         install: { title: "编译", desc: "支持 GCC/Clang!", clone: "克隆", build: "构建", install: "安装" },
+        ticker: { label: "专为以下领域设计:", i1: "内核开发", i2: "游戏引擎", i3: "嵌入式系统", i4: "高频交易" },
         features: {
             title: "最大控制。", desc: "体验 C 的透明度。",
             f1: "纯 C11。", f2: "零 FFI。",
@@ -277,6 +283,7 @@ const locales = {
             get_started: "開始使用", join_discord: "加入 Discord", newsletter: "電子報 &rarr;", updates: "最新動態:", join: "加入"
         },
         install: { title: "編譯", desc: "支援 GCC/Clang!", clone: "複製", build: "建構", install: "安裝" },
+        ticker: { label: "專為以下領域設計:", i1: "核心開發", i2: "遊戲引擎", i3: "嵌入式系統", i4: "高頻交易" },
         features: {
             title: "最大控制。", desc: "體驗 C 的透明度。",
             f1: "純 C11。", f2: "零 FFI。",
@@ -430,7 +437,17 @@ const regexes = [
     { eng: /do_people_really_read_this\.zc/, key: 'code.file2', tag: '{VAL}' },
     { eng: /\/\/ Constructor\. All features ship enabled!/, key: 'code.comm2', tag: '{VAL}' },
     { eng: /\/\/ Describe the language in one line/, key: 'code.comm3', tag: '{VAL}' },
-    { eng: /"Modern Ergonomics\. Zero Overhead\. Pure C\."/, key: 'code.desc', tag: '"{VAL}"' }
+    { eng: /"Modern Ergonomics\. Zero Overhead\. Pure C\."/, key: 'code.desc', tag: '"{VAL}"' },
+
+    // Ticker & Installation steps
+    { eng: /<span class="uc-label">BUILT FOR:<\/span>/, key: 'ticker.label', tag: '<span class="uc-label">{VAL}</span>' },
+    { eng: /KERNEL DEV/, key: 'ticker.i1', tag: '{VAL}' },
+    { eng: /GAME ENGINES/, key: 'ticker.i2', tag: '{VAL}' },
+    { eng: /EMBEDDED SYSTEMS/, key: 'ticker.i3', tag: '{VAL}' },
+    { eng: /HIGH-FREQUENCY TRADING/, key: 'ticker.i4', tag: '{VAL}' },
+    { eng: /<span class="step-label">CLONE<\/span>/, key: 'install.clone', tag: '<span class="step-label">{VAL}</span>' },
+    { eng: /<span class="step-label">BUILD<\/span>/, key: 'install.build', tag: '<span class="step-label">{VAL}</span>' },
+    { eng: /<span class="step-label">INSTALL<\/span>/, key: 'install.install', tag: '<span class="step-label">{VAL}</span>' }
 ];
 
 function resolveKey(obj, path) {
