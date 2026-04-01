@@ -316,12 +316,13 @@ const locales = {
 const regexes = [
     { eng: /<title>Zen C - Modern Ergonomics\. Pure C\.<\/title>/, key: 'title', tag: '<title>{VAL}</title>' },
     { eng: /content="A modern systems programming language that compiles to human-readable C11 with zero overhead\."/, key: 'desc', tag: 'content="{VAL}"' },
-    { eng: /<a href="https:\/\/docs\.zenc-lang\.org\/">Docs<\/a>/, key: 'nav.docs', tag: '<a href="https://docs.zenc-lang.org/">{VAL}</a>' },
-    { eng: /<a href="https:\/\/git\.zenc-lang\.org\/">Mirror<\/a>/, key: 'nav.mirror', tag: '<a href="https://git.zenc-lang.org/">{VAL}</a>' },
-    { eng: /<a href="#interop">Interop<\/a>/, key: 'nav.interop', tag: '<a href="#interop">{VAL}</a>' },
-    { eng: /<a href="#roadmap">Roadmap<\/a>/, key: 'nav.roadmap', tag: '<a href="#roadmap">{VAL}</a>' },
-    { eng: /<a href="#newsletter" class="nav-newsletter">Newsletter <span class="badge-new">New<\/span><\/a>/, key: 'nav.newsletter', tag: '<a href="#newsletter" class="nav-newsletter">{VAL} <span class="badge-new">New</span></a>' },
-    { eng: /<a href="#sponsors">Sponsors<\/a>/, key: 'nav.sponsors', tag: '<a href="#sponsors">{VAL}</a>' },
+    { eng: /<a href="https:\/\/docs\.zenc-lang\.org\/">Docs<\/a>/g, key: 'nav.docs', tag: '<a href="https://docs.zenc-lang.org/">{VAL}</a>' },
+    { eng: /<a href="https:\/\/git\.zenc-lang\.org\/">Mirror<\/a>/g, key: 'nav.mirror', tag: '<a href="https://git.zenc-lang.org/">{VAL}</a>' },
+    { eng: /<a href="#interop">Interop<\/a>/g, key: 'nav.interop', tag: '<a href="#interop">{VAL}</a>' },
+    { eng: /<a href="#roadmap">Roadmap<\/a>/g, key: 'nav.roadmap', tag: '<a href="#roadmap">{VAL}</a>' },
+    { eng: /<a href="#newsletter">Newsletter<\/a>/g, key: 'nav.newsletter', tag: '<a href="#newsletter">{VAL}</a>' },
+    { eng: /<a href="#newsletter" class="nav-newsletter">Newsletter <span class="badge-new">New<\/span><\/a>/g, key: 'nav.newsletter', tag: '<a href="#newsletter" class="nav-newsletter">{VAL} <span class="badge-new">New</span></a>' },
+    { eng: /<a href="#sponsors">Sponsors<\/a>/g, key: 'nav.sponsors', tag: '<a href="#sponsors">{VAL}</a>' },
 
     { eng: /<h2 class="sub-title">Modern Ergonomics\.<br>Zero Overhead\.<br>Pure C\.<\/h2>/, key: 'hero.sub', tag: '<h2 class="sub-title">{VAL}</h2>' },
     { eng: /A strictly typed systems language that brings <strong>pattern matching<\/strong>,[\s\n]*<strong>traits<\/strong>, and <strong>ownership semantics<\/strong> to the C ecosystem\./, key: 'hero.lead', tag: '{VAL}' },
@@ -359,9 +360,9 @@ const regexes = [
     { eng: /<h4>Project<\/h4>/, key: 'footer.project', tag: '<h4>{VAL}</h4>' },
     { eng: /<h4>Newsletter<\/h4>/, key: 'footer.news_title', tag: '<h4>{VAL}</h4>' },
     { eng: /<p style="[^"]*">Join the mailing list for[\s\n]*updates\.<\/p>/, key: 'footer.news_desc', tag: '<p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">{VAL}</p>' },
-    { eng: /<a href="https:\/\/docs\.zenc-lang\.org">Documentation<\/a>/, key: 'nav.docs', tag: '<a href="https://docs.zenc-lang.org">{VAL}</a>' },
-    { eng: /<a href="https:\/\/git\.zenc-lang\.org">Source Code<\/a>/, key: 'nav.mirror', tag: '<a href="https://git.zenc-lang.org">{VAL}</a>' },
-    { eng: /<a href="https:\/\/opencollective\.com\/z-libs">Sponsor<\/a>/, key: 'nav.sponsors', tag: '<a href="https://opencollective.com/z-libs">{VAL}</a>' },
+    { eng: /<a href="https:\/\/docs\.zenc-lang\.org">Documentation<\/a>/g, key: 'nav.docs', tag: '<a href="https://docs.zenc-lang.org">{VAL}</a>' },
+    { eng: /<a href="https:\/\/git\.zenc-lang\.org">Source Code<\/a>/g, key: 'nav.mirror', tag: '<a href="https://git.zenc-lang.org">{VAL}</a>' },
+    { eng: /<a href="https:\/\/opencollective\.com\/z-libs">Sponsor<\/a>/g, key: 'nav.sponsors', tag: '<a href="https://opencollective.com/z-libs">{VAL}</a>' },
 
     // Videos
     { eng: /<h2 class="section-title">Community Videos<\/h2>/, key: 'videos.title', tag: '<h2 class="section-title">{VAL}</h2>' },
