@@ -3,6 +3,9 @@ title = "3. Aggregate Types"
 weight = 3
 +++
 
+# 3. Aggregate Types
+
+
 #### Arrays
 Fixed-size arrays with value semantics.
 ```zc
@@ -64,8 +67,9 @@ struct Flags {
 }
 ```
 
-> [!NOTE]
-> Structs use [Move Semantics](../08-memory-management) by default. Fields can be accessed via `.` even on pointers (Auto-Dereference).
+{% alert(type="note") %}
+Structs use [Move Semantics](../08-memory-management) by default. Fields can be accessed via `.` even on pointers (Auto-Dereference).
+{% end %}
 
 #### Opaque Structs
 You can define a struct as `opaque` to restrict access to its fields to the defining module only, while still allowing the struct to be allocated on the stack (size is known).

@@ -2048,3 +2048,86 @@ section {
 .peeking-character:hover {
     transform: translateY(-5px);
 }
+
+/* --- Zola Documentation Admonitions --- */
+.admonition {
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--border);
+    background: var(--surface-alt);
+    font-size: 0.95rem;
+    color: var(--fg);
+    line-height: 1.6;
+}
+
+.admonition p {
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+}
+
+.admonition-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admonition-note {
+    border-left-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.admonition-note .admonition-title {
+    color: #3b82f6;
+}
+
+.admonition-tip {
+    border-left-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.admonition-tip .admonition-title {
+    color: #10b981;
+}
+
+.admonition-warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.admonition-warning .admonition-title {
+    color: #f59e0b;
+}
+
+.admonition-important,
+.admonition-caution {
+    border-left-color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.admonition-important .admonition-title,
+.admonition-caution .admonition-title {
+    color: #ef4444;
+}
+
+html[data-theme="dark"] .admonition-note {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+html[data-theme="dark"] .admonition-tip {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+html[data-theme="dark"] .admonition-warning {
+    background: rgba(245, 158, 11, 0.1);
+}
+
+html[data-theme="dark"] .admonition-important,
+html[data-theme="dark"] .admonition-caution {
+    background: rgba(239, 68, 68, 0.1);
+}

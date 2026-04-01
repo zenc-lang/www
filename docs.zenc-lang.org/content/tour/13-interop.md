@@ -3,6 +3,9 @@ title = "13. C Interoperability"
 weight = 13
 +++
 
+# 13. C Interoperability
+
+
 Zen C offers two ways to interact with C code: **Trusted Imports** (Convenient) and **Explicit FFI** (Safe/Precise).
 
 #### Method 1: Trusted Imports (Convenient)

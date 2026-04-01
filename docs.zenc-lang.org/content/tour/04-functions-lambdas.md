@@ -3,6 +3,9 @@ title = "4. Functions & Lambdas"
 weight = 4
 +++
 
+# 4. Functions & Lambdas
+
+
 #### Functions
 ```zc
 fn add(a: int, b: int) -> int {
@@ -13,8 +16,9 @@ fn add(a: int, b: int) -> int {
 add(a: 10, b: 20);
 ```
 
-> [!NOTE]
-> Named arguments must strictly follow the defined parameter order. `add(b: 20, a: 10)` is invalid.
+{% alert(type="note") %}
+Named arguments must strictly follow the defined parameter order. `add(b: 20, a: 10)` is invalid.
+{% end %}
 
 #### Const Arguments
 Function arguments can be marked as `const` to enforce read-only semantics. This is a type qualifier, not a manifest constant.

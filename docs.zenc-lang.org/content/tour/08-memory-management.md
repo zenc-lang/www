@@ -3,6 +3,9 @@ title = "8. Memory Management"
 weight = 8
 +++
 
+# 8. Memory Management
+
+
 Zen C allows manual memory management with ergonomic aids.
 
 #### Defer
@@ -12,8 +15,9 @@ let f = fopen("file.txt", "r");
 defer fclose(f);
 ```
 
-> [!WARNING]
-> To prevent undefined behavior, control flow statements (`return`, `break`, `continue`, `goto`) are **not allowed** inside a `defer` block.
+{% alert(type="warning") %}
+To prevent undefined behavior, control flow statements (`return`, `break`, `continue`, `goto`) are **not allowed** inside a `defer` block.
+{% end %}
 
 #### Autofree
 Automatically free the variable when scope exits.
@@ -30,8 +34,9 @@ Zen C treats types with destructors (like `File`, `Vec`, or malloc'd pointers) a
 **Diagnostics & Philosophy**:
 If you see an error "Use of moved value", the compiler is telling you: *"This type owns a resource (like memory or a handle) and blindly copying it is unsafe."*
 
-> [!NOTE]
-> **Contrast:** Unlike C/C++, Zen C does not implicitly duplicate resource-owning values.
+{% alert(type="note") %}
+**Contrast:** Unlike C/C++, Zen C does not implicitly duplicate resource-owning values.
+{% end %}
 
 **Function Arguments**:
 Passing a value to a function follows the same rules as assignment: resources are moved unless passed by reference.

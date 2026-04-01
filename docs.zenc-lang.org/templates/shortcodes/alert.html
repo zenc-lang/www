@@ -1,0 +1,6 @@
+<div class="admonition admonition-{{ type }}">
+    <div class="admonition-title">{{ type | capitalize }}</div>
+    <div class="admonition-content">
+        {{ body | markdown | safe }}
+    </div>
+</div>

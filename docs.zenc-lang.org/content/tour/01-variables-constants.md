@@ -3,6 +3,9 @@ title = "1. Variables & Constants"
 weight = 1
 +++
 
+# 1. Variables & Constants
+
+
 Zen C distinguishes between compile-time constants and runtime variables.
 
 #### Manifest Constants (`def`)
@@ -24,5 +27,6 @@ let y: const int = 10;  // Read-only (Type qualified)
 // y = 20;              // Error: cannot assign to const
 ```
 
-> [!TIP]
-> **Type Inference**: Zen C automatically infers types for initialized variables. It compiles to C23 `auto` on supported compilers, or GCC's `__auto_type` extension otherwise.
+{% alert(type="tip") %}
+**Type Inference**: Zen C automatically infers types for initialized variables. It compiles to C23 `auto` on supported compilers, or GCC's `__auto_type` extension otherwise.
+{% end %}

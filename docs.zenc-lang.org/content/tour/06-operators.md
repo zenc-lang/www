@@ -3,6 +3,9 @@ title = "6. Operators"
 weight = 6
 +++
 
+# 6. Operators
+
+
 Zen C supports operator overloading for user-defined structs by implementing specific method names.
 
 #### Overloadable Operators

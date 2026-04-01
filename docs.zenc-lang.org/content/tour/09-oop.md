@@ -3,6 +3,9 @@ title = "9. Object Oriented Programming"
 weight = 9
 +++
 
+# 9. Object Oriented Programming
+
+
 #### Methods
 Define methods on types using `impl`.
 ```zc
@@ -119,15 +122,17 @@ impl Drop for Resource {
 }
 ```
 
-> [!IMPORTANT]
-> **Note:** If a variable is moved, `drop` is NOT called on the original variable. It adheres to [Resource Semantics](../08-memory-management).
+{% alert(type="important") %}
+**Note:** If a variable is moved, `drop` is NOT called on the original variable. It adheres to [Resource Semantics](../08-memory-management).
+{% end %}
 
 **Copy**
 
 Marker trait to opt-in to `Copy` behavior (implicit duplication) instead of Move semantics. Used via `@derive(Copy)`.
 
-> [!CAUTION]
-> **Rule:** Types that implement `Copy` must not define a destructor (`Drop`).
+{% alert(type="caution") %}
+**Rule:** Types that implement `Copy` must not define a destructor (`Drop`).
+{% end %}
 
 ```zc
 @derive(Copy)
