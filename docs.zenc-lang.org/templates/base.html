@@ -736,15 +736,42 @@
             }
         }
 
-        /* ADMONITIONS — Zen Garden Callouts */
+        /* ═══════════════════════════════════════════════
+           ADMONITIONS — 枯山水 (Karesansui) Zen Garden
+           ═══════════════════════════════════════════════ */
         .admonition {
             margin: 2rem 0;
-            padding: 1.25rem 1.5rem;
-            border-radius: 6px;
-            border: none;
-            border-left: 3px solid var(--muted);
-            background: var(--surface-alt);
+            padding: 1.5rem 1.75rem;
+            border-radius: 8px;
+            border: 1px solid #d5cec0;
+            border-left: none;
             position: relative;
+            overflow: hidden;
+            /* Sand base */
+            background-color: #f5f0e8;
+            /* Raked sand lines */
+            background-image:
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 7px,
+                    rgba(180, 170, 150, 0.18) 7px,
+                    rgba(180, 170, 150, 0.18) 8px);
+        }
+
+        /* The stone — a smooth pebble in the corner */
+        .admonition::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50% 50% 50% 42%;
+            background: radial-gradient(ellipse at 35% 35%, #c9c0b0, #a89f8f);
+            opacity: 0.5;
+            box-shadow:
+                1px 2px 4px rgba(0, 0, 0, 0.08),
+                inset -2px -2px 4px rgba(0, 0, 0, 0.06);
         }
 
         .admonition-title {
@@ -758,25 +785,29 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: var(--muted);
+            color: #8b7e6a;
             border: none;
             background: none;
+            position: relative;
+            z-index: 1;
         }
 
         .admonition-title svg {
             flex-shrink: 0;
-            opacity: 0.85;
+            opacity: 0.7;
         }
 
         .admonition-content {
             padding: 0;
             font-size: 0.9rem;
             line-height: 1.7;
-            color: var(--fg);
+            color: #3d3628;
+            position: relative;
+            z-index: 1;
         }
 
         .admonition-content p {
-            color: var(--fg);
+            color: #3d3628;
         }
 
         .admonition-content p:last-child {
@@ -793,108 +824,110 @@
             border-radius: 3px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.8rem;
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(180, 170, 150, 0.3);
+            color: #5c513e;
         }
 
-        /* Note — Slate blue */
-        .admonition-note {
-            border-left-color: #64748b;
-            background: linear-gradient(135deg, rgba(100, 116, 139, 0.06), rgba(100, 116, 139, 0.02));
+        .admonition-content strong {
+            color: #2c2518;
+        }
+
+        /* Per-type stone colors */
+        /* Note — Slate stone */
+        .admonition-note::before {
+            background: radial-gradient(ellipse at 35% 35%, #9ca3af, #6b7280);
         }
 
         .admonition-note .admonition-title {
-            color: #64748b;
+            color: #6b7280;
         }
 
-        /* Tip — Zen Green */
-        .admonition-tip {
-            border-left-color: #10b981;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(16, 185, 129, 0.02));
+        /* Tip — Moss-covered stone */
+        .admonition-tip::before {
+            background: radial-gradient(ellipse at 35% 35%, #6ee7b7, #059669);
         }
 
         .admonition-tip .admonition-title {
-            color: #059669;
+            color: #047857;
         }
 
-        /* Warning — Warm Amber */
-        .admonition-warning {
-            border-left-color: #f59e0b;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(245, 158, 11, 0.02));
+        /* Warning — Amber/ochre stone */
+        .admonition-warning::before {
+            background: radial-gradient(ellipse at 35% 35%, #fcd34d, #d97706);
         }
 
         .admonition-warning .admonition-title {
-            color: #d97706;
+            color: #92400e;
         }
 
-        /* Important — Indigo */
-        .admonition-important {
-            border-left-color: #8b5cf6;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.06), rgba(139, 92, 246, 0.02));
+        /* Important — Dark basalt stone */
+        .admonition-important::before {
+            background: radial-gradient(ellipse at 35% 35%, #c4b5fd, #7c3aed);
         }
 
         .admonition-important .admonition-title {
-            color: #7c3aed;
+            color: #6d28d9;
         }
 
-        /* Caution — Muted Red */
-        .admonition-caution {
-            border-left-color: #ef4444;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.06), rgba(239, 68, 68, 0.02));
+        /* Caution — Red jasper stone */
+        .admonition-caution::before {
+            background: radial-gradient(ellipse at 35% 35%, #fca5a5, #dc2626);
         }
 
         .admonition-caution .admonition-title {
-            color: #dc2626;
+            color: #991b1b;
         }
 
-        /* Dark Mode */
+        /* ── Dark Mode: Night Garden ── */
         [data-theme="dark"] .admonition {
-            background: rgba(255, 255, 255, 0.02);
+            background-color: #1a1916;
+            border-color: #2d2a24;
+            background-image:
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 7px,
+                    rgba(120, 110, 90, 0.1) 7px,
+                    rgba(120, 110, 90, 0.1) 8px);
+        }
+
+        [data-theme="dark"] .admonition::before {
+            opacity: 0.4;
+        }
+
+        [data-theme="dark"] .admonition-title {
+            color: #a89f8f;
+        }
+
+        [data-theme="dark"] .admonition-content,
+        [data-theme="dark"] .admonition-content p {
+            color: #d5cec0;
+        }
+
+        [data-theme="dark"] .admonition-content strong {
+            color: #f0ece4;
         }
 
         [data-theme="dark"] .admonition-content code {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.08);
-        }
-
-        [data-theme="dark"] .admonition-note {
-            border-left-color: #94a3b8;
-            background: linear-gradient(135deg, rgba(148, 163, 184, 0.07), rgba(148, 163, 184, 0.02));
+            color: #d5cec0;
         }
 
         [data-theme="dark"] .admonition-note .admonition-title {
             color: #94a3b8;
         }
 
-        [data-theme="dark"] .admonition-tip {
-            border-left-color: #34d399;
-            background: linear-gradient(135deg, rgba(52, 211, 153, 0.07), rgba(52, 211, 153, 0.02));
-        }
-
         [data-theme="dark"] .admonition-tip .admonition-title {
             color: #6ee7b7;
-        }
-
-        [data-theme="dark"] .admonition-warning {
-            border-left-color: #fbbf24;
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.07), rgba(251, 191, 36, 0.02));
         }
 
         [data-theme="dark"] .admonition-warning .admonition-title {
             color: #fcd34d;
         }
 
-        [data-theme="dark"] .admonition-important {
-            border-left-color: #a78bfa;
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.07), rgba(167, 139, 250, 0.02));
-        }
-
         [data-theme="dark"] .admonition-important .admonition-title {
             color: #c4b5fd;
-        }
-
-        [data-theme="dark"] .admonition-caution {
-            border-left-color: #f87171;
-            background: linear-gradient(135deg, rgba(248, 113, 113, 0.07), rgba(248, 113, 113, 0.02));
         }
 
         [data-theme="dark"] .admonition-caution .admonition-title {
