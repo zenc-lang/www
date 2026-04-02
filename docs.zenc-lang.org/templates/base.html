@@ -473,7 +473,8 @@
         }
 
         /* Global Link Styling — Zen Palette */
-        .doc-content a,
+        /* Targeted at prose links to avoid cluttering structural components */
+        .doc-content a:not(.btree-child):not(.snippet-card):not(.import-row):not(.sidebar-link),
         .admonition-content a {
             color: var(--fn) !important;
             /* Use the flowly blue/cyan from the theme */
@@ -482,7 +483,7 @@
             transition: all 0.2s ease;
         }
 
-        .doc-content a:hover,
+        .doc-content a:not(.btree-child):not(.snippet-card):not(.import-row):not(.sidebar-link):hover,
         .admonition-content a:hover {
             opacity: 0.8;
             border-bottom-style: solid;
@@ -1148,7 +1149,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
