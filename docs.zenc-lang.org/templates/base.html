@@ -736,6 +736,19 @@
             }
         }
     </style>
+    <script>
+        (function () {
+            const getCookie = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            };
+            const savedTheme = getCookie('theme') || localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 
 <body>
@@ -744,9 +757,10 @@
         <div class="container nav-container">
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
-                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
+                    else %}{{ trans(key="ui-home") }}{% endif
                     %}</a>
-                <a href="{{ get_url(path="/", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
+                <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
                     trans(key="ui-docs") }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
                     %}</a>
@@ -815,7 +829,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
@@ -909,9 +923,10 @@
         <div class="footer-col">
             <h4>{{ trans(key="project") }}</h4>
             <div class="footer-links">
-                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
+                    else %}{{ trans(key="ui-home") }}{% endif
                     %}</a>
-                <a href="{{ get_url(path="/", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
+                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
                     }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
                     %}</a>
@@ -1038,6 +1053,7 @@
 
                 htmlElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
+                document.cookie = `theme=${newTheme}; Domain=.zenc-lang.org; Path=/; Max-Age=31536000; SameSite=Lax`;
             });
         }
     </script>
