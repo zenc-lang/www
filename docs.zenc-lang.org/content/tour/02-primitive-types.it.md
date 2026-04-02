@@ -1,9 +1,9 @@
 +++
-title = "2. Tipi Primitivi"
+title = "Tipi Primitivi"
 weight = 2
 +++
 
-# 2. Tipi Primitivi
+# Tipi Primitivi
 
 
 | Tipo | C Equivalent | Descrizione |

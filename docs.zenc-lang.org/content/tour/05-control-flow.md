@@ -1,9 +1,9 @@
 +++
-title = "5. Control Flow"
+title = "Control Flow"
 weight = 5
 +++
 
-# 5. Control Flow
+# Control Flow
 
 
 #### Conditionals

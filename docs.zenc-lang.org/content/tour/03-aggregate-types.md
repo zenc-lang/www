@@ -1,9 +1,9 @@
 +++
-title = "3. Aggregate Types"
+title = "Aggregate Types"
 weight = 3
 +++
 
-# 3. Aggregate Types
+# Aggregate Types
 
 
 #### Arrays

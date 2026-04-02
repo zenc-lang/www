@@ -1,9 +1,9 @@
 +++
-title = "7. Stampaggio e Interpolazione delle Stringhe"
+title = "Stampaggio e Interpolazione delle Stringhe"
 weight = 7
 +++
 
-# 7. Stampaggio e Interpolazione delle Stringhe
+# Stampaggio e Interpolazione delle Stringhe
 
 
 Zen C fornisce opzioni versatili per stampare alla console, includendo keyword e scorciatoie coincise.

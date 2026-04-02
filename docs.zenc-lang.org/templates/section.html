@@ -62,6 +62,15 @@
 </div>
 {% endif %}
 
+{% if section.extra.no_alphabet_grouping %}
+<div class="page-grid">
+    {% for page in section.pages %}
+    <a href="{{ page.permalink }}" class="page-card">
+        <span class="page-title">{{ page.title }}</span>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
 <div class="alphabet-directory">
     {% set current_letter = "" %}
 
@@ -85,5 +94,6 @@
 {% endif %}
 {% endfor %}
 </div>
+{% endif %}
 
 {% endblock content %}

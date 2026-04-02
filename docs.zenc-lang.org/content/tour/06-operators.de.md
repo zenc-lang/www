@@ -1,9 +1,9 @@
 +++
-title = "6. Operatoren"
+title = "Operatoren"
 weight = 6
 +++
 
-# 6. Operatoren
+# Operatoren
 
 
 Zen C unterstützt Operatorüberladung für selbst definierte Strukturen, indem bestimmte Methodennamen implementiert werden.

@@ -1,9 +1,9 @@
 +++
-title = "17. C-Interoperabilität"
+title = "C-Interoperabilität"
 weight = 13
 +++
 
-# 17. C-Interoperabilität
+# C-Interoperabilität
 
 
 Zen C bietet zwei Wege, um mit C-Code zu interagieren: **Trusted Imports** (praktisch) und **Explicit FFI** (sicher/präzise).

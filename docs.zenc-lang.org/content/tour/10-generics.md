@@ -1,9 +1,9 @@
 +++
-title = "10. Generics"
+title = "Generics"
 weight = 10
 +++
 
-# 10. Generics
+# Generics
 
 
 Type-safe templates for Structs and Functions.

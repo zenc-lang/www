@@ -1,9 +1,9 @@
 +++
-title = "11. Generici"
+title = "Generici"
 weight = 11
 +++
 
-# 11. Generici
+# Generici
 
 
 Template type-safe per struct e funzioni.

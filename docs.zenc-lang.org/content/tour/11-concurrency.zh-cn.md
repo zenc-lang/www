@@ -1,9 +1,9 @@
 +++
-title = "11. 并发 (Async/Await)"
+title = "并发 (Async/Await)"
 weight = 11
 +++
 
-# 11. 并发 (Async/Await)
+# 并发 (Async/Await)
 
 
 基于 pthreads 构建。

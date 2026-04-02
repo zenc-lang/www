@@ -1,9 +1,9 @@
 +++
-title = "11. Параллелизм (Async/Await)"
+title = "Параллелизм (Async/Await)"
 weight = 11
 +++
 
-# 11. Параллелизм (Async/Await)
+# Параллелизм (Async/Await)
 
 
 Встроен на основе pthreads.

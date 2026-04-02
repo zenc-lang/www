@@ -1,9 +1,9 @@
 +++
-title = "4. 函數與 Lambda"
+title = "函數與 Lambda"
 weight = 4
 +++
 
-# 4. 函數與 Lambda
+# 函數與 Lambda
 
 
 #### 函數

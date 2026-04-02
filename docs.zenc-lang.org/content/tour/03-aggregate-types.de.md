@@ -1,9 +1,9 @@
 +++
-title = "3. Zusammengesetzte Typen"
+title = "Zusammengesetzte Typen"
 weight = 3
 +++
 
-# 3. Zusammengesetzte Typen
+# Zusammengesetzte Typen
 
 
 #### Arrays

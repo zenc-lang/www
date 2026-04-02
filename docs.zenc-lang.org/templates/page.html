@@ -1,4 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 {{ page.content | safe }}
+
+{% set txt_prev = "Previous" %}
+{% set txt_next = "Next" %}
+{% if lang == "es" %}{% set txt_prev = "Anterior" %}{% set txt_next = "Siguiente" %}{% endif %}
+{% if lang == "de" %}{% set txt_prev = "Zurück" %}{% set txt_next = "Weiter" %}{% endif %}
+{% if lang == "it" %}{% set txt_prev = "Precedente" %}{% set txt_next = "Successivo" %}{% endif %}
+{% if lang == "pt" %}{% set txt_prev = "Anterior" %}{% set txt_next = "Próximo" %}{% endif %}
+{% if lang == "ru" %}{% set txt_prev = "Назад" %}{% set txt_next = "Далее" %}{% endif %}
+{% if lang == "zh-cn" %}{% set txt_prev = "上一页" %}{% set txt_next = "下一页" %}{% endif %}
+{% if lang == "zh-tw" %}{% set txt_prev = "上一頁" %}{% set txt_next = "下一頁" %}{% endif %}
+
+<div class="page-navigation"
+    style="display: flex; justify-content: space-between; margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 2rem;">
+    {% if page.lower %}
+    <a href="{{ page.lower.permalink }}" class="nav-prev"
+        style="text-decoration: none; color: var(--primary); font-weight: 500;">
+        ← {{ txt_prev }}: <span style="color: var(--muted); font-weight: normal;">{{ page.lower.title }}</span>
+    </a>
+    {% else %}
+    <div></div>
+    {% endif %}
+
+    {% if page.higher %}
+    <a href="{{ page.higher.permalink }}" class="nav-next"
+        style="text-decoration: none; color: var(--primary); font-weight: 500;">
+        {{ txt_next }}: <span style="color: var(--muted); font-weight: normal;">{{ page.higher.title }}</span> →
+    </a>
+    {% endif %}
+</div>
 {% endblock content %}

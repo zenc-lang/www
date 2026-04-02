@@ -1,9 +1,9 @@
 +++
-title = "9. Objektorientierte Programmierung (OOP)"
+title = "Objektorientierte Programmierung (OOP)"
 weight = 9
 +++
 
-# 9. Objektorientierte Programmierung (OOP)
+# Objektorientierte Programmierung (OOP)
 
 
 #### Methoden

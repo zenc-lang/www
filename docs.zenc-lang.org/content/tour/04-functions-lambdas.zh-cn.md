@@ -1,9 +1,9 @@
 +++
-title = "4. 函数与 Lambda"
+title = "函数与 Lambda"
 weight = 4
 +++
 
-# 4. 函数与 Lambda
+# 函数与 Lambda
 
 
 #### 函数

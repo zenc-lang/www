@@ -1,9 +1,9 @@
 +++
-title = "11. Concorrência (Async/Await)"
+title = "Concorrência (Async/Await)"
 weight = 11
 +++
 
-# 11. Concorrência (Async/Await)
+# Concorrência (Async/Await)
 
 
 Construído sobre pthreads.

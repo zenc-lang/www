@@ -1,9 +1,9 @@
 +++
-title = "8. Gerenciamento de Memória"
+title = "Gerenciamento de Memória"
 weight = 8
 +++
 
-# 8. Gerenciamento de Memória
+# Gerenciamento de Memória
 
 
 Zen C permite gerenciamento manual de memória com auxílios ergonômicos.

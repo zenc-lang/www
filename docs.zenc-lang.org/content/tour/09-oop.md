@@ -1,9 +1,9 @@
 +++
-title = "9. Object Oriented Programming"
+title = "Object Oriented Programming"
 weight = 9
 +++
 
-# 9. Object Oriented Programming
+# Object Oriented Programming
 
 
 #### Methods

@@ -1,9 +1,9 @@
 +++
-title = "5. Kontrollfluss"
+title = "Kontrollfluss"
 weight = 5
 +++
 
-# 5. Kontrollfluss
+# Kontrollfluss
 
 
 #### Bedingte Anweisungen
