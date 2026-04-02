@@ -450,6 +450,55 @@
             line-height: 1.6;
         }
 
+        /* ── Zen C Syntax Highlighting ── */
+        .z-keyword {
+            color: var(--kwd);
+            font-weight: 700;
+        }
+
+        .z-storage {
+            color: var(--kwd);
+            font-weight: 700;
+        }
+
+        .z-entity {
+            color: var(--fn);
+        }
+
+        .z-type {
+            color: var(--typ);
+        }
+
+        .z-string {
+            color: var(--str);
+        }
+
+        .z-constant {
+            color: var(--str);
+        }
+
+        .z-comment {
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .z-meta {
+            color: var(--secondary);
+        }
+
+        .z-punctuation {
+            color: var(--muted);
+            opacity: 0.8;
+        }
+
+        .z-operator {
+            color: var(--primary);
+        }
+
+        .z-interpolation {
+            color: var(--fg);
+        }
+
         .doc-content table {
             width: 100%;
             border-collapse: collapse;
@@ -1027,7 +1076,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
