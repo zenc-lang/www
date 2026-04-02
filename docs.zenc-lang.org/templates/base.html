@@ -489,7 +489,7 @@
         }
 
         .doc-content pre code {
-            background: transparent;
+            background: transparent !important;
             border: none;
             padding: 0;
             color: var(--fg);
@@ -811,6 +811,10 @@
                     rgba(255, 255, 255, 0.02) 10px,
                     rgba(255, 255, 255, 0.02) 11px);
             box-shadow: none;
+        }
+
+        [data-theme="dark"] .doc-content pre code {
+            background: transparent !important;
         }
 
         [data-theme="dark"] .doc-content pre::before {
