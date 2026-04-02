@@ -479,7 +479,12 @@ for (const lang of Object.keys(locales)) {
     }
 
     // Correct link paths to docs localized
-    outHtml = outHtml.replace(/"https:\/\/docs\.zenc-lang\.org\/?([^"]*)"/g, `"https://docs.zenc-lang.org/${lang}/$1"`);
+    if (lang !== 'en') {
+        outHtml = outHtml.replace(/"https:\/\/docs\.zenc-lang\.org\/?([^"]*)"/g, (match, p1) => {
+            const cleanPath = p1.startsWith('/') ? p1.slice(1) : p1;
+            return `"https://docs.zenc-lang.org/${lang}/${cleanPath}"`;
+        });
+    }
 
     const dirInfo = path.join(__dirname, lang);
     if (!fs.existsSync(dirInfo)) fs.mkdirSync(dirInfo);
