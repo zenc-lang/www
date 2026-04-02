@@ -167,18 +167,15 @@ section[id] {
 /* --- Navigation --- */
 header {
     border-bottom: 1px solid var(--border);
-    padding: 1rem 0;
-    background: var(--header-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 1.25rem 0;
+    background: var(--bg);
     position: sticky;
     top: 0;
     z-index: 100;
-    transition: background 0.3s;
 }
 
 [data-theme="dark"] header {
-    background: var(--header-bg);
+    background: var(--bg);
 }
 
 .nav-container {
@@ -188,43 +185,31 @@ header {
 }
 
 .logo {
-    font-family: 'Kaisei Tokumin', serif;
+    font-family: 'JetBrains Mono', monospace;
     font-weight: 800;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--primary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: default;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.05em;
 }
 
 .version {
-    color: var(--muted);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.75rem;
-    border: 1px solid var(--border);
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-weight: 400;
-    letter-spacing: 0;
+    font-size: 0.7rem;
+    opacity: 0.5;
+    margin-left: 0.25rem;
 }
 
 nav {
     display: flex;
+    gap: 2rem;
     align-items: center;
 }
 
 nav a {
     color: var(--muted);
     text-decoration: none;
-    font-size: 0.875rem;
-    margin-left: 1.75rem;
-    transition: all 0.2s;
+    font-size: 0.9rem;
     font-weight: 500;
-    position: relative;
-    display: flex;
-    align-items: center;
+    transition: color 0.2s;
 }
 
 nav a:hover {
@@ -232,11 +217,7 @@ nav a:hover {
 }
 
 nav a.github-link {
-    color: var(--primary);
-    background: var(--surface-alt);
-    padding: 6px 12px;
-    border-radius: 6px;
-    margin-left: 1.5rem;
+    color: var(--muted);
 }
 
 /* --- Hero --- */
