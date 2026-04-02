@@ -739,37 +739,43 @@
         /* ADMONITIONS — Zen Garden Callouts */
         .admonition {
             margin: 2rem 0;
-            padding: 0;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--muted);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            border-left: 3px solid var(--muted);
             background: var(--surface-alt);
-            overflow: hidden;
+            position: relative;
         }
 
         .admonition-title {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
+            padding: 0;
+            margin-bottom: 0.75rem;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             color: var(--muted);
-            border-bottom: 1px solid var(--border);
-            background: rgba(0, 0, 0, 0.02);
+            border: none;
+            background: none;
         }
 
         .admonition-title svg {
             flex-shrink: 0;
+            opacity: 0.85;
         }
 
         .admonition-content {
-            padding: 1rem 1.25rem;
+            padding: 0;
             font-size: 0.9rem;
             line-height: 1.7;
+            color: var(--fg);
+        }
+
+        .admonition-content p {
             color: var(--fg);
         }
 
@@ -777,140 +783,122 @@
             margin-bottom: 0;
         }
 
+        .admonition-content ul,
+        .admonition-content ol {
+            margin-bottom: 0;
+        }
+
         .admonition-content code {
-            background: rgba(0, 0, 0, 0.04);
-            padding: 2px 5px;
+            padding: 2px 6px;
             border-radius: 3px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.8rem;
+            border: 1px solid var(--border);
         }
 
-        /* Note — Blue */
+        /* Note — Slate blue */
         .admonition-note {
-            border-left-color: #3b82f6;
-            background: #eff6ff;
+            border-left-color: #64748b;
+            background: linear-gradient(135deg, rgba(100, 116, 139, 0.06), rgba(100, 116, 139, 0.02));
         }
 
         .admonition-note .admonition-title {
-            color: #2563eb;
-            background: rgba(59, 130, 246, 0.06);
-            border-bottom-color: rgba(59, 130, 246, 0.15);
+            color: #64748b;
         }
 
-        /* Tip — Green (Zen) */
+        /* Tip — Zen Green */
         .admonition-tip {
             border-left-color: #10b981;
-            background: #ecfdf5;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(16, 185, 129, 0.02));
         }
 
         .admonition-tip .admonition-title {
             color: #059669;
-            background: rgba(16, 185, 129, 0.06);
-            border-bottom-color: rgba(16, 185, 129, 0.15);
         }
 
-        /* Warning — Amber */
+        /* Warning — Warm Amber */
         .admonition-warning {
             border-left-color: #f59e0b;
-            background: #fffbeb;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(245, 158, 11, 0.02));
         }
 
         .admonition-warning .admonition-title {
             color: #d97706;
-            background: rgba(245, 158, 11, 0.06);
-            border-bottom-color: rgba(245, 158, 11, 0.15);
         }
 
-        /* Important — Purple */
+        /* Important — Indigo */
         .admonition-important {
             border-left-color: #8b5cf6;
-            background: #f5f3ff;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.06), rgba(139, 92, 246, 0.02));
         }
 
         .admonition-important .admonition-title {
             color: #7c3aed;
-            background: rgba(139, 92, 246, 0.06);
-            border-bottom-color: rgba(139, 92, 246, 0.15);
         }
 
-        /* Caution — Red */
+        /* Caution — Muted Red */
         .admonition-caution {
             border-left-color: #ef4444;
-            background: #fef2f2;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.06), rgba(239, 68, 68, 0.02));
         }
 
         .admonition-caution .admonition-title {
             color: #dc2626;
-            background: rgba(239, 68, 68, 0.06);
-            border-bottom-color: rgba(239, 68, 68, 0.15);
         }
 
-        /* Dark Mode Admonitions */
+        /* Dark Mode */
         [data-theme="dark"] .admonition {
-            background: var(--surface-alt);
-        }
-
-        [data-theme="dark"] .admonition-title {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         [data-theme="dark"] .admonition-content code {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
         }
 
         [data-theme="dark"] .admonition-note {
-            border-left-color: #60a5fa;
-            background: rgba(59, 130, 246, 0.06);
+            border-left-color: #94a3b8;
+            background: linear-gradient(135deg, rgba(148, 163, 184, 0.07), rgba(148, 163, 184, 0.02));
         }
 
         [data-theme="dark"] .admonition-note .admonition-title {
-            color: #93bbfd;
-            background: rgba(59, 130, 246, 0.08);
-            border-bottom-color: rgba(59, 130, 246, 0.12);
+            color: #94a3b8;
         }
 
         [data-theme="dark"] .admonition-tip {
             border-left-color: #34d399;
-            background: rgba(16, 185, 129, 0.06);
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.07), rgba(52, 211, 153, 0.02));
         }
 
         [data-theme="dark"] .admonition-tip .admonition-title {
             color: #6ee7b7;
-            background: rgba(16, 185, 129, 0.08);
-            border-bottom-color: rgba(16, 185, 129, 0.12);
         }
 
         [data-theme="dark"] .admonition-warning {
             border-left-color: #fbbf24;
-            background: rgba(245, 158, 11, 0.06);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.07), rgba(251, 191, 36, 0.02));
         }
 
         [data-theme="dark"] .admonition-warning .admonition-title {
             color: #fcd34d;
-            background: rgba(245, 158, 11, 0.08);
-            border-bottom-color: rgba(245, 158, 11, 0.12);
         }
 
         [data-theme="dark"] .admonition-important {
             border-left-color: #a78bfa;
-            background: rgba(139, 92, 246, 0.06);
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.07), rgba(167, 139, 250, 0.02));
         }
 
         [data-theme="dark"] .admonition-important .admonition-title {
             color: #c4b5fd;
-            background: rgba(139, 92, 246, 0.08);
-            border-bottom-color: rgba(139, 92, 246, 0.12);
         }
 
         [data-theme="dark"] .admonition-caution {
             border-left-color: #f87171;
-            background: rgba(239, 68, 68, 0.06);
+            background: linear-gradient(135deg, rgba(248, 113, 113, 0.07), rgba(248, 113, 113, 0.02));
         }
 
         [data-theme="dark"] .admonition-caution .admonition-title {
             color: #fca5a5;
-            background: rgba(239, 68, 68, 0.08);
-            border-bottom-color: rgba(239, 68, 68, 0.12);
         }
     </style>
     <script>
@@ -1006,7 +994,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
