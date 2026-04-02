@@ -1,0 +1,105 @@
+%YAML 1.2
+---
+# Zen C syntax definition for Zola (syntect)
+# Derived from vscode-zenc/syntaxes/zenc.tmLanguage.json
+name: zc
+file_extensions:
+  - zc
+  - zenc
+scope: source.zc
+
+contexts:
+  main:
+    # Directives (//> ...)
+    - match: '//>\s*[a-zA-Z0-9_]+:'
+      scope: keyword.control.directive.zc
+    - match: '//>.*$'
+      scope: comment.line.custom.zc
+
+    # Line comments
+    - match: '//.*$'
+      scope: comment.line.double-slash.zc
+
+    # Block comments
+    - match: '/\*'
+      scope: punctuation.definition.comment.begin.zc
+      push: block_comment
+
+    # Attributes (@name)
+    - match: '@[a-zA-Z_][a-zA-Z0-9_]*'
+      scope: meta.attribute.zc
+
+    # Strings
+    - match: '"'
+      scope: punctuation.definition.string.begin.zc
+      push: string_double
+
+    # Character literals
+    - match: "'(\\\\.|[^'])'"
+      scope: string.quoted.single.zc
+
+    # Control keywords
+    - match: '\b(if|else|while|for|return|break|continue|do|goto|switch|case|default|match|try|catch|guard|unless|async|await|launch|defer|asm|unsafe|in)\b'
+      scope: keyword.control.zc
+
+    # Declaration/other keywords
+    - match: '\b(import|module|struct|enum|union|fn|trait|impl|var|const|let|mut|def|alias|opaque|type|typedef|extern|static|volatile|autofree|comptime|embed|ref|sizeof|typeof|undefined|pub)\b'
+      scope: keyword.other.zc
+
+    # Boolean/null constants
+    - match: '\b(true|false|null)\b'
+      scope: constant.language.zc
+
+    # new/delete
+    - match: '\b(new|delete)\b'
+      scope: keyword.operator.new.zc
+
+    # Built-in types
+    - match: '\b(int|uint|char|bool|void|u8|u16|u32|u64|u128|U8|U16|U32|U64|U128|i8|i16|i32|i64|i128|I8|I16|I32|I64|I128|f32|f64|F32|F64|usize|isize|string|c_int|c_uint|c_char|c_uchar|c_short|c_ushort|c_long|c_ulong|c_long_long|c_ulong_long|byte|rune|va_list|String|Vec|Slice|Map|HashMap)\b'
+      scope: storage.type.zc
+
+    # Function calls
+    - match: '\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?=\()'
+      captures:
+        1: entity.name.function.zc
+
+    # Hex numbers
+    - match: '\b0x[0-9a-fA-F_]+\b'
+      scope: constant.numeric.hex.zc
+
+    # Binary numbers
+    - match: '\b0b[01_]+\b'
+      scope: constant.numeric.binary.zc
+
+    # Decimal numbers (with optional float)
+    - match: '\b[0-9][0-9_]*(\.[0-9][0-9_]*)?\b'
+      scope: constant.numeric.decimal.zc
+
+    # Operators
+    - match: '=>|\.\.|\|\>'
+      scope: keyword.operator.zc
+
+  block_comment:
+    - meta_scope: comment.block.zc
+    - match: '\*/'
+      scope: punctuation.definition.comment.end.zc
+      pop: true
+
+  string_double:
+    - meta_scope: string.quoted.double.zc
+    - match: '\\.'
+      scope: constant.character.escape.zc
+    - match: '\{'
+      scope: punctuation.section.interpolation.begin.zc
+      push: string_interpolation
+    - match: '"'
+      scope: punctuation.definition.string.end.zc
+      pop: true
+
+  string_interpolation:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.zc
+    - include: main
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.zc
+      pop: true
