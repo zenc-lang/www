@@ -1,3 +1,7 @@
++++
+title = "std/sync"
++++
+
 # std/sync
 
 The `std/sync` module provides a comprehensive suite of synchronization primitives for managing concurrent access to shared data and coordinating thread execution.

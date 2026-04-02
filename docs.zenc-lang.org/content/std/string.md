@@ -1,3 +1,7 @@
++++
+title = "std/string"
++++
+
 # std/string
 
 `String` is a growable, heap-allocated string type. It wraps a `Vec<char>` and ensures null-termination for C compatibility.

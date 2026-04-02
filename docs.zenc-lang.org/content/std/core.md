@@ -1,3 +1,7 @@
++++
+title = "std/core"
++++
+
 # std/core
 
 The `std/core` module provides the most fundamental definitions and error handling primitives for Zen-C programs. It is implicitly required by most other standard libraries.

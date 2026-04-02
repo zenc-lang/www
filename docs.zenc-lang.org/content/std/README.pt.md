@@ -1,3 +1,7 @@
++++
+title = "Biblioteca Padrão"
++++
+
 # Biblioteca Padrão
 
 A Biblioteca Padrão Zen C fornece uma coleção abrangente de módulos e tipos para tarefas comuns, que vão desde manipulação de bits de baixo nível até redes de alto nível e processamento JSON.

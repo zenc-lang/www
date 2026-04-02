@@ -1,3 +1,7 @@
++++
+title = "std/vec"
++++
+
 # std/vec
 
 `Vec<T>` is a contiguous, growable array type. It is the standard dynamic array used in Zen-C.

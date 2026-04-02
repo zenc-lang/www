@@ -1,3 +1,7 @@
++++
+title = "std/mem"
++++
+
 # std/mem
 
 The `std/mem` module provides core memory management utilities, including manual allocation functions, standard lifecycle traits, and smart pointer implementations.

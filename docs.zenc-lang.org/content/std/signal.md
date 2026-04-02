@@ -1,3 +1,7 @@
++++
+title = "std/sys/signal"
++++
+
 # std/sys/signal
 
 The `std/sys/signal` module provides primitives for handling system signals, wrapping POSIX `signal.h` functionality.

@@ -1,3 +1,7 @@
++++
+title = "std/process"
++++
+
 # std/process
 
 The `std/process` module provides a high-level API for spawning child processes, executing system commands, and capturing their output.

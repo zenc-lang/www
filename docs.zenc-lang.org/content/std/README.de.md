@@ -1,3 +1,7 @@
++++
+title = "Standardbibliothek"
++++
+
 # Standardbibliothek
 
 Die Zen C Standardbibliothek bietet eine umfassende Sammlung von Modulen und Typen für gängige Aufgaben, von der bitweisen Manipulation auf niedriger Ebene bis hin zu High-Level-Netzwerken und JSON-Verarbeitung.

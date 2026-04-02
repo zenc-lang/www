@@ -1,3 +1,7 @@
++++
+title = "Biblioteca Estándar"
++++
+
 # Biblioteca Estándar
 
 La Biblioteca Estándar de Zen C proporciona una colección completa de módulos y tipos para tareas comunes, que van desde la manipulación de bits de bajo nivel hasta redes de alto nivel y procesamiento de JSON.

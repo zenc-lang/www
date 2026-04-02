@@ -1,3 +1,7 @@
++++
+title = "std/bits"
++++
+
 # std/bits
 
 The `std/bits` module provides low-level bitwise operations, including rotations, population counts, and bit reversals.

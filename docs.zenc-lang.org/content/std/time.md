@@ -1,3 +1,7 @@
++++
+title = "std/time"
++++
+
 # std/time
 
 The `std/time` module provides utilities for high-precision time measurement and thread suspension.

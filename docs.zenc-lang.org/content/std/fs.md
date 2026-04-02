@@ -1,3 +1,7 @@
++++
+title = "std/fs"
++++
+
 # std/fs
 
 The `std/fs` module provides a comprehensive API for interacting with the file system, including file I/O, directory manipulation, and metadata retrieval.

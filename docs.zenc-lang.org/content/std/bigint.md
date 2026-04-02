@@ -1,3 +1,7 @@
++++
+title = "std/bigint"
++++
+
 # std/bigint
 
 `BigInt` provides arbitrary-precision integer arithmetic for Zen-C. It allows for calculations with integers that exceed the capacity of standard numeric types like `u64`.

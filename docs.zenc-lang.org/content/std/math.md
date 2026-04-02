@@ -1,3 +1,7 @@
++++
+title = "std/math"
++++
+
 # std/math
 
 The `Math` module provides a core set of standard mathematical constants and functions. It acts as a Zen-C wrapper around the standard floating-point mathematical operations.
