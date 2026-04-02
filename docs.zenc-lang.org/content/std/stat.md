@@ -1,7 +1,3 @@
-+++
-title = "std/sys/stat"
-+++
-
 # std/sys/stat
 
 The `std/sys/stat` module provides an interface for retrieving extended file metadata and status information, wrapping POSIX `sys/stat.h`.

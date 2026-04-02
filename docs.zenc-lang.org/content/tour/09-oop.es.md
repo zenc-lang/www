@@ -1,9 +1,9 @@
 +++
-title = "Programación Orientada a Objetos"
+title = "9. Programación Orientada a Objetos"
 weight = 9
 +++
 
-# Programación Orientada a Objetos
+# 9. Programación Orientada a Objetos
 
 
 #### Métodos

@@ -1,7 +1,3 @@
-+++
-title = "std/set"
-+++
-
 # std/set
 
 `Set<T>` is a generic hash set implementation for storing unique values of type `T`. It uses an open-addressing hash table with linear probing.

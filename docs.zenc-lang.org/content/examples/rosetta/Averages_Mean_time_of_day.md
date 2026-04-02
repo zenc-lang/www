@@ -51,7 +51,7 @@ fn main() {
 
 **Output:**
 
-```
+```zc
 Mean time of day is : 23:47:43
 ```
 

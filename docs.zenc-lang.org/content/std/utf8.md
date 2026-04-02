@@ -1,7 +1,3 @@
-+++
-title = "std/utf8"
-+++
-
 # std/utf8
 
 The `std/utf8` module provides utilities for working with Unicode code points (`rune` type) and UTF-8 encoding.

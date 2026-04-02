@@ -1,7 +1,3 @@
-+++
-title = "std/sys/user"
-+++
-
 # std/sys/user
 
 The `std/sys/user` module provides access to user and group identification information, wrapping POSIX `unistd.h`.

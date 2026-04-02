@@ -64,7 +64,7 @@ fn main() {
 
 **Output:**
 
-```
+```zc
 Year  Chinese  Pinyin      Element  Animal   Aspect  Cycle
 ----  -------  ---------   -------  -------  ------  -----
 1935    乙亥     yĭ-hài     Wood     Pig      Yin     12/60

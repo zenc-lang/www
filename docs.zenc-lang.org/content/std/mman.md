@@ -1,7 +1,3 @@
-+++
-title = "std/sys/mman"
-+++
-
 # std/sys/mman
 
 The `std/sys/mman` module provides a Zen-C interface for memory mapping and protection functions, wrapping POSIX `sys/mman.h`.

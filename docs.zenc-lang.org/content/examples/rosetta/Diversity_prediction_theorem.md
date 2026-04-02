@@ -46,7 +46,7 @@ fn main() {
 
 **Output:**
 
-```
+```zc
 Average-error  3.000
 Crowd-error    0.111
 Diversity      2.889

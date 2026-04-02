@@ -1,7 +1,3 @@
-+++
-title = "std/arena"
-+++
-
 # std/arena
 
 The `std/arena` module provides a fast "bump" allocator for bulk memory allocations. All memory allocated within an arena is freed at once when the arena itself is destroyed or reset.

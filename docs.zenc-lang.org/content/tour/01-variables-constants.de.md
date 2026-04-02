@@ -1,9 +1,9 @@
 +++
-title = "Variablen und Konstanten"
+title = "1. Variablen und Konstanten"
 weight = 1
 +++
 
-# Variablen und Konstanten
+# 1. Variablen und Konstanten
 
 
 Zen C unterscheidet zwischen Compile-Zeit-Konstanten und Laufzeit-Variablen.

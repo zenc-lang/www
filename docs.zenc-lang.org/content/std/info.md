@@ -1,7 +1,3 @@
-+++
-title = "std/sys/info"
-+++
-
 # std/sys/info
 
 The `std/sys/info` module provides utilities for retrieving system identification and information, wrapping POSIX `uname`.

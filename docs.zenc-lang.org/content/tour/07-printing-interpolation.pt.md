@@ -1,9 +1,9 @@
 +++
-title = "Print e Interpolação de Strings"
+title = "7. Print e Interpolação de Strings"
 weight = 7
 +++
 
-# Print e Interpolação de Strings
+# 7. Print e Interpolação de Strings
 
 
 Zen C fornece opções versáteis para print no console, incluindo palavras-chave e abreviações concisas.

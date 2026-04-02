@@ -1,9 +1,9 @@
 +++
-title = "Generische Typen"
+title = "10. Generische Typen"
 weight = 10
 +++
 
-# Generische Typen
+# 10. Generische Typen
 
 
 Typ-sichere Templates für Structs und Funktionen.

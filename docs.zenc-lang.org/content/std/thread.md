@@ -1,7 +1,3 @@
-+++
-title = "std/thread"
-+++
-
 # std/thread
 
 The `std/thread` module provides high-level primitives for creating and managing concurrent threads of execution.

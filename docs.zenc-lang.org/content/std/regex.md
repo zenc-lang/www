@@ -1,7 +1,3 @@
-+++
-title = "std/regex"
-+++
-
 # std/regex
 
 The `std/regex` module providing regular expression support based on POSIX `regex.h`.

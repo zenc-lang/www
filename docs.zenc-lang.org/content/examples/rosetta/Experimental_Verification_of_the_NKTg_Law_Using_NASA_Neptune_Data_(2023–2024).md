@@ -71,7 +71,7 @@ fn main() {
 
 **Output:**
 
-```
+```zc
 
 ############################################ NKTg Law - Neptune 2023 NASA Data
 

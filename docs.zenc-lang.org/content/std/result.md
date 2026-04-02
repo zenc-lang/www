@@ -1,7 +1,3 @@
-+++
-title = "std/result"
-+++
-
 # std/result
 
 `Result<T>` is the standard type for error handling in Zen-C. It represents either success (`Ok`) containing a value of type `T`, or failure (`Err`) containing a string error message.

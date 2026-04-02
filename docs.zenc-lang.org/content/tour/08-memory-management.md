@@ -1,9 +1,9 @@
 +++
-title = "Memory Management"
+title = "8. Memory Management"
 weight = 8
 +++
 
-# Memory Management
+# 8. Memory Management
 
 
 Zen C allows manual memory management with ergonomic aids.

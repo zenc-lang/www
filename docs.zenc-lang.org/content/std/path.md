@@ -1,7 +1,3 @@
-+++
-title = "std/path"
-+++
-
 # std/path
 
 The `std/path` module provides cross-platform utilities for manipulating file system paths. It simplifies common tasks like joining paths, extracting extensions, and finding parent directories.

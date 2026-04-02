@@ -1,7 +1,3 @@
-+++
-title = "std/json"
-+++
-
 # std/json
 
 The `std/json` module provides a DOM-style JSON parser and builder implementation for Zen-C. It features a simple API for creating, manipulating, and serializing JSON data with automatic memory management.

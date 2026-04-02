@@ -12,7 +12,7 @@ For terminals which support ANSI escape codes:
 
 **Output:**
 
-```
+```zc
 def ESC = "\x1b";
 
 fn main() {

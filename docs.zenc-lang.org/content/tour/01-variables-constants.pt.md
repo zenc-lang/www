@@ -1,9 +1,9 @@
 +++
-title = "Variáveis e Constantes"
+title = "1. Variáveis e Constantes"
 weight = 1
 +++
 
-# Variáveis e Constantes
+# 1. Variáveis e Constantes
 
 
 Zen C distingue constantes em tempo de compilação e variáveis em tempo de execução.

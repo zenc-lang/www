@@ -1,9 +1,9 @@
 +++
-title = "Funciones y Lambdas"
+title = "4. Funciones y Lambdas"
 weight = 4
 +++
 
-# Funciones y Lambdas
+# 4. Funciones y Lambdas
 
 
 #### Funciones

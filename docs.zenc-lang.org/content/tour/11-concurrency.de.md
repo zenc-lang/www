@@ -1,9 +1,9 @@
 +++
-title = "Nebenläufigkeit (Async/Await)"
+title = "11. Nebenläufigkeit (Async/Await)"
 weight = 11
 +++
 
-# Nebenläufigkeit (Async/Await)
+# 11. Nebenläufigkeit (Async/Await)
 
 
 Basierend auf pthreads.

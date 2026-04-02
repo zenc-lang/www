@@ -1,7 +1,3 @@
-+++
-title = "std/net"
-+++
-
 # std/net
 
 The `std/net` module provides a comprehensive networking stack including TCP, UDP, DNS, and HTTP.

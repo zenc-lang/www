@@ -1,7 +1,3 @@
-+++
-title = "std/iter"
-+++
-
 # std/iter
 
 The `std/iter` module provides traits for defining custom iterators compatible with Zen C's `for-in` loop syntax.

@@ -1,7 +1,3 @@
-+++
-title = "std/option"
-+++
-
 # std/option
 
 `Option<T>` represents an optional value: every `Option` is either `Some` and contains a value, or `None`. It is commonly used to handle the absence of a value without resorting to null pointers.

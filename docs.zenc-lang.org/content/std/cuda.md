@@ -1,7 +1,3 @@
-+++
-title = "std/cuda"
-+++
-
 # std/cuda
 
 The `std/cuda` module provides helper functions and types for CUDA interoperability, simplifying memory management, synchronization, and device queries.

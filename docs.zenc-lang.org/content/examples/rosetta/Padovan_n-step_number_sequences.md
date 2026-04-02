@@ -35,7 +35,7 @@ fn main() {
 
 **Output:**
 
-```
+```zc
 First 15 terms of the Padovan n-step number sequences:
 2:   1   1   1   2   2   3   4   5   7   9  12  16  21  28  37 
 3:   1   1   1   2   3   4   6   9  13  19  28  41  60  88 129 

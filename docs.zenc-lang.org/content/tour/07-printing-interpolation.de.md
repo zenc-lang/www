@@ -1,9 +1,9 @@
 +++
-title = "Ausgabe und String-Interpolation"
+title = "7. Ausgabe und String-Interpolation"
 weight = 7
 +++
 
-# Ausgabe und String-Interpolation
+# 7. Ausgabe und String-Interpolation
 
 
 Zen C bietet vielseitige Optionen zur Konsolenausgabe, einschließlich Schlüsselwörtern und kurzen Schreibweisen.

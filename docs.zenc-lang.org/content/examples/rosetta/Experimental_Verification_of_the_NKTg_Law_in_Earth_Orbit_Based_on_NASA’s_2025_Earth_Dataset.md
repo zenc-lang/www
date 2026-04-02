@@ -99,7 +99,7 @@ fn main() {
 
 **Output:**
 
-```
+```zc
 Experimental Verification of NKTg Law (Earth 2025)
 
 Date            Momentum(p)          NKTg1          NKTg2        v_sim       v_NASA      Error

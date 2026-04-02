@@ -1,7 +1,3 @@
-+++
-title = "std/sort"
-+++
-
 # std/sort
 
 The `std/sort` module provides highly optimized sorting algorithms. It natively implements the `QuickSort` algorithm using a zero-overhead polymorphic macro engine.

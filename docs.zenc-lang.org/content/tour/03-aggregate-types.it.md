@@ -1,9 +1,9 @@
 +++
-title = "Tipi Aggregati"
+title = "3. Tipi Aggregati"
 weight = 3
 +++
 
-# Tipi Aggregati
+# 3. Tipi Aggregati
 
 
 #### Array

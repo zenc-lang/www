@@ -1,7 +1,3 @@
-+++
-title = "std/complex"
-+++
-
 # std/complex
 
 The `std/complex` library provides the `Complex` struct and essential mathematical operations for working with complex numbers in Zen-C.

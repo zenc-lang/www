@@ -1,7 +1,3 @@
-+++
-title = "std/bigfloat"
-+++
-
 # std/bigfloat
 
 `BigFloat` provides arbitrary-precision decimal floating-point arithmetic for Zen-C. It is implemented as a scaled `BigInt`, allowing for high-precision calculations without binary rounding errors.

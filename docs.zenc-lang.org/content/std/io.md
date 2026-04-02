@@ -1,7 +1,3 @@
-+++
-title = "std/io"
-+++
-
 # std/io
 
 The `std/io` module provides standard input/output functionality, including formatted printing to stdout and robust reading from stdin. 

@@ -1,7 +1,3 @@
-+++
-title = "std/encoding/hex"
-+++
-
 # std/encoding/hex
 
 The `std/encoding/hex` module provides utilities for hexadecimal encoding and decoding of data.

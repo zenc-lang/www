@@ -1,7 +1,3 @@
-+++
-title = "std/slice"
-+++
-
 # std/slice
 
 `Slice<T>` is a lightweight, non-owning "view" into a contiguous sequence of elements. It is primarily used to provide a safe and convenient interface for working with fixed-size arrays.

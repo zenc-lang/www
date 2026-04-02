@@ -50,7 +50,7 @@ fn main() {
 
 **Output:**
 
-```
+```zc
 The first 7 sub-unit squares are:
 1
 36

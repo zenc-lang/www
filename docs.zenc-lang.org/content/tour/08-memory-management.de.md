@@ -1,9 +1,9 @@
 +++
-title = "Speicherverwaltung"
+title = "8. Speicherverwaltung"
 weight = 8
 +++
 
-# Speicherverwaltung
+# 8. Speicherverwaltung
 
 
 Zen C erlaubt manuelles Speichermanagement mit ergonomischen Hilfen.

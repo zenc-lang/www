@@ -1,9 +1,9 @@
 +++
-title = "Primitive Typen"
+title = "2. Primitive Typen"
 weight = 2
 +++
 
-# Primitive Typen
+# 2. Primitive Typen
 
 
 | Typ | C-Äquivalent | Beschreibung |

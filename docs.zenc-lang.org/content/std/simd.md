@@ -1,7 +1,3 @@
-+++
-title = "std/simd"
-+++
-
 # std/simd
 
 Zen-C provides native SIMD (Single Instruction, Multiple Data) vector types that compile directly to hardware-optimized vector instructions (SSE, AVX, NEON, etc.) supported by the target backend.

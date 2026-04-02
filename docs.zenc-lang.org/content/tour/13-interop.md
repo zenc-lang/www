@@ -1,9 +1,9 @@
 +++
-title = "C Interoperability"
+title = "17. C Interoperability"
 weight = 13
 +++
 
-# C Interoperability
+# 17. C Interoperability
 
 
 Zen C offers two ways to interact with C code: **Trusted Imports** (Convenient) and **Explicit FFI** (Safe/Precise).

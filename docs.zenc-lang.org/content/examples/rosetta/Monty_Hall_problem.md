@@ -40,7 +40,7 @@ fn main() {
 
 Sample output:
 
-```
+```zc
 Simulating 1,000,000 games:
 Staying   wins 333,496 times
 Switching wins 666,504 times
