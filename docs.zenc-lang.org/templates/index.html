@@ -362,7 +362,7 @@
 
         <div class="btree-level">
             <!-- Tour -->
-            <a href="/tour/01-variables-constants/" class="btree-child">
+            <a href="{{ get_url(path="tour/01-variables-constants/", lang=lang) }}" class="btree-child">
                 <div class="btree-vpipe"></div>
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> Tour {</div>
@@ -384,7 +384,8 @@
                     <div class="snode-head"><span class="kw">struct</span> StdLib {</div>
                     <div class="snode-body">
                         {% set std_section = get_section(path="std/_index.md") %}
-                        &nbsp;&nbsp;{{ trans(key="std-modules", lang=lang) }}: <span class="typ">u8</span> = <span class="str">{{
+                        &nbsp;&nbsp;{{ trans(key="std-modules", lang=lang) }}: <span class="typ">u8</span> = <span
+                            class="str">{{
                             std_section.pages |
                             length }}</span>;<br>
                         &nbsp;&nbsp;{{ trans(key="std-version", lang=lang) }}: <span class="typ">string</span> = <span
@@ -396,13 +397,13 @@
             </a>
 
             <!-- Examples -->
-            <a href="/examples/rosetta/" class="btree-child">
+            <a href="{{ get_url(path="examples/rosetta/", lang=lang) }}" class="btree-child">
                 <div class="btree-vpipe"></div>
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> Examples {</div>
                     <div class="snode-body">
-                        &nbsp;&nbsp;{{ trans(key="examples-source", lang=lang) }}: <span class="typ">string</span> = <span
-                            class="str">"Rosetta"</span>;<br>
+                        &nbsp;&nbsp;{{ trans(key="examples-source", lang=lang) }}: <span class="typ">string</span> =
+                        <span class="str">"Rosetta"</span>;<br>
                         &nbsp;&nbsp;{{ trans(key="examples-count", lang=lang) }}: <span class="typ">u16</span> = <span
                             class="str">127</span>;<br>
                         }
