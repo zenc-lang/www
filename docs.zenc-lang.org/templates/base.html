@@ -714,7 +714,7 @@
         }
 
         [data-theme="dark"] .doc-content td:nth-child(2) {
-            background: rgba(0, 0, 0, 2);
+            background: rgba(0, 0, 0, 0.03);
         }
 
         [data-theme="dark"] .doc-content tr:hover {
@@ -745,8 +745,7 @@
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
                 <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
-                    else %}{{ trans(key="ui-home") }}{% endif
-                    %}</a>
+                    else %}{{ trans(key="ui-home") }}{% endif %}</a>
                 <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
                     trans(key="ui-docs") }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
@@ -792,21 +791,25 @@
                         {# Show available translations #}
                         {% if page and page.translations %}
                         {% for tr in page.translations %}
+                        {% if tr.lang != lang %}
                         <a href="{{ tr.path }}" class="lang-option">
                             {% if tr.lang == 'en' %}English{% elif tr.lang == 'de' %}Deutsch{% elif tr.lang == 'es'
                             %}Español{% elif tr.lang == 'it' %}Italiano{% elif tr.lang == 'pt' %}Português{% elif
                             tr.lang == 'ru' %}Русский{% elif tr.lang == 'zh-cn' %}简体中文{% elif tr.lang == 'zh-tw'
                             %}繁體中文{% else %}{{ tr.lang | upper }}{% endif %}
                         </a>
+                        {% endif %}
                         {% endfor %}
                         {% elif section and section.translations %}
                         {% for tr in section.translations %}
+                        {% if tr.lang != lang %}
                         <a href="{{ tr.path }}" class="lang-option">
                             {% if tr.lang == 'en' %}English{% elif tr.lang == 'de' %}Deutsch{% elif tr.lang == 'es'
                             %}Español{% elif tr.lang == 'it' %}Italiano{% elif tr.lang == 'pt' %}Português{% elif
                             tr.lang == 'ru' %}Русский{% elif tr.lang == 'zh-cn' %}简体中文{% elif tr.lang == 'zh-tw'
                             %}繁體中文{% else %}{{ tr.lang | upper }}{% endif %}
                         </a>
+                        {% endif %}
                         {% endfor %}
                         {% endif %}
                     </div>
@@ -833,13 +836,10 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% if lang != "en" %}{% set tour_path = "tour/_index." ~ lang ~ ".md" %}{% else %}{% set tour_path =
-                    "tour/_index.md" %}{% endif %}
-                    {% set tour_section = get_section(path=tour_path) %}
-                    {% for page in tour_section.pages %}
-                    <a href="{{ page.permalink }}"
-                        class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
-                        {{ page.title }}
+                    {% set tour_section = get_section(path="tour/_index.md", lang=lang) %}
+                    {% for p in tour_section.pages %}
+                    <a href="{{ p.permalink }}" class="sidebar-link {% if current_path == p.path %}active{% endif %}">
+                        {{ p.title }}
                     </a>
                     {% endfor %}
                 </div>
@@ -854,12 +854,10 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set std_path = "std/_index.md" %}
-                    {% set std_section = get_section(path=std_path) %}
-                    {% for page in std_section.pages | sort(attribute="title") %}
-                    <a href="{{ page.permalink }}"
-                        class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
-                        {{ page.title }}
+                    {% set std_section = get_section(path="std/_index.md", lang=lang) %}
+                    {% for p in std_section.pages %}
+                    <a href="{{ p.permalink }}" class="sidebar-link {% if current_path == p.path %}active{% endif %}">
+                        {{ p.title }}
                     </a>
                     {% endfor %}
                 </div>
@@ -874,23 +872,21 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set ex_path = "examples/rosetta/_index.md" %}
-                    {% set rosetta_section = get_section(path=ex_path) %}
-                    {% for page in rosetta_section.pages | sort(attribute="title") %}
-                    <a href="{{ page.permalink }}"
-                        class="sidebar-link {% if current_path and current_path == page.path %}active{% endif %}">
-                        {{ page.title }}
+                    {% set examples_section = get_section(path="examples/_index.md", lang=lang) %}
+                    {% for p in examples_section.pages %}
+                    <a href="{{ p.permalink }}" class="sidebar-link {% if current_path == p.path %}active{% endif %}">
+                        {{ p.title }}
                     </a>
                     {% endfor %}
                 </div>
             </div>
 
             <div class="sidebar-newsletter">
-                <h4>{{ trans(key="newsletter-title") }}</h4>
+                <h4>Newsletter</h4>
                 <p>{{ trans(key="newsletter-desc") }}</p>
                 <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post" target="popupwindow"
                     onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form">
-                    <input type="email" name="email" id="bd-email-sidebar" placeholder="email@example.com" required>
+                    <input type="email" name="email" id="bd-email" placeholder="email@example.com" required>
                     <input type="hidden" value="1" name="embed">
                     <button type="submit" class="btn-subscribe">{{ trans(key="subscribe") }}</button>
                 </form>
@@ -914,8 +910,7 @@
             <h4>{{ trans(key="project") }}</h4>
             <div class="footer-links">
                 <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
-                    else %}{{ trans(key="ui-home") }}{% endif
-                    %}</a>
+                    else %}{{ trans(key="ui-home") }}{% endif %}</a>
                 <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
                     }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
@@ -952,7 +947,6 @@
 
             searchInput.addEventListener("keyup", function (e) {
                 var term = e.target.value.trim();
-
                 if (term === "") {
                     searchResults.style.display = "none";
                     searchResults.innerHTML = "";
@@ -964,7 +958,6 @@
                 }
 
                 if (!loadedIndex) return;
-
                 var results = loadedIndex.search(term, {
                     bool: "OR",
                     expand: true
@@ -978,7 +971,6 @@
 
                 searchResults.style.display = "block";
                 var html = "<ul>";
-
                 for (var i = 0; i < Math.min(results.length, 8); i++) {
                     var ref = results[i].ref;
                     var doc = loadedIndex.documentStore.getDoc(ref);
@@ -1005,7 +997,6 @@
             ['group-tour', 'group-std', 'group-examples'].forEach(id => {
                 const group = document.getElementById(id);
                 if (!group) return;
-
                 // Check if any link inside is active
                 const hasActive = group.querySelector('.active');
                 const storedState = localStorage.getItem('sidebar-' + id);
