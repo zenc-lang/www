@@ -421,12 +421,12 @@
         }
 
         .doc-content code {
-            background: #f1f5f9;
-            padding: 3px 6px;
-            border: 1px solid var(--border);
+            background: transparent;
+            padding: 0 0.1rem;
+            border: none;
             border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 1em;
             color: var(--typ);
         }
 
@@ -437,12 +437,9 @@
             margin-bottom: 2.5rem;
             overflow-x: auto;
             position: relative;
-
             border: 1px solid #e2e8f0;
             border-left: 4px solid #cbd5e1;
-            /* Neutral stone-colored accent */
             background-color: #fdfbf7;
-            /* Subtly raked sand — diagonal for distinction */
             background-image:
                 repeating-linear-gradient(45deg,
                     transparent,
@@ -452,9 +449,8 @@
             box-shadow: none;
         }
 
-        /* Single subtle stone for code blocks */
-        .doc-content pre::before {
-            content: '';
+        /* Stone Copy Button Styles */
+        .zola-copy-button {
             position: absolute;
             top: 14px;
             right: 18px;
@@ -462,9 +458,33 @@
             height: 20px;
             border-radius: 50% 60% 50% 40%;
             background: radial-gradient(ellipse at 30% 30%, #d1d5db, #9ca3af);
-            opacity: 0.3;
-            pointer-events: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.35;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+            padding: 0;
+            overflow: hidden;
+            color: transparent;
+            /* Hide default "Copy" text */
+        }
+
+        .zola-copy-button:hover {
+            opacity: 0.8;
+            transform: scale(1.1) rotate(5deg);
+            background: radial-gradient(ellipse at 30% 30%, #e5e7eb, #9ca3af);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .zola-copy-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Success feedback if Zola adds a class */
+        .zola-copy-button.success {
+            background: radial-gradient(ellipse at 30% 30%, #6ee7b7, #059669);
+            opacity: 0.8;
         }
 
         .doc-content pre::after {
@@ -796,7 +816,7 @@
         }
 
         [data-theme="dark"] .doc-content code {
-            background: var(--surface-alt);
+            background: transparent;
         }
 
         [data-theme="dark"] .doc-content pre {
@@ -812,9 +832,14 @@
             box-shadow: none;
         }
 
-        [data-theme="dark"] .doc-content pre::before {
-            opacity: 0.2;
+        [data-theme="dark"] .zola-copy-button {
+            opacity: 0.25;
             background: radial-gradient(ellipse at 30% 30%, #64748b, #334155);
+        }
+
+        [data-theme="dark"] .zola-copy-button:hover {
+            opacity: 0.6;
+            background: radial-gradient(ellipse at 30% 30%, #94a3b8, #475569);
         }
 
         [data-theme="dark"] .doc-content pre::after {
@@ -826,7 +851,7 @@
         }
 
         [data-theme="dark"] .doc-content td:nth-child(2) {
-            background: rgba(0, 0, 0, 2);
+            background: transparent;
         }
 
         [data-theme="dark"] .doc-content tr:hover {
@@ -839,7 +864,7 @@
 
         @media (prefers-color-scheme: dark) {
             html:not([data-theme="light"]) .doc-content code {
-                background: var(--surface-alt);
+                background: transparent;
             }
 
             html:not([data-theme="light"]) .doc-content pre {
@@ -940,13 +965,13 @@
         }
 
         .admonition-content code {
-            padding: 2px 6px;
+            padding: 0 0.1rem;
             border-radius: 3px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(180, 170, 150, 0.3);
-            color: #5c513e;
+            font-size: 1em;
+            background: transparent;
+            border: none;
+            color: inherit;
         }
 
         .admonition-content strong {
@@ -1031,9 +1056,9 @@
         }
 
         [data-theme="dark"] .admonition-content code {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.08);
-            color: #d5cec0;
+            background: transparent;
+            border: none;
+            color: inherit;
         }
 
         [data-theme="dark"] .admonition-note .admonition-title {
@@ -1142,7 +1167,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
