@@ -1,8 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ lang | default(value=config.default_language) }}" data-theme="light">
+<html lang="{{ lang | default(value=config.default_language) }}">
 {% set lang = lang | default(value=config.default_language) %}
 
 <head>
+    <script>
+        (function () {
+            const theme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if section.title %}{{ section.title }}{% elif page.title %}{{ page.title }}{% else %}{{ config.title }}{%
@@ -1191,7 +1198,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
@@ -1413,17 +1420,9 @@
 
             if (themeToggle) {
                 themeToggle.addEventListener('click', () => {
-                    const currentTheme = htmlElement.getAttribute('data-theme');
-                    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                    let newTheme;
-                    if (currentTheme === 'dark') {
-                        newTheme = 'light';
-                    } else if (currentTheme === 'light') {
-                        newTheme = 'dark';
-                    } else {
-                        newTheme = systemDark ? 'light' : 'dark';
-                    }
+                    const currentTheme = htmlElement.getAttribute('data-theme') ||
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
                     htmlElement.setAttribute('data-theme', newTheme);
                     localStorage.setItem('theme', newTheme);
