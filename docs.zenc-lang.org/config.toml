@@ -18,6 +18,7 @@ external_links_target_blank = true
 highlight_code = true
 highlight_theme = "css"
 render_with_code_block_copy_button = true
+extra_syntaxes = ["syntaxes"]
 
 [search]
 build_search_index = true
