@@ -752,31 +752,7 @@
             }
         }
 
-        /* NEWSLETTER DOCS OVERRIDES */
-        .sidebar-newsletter {
-            margin-top: 3rem;
-            padding: 2rem 1.5rem;
-            border-top: 1px solid var(--border);
-            background: linear-gradient(180deg, var(--surface-alt) 0%, var(--bg) 100%);
-            border-radius: 12px;
-        }
-
-        .sidebar-newsletter h4 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-        }
-
-        .sidebar-newsletter p {
-            font-size: 0.8rem;
-            color: var(--muted);
-            margin-bottom: 1.25rem;
-            line-height: 1.5;
-        }
-
+        /* NEWSLETTER STYLING (FOOTER ONLY) */
         .newsletter-form {
             display: flex;
             flex-direction: column;
@@ -789,25 +765,18 @@
             color: var(--bg);
             border: none;
             padding: 10px 16px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         .btn-subscribe:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            opacity: 0.9;
-        }
-
-        .btn-subscribe:active {
-            transform: translateY(0);
+            opacity: 0.85;
         }
 
         input[type="email"] {
@@ -816,17 +785,15 @@
             border: 1px solid var(--border);
             padding: 10px 14px;
             font-size: 0.85rem;
-            border-radius: 8px;
+            border-radius: 6px;
             color: var(--fg);
             outline: none;
-            transition: all 0.2s;
+            transition: border-color 0.2s;
             font-family: 'Inter', sans-serif;
         }
 
         input[type="email"]:focus {
             border-color: var(--fn);
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-            background: var(--bg);
         }
 
         /* FOOTER NEWSLETTER */
@@ -1314,16 +1281,6 @@
                 </div>
             </div>
 
-            <div class="sidebar-newsletter">
-                <h4>Newsletter</h4>
-                <p>{{ trans(key="newsletter-desc", lang=lang) }}</p>
-                <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post" target="popupwindow"
-                    onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form">
-                    <input type="email" name="email" id="bd-email" placeholder="email@example.com" required>
-                    <input type="hidden" value="1" name="embed">
-                    <button type="submit" class="btn-subscribe">{{ trans(key="subscribe", lang=lang) }}</button>
-                </form>
-            </div>
         </aside>
 
         <main class="doc-content">
