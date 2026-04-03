@@ -449,8 +449,9 @@
             box-shadow: none;
         }
 
-        /* Stone Copy Button Styles */
-        .zola-copy-button {
+        /* The Stone Decoration (and Copy Button handle) */
+        .doc-content pre::before {
+            content: '';
             position: absolute;
             top: 14px;
             right: 18px;
@@ -458,33 +459,49 @@
             height: 20px;
             border-radius: 50% 60% 50% 40%;
             background: radial-gradient(ellipse at 30% 30%, #d1d5db, #9ca3af);
-            border: none;
-            cursor: pointer;
             opacity: 0.35;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+            pointer-events: none;
+            /* Let the button underneath handle clicks */
+            z-index: 5;
+        }
+
+        .doc-content pre:hover::before {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+
+        /* Functional Copy Button (matches stone position) */
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            width: 32px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
             z-index: 10;
-            padding: 0;
-            overflow: hidden;
-            color: transparent;
-            /* Hide default "Copy" text */
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
         }
 
-        .zola-copy-button:hover {
-            opacity: 0.8;
-            transform: scale(1.1) rotate(5deg);
-            background: radial-gradient(ellipse at 30% 30%, #e5e7eb, #9ca3af);
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        .doc-content pre:hover .copy-button {
+            opacity: 1;
         }
 
-        .zola-copy-button:active {
-            transform: scale(0.95);
-        }
-
-        /* Success feedback if Zola adds a class */
-        .zola-copy-button.success {
-            background: radial-gradient(ellipse at 30% 30%, #6ee7b7, #059669);
-            opacity: 0.8;
+        .copy-button svg {
+            width: 14px;
+            height: 14px;
+            fill: #94a3b8;
+            transition: fill 0.2s;
+            display: none;
+            /* Hide icon, keep stone as the button */
         }
 
         .doc-content pre::after {
@@ -517,6 +534,13 @@
         }
 
         /* ── Zen C Syntax Highlighting ── */
+        /* Success animation */
+        .copy-success::before {
+            background: radial-gradient(ellipse at 30% 30%, #6ee7b7, #059669) !important;
+            opacity: 0.8 !important;
+            transform: scale(1.1);
+        }
+
         .z-keyword {
             color: var(--kwd);
             font-weight: 700;
@@ -832,13 +856,13 @@
             box-shadow: none;
         }
 
-        [data-theme="dark"] .zola-copy-button {
-            opacity: 0.25;
+        [data-theme="dark"] .doc-content pre::before {
             background: radial-gradient(ellipse at 30% 30%, #64748b, #334155);
+            opacity: 0.25;
         }
 
-        [data-theme="dark"] .zola-copy-button:hover {
-            opacity: 0.6;
+        [data-theme="dark"] .doc-content pre:hover::before {
+            opacity: 0.5;
             background: radial-gradient(ellipse at 30% 30%, #94a3b8, #475569);
         }
 
@@ -1167,7 +1191,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
@@ -1284,7 +1308,32 @@
     <script src="{{ get_url(path='search_index.' ~ lang ~ '.js', trailing_slash=false) }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var searchInput = document.getElementById("search");
+            // Find all pre blocks that don't have a copy button yet
+            document.querySelectorAll(".doc-content pre").forEach(function (pre) {
+                if (pre.querySelector(".copy-button")) return;
+
+                var button = document.createElement("button");
+                button.className = "copy-button";
+                button.title = "Copy code";
+                button.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
+
+                button.addEventListener("click", function () {
+                    var code = pre.querySelector("code");
+                    var text = code ? code.innerText : pre.innerText;
+
+                    navigator.clipboard.writeText(text).then(function () {
+                        // Success feedback: visual shake or color change of the stone
+                        pre.classList.add("copy-success");
+                        setTimeout(function () {
+                            pre.classList.remove("copy-success");
+                        }, 1000);
+                    });
+                });
+
+                pre.appendChild(button);
+            });
+
+            // ... rest of search logic ...
             var searchResults = document.getElementById("search-results");
             var loadedIndex = null; // We will store the initialized search engine here
 
