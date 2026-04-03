@@ -1142,7 +1142,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
@@ -1192,8 +1192,8 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set examples_section = get_section(path="examples/_index.md", lang=lang) %}
-                    {% for p in examples_section.pages %}
+                    {% set rosetta_section = get_section(path="examples/rosetta/_index.md", lang=lang) %}
+                    {% for p in rosetta_section.pages | sort(attribute="title") %}
                     <a href="{{ p.permalink }}" class="sidebar-link {% if current_path == p.path %}active{% endif %}">
                         {{ p.title }}
                     </a>
@@ -1256,7 +1256,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js"></script>
-    <script src="{{ get_url(path='search_index.' ~ lang ~ '.js') }}"></script>
+    <script src="{{ get_url(path='search_index.' ~ lang ~ '.js', trailing_slash=false) }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var searchInput = document.getElementById("search");
