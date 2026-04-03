@@ -1,5 +1,6 @@
 # THE ZEN C DOCUMENTATION CONFIG
 base_url = "https://docs.zenc-lang.org"
+build_search_index = true
 default_language = "en"
 title = "Zen C Documentation"
 description = "Official Grimoire for the Zen C Systems Language."
@@ -21,26 +22,30 @@ render_with_code_block_copy_button = true
 extra_syntaxes_and_themes = ["syntaxes"]
 
 [search]
-build_search_index = true
 index_format = "elasticlunr_javascript"
 
 [languages.de]
+build_search_index = true
 title = "Zen C Dokumentation"
 description = "Offizielles Grimoire für die Zen C Systemsprache."
 
 [languages.es]
+build_search_index = true
 title = "Documentación de Zen C"
 description = "Grimorio oficial del lenguaje de sistemas Zen C."
 
 [languages.it]
+build_search_index = true
 title = "Documentazione Zen C"
 description = "Grimorio ufficiale per il linguaggio di sistema Zen C."
 
 [languages.pt]
+build_search_index = true
 title = "Documentação Zen C"
 description = "Grimório oficial para a linguagem de sistemas Zen C."
 
 [languages.ru]
+build_search_index = true
 title = "Документация Zen C"
 description = "Официальный гримуар системного языка Zen C."
 

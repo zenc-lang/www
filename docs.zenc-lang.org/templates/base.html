@@ -1221,11 +1221,13 @@
     <div class="docs-layout">
         <aside class="sidebar">
 
+            {% if lang != "zh-cn" and lang != "zh-tw" %}
             <div class="search-container">
                 <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
+            {% endif %}
 
             <div class="sidebar-group" id="group-tour">
                 <div class="sidebar-header" onclick="toggleSidebarGroup('group-tour')">
@@ -1348,8 +1350,10 @@
         </div>
     </footer>
 
+    {% if lang != "zh-cn" and lang != "zh-tw" %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js"></script>
     <script src="{{ get_url(path='search_index.' ~ lang ~ '.js', trailing_slash=false) }}"></script>
+    {% endif %}
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Find all pre blocks that don't have a copy button yet
