@@ -8,8 +8,8 @@ insert_anchor_links = "none"
 no_alphabet_grouping = true
 +++
 
-Welcome to the **Tour of Zen C**! 
+Bem-vindo ao **Tour do Zen C**! 
 
-This guide is derived directly from the Language Reference. It covers Zen C's syntax, features, and memory management philosophy. You can read it cover-to-cover or use it as a quick reference for specific language features.
+Este guia é derivado diretamente da Referência da Linguagem. Ele cobre a sintaxe, recursos e a filosofia de gerenciamento de memória do Zen C. Você pode lê-lo de ponta a ponta ou usá-lo como uma referência rápida para recursos específicos da linguagem.
 
-Use the left sidebar to navigate between topics. If you run into any issues, you can always ask for help in our [Discord Community](https://discord.com/invite/q6wEsCmkJP).
+Use a barra lateral esquerda para navegar entre os tópicos. Se você encontrar algum problema, pode sempre pedir ajuda em nossa [Comunidade no Discord](https://discord.com/invite/q6wEsCmkJP).
