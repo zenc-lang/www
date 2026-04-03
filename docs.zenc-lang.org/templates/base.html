@@ -1147,9 +1147,9 @@
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
                 <div class="nav-links">
-                    <a href="{{ get_url(path=" /", lang=lang) }}" class="home-link">{{ trans(key="ui-home", lang=lang)
+                    <a href="{{ get_url(path="/", lang=lang) }}" class="home-link">{{ trans(key="ui-home", lang=lang)
                         }}</a>
-                    <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{{ trans(key="ui-docs", lang=lang)
+                    <a href="{{ get_url(path="/", lang=lang) }}" class="active">{{ trans(key="ui-docs", lang=lang)
                         }}</a>
                     <a href="https://git.zenc-lang.org">{{ trans(key="ui-git", lang=lang) }}</a>
                 </div>
@@ -1216,8 +1216,8 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
-                    lang=lang, lang=lang) }}" autocomplete="off">
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                    lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
 
@@ -1313,7 +1313,7 @@
             <div class="footer-links">
                 <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
                     else %}{{ trans(key="ui-home", lang=lang) }}{% endif %}</a>
-                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs",
+                <a href="{{ get_url(path="/", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs",
                     lang=lang)
                     }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git", lang=lang)
