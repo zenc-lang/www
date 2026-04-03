@@ -61,6 +61,15 @@
             box-sizing: border-box;
         }
 
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
@@ -1194,8 +1203,8 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder", lang=lang,
-                    lang=lang) }}" autocomplete="off">
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
+                    lang=lang, lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
 
@@ -1208,7 +1217,11 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set tour_section = get_section(path="tour/_index.md", lang=lang) %}
+                    {% if lang == "en" %}
+                    {% set tour_section = get_section(path="tour/_index.md") %}
+                    {% else %}
+                    {% set tour_section = get_section(path="tour/_index." ~ lang ~ ".md") %}
+                    {% endif %}
                     {% for p in tour_section.pages %}
                     <a href="{{ p.permalink }}" class="sidebar-link {% if current_path == p.path %}active{% endif %}">
                         {{ p.title }}
@@ -1226,7 +1239,11 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% set std_section = get_section(path="std/_index.md", lang=lang) %}
+                    {% if lang == "en" %}
+                    {% set std_section = get_section(path="std/_index.md") %}
+                    {% else %}
+                    {% set std_section = get_section(path="std/_index." ~ lang ~ ".md") %}
+                    {% endif %}
                     {% for p in std_section.pages %}
                     <a href="{{ p.permalink }}" class="sidebar-link {% if current_path == p.path %}active{% endif %}">
                         {{ p.title }}
@@ -1283,16 +1300,19 @@
             <div class="footer-links">
                 <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
                     else %}{{ trans(key="ui-home", lang=lang) }}{% endif %}</a>
-                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs", lang=lang)
+                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs",
+                    lang=lang)
                     }}{% endif %}</a>
-                <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git", lang=lang) }}{% endif
+                <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git", lang=lang)
+                    }}{% endif
                     %}</a>
             </div>
         </div>
         <div class="footer-col" style="grid-column: span 1;">
             <h4>{{ trans(key="newsletter-title", lang=lang) }}</h4>
             <div class="footer-links">
-                <p style="margin-bottom: 1rem; line-height: 1.4; font-size: 0.8rem;">{{ trans(key="newsletter-desc", lang=lang) }}
+                <p style="margin-bottom: 1rem; line-height: 1.4; font-size: 0.8rem;">{{ trans(key="newsletter-desc",
+                    lang=lang) }}
                 </p>
                 <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post" target="popupwindow"
                     onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')" class="newsletter-form-footer">
