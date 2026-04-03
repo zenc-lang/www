@@ -744,9 +744,10 @@
         <div class="container nav-container">
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
-                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
+                    else %}{{ trans(key="ui-home") }}{% endif
                     %}</a>
-                <a href="{{ get_url(path="/", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
+                <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
                     trans(key="ui-docs") }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
                     %}</a>
@@ -780,31 +781,34 @@
                         {{ lang | upper }}
                     </button>
                     <div class="lang-menu">
-                        {% set c_path = current_path | default(value="") | trim_start_matches(pat="/") %}
-                        {% set parts = c_path | split(pat="/") %}
-                        {% if parts | length > 0 and parts[0] == lang %}
-                        {% set joined = parts | slice(start=1) | join(sep="/") %}
-                        {% set clean_path = "/" ~ joined %}
-                        {% else %}
-                        {% set clean_path = "/" ~ c_path %}
-                        {% endif %}
+                        {# We always show the current language #}
+                        <a href="{{ current_url | default(value=" /") }}" class="lang-option active">
+                            {% if lang == 'en' %}English{% elif lang == 'de' %}Deutsch{% elif lang == 'es' %}Español{%
+                            elif lang == 'it' %}Italiano{% elif lang == 'pt' %}Português{% elif lang == 'ru' %}Русский{%
+                            elif lang == 'zh-cn' %}简体中文{% elif lang == 'zh-tw' %}繁體中文{% else %}{{ lang | upper }}{%
+                            endif %}
+                        </a>
 
-                        <a href="{{ clean_path }}"
-                            class="lang-option {% if lang == 'en' %}active{% endif %}">English</a>
-                        <a href="/de{{ clean_path }}"
-                            class="lang-option {% if lang == 'de' %}active{% endif %}">Deutsch</a>
-                        <a href="/es{{ clean_path }}"
-                            class="lang-option {% if lang == 'es' %}active{% endif %}">Español</a>
-                        <a href="/it{{ clean_path }}"
-                            class="lang-option {% if lang == 'it' %}active{% endif %}">Italiano</a>
-                        <a href="/pt{{ clean_path }}"
-                            class="lang-option {% if lang == 'pt' %}active{% endif %}">Português</a>
-                        <a href="/ru{{ clean_path }}"
-                            class="lang-option {% if lang == 'ru' %}active{% endif %}">Русский</a>
-                        <a href="/zh-cn{{ clean_path }}"
-                            class="lang-option {% if lang == 'zh-cn' %}active{% endif %}">简体中文</a>
-                        <a href="/zh-tw{{ clean_path }}"
-                            class="lang-option {% if lang == 'zh-tw' %}active{% endif %}">繁體中文</a>
+                        {# Show available translations #}
+                        {% if page and page.translations %}
+                        {% for tr in page.translations %}
+                        <a href="{{ tr.path }}" class="lang-option">
+                            {% if tr.lang == 'en' %}English{% elif tr.lang == 'de' %}Deutsch{% elif tr.lang == 'es'
+                            %}Español{% elif tr.lang == 'it' %}Italiano{% elif tr.lang == 'pt' %}Português{% elif
+                            tr.lang == 'ru' %}Русский{% elif tr.lang == 'zh-cn' %}简体中文{% elif tr.lang == 'zh-tw'
+                            %}繁體中文{% else %}{{ tr.lang | upper }}{% endif %}
+                        </a>
+                        {% endfor %}
+                        {% elif section and section.translations %}
+                        {% for tr in section.translations %}
+                        <a href="{{ tr.path }}" class="lang-option">
+                            {% if tr.lang == 'en' %}English{% elif tr.lang == 'de' %}Deutsch{% elif tr.lang == 'es'
+                            %}Español{% elif tr.lang == 'it' %}Italiano{% elif tr.lang == 'pt' %}Português{% elif
+                            tr.lang == 'ru' %}Русский{% elif tr.lang == 'zh-cn' %}简体中文{% elif tr.lang == 'zh-tw'
+                            %}繁體中文{% else %}{{ tr.lang | upper }}{% endif %}
+                        </a>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </nav>
@@ -909,9 +913,10 @@
         <div class="footer-col">
             <h4>{{ trans(key="project") }}</h4>
             <div class="footer-links">
-                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
+                    else %}{{ trans(key="ui-home") }}{% endif
                     %}</a>
-                <a href="{{ get_url(path="/", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
+                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
                     }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
                     %}</a>
