@@ -1427,7 +1427,7 @@
                 for (var i = 0; i < Math.min(results.length, 8); i++) {
                     var ref = results[i].ref;
                     var doc = loadedIndex.documentStore.getDoc(ref);
-                    html += `<li><a href="${doc.url}">${doc.title}</a></li>`;
+                    html += `<li><a href="${doc.id}">${doc.title}</a></li>`;
                 }
                 html += "</ul>";
                 searchResults.innerHTML = html;
