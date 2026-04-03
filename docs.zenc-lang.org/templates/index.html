@@ -290,7 +290,6 @@
         padding: 0.6rem 1rem;
         text-decoration: none;
         color: var(--fg);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.03);
         transition: all 0.2s ease;
         text-align: center;
     }
@@ -362,7 +361,7 @@
 
         <div class="btree-level">
             <!-- Tour -->
-            <a href="{{ get_url(path="tour/01-variables-constants/", lang=lang) }}" class="btree-child">
+            <a href="{{ get_url(path=" tour/01-variables-constants/", lang=lang) }}" class="btree-child">
                 <div class="btree-vpipe"></div>
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> Tour {</div>
@@ -397,7 +396,7 @@
             </a>
 
             <!-- Examples -->
-            <a href="{{ get_url(path="examples/rosetta/", lang=lang) }}" class="btree-child">
+            <a href="{{ get_url(path=" examples/rosetta/", lang=lang) }}" class="btree-child">
                 <div class="btree-vpipe"></div>
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> Examples {</div>
@@ -461,7 +460,7 @@
 <script>
     (function () {
         var pool = [
-            {% set rosetta = get_section(path="examples/rosetta/_index.md", lang=lang) %}
+            {% set rosetta = get_section(path = "examples/rosetta/_index.md", lang = lang) %}
         {% for page in rosetta.pages %}
     { url: "{{ page.permalink | replace(from=config.base_url, to='') | safe }}", title: "{{ page.title | safe }}" },
     {% endfor %}

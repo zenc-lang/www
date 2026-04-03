@@ -139,6 +139,11 @@
             font-weight: 700;
         }
 
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
         /* Language Dropdown */
         .lang-dropdown {
             position: relative;
@@ -532,17 +537,20 @@
 
         /* Global Link Styling — Zen Palette */
         .doc-content a,
-        .admonition-content a {
-            color: var(--fn) !important;
+        .admonition-content .z-link {
+            color: var(--fn);
             text-decoration: none;
-            border-bottom: 1px dashed var(--fn);
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
         .doc-content a:hover,
         .admonition-content a:hover {
             opacity: 0.8;
-            border-bottom-style: solid;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
         }
 
         .doc-content pre code {
@@ -1203,7 +1211,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang, lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
