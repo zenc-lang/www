@@ -432,19 +432,13 @@
 
         .doc-content pre {
             background: #ffffff;
-            padding: 2rem;
+            padding: 1.5rem;
             border: 1px solid var(--border);
-            border-radius: 12px;
-            margin: 2.5rem 0;
+            border-radius: 8px;
+            margin-bottom: 2rem;
             overflow-x: auto;
             position: relative;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
-        }
-
-        [data-theme="dark"] .doc-content pre {
-            background: #121211;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            box-shadow: none;
         }
 
         .doc-content pre code {
@@ -452,78 +446,8 @@
             border: none;
             padding: 0;
             color: var(--fg);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* High-Quality Syntax Highlighting Colors */
-        .z-text.z-comment {
-            font-style: italic;
-            opacity: 0.6;
-            color: var(--muted) !important;
-        }
-
-        .z-text.z-keyword {
-            font-weight: 700;
-            color: var(--kwd) !important;
-        }
-
-        .z-text.z-function {
-            color: var(--fn) !important;
-        }
-
-        .z-text.z-type {
-            color: var(--typ) !important;
-        }
-
-        .z-text.z-string {
-            color: var(--str) !important;
-        }
-
-        .z-text.z-constant {
-            color: var(--typ) !important;
-        }
-
-        .z-text.z-numeric {
-            color: var(--typ) !important;
-        }
-
-        .zen-snippet pre {
-            margin: 0 !important;
-            padding: 2rem !important;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-        }
-
-        .zen-snippet pre code {
-            font-size: 0.95rem !important;
-            line-height: 1.7 !important;
-            font-family: 'JetBrains Mono', monospace !important;
-        }
-
-        /* Syntax Overrides for Zen Garden */
-        .z-text.z-comment {
-            font-style: italic;
-            opacity: 0.6;
-        }
-
-        .z-text.z-keyword {
-            font-weight: 700;
-            color: var(--kwd) !important;
-        }
-
-        .z-text.z-function {
-            color: var(--fn) !important;
-        }
-
-        .z-text.z-type {
-            color: var(--typ) !important;
-        }
-
-        .z-text.z-string {
-            color: var(--str) !important;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         .doc-content table {
@@ -868,7 +792,7 @@
                         {% if page and page.translations %}
                         {% for tr in page.translations %}
                         {% if tr.lang != lang %}
-                        <a href="{{ tr.path }}" class="lang-option">
+                        <a href="{{ tr.permalink }}" class="lang-option">
                             {% if tr.lang == 'en' %}English{% elif tr.lang == 'de' %}Deutsch{% elif tr.lang == 'es'
                             %}Español{% elif tr.lang == 'it' %}Italiano{% elif tr.lang == 'pt' %}Português{% elif
                             tr.lang == 'ru' %}Русский{% elif tr.lang == 'zh-cn' %}简体中文{% elif tr.lang == 'zh-tw'
@@ -879,7 +803,7 @@
                         {% elif section and section.translations %}
                         {% for tr in section.translations %}
                         {% if tr.lang != lang %}
-                        <a href="{{ tr.path }}" class="lang-option">
+                        <a href="{{ tr.permalink }}" class="lang-option">
                             {% if tr.lang == 'en' %}English{% elif tr.lang == 'de' %}Deutsch{% elif tr.lang == 'es'
                             %}Español{% elif tr.lang == 'it' %}Italiano{% elif tr.lang == 'pt' %}Português{% elif
                             tr.lang == 'ru' %}Русский{% elif tr.lang == 'zh-cn' %}简体中文{% elif tr.lang == 'zh-tw'
