@@ -144,6 +144,10 @@
             gap: 2rem;
         }
 
+        .home-link {
+            margin-right: 1.5rem;
+        }
+
         /* Language Dropdown */
         .lang-dropdown {
             position: relative;
@@ -1143,7 +1147,8 @@
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
                 <div class="nav-links">
-                    <a href="{{ get_url(path=" /", lang=lang) }}">{{ trans(key="ui-home", lang=lang) }}</a>
+                    <a href="{{ get_url(path=" /", lang=lang) }}" class="home-link">{{ trans(key="ui-home", lang=lang)
+                        }}</a>
                     <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{{ trans(key="ui-docs", lang=lang)
                         }}</a>
                     <a href="https://git.zenc-lang.org">{{ trans(key="ui-git", lang=lang) }}</a>
@@ -1211,7 +1216,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang, lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
@@ -1365,6 +1370,7 @@
             });
 
             // ... rest of search logic ...
+            var searchInput = document.getElementById("search");
             var searchResults = document.getElementById("search-results");
             var loadedIndex = null; // We will store the initialized search engine here
 
