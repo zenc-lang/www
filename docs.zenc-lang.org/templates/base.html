@@ -1397,6 +1397,16 @@
                 }
 
                 if (!loadedIndex && window.searchIndex) {
+                    // Register fallback functions for missing language-specific stemmers
+                    if (window.searchIndex.pipeline) {
+                        window.searchIndex.pipeline.forEach(function (p) {
+                            if (!elasticlunr.Pipeline.registeredFunctions[p]) {
+                                elasticlunr.Pipeline.registerFunction(function (token) {
+                                    return token;
+                                }, p);
+                            }
+                        });
+                    }
                     loadedIndex = elasticlunr.Index.load(window.searchIndex);
                 }
 
