@@ -1314,7 +1314,7 @@
         <div class="footer-col">
             <h4>{{ trans(key="project", lang=lang) }}</h4>
             <div class="footer-links">
-                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{%
+                <a href="https://zenc-lang.org/">{% if lang == "en" %}Home{%
                     else %}{{ trans(key="ui-home", lang=lang) }}{% endif %}</a>
                 <a href="{{ get_url(path="/", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs",
                     lang=lang)
