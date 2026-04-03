@@ -755,63 +755,86 @@
         /* NEWSLETTER DOCS OVERRIDES */
         .sidebar-newsletter {
             margin-top: 3rem;
-            padding-top: 2rem;
+            padding: 2rem 1.5rem;
             border-top: 1px solid var(--border);
+            background: linear-gradient(180deg, var(--surface-alt) 0%, var(--bg) 100%);
+            border-radius: 12px;
         }
 
         .sidebar-newsletter h4 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--muted);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .sidebar-newsletter p {
             font-size: 0.8rem;
             color: var(--muted);
-            margin-bottom: 1rem;
-            line-height: 1.4;
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
         }
 
-        .sidebar-newsletter .newsletter-form {
+        .newsletter-form {
+            display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            width: 100%;
         }
 
-        .sidebar-newsletter input[type="email"] {
-            width: 100%;
-            font-size: 0.8rem;
+        .btn-subscribe {
+            background: var(--primary);
+            color: var(--bg);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
-        .sidebar-newsletter .btn-subscribe {
+        .btn-subscribe:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            opacity: 0.9;
+        }
+
+        .btn-subscribe:active {
+            transform: translateY(0);
+        }
+
+        input[type="email"] {
             width: 100%;
-            font-size: 0.8rem;
-            padding: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            color: var(--fg);
+            outline: none;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input[type="email"]:focus {
+            border-color: var(--fn);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            background: var(--bg);
         }
 
         /* FOOTER NEWSLETTER */
         .newsletter-form-footer {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
             width: 100%;
-        }
-
-        .newsletter-form-footer input[type="email"] {
-            width: 100%;
-            background: #ffffff;
-            border: 1px solid var(--border);
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            border-radius: 4px;
-            color: var(--fg);
-            outline: none;
-        }
-
-        .newsletter-form-footer .btn-subscribe:hover {
-            background: #fff;
         }
 
         /* --- Theme Toggle in Docs --- */
@@ -918,7 +941,7 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
-        [data-theme="dark"] .newsletter-form-footer input[type="email"] {
+        [data-theme="dark"] input[type="email"] {
             background: var(--surface-alt);
         }
 
