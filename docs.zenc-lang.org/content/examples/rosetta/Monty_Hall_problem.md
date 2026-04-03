@@ -4,8 +4,6 @@ title = "Monty Hall problem"
 
 # Monty Hall problem
 
-{{trans|Wren}}
-
 ```zc
 import "std/random.zc"
 import "locale.h";

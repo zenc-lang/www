@@ -4,8 +4,6 @@ title = "Finite state machine"
 
 # Finite state machine
 
-{{trans|Wren}}
-
 ```zc
 import "ctype.h"
 

@@ -4,8 +4,6 @@ title = "Möbius function"
 
 # Möbius function
 
-{{trans|Wren}}
-
 ```zc
 import "std/vec.zc"
 

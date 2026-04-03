@@ -4,8 +4,6 @@ title = "Loops/With multiple ranges"
 
 # Loops/With multiple ranges
 
-{{trans|C}}
-
 ```zc
 import "locale.h"
 

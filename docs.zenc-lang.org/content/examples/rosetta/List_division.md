@@ -4,7 +4,6 @@ title = "List division"
 
 # List division
 
-{{trans|Wren}}
 Note that Wren's ninth test case has been omitted since you can't create an empty fixed size array in Zen C.
 
 ```zc

@@ -4,7 +4,6 @@ title = "Numbers which are the cube roots of the product of their proper divisor
 
 # Numbers which are the cube roots of the product of their proper divisors
 
-{{trans|Wren}}
 A translation of the second version.
 
 ```zc

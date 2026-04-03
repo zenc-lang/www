@@ -4,8 +4,6 @@ title = "Multiplication tables"
 
 # Multiplication tables
 
-{{trans|C}}
-
 ```zc
 fn main() {
     let n: const int = 12;

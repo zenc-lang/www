@@ -4,8 +4,6 @@ title = "Experimental Verification of the NKTg Law in Earth Orbit Based on NASAâ
 
 # Experimental Verification of the NKTg Law in Earth Orbit Based on NASAâ€™s 2025 Earth Dataset
 
-{{trans|Rust}}
-
 ```zc
 def DM_DT = -1.8; // kg/s
 

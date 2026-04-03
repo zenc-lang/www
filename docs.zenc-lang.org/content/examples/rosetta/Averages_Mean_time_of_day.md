@@ -4,8 +4,6 @@ title = "Averages/Mean time of day"
 
 # Averages/Mean time of day
 
-{{trans|Wren}}
-
 ```zc
 import "std/math.zc"
 

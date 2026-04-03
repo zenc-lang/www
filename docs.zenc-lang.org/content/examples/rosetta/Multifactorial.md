@@ -4,8 +4,6 @@ title = "Multifactorial"
 
 # Multifactorial
 
-{{trans|Wren}}
-
 ```zc
 fn mf(n: int, d: int) -> int {
     let prod  = 1;

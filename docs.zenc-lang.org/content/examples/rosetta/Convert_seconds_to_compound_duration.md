@@ -4,8 +4,6 @@ title = "Convert seconds to compound duration"
 
 # Convert seconds to compound duration
 
-{{trans|Wren}}
-
 ```zc
 fn ends_with(s1: char*, s2: char*) -> bool {
     let l1 = strlen(s1);

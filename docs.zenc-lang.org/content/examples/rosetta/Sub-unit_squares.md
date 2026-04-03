@@ -4,8 +4,6 @@ title = "Sub-unit squares"
 
 # Sub-unit squares
 
-{{trans|Wren}}
-
 ```zc
 import "std/vec.zc"
 import "std/math.zc"

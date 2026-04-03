@@ -4,8 +4,6 @@ title = "Fivenum"
 
 # Fivenum
 
-{{trans|Wren}}
-
 ```zc
 import "std/sort.zc"
 import "std/math.zc"

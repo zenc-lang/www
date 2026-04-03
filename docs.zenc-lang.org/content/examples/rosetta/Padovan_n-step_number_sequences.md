@@ -4,8 +4,6 @@ title = "Padovan n-step number sequences"
 
 # Padovan n-step number sequences
 
-{{trans|C}}
-
 ```zc
 fn padovan_n(n: int, t: usize, p: int*) {
     if n < 2 || t < 3 { 
