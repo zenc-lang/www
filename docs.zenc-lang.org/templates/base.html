@@ -108,6 +108,13 @@
             font-size: 1.25rem;
             color: var(--primary);
             letter-spacing: -0.05em;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+            text-decoration: none;
         }
 
         .logo .version {
@@ -118,14 +125,20 @@
 
         nav {
             display: flex;
-            gap: 2rem;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
             align-items: center;
         }
 
         nav a {
             text-decoration: none;
             color: var(--muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
             transition: color 0.2s;
         }
@@ -137,11 +150,6 @@
         nav a.active {
             color: var(--primary);
             font-weight: 700;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
         }
 
         .home-link {
