@@ -1182,7 +1182,7 @@
                             <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
                             <path d="M2 12h20" />
                         </svg>
-                        {{ lang | upper }}
+                        {{ trans(key="ui-lang-name", lang=lang) }}
                     </button>
                     <div class="lang-menu">
                         {# We always show the current language #}
@@ -1218,7 +1218,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
