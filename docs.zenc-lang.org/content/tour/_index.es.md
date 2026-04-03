@@ -1,5 +1,5 @@
 +++
-title = "Tour of Zen C"
+title = "Recorrido por Zen C"
 weight = 1
 sort_by = "weight"
 insert_anchor_links = "none"

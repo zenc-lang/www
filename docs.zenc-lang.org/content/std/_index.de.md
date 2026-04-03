@@ -1,5 +1,5 @@
 +++
-title = "Standard Library"
+title = "Standardbibliothek"
 +++
 
 # Standard Library

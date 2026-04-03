@@ -1,5 +1,5 @@
 +++
-title = "Rosetta Code"
+title = "Примеры Rosetta"
 
 [extra]
 no_alphabet_grouping = true

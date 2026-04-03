@@ -1,8 +1,8 @@
 +++
-title = "Standard Library"
+title = "Libreria Standard"
 +++
 
-# Standard Library
+# Libreria Standard
 
 The Zen C Standard Library provides a comprehensive collection of modules and types for common tasks, ranging from low-level bit manipulation to high-level networking and JSON processing.
 

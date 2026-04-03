@@ -1,5 +1,5 @@
 +++
-title = "Standard Library"
+title = "標準庫"
 +++
 
 # Standard Library

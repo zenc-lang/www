@@ -383,7 +383,7 @@
                 <div class="snode">
                     <div class="snode-head"><span class="kw">struct</span> StdLib {</div>
                     <div class="snode-body">
-                        {% set std_section = get_section(path="std/_index.md") %}
+                        {% set std_section = get_section(path="std/_index.md", lang=lang) %}
                         &nbsp;&nbsp;{{ trans(key="std-modules", lang=lang) }}: <span class="typ">u8</span> = <span
                             class="str">{{
                             std_section.pages |
@@ -435,7 +435,7 @@
             <span class="cm">{{ trans(key="stdlib-imports", lang=lang) }}</span>
         </div>
         <div class="import-grid">
-            {% set std_section = get_section(path="std/_index.md") %}
+            {% set std_section = get_section(path="std/_index.md", lang=lang) %}
             {% for page in std_section.pages | sort(attribute="title") %}
             {% set_global is_namespace = false %}
             {% if page.extra.is_namespace is defined and page.extra.is_namespace %}
@@ -461,7 +461,7 @@
 <script>
     (function () {
         var pool = [
-            {% set rosetta = get_section(path = "examples/rosetta/_index.md") %}
+            {% set rosetta = get_section(path="examples/rosetta/_index.md", lang=lang) %}
         {% for page in rosetta.pages %}
     { url: "{{ page.permalink | replace(from=config.base_url, to='') | safe }}", title: "{{ page.title | safe }}" },
     {% endfor %}
