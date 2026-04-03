@@ -190,6 +190,12 @@ header {
     font-size: 1.25rem;
     color: var(--primary);
     letter-spacing: -0.05em;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.logo:hover {
+    opacity: 0.8;
 }
 
 .version {
@@ -200,14 +206,20 @@ header {
 
 nav {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
     align-items: center;
 }
 
 nav a {
     color: var(--muted);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 500;
     transition: color 0.2s;
 }
@@ -1949,7 +1961,7 @@ section {
     color: var(--muted);
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;

@@ -1147,12 +1147,15 @@
 
     <header>
         <div class="container nav-container">
-            <a href="https://zenc-lang.org/" class="logo">Zen C <span class="version">{{
+            <a href="{% if lang == 'en' %}https://zenc-lang.org/{% else %}https://zenc-lang.org/{{ lang }}/{% endif %}"
+                class="logo">Zen C <span class="version">{{
                     config.extra.version }}</span></a>
             <nav>
                 <div class="nav-links">
-                    <a href="https://zenc-lang.org/">{{ trans(key="ui-home", lang=lang) }}</a>
-                    <a href="{{ get_url(path="/", lang=lang) }}" class="active">{{ trans(key="ui-docs", lang=lang)
+                    <a
+                        href="{% if lang == 'en' %}https://zenc-lang.org/{% else %}https://zenc-lang.org/{{ lang }}/{% endif %}">{{
+                        trans(key="ui-home", lang=lang) }}</a>
+                    <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{{ trans(key="ui-docs", lang=lang)
                         }}</a>
                     <a href="https://git.zenc-lang.org">{{ trans(key="ui-git", lang=lang) }}</a>
                 </div>
@@ -1314,9 +1317,11 @@
         <div class="footer-col">
             <h4>{{ trans(key="project", lang=lang) }}</h4>
             <div class="footer-links">
-                <a href="https://zenc-lang.org/">{% if lang == "en" %}Home{%
+                <a
+                    href="{% if lang == 'en' %}https://zenc-lang.org/{% else %}https://zenc-lang.org/{{ lang }}/{% endif %}">{%
+                    if lang == "en" %}Home{%
                     else %}{{ trans(key="ui-home", lang=lang) }}{% endif %}</a>
-                <a href="{{ get_url(path="/", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs",
+                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs",
                     lang=lang)
                     }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git", lang=lang)
