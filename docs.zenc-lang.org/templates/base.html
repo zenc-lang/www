@@ -1195,7 +1195,7 @@
                         {% for tr in page.translations %}
                         {% if tr.lang != lang %}
                         <a href="{{ tr.permalink }}" class="lang-option">
-                            {{ tr.lang | upper }}
+                            {{ trans(key="ui-lang-name", lang=tr.lang) }}
                         </a>
                         {% endif %}
                         {% endfor %}
@@ -1203,7 +1203,7 @@
                         {% for tr in section.translations %}
                         {% if tr.lang != lang %}
                         <a href="{{ tr.permalink }}" class="lang-option">
-                            {{ tr.lang | upper }}
+                            {{ trans(key="ui-lang-name", lang=tr.lang) }}
                         </a>
                         {% endif %}
                         {% endfor %}
