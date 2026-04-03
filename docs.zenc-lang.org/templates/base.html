@@ -430,53 +430,63 @@
             color: var(--typ);
         }
 
-        /* ZEN GARDEN CODE BLOCKS */
-        .zen-snippet {
-            position: relative;
-            margin: 2.5rem 0;
+        .doc-content pre {
             background: #ffffff;
+            padding: 2rem;
             border: 1px solid var(--border);
             border-radius: 12px;
-            overflow: hidden;
+            margin: 2.5rem 0;
+            overflow-x: auto;
+            position: relative;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             transition: all 0.3s ease;
         }
 
-        [data-theme="dark"] .zen-snippet {
+        [data-theme="dark"] .doc-content pre {
             background: #121211;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
 
-        .zen-snippet::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 2% 2%, rgba(0, 0, 0, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 98% 98%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        [data-theme="dark"] .zen-snippet::before {
-            background: radial-gradient(circle at 2% 2%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 98% 98%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
-        }
-
-        .zen-snippet .stone {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
+        .doc-content pre code {
+            background: transparent;
+            border: none;
+            padding: 0;
+            color: var(--fg);
+            font-size: 0.95rem;
+            line-height: 1.7;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--muted);
-            opacity: 0.4;
-            user-select: none;
-            z-index: 10;
+        }
+
+        /* High-Quality Syntax Highlighting Colors */
+        .z-text.z-comment {
+            font-style: italic;
+            opacity: 0.6;
+            color: var(--muted) !important;
+        }
+
+        .z-text.z-keyword {
+            font-weight: 700;
+            color: var(--kwd) !important;
+        }
+
+        .z-text.z-function {
+            color: var(--fn) !important;
+        }
+
+        .z-text.z-type {
+            color: var(--typ) !important;
+        }
+
+        .z-text.z-string {
+            color: var(--str) !important;
+        }
+
+        .z-text.z-constant {
+            color: var(--typ) !important;
+        }
+
+        .z-text.z-numeric {
+            color: var(--typ) !important;
         }
 
         .zen-snippet pre {
@@ -1077,23 +1087,6 @@
                     // Collapse examples by default if no preference
                     group.classList.add('collapsed');
                 }
-                // Zen Garden Code Blocks
-                const codeBlocks = document.querySelectorAll('.doc-content pre');
-                codeBlocks.forEach(block => {
-                    // Skip if already processed
-                    if (block.parentElement.classList.contains('zen-snippet')) return;
-
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'zen-snippet';
-
-                    const stone = document.createElement('span');
-                    stone.className = 'stone';
-                    stone.textContent = 'Zen Garden';
-
-                    block.parentNode.insertBefore(wrapper, block);
-                    wrapper.appendChild(stone);
-                    wrapper.appendChild(block);
-                });
             });
 
             // --- Theme Toggle Logic ---
