@@ -1186,8 +1186,8 @@
                     </button>
                     <div class="lang-menu">
                         {# We always show the current language #}
-                        <a href="{{ current_url | default(value=" /") }}" class="lang-option active">
-                            {{ lang | upper }}
+                        <a href="{{ current_url | default(value="/") }}" class="lang-option active">
+                            {{ trans(key="ui-lang-name", lang=lang) }}
                         </a>
 
                         {# Show available translations #}
