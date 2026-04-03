@@ -5,9 +5,14 @@
 <head>
     <script>
         (function () {
-            const theme = localStorage.getItem('theme') ||
-                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
+            try {
+                const theme = localStorage.getItem('theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme',
+                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            }
         })();
     </script>
     <meta charset="UTF-8">
@@ -1198,7 +1203,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
@@ -1420,14 +1425,23 @@
 
             if (themeToggle) {
                 themeToggle.addEventListener('click', () => {
-                    const currentTheme = htmlElement.getAttribute('data-theme') ||
+                    const currentTheme = document.documentElement.getAttribute('data-theme') ||
                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
                     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-                    htmlElement.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('theme', newTheme);
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    try {
+                        localStorage.setItem('theme', newTheme);
+                    } catch (e) { }
                 });
             }
+
+            // Sync theme across tabs
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'theme' && e.newValue) {
+                    document.documentElement.setAttribute('data-theme', e.newValue);
+                }
+            });
         });
     </script>
 </body>
