@@ -29,95 +29,6 @@
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
-    <style>
-        .lang-dropdown {
-            position: relative;
-            margin-left: 1rem;
-            padding-left: 1rem;
-            border-left: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-        }
-
-        .lang-dropdown-btn {
-            background: transparent;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            transition: color 0.2s;
-            font-family: inherit;
-        }
-
-        .lang-dropdown-btn:hover {
-            color: var(--primary);
-        }
-
-        .lang-dropdown-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .lang-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 0.5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            padding: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            min-width: 130px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 100;
-        }
-
-        .lang-dropdown:hover .lang-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .lang-option {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.8rem;
-            color: var(--fg);
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: background 0.15s, color 0.15s;
-        }
-
-        .lang-option:hover {
-            background: var(--surface-alt);
-            color: var(--primary);
-        }
-
-        .lang-option.active {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .lang-option.active::after {
-            content: "✓";
-            font-size: 0.8rem;
-        }
-    </style>
 </head>
 
 <body>
@@ -163,7 +74,7 @@
                             <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
                             <path d="M2 12h20" />
                         </svg>
-                        RU
+                        Русский
                     </button>
                     <div class="lang-menu">
                         <a href="/" class="lang-option">English</a>
