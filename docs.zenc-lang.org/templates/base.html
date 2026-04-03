@@ -430,15 +430,61 @@
             color: var(--typ);
         }
 
+        /* ── Zen Garden Code Snippet Boxes (Simplified Diagonal) ── */
         .doc-content pre {
-            background: #ffffff;
             padding: 1.5rem;
-            border: 1px solid var(--border);
             border-radius: 8px;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             overflow-x: auto;
             position: relative;
+
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #cbd5e1;
+            /* Neutral stone-colored accent */
+            background-color: #fdfbf7;
+            /* Subtly raked sand — diagonal for distinction */
+            background-image:
+                repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(180, 170, 150, 0.08) 10px,
+                    rgba(180, 170, 150, 0.08) 11px);
             box-shadow: none;
+        }
+
+        /* Single subtle stone for code blocks */
+        .doc-content pre::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            width: 24px;
+            height: 20px;
+            border-radius: 50% 60% 50% 40%;
+            background: radial-gradient(ellipse at 30% 30%, #d1d5db, #9ca3af);
+            opacity: 0.3;
+            pointer-events: none;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .doc-content pre::after {
+            display: none;
+            /* Remove second stone */
+        }
+
+        /* Global Link Styling — Zen Palette */
+        .doc-content a,
+        .admonition-content a {
+            color: var(--fn) !important;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--fn);
+            transition: all 0.2s ease;
+        }
+
+        .doc-content a:hover,
+        .admonition-content a:hover {
+            opacity: 0.8;
+            border-bottom-style: solid;
         }
 
         .doc-content pre code {
@@ -448,6 +494,55 @@
             color: var(--fg);
             font-size: 0.9rem;
             line-height: 1.6;
+        }
+
+        /* ── Zen C Syntax Highlighting ── */
+        .z-keyword {
+            color: var(--kwd);
+            font-weight: 700;
+        }
+
+        .z-storage {
+            color: var(--kwd);
+            font-weight: 700;
+        }
+
+        .z-entity {
+            color: var(--fn);
+        }
+
+        .z-type {
+            color: var(--typ);
+        }
+
+        .z-string {
+            color: var(--str);
+        }
+
+        .z-constant {
+            color: var(--str);
+        }
+
+        .z-comment {
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .z-meta {
+            color: var(--secondary);
+        }
+
+        .z-punctuation {
+            color: var(--muted);
+            opacity: 0.8;
+        }
+
+        .z-operator {
+            color: var(--primary);
+        }
+
+        .z-interpolation {
+            color: var(--fg);
         }
 
         .doc-content table {
@@ -705,8 +800,25 @@
         }
 
         [data-theme="dark"] .doc-content pre {
-            background: var(--bg);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            background-color: #121211;
+            border-color: #2d2d2a;
+            border-left-color: #475569;
+            background-image:
+                repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255, 255, 255, 0.02) 10px,
+                    rgba(255, 255, 255, 0.02) 11px);
+            box-shadow: none;
+        }
+
+        [data-theme="dark"] .doc-content pre::before {
+            opacity: 0.2;
+            background: radial-gradient(ellipse at 30% 30%, #64748b, #334155);
+        }
+
+        [data-theme="dark"] .doc-content pre::after {
+            display: none;
         }
 
         [data-theme="dark"] .doc-content th {
@@ -714,7 +826,7 @@
         }
 
         [data-theme="dark"] .doc-content td:nth-child(2) {
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 2);
         }
 
         [data-theme="dark"] .doc-content tr:hover {
@@ -731,9 +843,217 @@
             }
 
             html:not([data-theme="light"]) .doc-content pre {
-                background: var(--bg);
-                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+                background-color: #121211;
+                border-color: #2d2d2a;
+                border-left-color: #475569;
+                background-image:
+                    repeating-linear-gradient(45deg,
+                        transparent,
+                        transparent 10px,
+                        rgba(255, 255, 255, 0.02) 10px,
+                        rgba(255, 255, 255, 0.02) 11px);
+                box-shadow: none;
             }
+        }
+
+        /* ═══════════════════════════════════════════════
+           ADMONITIONS — 枯山水 (Karesansui) Zen Garden
+           ═══════════════════════════════════════════════ */
+        .admonition {
+            margin: 2rem 0;
+            padding: 1.5rem 1.75rem;
+            border-radius: 8px;
+            border: 1px solid #d5cec0;
+            border-left: none;
+            position: relative;
+            overflow: hidden;
+            /* Sand base */
+            background-color: #f5f0e8;
+            /* Raked sand lines */
+            background-image:
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 7px,
+                    rgba(180, 170, 150, 0.18) 7px,
+                    rgba(180, 170, 150, 0.18) 8px);
+        }
+
+        /* The stone — a smooth pebble in the corner */
+        .admonition::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50% 50% 50% 42%;
+            background: radial-gradient(ellipse at 35% 35%, #c9c0b0, #a89f8f);
+            opacity: 0.5;
+            box-shadow:
+                1px 2px 4px rgba(0, 0, 0, 0.08),
+                inset -2px -2px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .admonition-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0;
+            margin-bottom: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #8b7e6a;
+            border: none;
+            background: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .admonition-title svg {
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        .admonition-content {
+            padding: 0;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #3d3628;
+            position: relative;
+            z-index: 1;
+        }
+
+        .admonition-content p {
+            color: #3d3628;
+        }
+
+        .admonition-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .admonition-content ul,
+        .admonition-content ol {
+            margin-bottom: 0;
+        }
+
+        .admonition-content code {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(180, 170, 150, 0.3);
+            color: #5c513e;
+        }
+
+        .admonition-content strong {
+            color: #2c2518;
+        }
+
+        /* Per-type stone colors */
+        .admonition-note::before {
+            background: radial-gradient(ellipse at 35% 35%, #9ca3af, #6b7280);
+        }
+
+        .admonition-note .admonition-title {
+            color: #6b7280;
+        }
+
+        .admonition-tip::before {
+            background: radial-gradient(ellipse at 35% 35%, #6ee7b7, #059669);
+        }
+
+        .admonition-tip .admonition-title {
+            color: #047857;
+        }
+
+        .admonition-warning::before {
+            background: radial-gradient(ellipse at 35% 35%, #fcd34d, #d97706);
+        }
+
+        .admonition-warning .admonition-title {
+            color: #92400e;
+        }
+
+        .admonition-important::before {
+            background: radial-gradient(ellipse at 35% 35%, #c4b5fd, #7c3aed);
+        }
+
+        .admonition-important .admonition-title {
+            color: #6d28d9;
+        }
+
+        .admonition-caution::before {
+            background: radial-gradient(ellipse at 35% 35%, #fca5a5, #dc2626);
+        }
+
+        .admonition-caution .admonition-title {
+            color: #991b1b;
+        }
+
+        /* ── Dark Mode: Night Garden ── */
+        [data-theme="dark"] .admonition {
+            background-color: #1a1916;
+            border-color: #2d2a24;
+            background-image:
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 7px,
+                    rgba(120, 110, 90, 0.1) 7px,
+                    rgba(120, 110, 90, 0.1) 8px);
+        }
+
+        [data-theme="dark"] .admonition::before,
+        [data-theme="dark"] .doc-content pre::before {
+            opacity: 0.35;
+            background: radial-gradient(ellipse at 35% 35%, #94a3b8, #475569);
+        }
+
+        [data-theme="dark"] .doc-content pre::after {
+            opacity: 0.2;
+            background: radial-gradient(ellipse at 35% 35%, #475569, #1e293b);
+        }
+
+        [data-theme="dark"] .admonition-title {
+            color: #a89f8f;
+        }
+
+        [data-theme="dark"] .admonition-content,
+        [data-theme="dark"] .admonition-content p {
+            color: #d5cec0;
+        }
+
+        [data-theme="dark"] .admonition-content strong {
+            color: #f0ece4;
+        }
+
+        [data-theme="dark"] .admonition-content code {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #d5cec0;
+        }
+
+        [data-theme="dark"] .admonition-note .admonition-title {
+            color: #94a3b8;
+        }
+
+        [data-theme="dark"] .admonition-tip .admonition-title {
+            color: #6ee7b7;
+        }
+
+        [data-theme="dark"] .admonition-warning .admonition-title {
+            color: #fcd34d;
+        }
+
+        [data-theme="dark"] .admonition-important .admonition-title {
+            color: #c4b5fd;
+        }
+
+        [data-theme="dark"] .admonition-caution .admonition-title {
+            color: #fca5a5;
         }
     </style>
 </head>
