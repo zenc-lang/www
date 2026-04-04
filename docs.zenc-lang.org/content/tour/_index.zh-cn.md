@@ -1,5 +1,5 @@
 +++
-title = "Zen C 之旅"
+title = "Tour of Zen C"
 weight = 1
 sort_by = "weight"
 insert_anchor_links = "none"
@@ -8,8 +8,8 @@ insert_anchor_links = "none"
 no_alphabet_grouping = true
 +++
 
-欢迎来到 **Zen C 之旅**！
+Welcome to the **Tour of Zen C**! 
 
-本指南直接源自语言参考。它涵盖了 Zen C 的语法、特性和内存管理哲学。您可以从头到尾阅读，也可以将其作为特定语言特性的快速参考。
+This guide is derived directly from the Language Reference. It covers Zen C's syntax, features, and memory management philosophy. You can read it cover-to-cover or use it as a quick reference for specific language features.
 
-使用左侧边栏在主题之间导航。如果您遇到任何问题，随时可以在我们的 [Discord 社区](https://discord.com/invite/q6wEsCmkJP)寻求帮助。
+Use the left sidebar to navigate between topics. If you run into any issues, you can always ask for help in our [Discord Community](https://discord.com/invite/q6wEsCmkJP).

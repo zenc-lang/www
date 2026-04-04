@@ -1,5 +1,5 @@
 +++
-title = "Обзор Zen C"
+title = "Tour of Zen C"
 weight = 1
 sort_by = "weight"
 insert_anchor_links = "none"
@@ -8,8 +8,8 @@ insert_anchor_links = "none"
 no_alphabet_grouping = true
 +++
 
-Добро пожаловать в **Обзор Zen C**! 
+Welcome to the **Tour of Zen C**! 
 
-Это руководство основано на справочнике по языку. Оно охватывает синтаксис, возможности и философию управления памятью Zen C. Вы можете прочитать его от начала до конца или использовать в качестве краткого справочника по конкретным возможностям языка.
+This guide is derived directly from the Language Reference. It covers Zen C's syntax, features, and memory management philosophy. You can read it cover-to-cover or use it as a quick reference for specific language features.
 
-Используйте левую боковую панель для навигации по темам. Если у вас возникнут проблемы, вы всегда можете обратиться за помощью в наше [сообщество в Discord](https://discord.com/invite/q6wEsCmkJP).
+Use the left sidebar to navigate between topics. If you run into any issues, you can always ask for help in our [Discord Community](https://discord.com/invite/q6wEsCmkJP).
