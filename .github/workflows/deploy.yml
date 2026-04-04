@@ -50,7 +50,7 @@ jobs:
 
       - name: Pull latest code on VPS
         run: |
-          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "cd /var/www && git pull"
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "cd /var/www && git fetch origin main && git reset --hard origin/main"
 
       - name: Sync files to /var/www/
         run: |
