@@ -4,14 +4,14 @@ title = "std/option"
 
 # std/option
 
-`Option<T>` representa um valor opcional: cada `Option` é `Some` e contém um valor, ou `None`. É comummente utilizado para lidar com a ausência de um valor sem recorrer a ponteiros nulos.
+`Option<T>` representa um valor opcional: cada `Option` é ou `Some` (contém um valor) ou `None`. É comummente usado para lidar com a ausência de um valor sem recorrer a ponteiros nulos.
 
 ## Visão Geral
 
-- **Seguro**: Incentiva o tratamento explícito do caso `None`.
+- **Seguro**: Encoraja o tratamento explícito do caso `None`.
 - **Genérico**: Pode envolver qualquer tipo `T`.
-- **Custo Zero**: Compila para uma estrutura simples com um marcador booleano.
-- **Conveniente**: Fornece muitos métodos utilitários para extrair e transformar valores.
+- **Custo Zero**: Compila para uma estrutura simples com um flag booleano.
+- **Conveniente**: Fornece muitos métodos utilitários para desembrulhar e transformar valores.
 
 ## Uso
 
@@ -25,8 +25,8 @@ fn main() {
         println "O valor é {val.unwrap()}";
     }
     
-    let vazio = Option<int>::None();
-    let x = vazio.unwrap_or(0);
+    let empty = Option<int>::None();
+    let x = empty.unwrap_or(0);
 }
 ```
 
@@ -59,15 +59,14 @@ struct Option<T> {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **unwrap** | `unwrap(self) -> T` | Retorna o valor contido. Entra em pânico se for `None`. |
-| **unwrap_ref** | `unwrap_ref(self) -> T*` | Retorna um ponteiro para o valor contido. Entra em pânico se for `None`. |
+| **unwrap** | `unwrap(self) -> T` | Retorna o valor contido. Faz panic se for `None`. |
+| **unwrap_ref** | `unwrap_ref(self) -> T*` | Retorna um ponteiro para o valor contido. Faz panic se for `None`. |
 | **unwrap_or** | `unwrap_or(self, def: T) -> T` | Retorna o valor contido ou `def`. |
-| **expect** | `expect(self, msg: char*) -> T` | Retorna o valor ou entra em pânico com `msg`. |
+| **expect** | `expect(self, msg: char*) -> T` | Retorna o valor ou faz panic com `msg`. |
 | **or_else** | `or_else(self, other: Option<T>) -> Option<T>` | Retorna a opção se for `Some`, caso contrário retorna `other`. |
 
-## Gerenciamento de Memória
+## Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **forget** | `forget(self)` | Limpa o valor interno sem chamar destruidores ou libertar memória. |
-走
+| **forget** | `forget(self)` | Zera o valor interno sem chamar destrutores ou libertar memória. |

@@ -18,21 +18,21 @@ fn main() {
     q.push(2);
     q.push(3);
     
-    // Pop retorna um Option<T>
+    // Pop retorna uma Option<T>
     if (q.pop().is_some()) {
-        println "Removido: {q.pop().unwrap()}"; // 1
+        println "Desenfileirado: {q.pop().unwrap()}"; // 1
     }
 }
 ```
 
 ## Detalhes de Implementação
 
-- **Ring Buffer**: Utiliza um buffer circular com índices `head` (cabeça) e `tail` (cauda).
+- **Ring Buffer**: Usa um buffer circular com índices `head` (cabeça) e `tail` (cauda).
 - **Desempenho**:
     - `push`: **O(1) amortizado** (redimensiona quando cheio).
-    - `pop`: **O(1)** (avança o índice head).
+    - `pop`: **O(1)** (avança o índice da cabeça).
     - `clone`: **O(N)**.
-- **Segurança**: Manuseio seguro de envolvimento de memória e redimensionamento.
+- **Segurança**: Tratamento seguro do wrapping de memória e redimensionamento.
 
 ## Definição da Estrutura
 
@@ -59,21 +59,20 @@ struct Queue<T> {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **push** | `push(self, value: T)` | Adiciona um elemento ao final da fila. |
-| **pop** | `pop(self) -> Option<T>` | Remove e retorna o elemento na frente. Retorna `None` se estiver vazia. |
+| **push** | `push(self, value: T)` | Adiciona um elemento ao fim da fila. |
+| **pop** | `pop(self) -> Option<T>` | Remove e retorna o elemento no início. Retorna `None` se vazia. |
 | **clear** | `clear(self)` | Remove todos os itens da fila. |
 
-### Acesso & Consulta
+### Acesso e Consulta
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
 | **length** | `length(self) -> usize` | Retorna o número de itens. |
 | **is_empty** | `is_empty(self) -> bool` | Retorna `true` se a fila estiver vazia. |
 
-## Gerenciamento de Memória
+## Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
 | **free** | `free(self)` | Liberta o buffer interno. |
 | **Trait** | `impl Drop for Queue` | Chama automaticamente `free()` quando sai do escopo. |
-走

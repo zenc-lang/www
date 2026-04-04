@@ -8,10 +8,10 @@ Il modulo `std/time` fornisce utilità per la misurazione del tempo ad alta prec
 
 ## Panoramica
 
-- **Precisione al Millisecondo**: `Time::now()` restituisce l'ora corrente del sistema in millisecondi.
-- **Tipo Duration**: La struttura `Duration` consente calcoli intuitivi dell'intervallo di tempo.
+- **Precisione al Millisecondo**: `Time::now()` restituisce l'ora di sistema corrente in millisecondi.
+- **Tipo Duration**: La struct `Duration` consente calcoli intuitivi degli intervalli di tempo.
 - **Sospensione Semplice**: Funzioni facili da usare per sospendere l'esecuzione.
-- **Leggero**: Overhead minimo, avvolgendo le funzioni temporali standard a livello di sistema.
+- **Leggero**: Overhead minimo, wrapper delle funzioni temporali standard a livello di sistema.
 
 ## Utilizzo
 
@@ -19,17 +19,17 @@ Il modulo `std/time` fornisce utilità per la misurazione del tempo ad alta prec
 import "std/time.zc"
 
 fn main() {
-    let inizio = Time::now();
+    let start = Time::now();
     
     // Sospendi per 1,5 secondi
     Time::sleep(Duration::from_ms(1500));
     
-    let fine = Time::now();
-    println "Trascorso: {fine - inizio} ms";
+    let end = Time::now();
+    println "Trascorso: {end - start} ms";
 }
 ```
 
-## Definizioni delle Strutture
+## Definizioni Struct
 
 ### `Duration`
 Rappresenta un intervallo di tempo.
@@ -40,7 +40,7 @@ struct Duration {
 ```
 
 ### `Time`
-Struttura di utilità statica per le operazioni temporali del sistema.
+Struct di utilità statica per le operazioni temporali di sistema.
 ```zc
 struct Time {}
 ```
@@ -58,6 +58,6 @@ struct Time {}
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **now** | `Time::now() -> U64` | Restituisce l'ora corrente del sistema in millisecondi dall'epoca (epoch). |
+| **now** | `Time::now() -> U64` | Restituisce l'ora di sistema corrente in millisecondi dall'epoca (epoch). |
 | **sleep** | `Time::sleep(d: Duration)` | Sospende il thread corrente per la `Duration` specificata. |
-| **sleep_ms** | `Time::sleep_ms(ms: U64)` | Sospende il thread corrente per il conteggio specificato di millisecondi. |
+| **sleep_ms** | `Time::sleep_ms(ms: U64)` | Sospende il thread corrente per il conteggio di millisecondi specificato. |

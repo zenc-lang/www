@@ -4,14 +4,14 @@ title = "std/set"
 
 # std/set
 
-`Set<T>` é uma implementação genérica de conjunto (hash set) para armazenar valores únicos do tipo `T`. Utiliza uma tabela de hash de endereçamento aberto com sondagem linear (linear probing).
+`Set<T>` é uma implementação de conjunto de hash genérico para armazenar valores únicos de tipo `T`. Usa uma tabela de hash de endereçamento aberto com sondagem linear.
 
 ## Visão Geral
 
 - **Genérico**: Armazena qualquer tipo `T`.
 - **Único**: Lida automaticamente com duplicados; adicionar um elemento existente retorna `false`.
 - **Rápido**: Complexidade de tempo média O(1) para adições, remoções e pesquisas.
-- **RAII**: Implementa o trait `Drop` para gerenciamento automático de memória.
+- **RAII**: Implementa o trait `Drop` para gestão automática de memória.
 
 ## Uso
 
@@ -26,7 +26,7 @@ fn main() {
     s.add(10); // Duplicado, retorna false
     
     if (s.contains(10)) {
-        println "O conjunto contém 10";
+        println "Conjunto contém 10";
     }
     
     s.remove(20);
@@ -57,17 +57,17 @@ struct Set<T> {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **add** | `add(self, val: T) -> bool` | Adiciona um valor ao conjunto. Retorna `true` se adicionado, `false` se já estiver presente. |
+| **add** | `add(self, val: T) -> bool` | Adiciona um valor ao conjunto. Retorna `true` se adicionado, `false` se já presente. |
 | **remove** | `remove(self, val: T) -> bool` | Remove um valor do conjunto. Retorna `true` se presente e removido. |
 | **clear** | `clear(self)` | Remove todos os elementos do conjunto sem libertar a memória alocada. |
 
-### Acesso & Consulta
+### Acesso e Consulta
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **contains** | `contains(self, val: T) -> bool` | Retorna `true` se o valor existe no conjunto. |
+| **contains** | `contains(self, val: T) -> bool` | Retorna `true` se o valor existir no conjunto. |
 | **length** | `length(self) -> usize` | Retorna o número de elementos únicos. |
-| **is_empty** | `is_empty(self) -> bool` | Retorna `true` se o conjunto não possui elementos. |
+| **is_empty** | `is_empty(self) -> bool` | Retorna `true` se o conjunto não tiver elementos. |
 | **capacity** | `capacity(self) -> usize` | Retorna a capacidade interna atual. |
 
 ### Utilitários
@@ -75,12 +75,11 @@ struct Set<T> {
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
 | **is_slot_occupied** | `is_slot_occupied(self, idx: usize) -> bool` | Verifica se um slot de hash interno específico está ocupado. |
-| **val_at** | `val_at(self, idx: usize) -> Option<T>` | Retorna o valor em um slot interno específico, se houver. |
+| **val_at** | `val_at(self, idx: usize) -> Option<T>` | Retorna o valor num slot interno específico, se existir. |
 
-## Gerenciamento de Memória
+## Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
 | **free** | `free(self)` | Liberta manualmente os buffers internos do conjunto. |
 | **Trait** | `impl Drop for Set` | Chama automaticamente `free()` quando o conjunto sai do escopo. |
-走

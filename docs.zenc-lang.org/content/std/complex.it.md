@@ -4,13 +4,13 @@ title = "std/complex"
 
 # std/complex
 
-La libreria `std/complex` fornisce la struttura `Complex` ed operazioni matematiche essenziali per lavorare con i numeri complessi in Zen-C.
+La libreria `std/complex` fornisce la struct `Complex` e le operazioni matematiche essenziali per lavorare con i numeri complessi in Zen-C.
 
 ## Panoramica
 
-- **Tipo di Valore**: Semplice struttura con componenti `real` (reale) e `imag` (immaginaria).
-- **Supporto agli Operatori**: Supporta `+`, `-`, `*`, `/`, `==` e `!=` tramite l'overloading degli operatori.
-- **Proprietà**: Fornisce metodi per calcolare la magnitudo e la fase.
+- **Tipo di Valore**: Semplice struct con componenti `real` (reale) e `imag` (immaginaria).
+- **Supporto Operatori**: Supporta `+`, `-`, `*`, `/`, `==` e `!=` tramite l'overloading degli operatori.
+- **Proprietà**: Fornisce metodi per calcolare modulo e fase.
 - **Interpolazione**: Può essere utilizzato direttamente nelle f-string e nelle istruzioni print.
 
 ## Utilizzo
@@ -26,11 +26,11 @@ fn main() {
     let prod = c1 * c2;
     
     println "Somma: {sum}";       // Somma: 4.000000 + 6.000000i
-    println "Magnitudo: {c1.magnitude()}";
+    println "Modulo: {c1.magnitude()}";
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct Complex {
@@ -47,11 +47,11 @@ struct Complex {
 | :--- | :--- | :--- |
 | **new** | `Complex::new(r: double, i: double) -> Complex` | Crea un nuovo numero complesso con componente reale `r` e componente immaginaria `i`. |
 
-### Accesso e Interrogazione
+### Accesso e Query
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **magnitude** | `magnitude(self) -> double` | Restituisce la magnitudo (valore assoluto) del numero complesso. |
+| **magnitude** | `magnitude(self) -> double` | Restituisce il modulo (valore assoluto) del numero complesso. |
 | **phase** | `phase(self) -> double` | Restituisce la fase (angolo) in radianti. |
 
 ## Operatori
@@ -64,4 +64,4 @@ struct Complex {
 | `/` | **div** | Divide un numero complesso per un altro. |
 | `==` | **eq** | Controlla se due numeri complessi sono strettamente uguali. |
 | `!=` | **neq** | Controlla se due numeri complessi non sono uguali. |
-| `{}` | **to_string** | Consente l'interpolazione diretta delle stringhe. |
+| `{}` | **to_string** | Abilita l'interpolazione diretta delle stringhe. |

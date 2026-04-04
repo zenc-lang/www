@@ -4,7 +4,7 @@ title = "std/regex"
 
 # std/regex
 
-O módulo `std/regex` fornece suporte para expressões regulares baseadas em `regex.h` do POSIX.
+O módulo `std/regex` fornece suporte para expressões regulares baseado no `regex.h` do POSIX.
 
 ## Uso
 
@@ -12,17 +12,17 @@ O módulo `std/regex` fornece suporte para expressões regulares baseadas em `re
 import "std/regex.zc"
 
 fn main() {
-    if regex_match("^[a-z]+$", "olá") {
+    if regex_match("^[a-z]+$", "hello") {
         println "Corresponde!";
     }
     
     let re = Regex::compile("\\d+");
-    let contagem = re.count("123 abc 456");
+    let count = re.count("123 abc 456");
     re.destroy();
 }
 ```
 
-## Definições de Estrutura
+## Definição de Estruturas
 
 ### `Regex`
 
@@ -30,13 +30,13 @@ Representa uma expressão regular compilada.
 
 ```zc
 struct Regex {
-    // Identificadores internos
+    // Alças internas
 }
 ```
 
 ### `Match`
 
-Representa uma correspondência bem-sucedida de regex.
+Representa uma correspondência de regex bem-sucedida.
 
 ```zc
 struct Match {
@@ -52,8 +52,8 @@ struct Match {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **compile** | `Regex::compile(pattern: char*) -> Regex` | Compila um padrão de regex com os sinalizadores (flags) padrão. |
-| **compile_with_flags** | `Regex::compile_with_flags(pattern: char*, flags: int) -> Regex` | Compila com sinalizadores POSIX personalizados. |
+| **compile** | `Regex::compile(pattern: char*) -> Regex` | Compila um padrão de regex com as flags padrão. |
+| **compile_with_flags**| `Regex::compile_with_flags(pattern: char*, flags: int) -> Regex` | Compila com flags POSIX personalizadas. |
 | **destroy** | `destroy(self)` | Liberta a regex compilada. |
 
 ### Correspondência e Pesquisa
@@ -61,7 +61,7 @@ struct Match {
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
 | **match** | `match(self, text: char*) -> bool` | Retorna verdadeiro se o padrão corresponder em qualquer lugar no `text`. |
-| **find** | `find(self, text: char*) -> Option<Match>` | Retorna a primeira correspondência, incluindo posição e comprimento. |
+| **find** | `find(self, text: char*) -> Option<Match>` | Retorna a primeira correspondência incluindo posição e comprimento. |
 | **count** | `count(self, text: char*) -> int` | Retorna o número de correspondências não sobrepostas. |
 | **split** | `split(self, text: char*) -> Vec<String>` | Divide o texto pelo padrão. |
 
@@ -76,8 +76,7 @@ struct Match {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **regex_match** | `regex_match(pattern: char*, text: char*) -> bool` | Verificação rápida para uma correspondência. |
+| **regex_match** | `regex_match(pattern: char*, text: char*) -> bool` | Verificação rápida de correspondência. |
 | **regex_find** | `regex_find(pattern: char*, text: char*) -> Option<Match>` | Encontra a primeira correspondência. |
 | **regex_count** | `regex_count(pattern: char*, text: char*) -> int` | Conta todas as correspondências. |
 | **regex_split** | `regex_split(pattern: char*, text: char*) -> Vec<String>` | Divide o texto pelo padrão. |
-走

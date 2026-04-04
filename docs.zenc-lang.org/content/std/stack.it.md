@@ -4,7 +4,7 @@ title = "std/stack"
 
 # std/stack
 
-Il modulo `std/stack` fornisce una struttura dati stack LIFO (Last-In, First-Out).
+Il modulo `std/stack` fornisce una struttura dati pile LIFO (Last-In, First-Out).
 
 ## Utilizzo
 
@@ -16,11 +16,11 @@ fn main() {
     s.push(10);
     s.push(20);
     
-    let cima = s.pop(); // Some(20)
-} // s viene liberato automaticamente qui
+    let top = s.pop(); // Some(20)
+} // s viene liberata automaticamente qui
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct Stack<T> {
@@ -34,28 +34,27 @@ struct Stack<T> {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **new** | `Stack<T>::new() -> Stack<T>` | Crea un nuovo stack vuoto. |
-| **clone** | `clone(self) -> Stack<T>` | Crea una copia profonda dello stack. |
+| **new** | `Stack<T>::new() -> Stack<T>` | Crea una nuova pila vuota. |
+| **clone** | `clone(self) -> Stack<T>` | Crea una copia profonda della pila. |
 
 ### Modifica
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **push** | `push(self, value: T)` | Inserisce un valore in cima allo stack. |
-| **pop** | `pop(self) -> Option<T>` | Rimuove e restituisce l'elemento in cima allo stack. Restituisce `None` se è vuoto. |
-| **clear** | `clear(self)` | Rimuove tutti gli elementi dallo stack. |
+| **push** | `push(self, value: T)` | Inserisce un valore in cima alla pila. |
+| **pop** | `pop(self) -> Option<T>` | Rimuove e restituisce l'elemento in cima alla pila. Restituisce `None` se vuota. |
+| **clear** | `clear(self)` | Rimuove tutti gli elementi dalla pila. |
 
-### Accesso e Interrogazione
+### Accesso e Query
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **length** | `length(self) -> usize` | Restituisce il numero di elementi nello stack. |
-| **is_empty** | `is_empty(self) -> bool` | Restituisce `true` se lo stack non contiene elementi. |
+| **length** | `length(self) -> usize` | Restituisce il numero di elementi nella pila. |
+| **is_empty** | `is_empty(self) -> bool` | Restituisce `true` se la pila non contiene elementi. |
 
 ## Gestione della Memoria
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **free** | `free(self)` | Libera manualmente la memoria dello stack. |
-| **Tratto** | `impl Drop for Stack` | Chiama automaticamente `free()` quando lo stack esce dall'ambito. |
-走
+| **free** | `free(self)` | Libera manualmente la memoria della pila. |
+| **Trait** | `impl Drop for Stack` | Chiama automaticamente `free()` quando la pila esce dallo scope. |

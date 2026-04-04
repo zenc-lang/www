@@ -4,33 +4,33 @@ title = "std/sort"
 
 # std/sort
 
-O módulo `std/sort` fornece funções para ordenar coleções e fatias (slices).
+O módulo `std/sort` fornece algoritmos de ordenação altamente otimizados. Implementa nativamente o algoritmo `QuickSort` usando um motor de macros polimórfico de custo zero.
 
 ## Uso
 
 ```zc
 import "std/sort.zc"
-import "std/vec.zc"
 
 fn main() {
-    let v = Vec<int>::new();
-    v.push(3); v.push(1); v.push(2);
-    
-    // Ordenação in-place (padrão crescente)
-    Sort::sort_int(v.as_slice());
+    let arr: int[5] = [52, 13, 99, 4, 42];
+    sort_int((int*)arr, 5); // Torna-se [4, 13, 42, 52, 99]
 }
 ```
 
-## Funções de Ordenação
+## Funções
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **sort_int** | `Sort::sort_int(s: Slice<int>)` | Ordena uma fatia de inteiros em ordem crescente. |
-| **sort_float**| `Sort::sort_float(s: Slice<float>)` | Ordena uma fatia de floats em ordem crescente. |
-| **sort_by** | `Sort::sort_by(s: Slice<T>, cmp: fn(T*, T*) -> int)` | Ordena uma fatia genérica usando uma função de comparação personalizada. |
+| **sort_int** | `sort_int(arr: int*, len: usize)` | Ordena um array de inteiros padrão `[i32]`. |
+| **sort_long** | `sort_long(arr: long*, len: usize)` | Ordena um array de inteiros longos `[i64]`. |
+| **sort_float** | `sort_float(arr: float*, len: usize)` | Ordena um array de floats `[f32]`. |
+| **sort_double** | `sort_double(arr: double*, len: usize)` | Ordena um array de doubles `[f64]`. |
 
-## Algoritmo
+## Ordenação Personalizada
 
-- Atualmente utiliza o algoritmo **Quicksort** com uma estratégia de pivô otimizada para o desempenho médio em casos reais.
-- A função `sort_by` é estável se a função de comparação personalizada for implementada corretamente.
-走
+Se criar uma `struct` personalizada com sobrecarga do operador `<`, pode gerar um ordenador personalizado:
+
+```zc
+// Emite `sort_MyStruct(MyStruct* arr, usize len)`
+raw { ZC_IMPL_SORT(MyStruct) } 
+```

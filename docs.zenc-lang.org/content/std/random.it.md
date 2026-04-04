@@ -4,7 +4,7 @@ title = "std/random"
 
 # std/random
 
-Il modulo `std/random` fornisce un wrapper orientato agli oggetti idiomatico per il generatore di numeri pseudo-casuali (PRNG) intorno alle funzioni di `<stdlib.h>` di POSIX.
+Il modulo `std/random` fornisce un wrapper idiomatico e orientato agli oggetti per un generatore di numeri pseudo-casuali (PRNG) basato sulle funzioni di `<stdlib.h>` di POSIX.
 
 ## Utilizzo
 
@@ -16,13 +16,13 @@ fn main() {
     let rng = Random::new();
 
     // Genera interi casuali
-    let limitato = rng.next_int_range(1, 100); // da 1 a 100 inclusi
+    let bounded = rng.next_int_range(1, 100); // da 1 a 100 inclusi
     
-    println "Estratto: {limitato}";
+    println "Estratto: {bounded}";
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct Random {
@@ -36,8 +36,8 @@ struct Random {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **new** | `Random::new() -> Random` | Crea un nuovo generatore casuale inizializzato con l'ora corrente del sistema. |
-| **from_seed** | `Random::from_seed(seed: U32) -> Random` | Crea un nuovo generatore casuale utilizzando un seme specifico. |
+| **new** | `Random::new() -> Random` | Crea un nuovo generatore casuale inizializzato con l'ora di sistema corrente. |
+| **from_seed** | `Random::from_seed(seed: U32) -> Random` | Crea un nuovo generatore casuale utilizzando un seed specifico. |
 
 ### Generazione
 

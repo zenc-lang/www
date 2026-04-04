@@ -4,7 +4,7 @@ title = "std/cuda"
 
 # std/cuda
 
-Il modulo `std/cuda` fornisce funzioni di utilità e tipi per l'interoperabilità CUDA, semplificando la gestione della memoria, la sincronizzazione e le interrogazioni del dispositivo.
+Il modulo `std/cuda` fornisce funzioni di supporto e tipi per l'interoperabilità CUDA, semplificando la gestione della memoria, la sincronizzazione e le query del dispositivo.
 
 > [!NOTE]
 > Questo modulo richiede la compilazione con il flag `--cuda`.
@@ -22,7 +22,7 @@ fn main() {
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct CudaDeviceProp {
@@ -47,13 +47,13 @@ struct CudaDeviceProp {
 | **cuda_copy_to_device** | `cuda_copy_to_device(dst: void*, src: void*, bytes: usize)` | Copia i dati dall'host (CPU) al dispositivo (GPU). |
 | **cuda_copy_to_host** | `cuda_copy_to_host(dst: void*, src: void*, bytes: usize)` | Copia i dati dal dispositivo (GPU) all'host (CPU). |
 | **cuda_copy_device** | `cuda_copy_device(dst: void*, src: void*, bytes: usize)` | Copia i dati da dispositivo a dispositivo. |
-| **cuda_zero** | `cuda_zero(ptr: void*, bytes: usize)` | Imposta a zero la memoria del dispositivo. |
+| **cuda_zero** | `cuda_zero(ptr: void*, bytes: usize)` | Imposta la memoria del dispositivo a zero. |
 
 ### Sincronizzazione
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **cuda_sync** | `cuda_sync()` | Sincronizza il dispositivo (si blocca finché tutte le chiamate CUDA precedenti non sono completate). |
+| **cuda_sync** | `cuda_sync()` | Sincronizza il dispositivo (si blocca fino al completamento di tutte le chiamate CUDA precedenti). |
 
 ### Informazioni sul Dispositivo
 
@@ -61,11 +61,11 @@ struct CudaDeviceProp {
 | :--- | :--- | :--- |
 | **cuda_device_count** | `cuda_device_count() -> int` | Restituisce il numero di dispositivi CUDA disponibili. |
 | **cuda_set_device** | `cuda_set_device(id: int)` | Imposta il dispositivo CUDA attivo. |
-| **cuda_device_properties** | `cuda_device_properties(device_id: int) -> CudaDeviceProp` | Restituisce le proprietà del dispositivo specificato. |
+| **cuda_device_properties** | `cuda_device_properties(device_id: int) -> CudaDeviceProp" | Restituisce le proprietà del dispositivo specificato. |
 
 ### Funzioni del Dispositivo (Solo Kernel)
 
-Queste funzioni sono contrassegnate con `@device` e devono essere chiamate solo dall'interno di un kernel (`@global`) o di funzioni del dispositivo.
+Queste funzioni sono contrassegnate con `@device` e dovrebbero essere chiamate solo dall'interno di un kernel (`@global`) o di funzioni del dispositivo.
 
 | Funzione | Firma | Descrizione |
 | :--- | :--- | :--- |

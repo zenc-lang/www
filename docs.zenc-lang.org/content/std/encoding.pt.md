@@ -4,36 +4,50 @@ title = "std/encoding"
 
 # std/encoding
 
-O módulo `std/encoding` fornece utilitários para conversão entre diferentes formatos de representação de dados, como Base64.
+O módulo `std/encoding` fornece utilitários de codificação e descodificação de dados.
 
-## Uso
+## Base64 (`std/encoding/base64.zc`)
+
+Implementação da codificação Base64 (RFC 4648).
+
+### Uso
 
 ```zc
 import "std/encoding/base64.zc"
 
 fn main() {
-    let original = "Zen-C";
-    let encoded = Base64::encode(original);
-    
-    println "Base64: {encoded}"; 
+    let data = "Hello";
+    let encoded = Base64::encode((u8*)data, 5);
+    // encoded é "SGVsbG8="
 }
 ```
 
-## Base64 (`std/encoding/base64.zc`)
-
-O submódulo Base64 fornece funções para codificar e decodificar dados binários no formato Base64 (RFC 4648).
-
-### Funções
+### Métodos
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **encode** | `Base64::encode(input: char*) -> String` | Codifica uma string C para Base64. |
-| **decode** | `Base64::decode(input: char*) -> String` | Decodifica uma string Base64 de volta para o formato original. |
+| **encode** | `Base64::encode(data: u8*, len: usize) -> char*` | Codifica dados numa string Base64. |
+| **decode** | `Base64::decode(s: char*) -> Vec<u8>` | Descodifica uma string Base64 em bytes brutos. |
 
-## Outros Encodings
+## Hex (`std/encoding/hex.zc`)
 
-O módulo `std/encoding` também pode incluir suporte para:
-- **Hexadecimal**: Através do módulo `std/hex`.
-- **JSON**: Através do módulo `std/json`.
-- **UTF-8**: Através do módulo `std/utf8`.
-走
+Codificação e descodificação hexadecimal.
+
+### Uso
+
+```zc
+import "std/encoding/hex.zc"
+
+fn main() {
+    let data = "Zen";
+    let encoded = Hex::encode((u8*)data, 3);
+    // encoded é "5a656e"
+}
+```
+
+### Métodos
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **encode** | `Hex::encode(data: u8*, len: usize) -> String` | Codifica dados numa string Hex. |
+| **decode** | `Hex::decode(hex: String) -> Result<Vec<u8>>` | Descodifica uma string Hex em bytes brutos. |

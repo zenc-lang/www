@@ -4,40 +4,50 @@ title = "std/encoding"
 
 # std/encoding
 
-`std/encoding` 模組包含用於在不同數據格式和編碼（如 Base64）之間進行轉換的工具。
+`std/encoding` 模組提供了數據編碼和解碼工具。
 
-## 使用
+## Base64 (`std/encoding/base64.zc`)
+
+Base64 編碼實現 (RFC 4648)。
+
+### 使用方法
 
 ```zc
 import "std/encoding/base64.zc"
 
 fn main() {
-    let original = "Zen-C";
-    
-    // 編碼為 Base64
-    let encoded = Base64::encode(original);
-    println "編碼後: {encoded}";
-    
-    // 解碼
-    let decoded = Base64::decode(encoded);
-    println "解碼後: {decoded}";
+    let data = "Hello";
+    let encoded = Base64::encode((u8*)data, 5);
+    // encoded 為 "SGVsbG8="
 }
 ```
 
-## 支持的編碼
+### 方法
 
-### Base64
-
-| 方法 | 簽名 | 描述 |
+| 方法 | 簽名 | 說明 |
 | :--- | :--- | :--- |
-| **encode** | `Base64::encode(data: char*) -> String` | 將字符串或字節轉換為 Base64。 |
-| **decode** | `Base64::decode(data: char*) -> String` | 將 Base64 字符串恢復為其原始形式。 |
+| **encode** | `Base64::encode(data: u8*, len: usize) -> char*` | 將數據編碼為 Base64 字串。 |
+| **decode** | `Base64::decode(s: char*) -> Vec<u8>` | 將 Base64 字串解碼為原始位元組。 |
 
-### Hex (十六進制)
+## Hex (`std/encoding/hex.zc`)
 
-| 方法 | 簽名 | 描述 |
+十六進位編碼與解碼。
+
+### 使用方法
+
+```zc
+import "std/encoding/hex.zc"
+
+fn main() {
+    let data = "Zen";
+    let encoded = Hex::encode((u8*)data, 3);
+    // encoded 為 "5a656e"
+}
+```
+
+### 方法
+
+| 方法 | 簽名 | 說明 |
 | :--- | :--- | :--- |
-| **encode** | `Hex::encode(data: u8*, n: usize) -> String` | 將字節數組轉換為十六進制字符串。 |
-| **decode** | `Hex::decode(s: char*) -> Vec<u8>` | 將十六進制字符串解碼為字節。 |
-
-走
+| **encode** | `Hex::encode(data: u8*, len: usize) -> String` | 將數據編碼為十六進位字串。 |
+| **decode** | `Hex::decode(hex: String) -> Result<Vec<u8>>` | 將十六進位字串解碼為原始位元組。 |

@@ -4,7 +4,13 @@ title = "std/env"
 
 # std/env
 
-O módulo `std/env` fornece acesso a argumentos de linha de comando, variáveis de ambiente e informações do sistema.
+O módulo `std/env` fornece acesso multiplataforma às variáveis de ambiente do processo.
+
+## Visão Geral
+
+- **Acesso Chave-Valor**: API simples para obter, definir e remover variáveis de ambiente.
+- **Emprestado ou Próprio**: Escolha entre `get` (retorna uma string C emprestada) e `get_dup` (retorna uma `String` própria, alocada no heap).
+- **Multiplataforma**: Abstrai com segurança as chamadas de sistema subjacentes para manipulação do ambiente.
 
 ## Uso
 
@@ -12,39 +18,47 @@ O módulo `std/env` fornece acesso a argumentos de linha de comando, variáveis 
 import "std/env.zc"
 
 fn main() {
-    // Aceder a variáveis de ambiente
-    match Env::get("PATH") {
-        Some(path) => println "CAMINHO: {path}",
-        None => println "PATH não definido"
+    // Definir uma variável de ambiente
+    Env::set("MY_APP_MODE", "development");
+
+    // Obter (Emprestado)
+    match Env::get("MY_APP_MODE") {
+        Some(val) => println "Modo: {val}",
+        None => println "Modo não definido"
     }
 
-    // Iterar sobre argumentos de linha de comando
-    for arg in Env::args() {
-        println "Arg: {arg}";
+    // Obter (String Própria para RAII)
+    match Env::get_dup("HOME") {
+        Some(home) => {
+             println "Home: {home}";
+             // home é libertado automaticamente
+        }
+        None => println "HOME não encontrado"
     }
+}
+```
+
+## Definição de Enum
+
+```zc
+enum EnvRes {
+    OK,
+    ERR,
 }
 ```
 
 ## Métodos
 
-### Argumentos
+### Acesso e Consulta
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **args** | `Env::args() -> Vec<String>` | Retorna um vetor dos argumentos fornecidos ao processo. |
+| **get** | `Env::get(name: char*) -> Option<char*>` | Obtém um ponteiro emprestado para uma variável de ambiente. Não libertar. |
+| **get_dup** | `Env::get_dup(name: char*) -> Option<String>` | Obtém uma variável de ambiente como um novo objeto `String`. |
 
-### Variáveis de Ambiente
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **get** | `Env::get(key: char*) -> Option<String>` | Procura uma variável de ambiente por nome. |
-| **set** | `Env::set(key: char*, value: char*)` | Define ou atualiza uma variável de ambiente. |
-| **remove** | `Env::remove(key: char*)` | Remove uma variável de ambiente. |
-
-### Informação do Sistema
+### Modificação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **os** | `Env::os() -> char*` | Retorna o nome do sistema operativo (ex: "linux", "macos", "windows"). |
-| **arch** | `Env::arch() -> char*` | Retorna a arquitetura do CPU (ex: "x86_64", "arm64"). |
-走
+| **set** | `Env::set(name: char*, value: char*) -> EnvRes` | Define ou atualiza uma variável de ambiente. |
+| **unset** | `Env::unset(name: char*) -> EnvRes` | Remove uma variável de ambiente do processo atual. |

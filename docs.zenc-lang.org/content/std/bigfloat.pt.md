@@ -4,7 +4,14 @@ title = "std/bigfloat"
 
 # std/bigfloat
 
-O módulo `std/bigfloat` fornece aritmética de vírgula flutuante de precisão arbitrária.
+`BigFloat` fornece aritmética de ponto flutuante decimal de precisão arbitrária para Zen-C. É implementado como um `BigInt` escalado, permitindo cálculos de alta precisão sem erros de arredondamento binário.
+
+## Visão Geral
+
+- **Precisão Arbitrária**: Suporta números decimais de qualquer tamanho, limitados apenas pela memória.
+- **Representação Escalada**: Usa uma magnitude `BigInt` e uma `scale` inteira para representar valores decimais.
+- **Controlo de Precisão**: Alinha facilmente as escalas para adição e subtração precisas.
+- **RAII**: A memória para a magnitude subjacente é gerida automaticamente através do trait `Drop`.
 
 ## Uso
 
@@ -12,12 +19,27 @@ O módulo `std/bigfloat` fornece aritmética de vírgula flutuante de precisão 
 import "std/bigfloat.zc"
 
 fn main() {
-    let a = BigFloat::from_string("1.2345678901234567890");
-    let b = BigFloat::from_int(2);
+    let a = BigFloat::from_int(123);
+    a.scale = 2; // Representa 1.23
     
-    let c = a.add(&b); 
-    println "{c.to_string()}"; 
-} // c, b e a são libertados automaticamente aqui
+    let b = BigFloat::from_int(4567);
+    b.scale = 3; // Representa 4.567
+    
+    let sum = a.add(b);
+    
+    let s = sum.to_string();
+    println "Soma: {s}"; // Soma: 5.797
+    free(s);
+} // a, b, e sum são libertados automaticamente aqui
+```
+
+## Definição da Estrutura
+
+```zc
+struct BigFloat {
+    magnitude: BigInt;
+    scale: int;
+}
 ```
 
 ## Métodos
@@ -26,29 +48,26 @@ fn main() {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `BigFloat::new() -> BigFloat` | Cria um novo `BigFloat` inicializado a zero. |
-| **from_int** | `BigFloat::from_int(v: int) -> BigFloat` | Cria um `BigFloat` a partir de um valor inteiro. |
-| **from_string** | `BigFloat::from_string(s: char*) -> BigFloat` | Cria um `BigFloat` a partir de uma representação em string. |
+| **new** | `BigFloat::new() -> BigFloat` | Cria um novo `BigFloat` inicializado a 0.0. |
+| **from_int** | `BigFloat::from_int(val: u64) -> BigFloat` | Cria um `BigFloat` a partir de um inteiro com escala 0. |
 
-### Operações Aritméticas
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **add** | `add(self, other: BigFloat*) -> BigFloat` | Adiciona dois `BigFloat`. |
-| **sub** | `sub(self, other: BigFloat*) -> BigFloat` | Subtrai `other` de `self`. |
-| **mul** | `mul(self, other: BigFloat*) -> BigFloat` | Multiplica dois `BigFloat`. |
-| **div** | `div(self, other: BigFloat*) -> BigFloat` | Divide `self` por `other`. |
-
-### Utilitários
+### Modificação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **to_string** | `to_string(self) -> char*` | Retorna a representação em string do `BigFloat`. |
+| **add** | `add(self, other: BigFloat) -> BigFloat` | Adiciona dois valores `BigFloat`, alinhando automaticamente as suas escalas. Retorna um novo `BigFloat`. |
+| **align_scale** | `align_scale(self, target_scale: int)` | Aumenta a escala do `BigFloat` para `target_scale` deslocando a magnitude. |
 
-## Gerenciamento de Memória
+### Utilidade
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **free** | `free(self)` | Liberta manualmente a memória interna. |
-| **Trait** | `impl Drop for BigFloat` | Chama automaticamente `free()`. |
-走
+| **clone** | `clone(self) -> BigFloat` | Retorna uma cópia profunda do `BigFloat`. |
+| **to_string** | `to_string(self) -> char*` | Retorna uma representação em string alocada no heap com o ponto decimal. |
+
+## Gestão de Memória
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **free_mem** | `free_mem(self)` | Liberta manualmente a memória do `BigInt` subjacente. |
+| **Trait** | `impl Drop for BigFloat` | Chama automaticamente `free_mem()` quando sai do escopo. |

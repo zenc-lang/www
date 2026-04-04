@@ -4,13 +4,13 @@ title = "std/json"
 
 # std/json
 
-Il modulo `std/json` fornisce un'implementazione di parser e builder JSON in stile DOM per Zen-C. Presenta un'API semplice per la creazione, manipolazione e serializzazione di dati JSON con gestione automatica della memoria.
+Il modulo `std/json` fornisce un'implementazione di un parser e builder JSON in stile DOM per Zen-C. Dispone di un'API semplice per creare, manipolare e serializzare dati JSON con gestione automatica della memoria.
 
 ## Panoramica
 
 - **Stile DOM**: Struttura ad albero gerarchica di nodi `JsonValue`.
-- **Accessi Type-safe**: Controlla i tipi (`is_string`, `is_number`) ed estrai i valori in modo sicuro.
-- **Pulizia Automatica**: Implementa il tratto `Drop` per una gestione della memoria automatica e ricorsiva.
+- **Accessor Type-safe**: Controlla i tipi (`is_string`, `is_number`) ed estrai i valori in modo sicuro.
+- **Pulizia Automatica**: Implementa il trait `Drop` per la gestione della memoria automatica e ricorsiva.
 - **Conforme agli Standard**: Supporta i tipi JSON standard inclusi oggetti, array, stringhe, numeri, booleani e null.
 
 ## Utilizzo
@@ -19,7 +19,7 @@ Il modulo `std/json` fornisce un'implementazione di parser e builder JSON in sti
 import "std/json.zc"
 
 fn main() {
-    // Costruzione del JSON
+    // Costruzione di JSON
     let obj = JsonValue::object();
     obj.set("name", JsonValue::string("Alice"));
     obj.set("age", JsonValue::number(30.0));
@@ -41,7 +41,7 @@ fn main() {
 } // obj viene liberato automaticamente qui
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct JsonValue {
@@ -69,7 +69,7 @@ struct JsonValue {
 | :--- | :--- | :--- |
 | **parse** | `JsonValue::parse(json: char*) -> Result<JsonValue*>` | Esegue il parsing di una stringa JSON in un albero allocato nell'heap. |
 
-### Accessori
+### Accessor
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
@@ -88,10 +88,10 @@ struct JsonValue {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **push** | `push(self, val: JsonValue)` | Aggiunge un valore figlio ad un array JSON. |
+| **push** | `push(self, val: JsonValue)` | Aggiunge un valore figlio a un array JSON. |
 | **set** | `set(self, key: char*, val: JsonValue)` | Inserisce o aggiorna una coppia chiave-valore in un oggetto JSON. |
-| **get** | `get(self, key: char*) -> Option<JsonValue*>` | Recupera un valore figlio da un oggetto tramite chiave. |
-| **at** | `at(self, index: usize) -> Option<JsonValue*>` | Recupera un valore figlio da un array tramite indice. |
+| **get** | `get(self, key: char*) -> Option<JsonValue*>` | Recupera un valore figlio da un oggetto tramite la chiave. |
+| **at** | `at(self, index: usize) -> Option<JsonValue*>` | Recupera un valore figlio da un array tramite l'indice. |
 
 ### Serializzazione
 
@@ -104,4 +104,4 @@ struct JsonValue {
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
 | **free** | `free(self)` | Libera ricorsivamente il valore e tutti i nodi discendenti. |
-| **Tratto** | `impl Drop for JsonValue` | Innesca automaticamente la `free()` ricorsiva quando esce dall'ambito. |
+| **Trait** | `impl Drop for JsonValue` | Attiva automaticamente la `free()` ricorsiva quando esce dallo scope. |

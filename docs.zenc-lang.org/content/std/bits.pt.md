@@ -4,7 +4,14 @@ title = "std/bits"
 
 # std/bits
 
-O módulo `std/bits` fornece utilitários para manipulação de bits em tipos inteiros.
+O módulo `std/bits` fornece operações bit a bit de baixo nível, incluindo rotações, contagens de população e inversões de bits.
+
+## Visão Geral
+
+- **Multiplataforma**: Implementa corretamente operações bit a bit em diferentes arquiteturas.
+- **Eficiente**: Usa algoritmos de manipulação de bits otimizados.
+- **Abrangente**: Suporta inteiros sem sinal de 8, 16, 32, 64 e 128 bits.
+- **Utilitários de Endianness**: Inclui funções para inverter a ordem dos bytes (troca de endianness).
 
 ## Uso
 
@@ -12,41 +19,44 @@ O módulo `std/bits` fornece utilitários para manipulação de bits em tipos in
 import "std/bits.zc"
 
 fn main() {
-    let n = 0b0000_1010;
+    let a: u32 = 0x80000001;
     
-    // Contagem de bits e manipulação
-    let count = Bits::count_ones(n); // 2
-    let reversed = Bits::reverse_bits(n);
+    // Rodar inteiro de 32 bits para a esquerda por 1
+    let rotated = Bits::rotl32(a, 1); // 0x00000003
     
-    // Operações em nível de bit
-    if (Bits::is_set(n, 3)) {
-        println "O bit 3 está definido!";
-    }
+    // Contar bits definidos (population count)
+    let count = Bits::popcount32(0b1011); // 3
+    
+    // Inverter ordem dos bytes (bswap)
+    let swapped = Bits::bswap32(0x12345678); // 0x78563412
 }
 ```
 
-## Funções
+## Métodos
 
-### Contagem e Verificação
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **count_ones** | `count_ones(v: u32) -> int` | Retorna o número de bits definidos (`1`). |
-| **count_zeros** | `count_zeros(v: u32) -> int` | Retorna o número de bits não definidos (`0`). |
-| **is_set** | `is_set(v: u32, bit: int) -> bool` | Verifica se o bit especificado está em `1`. |
-
-### Manipulação
+### Rotação Bit a Bit
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **set_bit** | `set_bit(v: u32, bit: int) -> u32` | Define o bit especificado para `1`. |
-| **clear_bit** | `clear_bit(v: u32, bit: int) -> u32` | Define o bit especificado para `0`. |
-| **toggle_bit** | `toggle_bit(v: u32, bit: int) -> u32` | Inverte o bit especificado. |
-| **reverse_bits** | `reverse_bits(v: u32) -> u32` | Reverte a ordem dos bits. |
+| **rotl[N]** | `Bits::rotl[N](n: u[N], c: u[N]) -> u[N]` | Roda `n` para a esquerda por `c` bits (N=8, 16, 32, 64, 128). |
+| **rotr[N]** | `Bits::rotr[N](n: u[N], c: u[N]) -> u[N]` | Roda `n` para a direita por `c` bits (N=8, 16, 32, 64, 128). |
 
-### Miscelânea
+### Contagem de População
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **is_power_of_two** | `is_power_of_two(v: u32) -> bool` | Retorna true se `v` for uma potência de 2. |
-走
+| **popcount[N]** | `Bits::popcount[N](n: u[N]) -> u[N]` | Retorna o número de bits definidos (1s) em `n` (N=8, 16, 32, 64, 128). |
+
+### Contagem de Zeros à Direita/Esquerda
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **clz[N]** | `Bits::clz[N](n: u[N]) -> u[N]` | Retorna o número de bits zero à esquerda (N=8, 16, 32, 64, 128). |
+| **ctz[N]** | `Bits::ctz[N](n: u[N]) -> u[N]` | Retorna o número de bits zero à direita (N=8, 16, 32, 64, 128). |
+
+### Troca de Bytes e Inversão de Bits
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **bswap[N]** | `Bits::bswap[N](n: u[N]) -> u[N]` | Inverte a ordem dos bytes de `n` (N=16, 32, 64, 128). |
+| **reverse_bits[N]** | `Bits::reverse_bits[N](n: u[N]) -> u[N]` | Inverte a ordem dos bits de `n` (N=8, 16, 32, 64, 128). |

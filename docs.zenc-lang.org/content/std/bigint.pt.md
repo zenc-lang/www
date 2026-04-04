@@ -4,7 +4,14 @@ title = "std/bigint"
 
 # std/bigint
 
-O módulo `std/bigint` fornece aritmética de precisão arbitrária para números inteiros (bignums).
+`BigInt` fornece aritmética de inteiros de precisão arbitrária para Zen-C. Permite cálculos com inteiros que excedem a capacidade de tipos numéricos padrão como `u64`.
+
+## Visão Geral
+
+- **Precisão Arbitraria**: Os números são limitados apenas pela memória disponível.
+- **Base Decimal**: Atualmente utiliza uma representação simples em base 10 por simplicidade.
+- **RAII**: Implementa o trait `Drop` para gestão automática de memória do armazenamento interno de dígitos.
+- **Conveniente**: Suporta sobrecarga de operadores para aritmética intuitiva.
 
 ## Uso
 
@@ -12,12 +19,24 @@ O módulo `std/bigint` fornece aritmética de precisão arbitrária para número
 import "std/bigint.zc"
 
 fn main() {
-    let a = BigInt::from_string("123456789012345678901234567890");
-    let b = BigInt::from_int(10);
+    let a = BigInt::from_int(1_000_000_000_000_000);
+    let b = BigInt::from_int(2_000_000_000_000_000);
     
-    let c = a.mul(&b);
-    println "{c.to_string()}";
-} // c, b e a são libertados automaticamente aqui
+    // Usa sobrecarga de operadores
+    let sum = a + b; 
+    
+    let s = sum.to_string();
+    println "Soma: {s}";
+    free(s);
+} // sum, a, e b são libertados automaticamente aqui
+```
+
+## Definição da Estrutura
+
+```zc
+struct BigInt {
+    digits: Vec<u8>*;
+}
 ```
 
 ## Métodos
@@ -26,32 +45,32 @@ fn main() {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `BigInt::new() -> BigInt` | Cria um novo `BigInt` inicializado a zero. |
-| **from_int** | `BigInt::from_int(v: int) -> BigInt` | Cria um `BigInt` a partir de um valor de 32 bits. |
-| **from_long** | `BigInt::from_long(v: long) -> BigInt` | Cria um `BigInt` a partir de um valor de 64 bits. |
-| **from_string** | `BigInt::from_string(s: char*) -> BigInt` | Cria um `BigInt` a partir de uma representação em string. |
+| **new** | `BigInt::new() -> BigInt` | Cria um novo `BigInt` inicializado a 0. |
+| **from_int** | `BigInt::from_int(val: u64) -> BigInt` | Cria um novo `BigInt` a partir de um inteiro de 64 bits. |
 
-### Operações Aritméticas
+### Modificação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **add** | `add(self, other: BigInt*) -> BigInt` | Adiciona dois `BigInt`. |
-| **sub** | `sub(self, other: BigInt*) -> BigInt` | Subtrai `other` de `self`. |
-| **mul** | `mul(self, other: BigInt*) -> BigInt` | Multiplica dois `BigInt`. |
-| **div** | `div(self, other: BigInt*) -> BigInt` | Divide `self` por `other`. |
-| **mod** | `mod(self, other: BigInt*) -> BigInt` | Retorna o resto da divisão. |
+| **add_in_place**| `add_in_place(self, other: BigInt)` | Adiciona `other` a `self` através da mutação do estado interno. |
 
-### Utilitários
+### Utilidade
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **to_string** | `to_string(self) -> char*` | Retorna a representação decimal em string. |
-| **to_hex** | `to_hex(self) -> char*` | Retorna a representação hexadecimal em string. |
+| **clone** | `clone(self) -> BigInt` | Retorna uma cópia profunda do `BigInt`. |
+| **to_string** | `to_string(self) -> char*` | Retorna uma representação em string alocada no heap. |
 
-## Gerenciamento de Memória
+## Operadores
+
+| Operador | Método | Descrição |
+| :--- | :--- | :--- |
+| `+` | **add** | Retorna um novo `BigInt` contendo a soma de dois valores. |
+| `{}` | **to_string** | Ativa automaticamente a interpolação em strings formatadas. |
+
+## Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **free** | `free(self)` | Liberta manualmente a memória interna. |
-| **Trait** | `impl Drop for BigInt` | Chama automaticamente `free()` quando sai do escopo. |
-走
+| **free_mem** | `free_mem(self)` | Liberta manualmente o armazenamento subjacente de `Vec` e `BigInt`. |
+| **Trait** | `impl Drop for BigInt` | Chama automaticamente `free_mem()` quando sai do escopo. |

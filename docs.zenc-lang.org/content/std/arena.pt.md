@@ -4,28 +4,38 @@ title = "std/arena"
 
 # std/arena
 
-O módulo `std/arena` fornece um alocador de memória baseado em região (arena), que permite uma alocação rápida e uma liberação eficiente de toda a memória de uma só vez.
+O módulo `std/arena` fornece um alocador "bump" rápido para alocações de memória em massa. Toda a memória alocada dentro de uma arena é libertada de uma só vez quando a própria arena é destruída ou redefinida.
 
 ## Visão Geral
 
-- **Alocação Rápida**: Simplesmente incrementa um ponteiro dentro de blocos de memória pré-alocados.
-- **Liberação Eficiente**: Toda a memória alocada na arena pode ser liberada com uma única operação (`free`).
-- **Segurança**: Ajuda a evitar fugas de memória (memory leaks) e fragmentação ao gerenciar o ciclo de vida de objetos relacionados em conjunto.
+- **Desempenho**: As alocações são extremamente rápidas, envolvendo apenas um único incremento de ponteiro.
+- **Libertação em Massa**: Ideal para alocações locais de tarefas ou pedidos onde tudo pode ser libertado ao mesmo tempo.
+- **Guardar/Restaurar**: Suporte para "checkpoints" para libertar parcialmente a memória dentro da arena.
+- **RAII**: Implementa o trait `Drop` para garantir que o buffer subjacente seja libertado automaticamente.
 
 ## Uso
 
 ```zc
 import "std/arena.zc"
 
+struct Node {
+    val: int;
+}
+
 fn main() {
-    // Cria uma nova arena
-    let a = Arena::new();
-
-    // Aloca memória da arena
-    let p1 = a.alloc(100);
-    let p2 = a.alloc_type(int);
-
-    // No final do escopo, toda a memória da arena é liberada automaticamente através do trait Drop
+    // Criar arena com 1KB de capacidade
+    let a = Arena::new(1024);
+    
+    // Alocações rápidas
+    let n1 = a.alloc<Node>();
+    let n2 = a.alloc<Node>();
+    
+    // Duplicar string na memória da arena
+    let s = a.dup_str("Hello World");
+    
+    println "Arena usada: {a.bytes_used()} bytes";
+    
+    // Tudo é libertado automaticamente quando 'a' sai do escopo
 }
 ```
 
@@ -33,10 +43,9 @@ fn main() {
 
 ```zc
 struct Arena {
-    blocks: Vec<void*>;
-    current_block: void*;
-    block_size: usize;
-    offset: usize;
+    data: void*;
+    capacity: usize;
+    used: usize;
 }
 ```
 
@@ -46,28 +55,30 @@ struct Arena {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `Arena::new() -> Arena` | Cria uma nova arena com o tamanho de bloco padrão (4096 bytes). |
-| **with_capacity** | `Arena::with_capacity(size: usize) -> Arena` | Cria uma nova arena com um tamanho de bloco específico. |
+| **new** | `Arena::new(cap: usize) -> Arena` | Cria uma nova arena com a capacidade especificada. |
 
 ### Alocação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **alloc** | `alloc(self, size: usize) -> void*` | Aloca `size` bytes da arena. |
-| **alloc_type** | `alloc_type(self, type T) -> T*` | Macro de conveniência para alocar o tamanho de um tipo `T`. |
-| **alloc_array** | `alloc_array(self, type T, count: usize) -> T*` | Aloca memória para um array de `count` elementos do tipo `T`. |
+| **alloc\<T>** | `alloc<T>(self) -> T*` | Aloca e inicializa com zero a memória para um tipo `T`. |
+| **alloc_n\<T>**| `alloc_n<T>(self, count: usize) -> T*` | Aloca memória para um array de `count` elementos do tipo `T`. |
+| **alloc_bytes**| `alloc_bytes(self, size: usize) -> void*` | Alocação de bytes brutos (alinhada a 8 bytes). |
+| **dup_str** | `dup_str(self, src: char*) -> char*` | Duplica uma string C para a arena. |
 
-### Gerenciamento
+### Consulta e Controlo
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **clear** | `clear(self)` | Libera toda a memória alocada na arena sem destruir o objeto arena. |
-| **free** | `free(self)` | Libera manualmente toda a memória e os blocos internos. |
-| **Trait** | `impl Drop for Arena` | Chama automaticamente `free()` quando sai do escopo. |
+| **bytes_used** | `bytes_used(self) -> usize` | Retorna o total de bytes atualmente alocados. |
+| **bytes_free** | `bytes_free(self) -> usize` | Retorna a capacidade restante. |
+| **save** | `save(self) -> usize` | Retorna um "checkpoint" representando o uso atual. |
+| **restore** | `restore(self, mark: usize)` | Liberta parcialmente até um checkpoint anterior. |
+| **reset** | `reset(self)` | Liberta todas as alocações redefinindo o uso para zero (o buffer é mantido). |
 
-## Detalhes de Implementação
+## Gestão de Memória
 
-- A arena utiliza uma lista vinculada ou um vetor de blocos de memória.
-- As alocações são alinhadas de acordo com as necessidades da arquitetura.
-- Quando o bloco atual está cheio, um novo bloco é alocado.
-走
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **free** | `free(self)` | Liberta explicitamente o buffer da arena subjacente. |
+| **Trait** | `impl Drop for Arena` | Chama automaticamente `free()` quando a arena sai do escopo. |

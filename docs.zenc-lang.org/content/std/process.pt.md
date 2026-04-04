@@ -8,10 +8,10 @@ O módulo `std/process` fornece uma API de alto nível para lançar processos fi
 
 ## Visão Geral
 
-- **Padrão Builder**: A estrutura `Command` utiliza um padrão builder fluído para construir linhas de comando.
-- **Captura de Saída**: Capture facilmente a saída padrão e os códigos de saída de processos finalizados.
-- **RAII**: Tanto `Command` quanto `Output` implementam o trait `Drop` para limpeza automática de buffers internos.
-- **Interoperabilidade Padrão**: Envolve perfeitamente a manipulação de processos em nível de sistema subjacente.
+- **Padrão Builder**: A estrutura `Command` usa um padrão builder fluido para construir linhas de comando.
+- **Captura de Saída**: Captura facilmente a saída padrão e os códigos de saída de processos terminados.
+- **RAII**: Tanto `Command` como `Output` implementam o trait `Drop` para limpeza automática de buffers internos.
+- **Interoperabilidade Padrão**: Envolve perfeitamente a manipulação de processos subjacente ao nível do sistema.
 
 ## Uso
 
@@ -21,19 +21,19 @@ import "std/process.zc"
 fn main() {
     // Execução básica de comando
     let output = Command::new("echo")
-        .arg("olá mundo")
+        .arg("hello world")
         .output();
         
     if (output.exit_code == 0) {
         println "Capturado: {output.std_out}";
         // output.std_out é uma String, libertada automaticamente
     } else {
-        println "Comando falhou com código {output.exit_code}";
+        println "Comando falhou com o código {output.exit_code}";
     }
 }
 ```
 
-## Definições de Estrutura
+## Definição de Estruturas
 
 ### `Command`
 Um builder para configurar e lançar um processo.
@@ -45,7 +45,7 @@ struct Command {
 ```
 
 ### `Output`
-O resultado de uma execução de processo finalizada.
+O resultado de uma execução de processo concluída.
 ```zc
 struct Output {
     std_out: String;
@@ -55,20 +55,19 @@ struct Output {
 
 ## Métodos
 
-### Métodos de `Command`
+### Métodos `Command`
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `Command::new(program: char*) -> Command` | Cria um novo Command para o programa fornecido. |
+| **new** | `Command::new(program: char*) -> Command` | Cria um novo `Command` para o programa fornecido. |
 | **arg** | `arg(self, arg: char*) -> Command*` | Adiciona um argumento e retorna um ponteiro para si mesmo para encadeamento. |
-| **output** | `output(self) -> Output` | Executa o comando e aguarda a finalização, capturando o stdout. |
-| **status** | `status(self) -> int` | Executa o comando e retorna o código de status de saída. |
+| **output** | `output(self) -> Output` | Executa o comando e aguarda a conclusão, capturando a stdout. |
+| **status** | `status(self) -> int` | Executa o comando e retorna o código de estado de saída. |
 
-## Gerenciamento de Memória
+## Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
 | **free** | `free(self)` | Liberta manualmente os buffers internos do comando. |
 | **Trait** | `impl Drop for Command` | Limpa automaticamente os buffers do comando. |
 | **Trait** | `impl Drop for Output` | Liberta automaticamente a string de saída capturada. |
-走

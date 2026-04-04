@@ -22,31 +22,28 @@ fn main() {
 
 ## Métodos
 
-### Consulta & Identificação
+### Consulta e Identificação
 
-走
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **is_digit** | `is_digit(r: rune) -> bool` | Retorna true se a rune for um dígito decimal (0-9). |
-| **is_alpha** | `is_alpha(r: rune) -> bool` | Retorna true se a rune for um caractere alfabético. |
-| **is_whitespace** | `is_whitespace(r: rune) -> bool` | Retorna true se a rune for um caractere de espaço em branco. |
-| **is_upper** | `is_upper(r: rune) -> bool` | Retorna true se a rune for uma letra maiúscula. |
-| **is_lower** | `is_lower(r: rune) -> bool` | Retorna true se a rune for uma letra minúscula. |
-| **is_valid** | `is_valid(data: char*, len: usize) -> bool` | Retorna true se o buffer contiver dados UTF-8 válidos. |
+| **is_digit** | `is_digit(r: rune) -> bool` | Retorna verdadeiro se o rune for um dígito decimal (0-9). |
+| **is_alpha** | `is_alpha(r: rune) -> bool` | Retorna verdadeiro se o rune for um caractere alfabético. |
+| **is_whitespace** | `is_whitespace(r: rune) -> bool` | Retorna verdadeiro se o rune for um caractere de espaço em branco. |
+| **is_upper** | `is_upper(r: rune) -> bool` | Retorna verdadeiro se o rune for uma letra maiúscula. |
+| **is_lower** | `is_lower(r: rune) -> bool` | Retorna verdadeiro se o rune for uma letra minúscula. |
+| **is_valid** | `is_valid(data: char*, len: usize) -> bool` | Retorna verdadeiro se o buffer contiver dados UTF-8 válidos. |
 
 ### Transformação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **to_upper** | `to_upper(r: rune) -> rune` | Retorna a versão maiúscula da rune. |
-| **to_lower** | `to_lower(r: rune) -> rune` | Retorna a versão minúscula da rune. |
+| **to_upper** | `to_upper(r: rune) -> rune` | Retorna a versão maiúscula do rune. |
+| **to_lower** | `to_lower(r: rune) -> rune` | Retorna a versão minúscula do rune. |
 
-### Codificação & Decodificação
+### Codificação e Descodificação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **encode** | `encode(r: rune, buf: char*) -> usize` | Codifica uma rune em UTF-8. Retorna bytes escritos (1-4). |
-| **rune_len** | `rune_len(r: rune) -> usize` | Retorna o número de bytes necessários para codificar a rune. |
-| **decode** | `decode(data: char*, len: usize, consumed: usize*) -> rune` | Decodifica a primeira sequência UTF-8 a partir dos dados. |
-走
-走
+| **encode** | `encode(r: rune, buf: char*) -> usize` | Codifica um rune em UTF-8. Retorna os bytes escritos (1-4). |
+| **rune_len** | `rune_len(r: rune) -> usize` | Retorna o número de bytes necessários para codificar o rune. |
+| **decode** | `decode(data: char*, len: usize, consumed: usize*) -> rune` | Descodifica a primeira sequência UTF-8 dos dados. |

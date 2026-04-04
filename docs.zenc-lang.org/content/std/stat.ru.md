@@ -4,13 +4,13 @@ title = "std/sys/stat"
 
 # std/sys/stat
 
-Модуль `std/sys/stat` предоставляет интерфейс для получения расширенных метаданных и информации о состоянии файлов, являясь оберткой над POSIX `sys/stat.h`.
+Модуль `std/sys/stat` предоставляет интерфейс для получения расширенных метаданных файлов и информации о состоянии, оборачивая POSIX `sys/stat.h`.
 
 ## Обзор
 
-- **Метаданные файлов**: Получайте размер файла, права доступа (режим) и временные метки.
-- **Временные метки**: Доступ к времени обращения, модификации и изменения в формате Unix-времени.
-- **Проверка типов**: Вспомогательные методы для определения, является ли путь файлом или директорией.
+- **File Metadata**: Retrieve file size, mode (permissions), and timestamps.
+- **Timestamps**: Access access, modification, and change times as Unix timestamps.
+- **Type Checking**: Helper methods to determine if a mode represents a file or directory.
 
 ## Использование
 
@@ -19,11 +19,11 @@ import "std/sys/stat.zc"
 import "std/io.zc"
 
 fn main() {
-    let res = FileStat::stat("document.txt");
+    let res = FileStat::stat("myfile.txt");
     if (res.is_some()) {
         let st = res.unwrap();
         println "Размер: {st.size} байт";
-        println "Режим: {st.mode}";
+        println "Права доступа: {st.mode}";
         
         if (FileStat::is_dir(st.mode)) {
             println "Это директория.";
@@ -54,16 +54,6 @@ struct Stat {
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **stat** | `FileStat::stat(path: char*) -> Option<Stat>` | Возвращает метаданные для указанного пути или `None` в случае ошибки. |
-| **is_dir** | `FileStat::is_dir(mode: u32) -> bool` | Проверяет, является ли указанный режим директорией. |
-| **is_file** | `FileStat::is_file(mode: u32) -> bool` | Проверяет, является ли указанный режим обычным файлом. |
-走
-走
-走
-走
-走
-走
-走
-走
-走
-走
+| **stat** | `FileStat::stat(path: char*) -> Option<Stat>` | Возвращает метаданные для заданного пути или `None` в случае ошибки. |
+| **is_dir** | `FileStat::is_dir(mode: u32) -> bool` | Проверяет, представляет ли данный режим директорию. |
+| **is_file** | `FileStat::is_file(mode: u32) -> bool" | Проверяет, представляет ли данный режим обычный файл. |

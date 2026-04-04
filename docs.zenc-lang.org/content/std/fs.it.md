@@ -4,14 +4,14 @@ title = "std/fs"
 
 # std/fs
 
-Il modulo `std/fs` fornisce un'API completa per l'interazione con il file system, inclusi l'I/O di file, la manipolazione di directory e il recupero di metadati.
+Il modulo `std/fs` fornisce un'API completa per l'interazione con il file system, inclusi l'I/O dei file, la manipolazione delle directory e il recupero dei metadati.
 
 ## Panoramica
 
-- **Handle Sicuri**: La struttura `File` fornisce un wrapper sicuro intorno agli handle di file grezzi.
-- **RAII**: Gli handle di file vengono chiusi automaticamente quando escono dall'ambito tramite il tratto `Drop`.
+- **Handle Sicuri**: La struct `File` fornisce un wrapper sicuro per gli handle di file grezzi.
+- **RAII**: Gli handle dei file vengono chiusi automaticamente quando escono dallo scope tramite il trait `Drop`.
 - **Gestione degli Errori**: Utilizza `Result<T>` per tutte le operazioni che possono fallire, fornendo messaggi di errore descrittivi.
-- **Praticità**: Include metodi statici per attività comuni come la lettura o la scrittura di un intero file in una singola chiamata.
+- **Praticità**: Include metodi statici per attività comuni come la lettura o la scrittura di un intero file in un'unica chiamata.
 
 ## Utilizzo
 
@@ -19,16 +19,16 @@ Il modulo `std/fs` fornisce un'API completa per l'interazione con il file system
 import "std/fs.zc"
 
 fn main() {
-    // Lettura di base del file utilizzando RAII
+    // Lettura di base di un file usando RAII
     match File::read_all("config.txt") {
-        Ok(content) => println "Configurazione: {content}",
-        Err(e) => println "Errore durante la lettura della configurazione: {e}"
+        Ok(content) => println "Config: {content}",
+        Err(e) => println "Errore durante la lettura della config: {e}"
     }
     
     // Handle di file esplicito con chiusura automatica
     match File::open("data.log", "a") {
         Ok(file) => {
-            file.write_string("Voce di log\n");
+            file.write_string("Nuova voce di log\n");
             // il file viene chiuso automaticamente qui
         }
         Err(e) => println "Impossibile aprire il log: {e}"
@@ -36,7 +36,7 @@ fn main() {
 }
 ```
 
-## Definizioni delle Strutture
+## Definizioni Struct
 
 ### `File`
 Rappresenta un handle di file aperto.
@@ -71,7 +71,7 @@ struct DirEntry {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **open** | `File::open(path: char*, mode: char*) -> Result<File>` | Apre un file in `path` con `mode`. |
+| **open** | `File::open(path: char*, mode: char*) -> Result<File>` | Apre un file in `path` con la modalità `mode`. |
 | **close** | `close(self)` | Chiude esplicitamente l'handle del file. |
 
 ### Lettura / Scrittura
@@ -105,4 +105,4 @@ struct DirEntry {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **Tratto** | `impl Drop for File` | Chiude automaticamente l'handle del file quando esce dall'ambito. |
+| **Trait** | `impl Drop for File` | Chiude automaticamente l'handle del file quando esce dallo scope. |

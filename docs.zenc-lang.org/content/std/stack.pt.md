@@ -4,7 +4,7 @@ title = "std/stack"
 
 # std/stack
 
-`Stack<T>` é uma estrutura de dados genérica Last-In-First-Out (LIFO), implementada como um wrapper em torno de `Vec<T>`.
+O módulo `std/stack` fornece uma estrutura de dados de pilha LIFO (Last-In, First-Out).
 
 ## Uso
 
@@ -13,21 +13,18 @@ import "std/stack.zc"
 
 fn main() {
     let s = Stack<int>::new();
-    
     s.push(10);
     s.push(20);
     
-    println "Topo: {s.peek().unwrap()}"; // 20
-    
-    let val = s.pop().unwrap(); // 20
-}
+    let top = s.pop(); // Some(20)
+} // s é libertado automaticamente aqui
 ```
 
 ## Definição da Estrutura
 
 ```zc
 struct Stack<T> {
-    vec: Vec<T>;
+    // Detalhes da implementação interna
 }
 ```
 
@@ -38,28 +35,26 @@ struct Stack<T> {
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
 | **new** | `Stack<T>::new() -> Stack<T>` | Cria uma nova pilha vazia. |
+| **clone** | `clone(self) -> Stack<T>` | Cria uma cópia profunda da pilha. |
 
 ### Modificação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **push** | `push(self, val: T)` | Adiciona um elemento ao topo da pilha. |
-| **pop** | `pop(self) -> Option<T>` | Remove e retorna o elemento do topo. Retorna `None` se a pilha estiver vazia. |
+| **push** | `push(self, value: T)` | Empilha um valor no topo da pilha. |
+| **pop** | `pop(self) -> Option<T>` | Remove e retorna o elemento no topo da pilha. Retorna `None` se vazia. |
 | **clear** | `clear(self)` | Remove todos os elementos da pilha. |
 
-### Acesso & Consulta
+### Acesso e Consulta
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **peek** | `peek(self) -> Option<T>` | Retorna uma cópia do elemento no topo sem removê-lo. |
-| **peek_ref**| `peek_ref(self) -> T*` | Retorna um ponteiro para o elemento no topo. |
 | **length** | `length(self) -> usize` | Retorna o número de elementos na pilha. |
-| **is_empty** | `is_empty(self) -> bool` | Retorna true se a pilha estiver vazia. |
+| **is_empty** | `is_empty(self) -> bool` | Retorna `true` se a pilha não contiver elementos. |
 
-## Gerenciamento de Memória
+## Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **free** | `free(self)` | Liberta a memória do vetor interno. |
-| **Trait** | `impl Drop for Stack` | Chama automaticamente `free()` quando sai do escopo. |
-走
+| **free** | `free(self)` | Liberta manualmente a memória da pilha. |
+| **Trait** | `impl Drop for Stack` | Chama automaticamente `free()` quando a pilha sai do escopo. |

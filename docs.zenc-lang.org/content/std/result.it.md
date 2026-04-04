@@ -4,21 +4,21 @@ title = "std/result"
 
 # std/result
 
-`Result<T>` è il tipo standard per la gestione degli errori in Zen-C. Rappresenta il successo (`Ok`) contenente un valore di tipo `T`, o il fallimento (`Err`) contenente un messaggio di errore stringa.
+`Result<T>` è il tipo standard per la gestione degli errori in Zen-C. Rappresenta il successo (`Ok`) contenente un valore di tipo `T`, oppure il fallimento (`Err`) contenente un messaggio di errore in formato stringa.
 
 ## Panoramica
 
 - **Sicuro**: Forza la gestione esplicita dei percorsi di successo e fallimento.
-- **Informativo**: I casi di errore (`Err`) portano un messaggio descrittivo.
+- **Informativo**: I casi `Err` portano un messaggio di errore descrittivo.
 - **Generico**: Supporta qualsiasi tipo di valore di successo `T`.
-- **Integrato**: Funziona perfettamente con le macro e i pattern basati su `Result` per una propagazione sintetica dell'errore.
+- **Integrato**: Funziona perfettamente con macro e pattern basati su `Result` per una propagazione concisa degli errori.
 
 ## Utilizzo
 
 ```zc
 import "std/result.zc"
 
-fn dividi(a: int, b: int) -> Result<int> {
+fn divide(a: int, b: int) -> Result<int> {
     if (b == 0) {
         return Result<int>::Err("Divisione per zero");
     }
@@ -26,14 +26,14 @@ fn dividi(a: int, b: int) -> Result<int> {
 }
 
 fn main() {
-    match dividi(10, 0) {
+    match divide(10, 0) {
         Ok(val) => println "Risultato: {val}",
         Err(e)  => println "Errore: {e}"
     }
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct Result<T> {
@@ -52,7 +52,7 @@ struct Result<T> {
 | **Ok** | `Result<T>::Ok(v: T) -> Result<T>` | Crea un risultato di successo contenente `v`. |
 | **Err** | `Result<T>::Err(e: char*) -> Result<T>` | Crea un risultato di errore con il messaggio `e`. |
 
-### Interrogazione
+### Query
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
@@ -63,12 +63,12 @@ struct Result<T> {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **unwrap** | `unwrap(self) -> T` | Restituisce il valore di successo. Va in panico con il messaggio di errore se è `Err`. |
-| **unwrap_ref** | `unwrap_ref(self) -> T*` | Restituisce un puntatore al valore di successo. Va in panico se è `Err`. |
-| **expect** | `expect(self, msg: char*) -> T` | Restituisce il valore o va in panico con `msg` e il messaggio di errore se è `Err`. |
+| **unwrap** | `unwrap(self) -> T` | Restituisce il valore ok. Va in panic con il messaggio di errore se è `Err`. |
+| **unwrap_ref** | `unwrap_ref(self) -> T*` | Restituisce un puntatore al valore ok. Va in panic se è `Err`. |
+| **expect** | `expect(self, msg: char*) -> T` | Restituisce il valore o va in panic con `msg` e il messaggio di errore se è `Err`. |
 
 ## Gestione della Memoria
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **forget** | `forget(self)` | Azzera il valore di successo senza chiamare i distruttori o liberare memoria. |
+| **forget** | `forget(self)` | Azzera il valore ok senza chiamare i distruttori o liberare memoria. |

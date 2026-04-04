@@ -4,14 +4,7 @@ title = "std/map"
 
 # std/map
 
-`Map<K, V>` é uma estrutura de dados de tabela hash genérica que associa chaves do tipo `K` a valores do tipo `V`. Utiliza encadeamento (chaining) para resolução de colisões e suporta redimensionamento automático.
-
-## Visão Geral
-
-- **Genérico**: Suporta qualquer tipo para chaves e valores.
-- **Diferentes Implementações**: Fornece `StringMap<V>` otimizado para chaves de string e um `Map<K, V>` genérico.
-- **Redimensionamento Automático**: Expande a capacidade conforme necessário para manter a eficiência.
-- **RAII**: O trait `Drop` gerencia a libertação de memória de todos os elementos e da estrutura interna.
+`Map<V>` é uma implementação de tabela de hash genérica que mapeia chaves de string para valores do tipo `V`.
 
 ## Uso
 
@@ -19,18 +12,28 @@ title = "std/map"
 import "std/map.zc"
 
 fn main() {
-    let m = StringMap<int>::new();
+    let m = Map<int>::new();
     
-    // Inserir valores
-    m.insert("tecla", 100);
-    m.insert("outra", 200);
+    m.put("um", 1);
+    m.put("dois", 2);
     
-    // Recuperar valor (retorna Option<T>)
-    match m.get("tecla") {
-        Some(v) => println "Valor: {v}",
-        None    => println "Chave não encontrada"
+    if (m.contains("um")) {
+        let val = m.get("um");
+        println "{val.unwrap()}";
     }
+    
+    m.remove("dois");
 } // m é libertado automaticamente aqui
+```
+
+## Definição da Estrutura
+
+```zc
+struct Map<V> {
+    keys: char**;
+    vals: V*;
+    // ... campos internos
+}
 ```
 
 ## Métodos
@@ -39,40 +42,57 @@ fn main() {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `Map<K, V>::new() -> Map<K, V>` | Cria um novo mapa vazio. |
+| **new** | `Map<V>::new() -> Map<V>` | Cria um novo mapa vazio. |
+
+### Iteração
+
+Pode iterar sobre os pares chave-valor do mapa usando um loop `for`.
+
+```zc
+let m = Map<int>::new();
+m.put("a", 1);
+
+for entry in m {
+    println "Chave: {entry.key}, Val: {entry.val}";
+}
+```
+
+O iterador produz uma estrutura `MapEntry<V>`:
+```zc
+struct MapEntry<V> {
+    key: char*;
+    val: V;
+}
+```
 
 ### Modificação
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **insert** | `insert(self, key: K, val: V)` | Adiciona ou atualiza um par chave-valor. |
-| **remove** | `remove(self, key: K) -> bool` | Remove a entrada da chave. Retorna true se existia. |
-| **clear** | `clear(self)` | Remove todas as entradas do mapa. |
+| **put** | `put(self, key: char*, val: V)` | Insere ou atualiza um par chave-valor. |
+| **remove** | `remove(self, key: char*)` | Remove uma chave e o seu valor do mapa. |
 
-### Acesso & Consulta
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **get** | `get(self, key: K) -> Option<V>` | Retorna uma cópia do valor associado à chave. |
-| **get_ref** | `get_ref(self, key: K) -> V*` | Retorna um ponteiro para o valor (evita cópias). |
-| **contains**| `contains(self, key: K) -> bool` | Verifica se a chave existe no mapa. |
-| **length** | `length(self) -> usize` | Retorna o número de entradas. |
-| **is_empty** | `is_empty(self) -> bool` | Retorna true se o mapa estiver vazio. |
-
-## Iteração
-
-O Zen-C suporta a iteração sobre mapas no estilo chave-valor:
-
-```zc
-for k, v in m {
-    println "Chave: {k}, Valor: {v}";
-}
-```
-
-## Gerenciamento de Memória
+### Acesso e Consulta
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **free** | `free(self)` | Liberta manualmente a memória interna. |
-| **Trait** | `impl Drop for Map` | Chama automaticamente `free()`. |
-走
+| **get** | `get(self, key: char*) -> Option<V>` | Recupera o valor associado à chave. |
+| **contains** | `contains(self, key: char*) -> bool` | Retorna verdadeiro se a chave existir. |
+| **length** | `length(self) -> usize` | Retorna o número de itens no mapa. |
+| **is_empty** | `is_empty(self) -> bool` | Retorna verdadeiro se o mapa estiver vazio. |
+| **capacity** | `capacity(self) -> usize` | Retorna a capacidade atual do mapa. |
+
+### Auxiliares de Iteração
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **is_slot_occupied** | `is_slot_occupied(self, idx: usize) -> bool` | Verifica se um índice de slot bruto está ocupado. |
+| **key_at** | `key_at(self, idx: usize) -> char*` | Obtém a chave num índice de slot bruto. |
+| **val_at** | `val_at(self, idx: usize) -> V` | Obtém o valor num índice de slot bruto. |
+
+## Gestão de Memória
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **free** | `free(self)` | Liberta o armazenamento interno do mapa. **Nota**: Isto não liberta os valores se forem ponteiros/objetos. |
+| **Trait** | `impl Drop for Map` | Chama automaticamente `free()` quando sai do escopo. |

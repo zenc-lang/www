@@ -4,13 +4,13 @@ title = "std/sys/signal"
 
 # std/sys/signal
 
-O módulo `std/sys/signal` fornece utilitários para lidar com sinais do sistema (como `SIGINT`, `SIGTERM`, etc.), envolvendo as primitivas `signal.h` do POSIX.
+O módulo `std/sys/signal` fornece primitivas para lidar com sinais do sistema, envolvendo a funcionalidade do `signal.h` do POSIX.
 
 ## Visão Geral
 
-- **Tratadores de Sinais (Handlers)**: Registe funções para serem executadas quando o seu processo receber um sinal específico.
-- **Sinais Comuns**: Acesso fácil a constantes de sinais padrão.
-- **Interrupção de Processo**: Útil para encerramento gracioso (graceful shutdown) de aplicações.
+- **Interceção de Sinais**: Define handlers personalizados para sinais como `SIGINT` (Ctrl+C).
+- **Terminação Graciosa**: Usa handlers de sinais para realizar a limpeza antes de sair.
+- **Constantes Comuns**: Fornece definições multiplataforma para sinais padrão.
 
 ## Uso
 
@@ -18,38 +18,38 @@ O módulo `std/sys/signal` fornece utilitários para lidar com sinais do sistema
 import "std/sys/signal.zc"
 import "std/io.zc"
 
-fn ao_interromper(sig: int) {
-    println "Sinal {sig} recebido. A encerrar...";
+fn on_interrupt(sig: int) {
+    println "Recebido SIGINT ({sig}). A limpar...";
     exit(0);
 }
 
 fn main() {
-    // Registar tratador para Ctrl+C
-    Signal::handle(SIGINT, ao_interromper);
-    
-    // Loop infinito
-    while (true) {}
+    Signal::set_handler(Z_SIGINT, on_interrupt);
+    println "À espera de Ctrl+C...";
+    while(true) {}
 }
 ```
 
-## Constantes de Sinais
+## Definição da Estrutura
 
-| Constante | Descrição |
-| :--- | :--- |
-| **SIGINT** | Interrupção do terminal (Ctrl+C). |
-| **SIGTERM** | Sinal de terminação (encerramento amigável). |
-| **SIGKILL** | Sinal de morte imediata (não pode ser capturado). |
-| **SIGSEGV** | Violação de segmentação (falha de memória). |
-| **SIGABRT** | Sinal de aborto (geralmente de `panic`). |
+```zc
+struct Signal {}
+```
 
 ## Métodos
 
-### Gerenciamento de Sinais
+### Métodos `Signal`
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **handle** | `Signal::handle(sig: int, handler: fn(int))` | Define a função a ser chamada quando o sinal `sig` for recebido. |
-| **raise** | `Signal::raise(sig: int) -> int` | Envia o sinal `sig` para o processo atual. |
-| **ignore** | `Signal::ignore(sig: int)` | Configura o processo para ignorar completamente o sinal `sig`. |
-| **reset** | `Signal::reset(sig: int)` | Restaura o comportamento padrão do sistema para o sinal `sig`. |
-走
+| **set_handler** | `Signal::set_handler(sig: int, handler: fn*(int)) -> fn*(int)` | Regista um handler para o sinal dado e retorna o handler anterior. |
+
+## Constantes
+
+### Sinais Padrão
+- `Z_SIGINT`: Interrupção do teclado (Ctrl+C).
+- `Z_SIGILL`: Instrução ilegal.
+- `Z_SIGABRT`: Sinal de aborto.
+- `Z_SIGFPE`: Exceção de ponto flutuante.
+- `Z_SIGSEGV`: Violação de segmentação (acesso inválido à memória).
+- `Z_SIGTERM`: Sinal de terminação.

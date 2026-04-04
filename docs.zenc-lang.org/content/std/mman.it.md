@@ -4,7 +4,7 @@ title = "std/sys/mman"
 
 # std/sys/mman
 
-Il modulo `std/sys/mman` fornisce un'interfaccia Zen-C per la mappatura della memoria e le funzioni di protezione, avvolgendo `sys/mman.h` di POSIX.
+Il modulo `std/sys/mman` fornisce un'interfaccia Zen-C per la mappatura della memoria e le funzioni di protezione, come wrapper di `sys/mman.h` di POSIX.
 
 ## Panoramica
 
@@ -29,13 +29,13 @@ fn main() {
         return;
     }
     
-    // Usa la memoria...
+    // Uso della memoria...
     
     Memory::munmap(addr, size);
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct Memory {}
@@ -47,7 +47,7 @@ struct Memory {}
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **mmap** | `Memory::mmap(len: usize, prot: int, flags: int) -> void*` | Crea una nuova mappatura nello spazio di indirizzamento virtuale del processo chiamante. |
+| **mmap** | `Memory::mmap(len: usize, prot: int, flags: int) -> void*` | Crea una nuova mappatura nello spazio di indirizzi virtuali del processo chiamante. |
 | **munmap** | `Memory::munmap(addr: void*, len: usize) -> bool` | Elimina le mappature per l'intervallo di indirizzi specificato. Restituisce `true` in caso di successo. |
 | **mprotect** | `Memory::mprotect(addr: void*, len: usize, prot: int) -> bool` | Cambia le protezioni di accesso per le pagine di memoria del processo chiamante. Restituisce `true` in caso di successo. |
 
@@ -61,7 +61,7 @@ struct Memory {}
 
 ### Flag di Visibilità
 - `Z_MAP_SHARED`: Condividi questa mappatura.
-- `Z_MAP_PRIVATE`: Crea una mappatura privata copy-on-write.
+- `Z_MAP_PRIVATE`: Crea una mappatura copy-on-write privata.
 - `Z_MAP_ANONYMOUS`: La mappatura non è supportata da alcun file.
 
 ### Valori di Errore

@@ -4,7 +4,7 @@ title = "std/regex"
 
 # std/regex
 
-Модуль `std/regex` обеспечивает поддержку регулярных выражений на основе POSIX-стандарта `regex.h`.
+Модуль `std/regex` обеспечивает поддержку регулярных выражений на основе POSIX `regex.h`.
 
 ## Использование
 
@@ -12,8 +12,8 @@ title = "std/regex"
 import "std/regex.zc"
 
 fn main() {
-    if regex_match("^[a-z]+$", "привет") {
-        println "Соответствует!";
+    if regex_match("^[a-z]+$", "hello") {
+        println "Совпадение!";
     }
     
     let re = Regex::compile("\\d+");
@@ -30,13 +30,13 @@ fn main() {
 
 ```zc
 struct Regex {
-    // Внутренние поля
+    // Внутренние дескрипторы
 }
 ```
 
 ### `Match`
 
-Представляет успешное совпадение.
+Представляет успешное совпадение регулярного выражения.
 
 ```zc
 struct Match {
@@ -48,45 +48,35 @@ struct Match {
 
 ## Методы
 
-### Работа с Regex
+### Создание Regex
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **compile** | `Regex::compile(pattern: char*) -> Regex` | Компилирует выражение с флагами по умолчанию. |
-| **compile_with_flags** | `Regex::compile_with_flags(pattern: char*, flags: int) -> Regex` | Компилирует выражение с пользовательскими POSIX-флагами. |
-| **destroy** | `destroy(self)` | Освобождает скомпилированное выражение. |
+| **compile** | `Regex::compile(pattern: char*) -> Regex` | Компилирует шаблон регулярного выражения с флагами по умолчанию. |
+| **compile_with_flags** | `Regex::compile_with_flags(pattern: char*, flags: int) -> Regex` | Компилирует с пользовательскими флагами POSIX. |
+| **destroy** | `destroy(self)` | Освобождает скомпилированное регулярное выражение. |
 
-### Поиск и сопоставление
+### Сопоставление и поиск
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **match** | `match(self, text: char*) -> bool` | Возвращает true, если шаблон найден в тексте. |
-| **find** | `find(self, text: char*) -> Option<Match>` | Находит первое совпадение, включая позицию и длину. |
-| **count** | `count(self, text: char*) -> int` | Возвращает количество неперекрывающихся совпадений. |
+| **match** | `match(self, text: char*) -> bool` | Возвращает true, если шаблон совпадает в любом месте `text`. |
+| **find** | `find(self, text: char*) -> Option<Match>` | Возвращает первое совпадение, включая позицию и длину. |
+| **count** | `count(self, text: char*) -> int` | Возвращает количество непересекающихся совпадений. |
 | **split** | `split(self, text: char*) -> Vec<String>` | Разделяет текст по шаблону. |
 
-### Доступ к результатам
+### Доступ к совпадению
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
 | **as_string** | `as_string(self) -> char*` | Возвращает указатель на начало совпадения. |
-| **end** | `end(self) -> int` | Возвращает индекс сразу за последним символом совпадения. |
+| **end** | `end(self) -> int` | Возвращает индекс после последнего символа совпадения. |
 
-### Статические утилиты
+### Статические вспомогательные функции
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **regex_match** | `regex_match(pattern: char*, text: char*) -> bool` | Быстрая проверка на соответствие. |
-| **regex_find** | `regex_find(pattern: char*, text: char*) -> Option<Match>` | Находит первое совпадение. |
-| **regex_count** | `regex_count(pattern: char*, text: char*) -> int` | Считает все совпадения. |
-| **regex_split** | `regex_split(pattern: char*, text: char*) -> Vec<String>` | Разделяет текст по шаблону. |
-走
-走
-走
-走
-走
-走
-走
-走
-走
-走
+| **regex_match** | `regex_match(pattern: char*, text: char*) -> bool` | Быстрая проверка на совпадение. |
+| **regex_find** | `regex_find(pattern: char*, text: char*) -> Option<Match>` | Найти первое совпадение. |
+| **regex_count** | `regex_count(pattern: char*, text: char*) -> int` | Подсчитать все совпадения. |
+| **regex_split** | `regex_split(pattern: char*, text: char*) -> Vec<String>` | Разделить текст по шаблону. |

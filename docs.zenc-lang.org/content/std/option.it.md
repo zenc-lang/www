@@ -4,13 +4,13 @@ title = "std/option"
 
 # std/option
 
-`Option<T>` rappresenta un valore opzionale: ogni `Option` è o `Some` e contiene un valore, oppure `None`. È comunemente usato per gestire l'assenza di un valore senza ricorrere ai puntatori nulli.
+`Option<T>` rappresenta un valore opzionale: ogni `Option` è `Some` e contiene un valore, oppure `None`. Viene comunemente usato per gestire l'assenza di un valore senza ricorrere ai puntatori null.
 
 ## Panoramica
 
 - **Sicuro**: Incoraggia la gestione esplicita del caso `None`.
-- **Generico**: Può avvolgere qualsiasi tipo `T`.
-- **Zero-cost**: Viene compilato in una semplice struttura con un flag booleano.
+- **Generico**: Può racchiudere qualsiasi tipo `T`.
+- **Zero-cost**: Viene compilato in una semplice struct con un flag booleano.
 - **Pratico**: Fornisce molti metodi di utilità per estrarre e trasformare i valori.
 
 ## Utilizzo
@@ -25,12 +25,12 @@ fn main() {
         println "Il valore è {val.unwrap()}";
     }
     
-    let vuoto = Option<int>::None();
-    let x = vuoto.unwrap_or(0);
+    let empty = Option<int>::None();
+    let x = empty.unwrap_or(0);
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct Option<T> {
@@ -48,7 +48,7 @@ struct Option<T> {
 | **Some** | `Option<T>::Some(v: T) -> Option<T>` | Crea un'opzione `Some` contenente `v`. |
 | **None** | `Option<T>::None() -> Option<T>` | Crea un'opzione `None`. |
 
-### Interrogazione
+### Query
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
@@ -59,10 +59,10 @@ struct Option<T> {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **unwrap** | `unwrap(self) -> T` | Restituisce il valore contenuto. Va in panico se è `None`. |
-| **unwrap_ref** | `unwrap_ref(self) -> T*` | Restituisce un puntatore al valore contenuto. Va in panico se è `None`. |
+| **unwrap** | `unwrap(self) -> T` | Restituisce il valore contenuto. Va in panic se è `None`. |
+| **unwrap_ref** | `unwrap_ref(self) -> T*` | Restituisce un puntatore al valore contenuto. Va in panic se è `None`. |
 | **unwrap_or** | `unwrap_or(self, def: T) -> T` | Restituisce il valore contenuto o `def`. |
-| **expect** | `expect(self, msg: char*) -> T` | Restituisce il valore o va in panico con `msg`. |
+| **expect** | `expect(self, msg: char*) -> T` | Restituisce il valore o va in panic con il messaggio `msg`. |
 | **or_else** | `or_else(self, other: Option<T>) -> Option<T>` | Restituisce l'opzione se è `Some`, altrimenti restituisce `other`. |
 
 ## Gestione della Memoria

@@ -1,38 +1,51 @@
 +++
-title = "std/info"
+title = "std/sys/info"
 +++
 
-# std/info
+# std/sys/info
 
-O módulo `std/info` fornece acesso a metadados e informações sobre o compilador Zen-C e o ambiente de execução atual.
+O módulo `std/sys/info` fornece utilitários para recuperar a identificação e informações do sistema, cobrindo o `uname` do POSIX.
+
+## Visão Geral
+
+- **Identificação do Sistema**: Acede ao nome do SO, versão do kernel, arquitetura de hardware e muito mais.
+- **Conformidade com RAII**: A estrutura `Uname` gira automaticamente a memória para as suas strings internas.
 
 ## Uso
 
 ```zc
-import "std/info.zc"
+import "std/sys/info.zc"
+import "std/io.zc"
 
 fn main() {
-    println "Compilador: {Info::compiler_name()}";
-    println "Versão: {Info::version()}";
-    
-    if (Info::is_debug()) {
-        println "A correr em modo de depuração.";
-    }
+    let info = SysInfo::get_uname();
+    println "SO: {info.sysname}";
+    println "Kernel: {info.release}";
+    println "Arq: {info.machine}";
 }
 ```
 
-## Métodos de Informação do Compilador
+## Definição da Estrutura
+
+### `Uname`
+Contém campos de identificação do sistema.
+```zc
+struct Uname {
+    sysname: String;
+    nodename: String;
+    release: String;
+    version: String;
+    machine: String;
+}
+```
+
+## Métodos
+
+### Métodos `SysInfo`
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **version** | `Info::version() -> char*` | Retorna a versão atual do compilador. |
-| **compiler_name** | `Info::compiler_name() -> char*` | Retorna o nome do compilador (ex: "zenc"). |
-| **build_date** | `Info::build_date() -> char*` | Retorna a data em que o compilador foi construído. |
+| **get_uname** | `SysInfo::get_uname() -> Uname` | Retorna uma estrutura `Uname` contendo várias strings do sistema. |
 
-## Diagnósticos de Execução
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **is_debug** | `Info::is_debug() -> bool` | Retorna true se o código foi compilado com símbolos de depuração (debug). |
-| **is_release** | `Info::is_release() -> bool` | Retorna true se o código foi compilado com otimizações de lançamento (release). |
-走
+## Gestão de Memória
+- `Uname` implementa `impl Drop` e libertará automaticamente os seus buffers `String` internos quando sair do escopo.

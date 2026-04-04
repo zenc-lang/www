@@ -8,9 +8,9 @@ Zen-C fornisce tipi vettoriali SIMD (Single Instruction, Multiple Data) nativi c
 
 ## Panoramica
 
-- **Prestazioni Native**: Sfrutta le estensioni vettoriali di LLVM/GCC per la massima efficienza.
-- **Implicitamente Portabile**: Tipi come `f32x4` si mappano sul miglior hardware a 128 bit disponibile specifico per l'architettura.
-- **Aritmetica Elemento per Elemento**: Gli operatori standard (`+`, `-`, `*`, `/`) si applicano a tutte le corsie (lane) simultaneamente.
+- **Prestazioni Native**: Sfrutta le estensioni vettoriali LLVM/GCC per la massima efficienza.
+- **Implicitamente Portabile**: Tipi come `f32x4` si mappano al miglior hardware a 128 bit disponibile specifico per l'architettura.
+- **Aritmetica Element-wise**: Gli operatori standard (`+`, `-`, `*`, `/`) si applicano a tutte le corsie (lane) contemporaneamente.
 - **Broadcasting**: L'inizializzazione con un singolo valore lo trasmette a tutte le corsie.
 
 ## Utilizzo
@@ -25,17 +25,17 @@ fn main() {
     // Broadcasting (Singolo valore a tutte le corsie)
     let b = f32x4 { v: 2.0 };
     
-    // Addizione elemento per elemento
+    // Addizione element-wise
     let c = a + b;   // Risultato: { 3.0, 4.0, 5.0, 6.0 }
     
-    // Accesso alla corsia
-    let primo = c[0];
+    // Accesso alle corsie
+    let first = c[0];
 }
 ```
 
 ## Tipi Vettoriali
 
-La libreria standard definisce diversi tipi vettoriali a 128 bit e 256 bit. Puoi anche definirne di personalizzati usando l'attributo `@vector(N)`.
+La libreria standard definisce diversi tipi vettoriali a 128 e 256 bit. È anche possibile definirne di personalizzati utilizzando l'attributo `@vector(N)`.
 
 ### Vettori a 128 bit (SSE / NEON)
 
@@ -71,7 +71,7 @@ La libreria standard definisce diversi tipi vettoriali a 128 bit e 256 bit. Puoi
 
 | Categoria | Operatore | Descrizione |
 | :--- | :--- | :--- |
-| **Aritmetica** | `+`, `-`, `*`, `/` | Addizione, sottrazione, moltiplicazione e divisione standard elemento per elemento. |
-| **Bit a Bit** | `&`, `\|`, `^`, `~` | AND, OR, XOR e NOT bit a bit su tutte le corsie. |
-| **Indicizzazione**| `[i]` | Accedi o modifica le singole corsie tramite indice. |
+| **Aritmetica** | `+`, `-`, `*`, `/` | Addizione, sottrazione, moltiplicazione e divisione element-wise standard. |
+| **Bitwise** | `&`, `|`, `^`, `~` | AND, OR, XOR e NOT bitwise su tutte le corsie. |
+| **Indicizzazione**| `[i]` | Accedi o modifica singole corsie tramite indice. |
 | **Confronto** | `==`, `!=`, `<`, `>` | Restituisce un vettore maschera booleano (i risultati variano in base al backend). |

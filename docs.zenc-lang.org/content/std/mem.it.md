@@ -4,13 +4,13 @@ title = "std/mem"
 
 # std/mem
 
-Il modulo `std/mem` fornisce utilità principali per la gestione della memoria, incluse funzioni di allocazione manuale, tratti di ciclo di vita standard e implementazioni di smart pointer.
+Il modulo `std/mem` fornisce utilità fondamentali per la gestione della memoria, incluse funzioni di allocazione manuale, trait per il ciclo di vita standard e implementazioni di smart pointer.
 
 ## Panoramica
 
 - **Allocazione Manuale**: Wrapper intorno a `malloc`, `calloc` e `free` con firme type-safe.
-- **Tratti (Traits)**: Definisce i tratti primari del ciclo di vita: `Drop` (distruttori), `Clone` (copie profonde) e `Copy` (copie implicite).
-- **Smart Pointers**: Include `Box<T>` per dati allocati nell'heap con pulizia automatica (RAII).
+- **Trait**: Definisce i principali trait del ciclo di vita: `Drop` (distruttori), `Clone` (copie profonde) e `Copy` (copie implicite).
+- **Smart Pointer**: Include `Box<T>` per dati allocati nell'heap con pulizia automatica (RAII).
 - **Utilità per i Buffer**: Funzioni di alto livello per scambiare, azzerare e copiare la memoria.
 
 ## Utilizzo
@@ -51,17 +51,17 @@ fn main() {
 | **mem_copy\<T>**| `mem_copy<T>(dst: T*, src: T*, count: usize)`| Copia `count` istanze di `T` da `src` a `dst`. |
 | **swap\<T>** | `swap<T>(a: T*, b: T*)` | Scambia i valori tra due locazioni di memoria. |
 
-## Tratti (Traits)
+## Trait
 
-| Tratto | Metodo | Firma | Descrizione |
+| Trait | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- | :--- |
-| **Drop** | **drop** | `drop(self)` | Distruttore chiamato quando l'oggetto esce dall'ambito. |
+| **Drop** | **drop** | `drop(self)` | Distruttore chiamato quando l'oggetto esce dallo scope. |
 | **Clone** | **clone** | `clone(self) -> Self` | Crea una copia profonda dell'oggetto. |
-| **Copy** | *(Marker)* | N/A | Indica che il tipo dovrebbe usare copie implicite invece di spostamenti (moves). |
+| **Copy** | *(Marker)* | N/A | Indica che il tipo dovrebbe usare copie implicite invece di spostamenti. |
 
-## Definizione della Struttura: `Box<T>`
+## Definizione Struct: `Box<T>`
 
-Un semplice smart pointer RAII per la gestione della memoria heap.
+Un semplice smart pointer RAII per la gestione della memoria nell'heap.
 
 ```zc
 struct Box<T> {
@@ -77,4 +77,4 @@ struct Box<T> {
 | **from_ptr** | `Box::from_ptr(p: T*) -> Box<T>` | Crea un `Box` che prende la proprietà di un puntatore esistente. |
 | **get** | `get(self) -> T*` | Restituisce il puntatore interno grezzo. |
 | **free** | `free(self)` | Libera manualmente la memoria sottostante. |
-| **Tratto** | `impl Drop for Box<T>` | Chiama automaticamente `free()` quando il box esce dall'ambito. |
+| **Trait** | `impl Drop for Box<T>" | Chiama automaticamente `free()` quando il box esce dallo scope. |

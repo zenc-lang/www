@@ -4,7 +4,14 @@ title = "std/complex"
 
 # std/complex
 
-O módulo `std/complex` fornece suporte para aritmética de números complexos de dupla precisão.
+A biblioteca `std/complex` fornece a estrutura `Complex` e operações matemáticas essenciais para trabalhar com números complexos em Zen-C.
+
+## Visão Geral
+
+- **Tipo de Valor**: Estrutura simples com componentes `real` e `imag`.
+- **Suporte de Operadores**: Suporta `+`, `-`, `*`, `/`, `==`, e `!=` através de sobrecarga de operadores.
+- **Propriedades**: Fornece métodos para calcular magnitude e fase.
+- **Interpolação**: Pode ser usado diretamente em f-strings e instruções print.
 
 ## Uso
 
@@ -12,11 +19,14 @@ O módulo `std/complex` fornece suporte para aritmética de números complexos d
 import "std/complex.zc"
 
 fn main() {
-    let z1 = Complex::new(1.0, 2.0); // 1 + 2i
-    let z2 = Complex::new(3.0, 4.0); // 3 + 4i
+    let c1 = Complex::new(3.0, 4.0);
+    let c2 = Complex::new(1.0, 2.0);
     
-    let sum = z1.add(z2); 
-    println "Resultado: {sum.real} + {sum.imag}i";
+    let sum = c1 + c2;
+    let prod = c1 * c2;
+    
+    println "Soma: {sum}";       // Soma: 4.000000 + 6.000000i
+    println "Magnitude: {c1.magnitude()}";
 }
 ```
 
@@ -35,24 +45,23 @@ struct Complex {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `Complex::new(re: double, im: double) -> Complex` | Cria um novo número complexo. |
+| **new** | `Complex::new(r: double, i: double) -> Complex` | Cria um novo número complexo com componente real `r` e componente imaginário `i`. |
 
-### Operações Aritméticas
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **add** | `add(self, other: Complex) -> Complex` | Adiciona dois números complexos. |
-| **sub** | `sub(self, other: Complex) -> Complex` | Subtrai `other` de `self`. |
-| **mul** | `mul(self, other: Complex) -> Complex` | Multiplica dois números complexos. |
-| **div** | `div(self, other: Complex) -> Complex` | Divide `self` por `other`. |
-
-### Funções Matemáticas
+### Acesso e Consulta
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **abs** | `abs(self) -> double` | Calcula a magnitude (módulo) do número. |
-| **arg** | `arg(self) -> double` | Calcula o argumento (fase). |
-| **conj** | `conj(self) -> Complex` | Retorna o conjugado complexo. |
-| **exp** | `exp(self) -> Complex` | Calcula o exponencial complexo. |
-| **sqrt** | `sqrt(self) -> Complex` | Calcula a raiz quadrada complexa. |
-走
+| **magnitude** | `magnitude(self) -> double` | Retorna a magnitude (valor absoluto) do número complexo. |
+| **phase** | `phase(self) -> double` | Retorna a fase (ângulo) em radianos. |
+
+## Operadores
+
+| Operador | Método | Descrição |
+| :--- | :--- | :--- |
+| `+` | **add** | Adiciona dois números complexos. |
+| `-` | **sub** | Subtrai um número complexo de outro. |
+| `*` | **mul** | Multiplica dois números complexos. |
+| `/` | **div** | Divide um número complexo por outro. |
+| `==` | **eq** | Verifica se dois números complexos são estritamente iguais. |
+| `!=` | **neq** | Verifica se dois números complexos não são iguais. |
+| `{}` | **to_string** | Ativa a interpolação direta de strings. |

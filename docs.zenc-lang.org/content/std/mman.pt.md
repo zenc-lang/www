@@ -4,58 +4,65 @@ title = "std/sys/mman"
 
 # std/sys/mman
 
-O módulo `std/sys/mman` fornece uma interface para gerenciamento de memória virtual, envolvendo as primitivas `mmap` e `munmap` do sistema operacional.
+O módulo `std/sys/mman` fornece uma interface Zen-C para funções de mapeamento de memória e proteção, envolvendo o `sys/mman.h` do POSIX.
 
 ## Visão Geral
 
-- **Mapeamento de Ficheiros**: Transforma ficheiros do disco em memória virtual acessível por ponteiros.
-- **Memória Anónima**: Alocação de grandes blocos de memória diretamente do sistema operacional.
-- **Proteção de Memória**: Define permissões de leitura, escrita e execução em páginas de memória.
+- **Mapeamento de Memória**: Mapeia ficheiros ou memória anónima no espaço de endereçamento do processo.
+- **Controlo de Proteção**: Altera dinamicamente as permissões da região de memória (Leitura, Escrita, Execução).
+- **Memória Anónima**: Aloca grandes blocos de memória diretamente do SO sem um ficheiro.
 
 ## Uso
 
 ```zc
 import "std/sys/mman.zc"
+import "std/io.zc"
 
 fn main() {
-    // Alocar um bloco anónimo de 4KB protegido para leitura e escrita
-    let ptr = Memory::mmap(
-        null, 
-        4096, 
-        PROT_READ | PROT_WRITE, 
-        MAP_PRIVATE | MAP_ANON, 
-        -1, 
-        0
-    );
+    let size: usize = 4096;
+    let prot = Z_PROT_READ | Z_PROT_WRITE;
+    let flags = Z_MAP_PRIVATE | Z_MAP_ANONYMOUS;
     
-    if (ptr != MAP_FAILED) {
-        // ... usar a memória
-        Memory::munmap(ptr, 4096);
+    let addr = Memory::mmap(size, prot, flags);
+    if ((isize)addr == Z_MAP_FAILED) {
+        println "Falha no mapeamento";
+        return;
     }
+    
+    // Usar memória...
+    
+    Memory::munmap(addr, size);
 }
 ```
 
-## Constantes de Proteção
+## Definição da Estrutura
 
-- `PROT_READ`: Memória pode ser lida.
-- `PROT_WRITE`: Memória pode ser escrita.
-- `PROT_EXEC`: Memória pode ser executada.
-- `PROT_NONE`: Memória não pode ser acedida.
-
-## Constantes de Mapeamento
-
-- `MAP_SHARED`: Mapeamento compartilhado entre processos.
-- `MAP_PRIVATE`: Cria uma cópia privada (copy-on-write).
-- `MAP_FIXED`: Usa exatamente o endereço fornecido.
-- `MAP_ANON`: Não associado a nenhum ficheiro.
+```zc
+struct Memory {}
+```
 
 ## Métodos
 
-### Primitivas de Memória
+### Métodos `Memory`
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **mmap** | `Memory::mmap(addr: void*, len: usize, prot: int, flags: int, fd: int, offset: i64) -> void*` | Cria um novo mapeamento no espaço de endereçamento virtual do processo. |
-| **munmap** | `Memory::munmap(addr: void*, len: usize) -> int` | Remove um mapeamento existente. |
-| **mprotect**| `Memory::mprotect(addr: void*, len: usize, prot: int) -> int` | Altera as proteções de acesso às páginas de memória. |
-走
+| **mmap** | `Memory::mmap(len: usize, prot: int, flags: int) -> void*` | Cria um novo mapeamento no espaço de endereços virtuais do processo chamador. |
+| **munmap** | `Memory::munmap(addr: void*, len: usize) -> bool` | Elimina os mapeamentos para o intervalo de endereços especificado. Retorna `true` em caso de sucesso. |
+| **mprotect** | `Memory::mprotect(addr: void*, len: usize, prot: int) -> bool` | Altera as proteções de acesso para as páginas de memória do processo chamador. Retorna `true` em caso de sucesso. |
+
+## Constantes
+
+### Flags de Proteção
+- `Z_PROT_NONE`: A página não pode ser acedida.
+- `Z_PROT_READ`: A página pode ser lida.
+- `Z_PROT_WRITE`: A página pode ser escrita.
+- `Z_PROT_EXEC`: A página pode ser executada.
+
+### Flags de Visibilidade
+- `Z_MAP_SHARED`: Partilha este mapeamento.
+- `Z_MAP_PRIVATE`: Cria um mapeamento privado de cópia na escrita (copy-on-write).
+- `Z_MAP_ANONYMOUS`: O mapeamento não é suportado por nenhum ficheiro.
+
+### Valores de Erro
+- `Z_MAP_FAILED`: Retornado por `mmap` em caso de erro.

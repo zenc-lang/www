@@ -1,45 +1,46 @@
 +++
-title = "std/hex"
+title = "std/encoding/hex"
 +++
 
-# std/hex
+# std/encoding/hex
 
-O módulo `std/hex` fornece funções utilitárias para conversão entre dados binários e as suas representações em strings hexadecimais.
+O módulo `std/encoding/hex` fornece utilitários para codificação e descodificação hexadecimal de dados.
+
+## Visão Geral
+
+- **Codificação**: Converte bytes brutos numa string hexadecimal.
+- **Descodificação**: Converte uma string hexadecimal de volta para bytes brutos (`Vec<u8>`).
 
 ## Uso
 
 ```zc
-import "std/hex.zc"
+import "std/encoding/hex.zc"
+import "std/io.zc"
 
 fn main() {
-    let raw: u8[3] = [0xDE, 0xAD, 0xBE];
+    let data = "Hello";
+    let encoded = Hex::encode((u8*)data, 5);
+    println "Hex: {encoded}"; // 48656c6c6f
     
-    // Codificar para hexadecimal
-    let encoded = Hex::encode(&raw[0], 3);
-    println "Hex: {encoded}"; // "deadbe"
-    
-    // Decodificar de volta
-    let decoded = Hex::decode(encoded.c_str());
+    let decoded_res = Hex::decode(encoded);
+    if (decoded_res.is_ok()) {
+        let bytes = decoded_res.unwrap();
+        // Usar bytes...
+    }
 }
+```
+
+## Definição da Estrutura
+
+```zc
+struct Hex {}
 ```
 
 ## Métodos
 
-### Codificação
+### Métodos `Hex`
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **encode** | `Hex::encode(data: u8*, len: usize) -> String` | Converte dados binários para uma string hexadecimal em minúsculas. |
-| **encode_upper** | `Hex::encode_upper(data: u8*, len: usize) -> String` | Converte dados binários para uma string hexadecimal em maiúsculas. |
-
-### Decodificação
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **decode** | `Hex::decode(s: char*) -> Vec<u8>` | Decodifica uma string hexadecimal de volta para dados binários originais. |
-
-## Detalhes de Implementação
-
-- **Encode**: Produz 2 caracteres por cada byte de entrada.
-- **Decode**: Requer que a string de entrada tenha um comprimento par e contenha apenas caracteres hexadecimais válidos (`0-9`, `a-f`, `A-F`).
-走
+| **encode** | `Hex::encode(data: u8*, len: usize) -> String` | Codifica dados brutos numa string hexadecimal. |
+| **decode** | `Hex::decode(hex: String) -> Result<Vec<u8>>` | Descodifica uma string hexadecimal num `Vec<u8>`. |

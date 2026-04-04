@@ -4,7 +4,7 @@ title = "std/sys/user"
 
 # std/sys/user
 
-Il modulo `std/sys/user` fornisce l'accesso alle informazioni di identificazione dell'utente e del gruppo, avvolgendo `unistd.h` di POSIX.
+Il modulo `std/sys/user` fornisce l'accesso alle informazioni di identificazione dell'utente e del gruppo, come wrapper di `unistd.h` di POSIX.
 
 ## Panoramica
 
@@ -22,12 +22,12 @@ fn main() {
     println "GID attuale: {User::get_gid()}";
     
     if (User::get_euid() == 0) {
-        println "In esecuzione con i privilegi di root.";
+        println "Esecuzione con privilegi di root.";
     }
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct User {}
@@ -39,7 +39,7 @@ struct User {}
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **get_uid** | `User::get_uid() -> u32` | Restituisce l'ID utente reale del processo corrente. |
-| **get_gid** | `User::get_gid() -> u32` | Restituisce l'ID gruppo reale del processo corrente. |
-| **get_euid** | `User::get_euid() -> u32` | Restituisce l'ID utente effettivo. |
-| **get_egid** | `User::get_egid() -> u32` | Restituisce l'ID gruppo effettivo. |
+| **get_uid** | `User::get_uid() -> u32` | Restituisce l'ID Utente reale del processo corrente. |
+| **get_gid** | `User::get_gid() -> u32` | Restituisce l'ID Gruppo reale del processo corrente. |
+| **get_euid** | `User::get_euid() -> u32` | Restituisce l'ID Utente effettivo. |
+| **get_egid** | `User::get_egid() -> u32` | Restituisce l'ID Gruppo effettivo. |

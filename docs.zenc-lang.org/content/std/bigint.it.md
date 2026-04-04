@@ -9,8 +9,8 @@ title = "std/bigint"
 ## Panoramica
 
 - **Precisione Arbitraria**: I numeri sono limitati solo dalla memoria disponibile.
-- **Basato sul decimale**: Attualmente utilizza una semplice rappresentazione in base 10 per semplicità.
-- **RAII**: Implementa il tratto `Drop` per la gestione automatica della memoria dello storage interno delle cifre.
+- **Basato su Decimali**: Attualmente utilizza una semplice rappresentazione in base 10 per semplicità.
+- **RAII**: Implementa il trait `Drop` per la gestione automatica della memoria dello storage interno delle cifre.
 - **Conveniente**: Supporta l'overloading degli operatori per un'aritmetica intuitiva.
 
 ## Utilizzo
@@ -31,7 +31,7 @@ fn main() {
 } // sum, a e b vengono liberati automaticamente qui
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct BigInt {
@@ -72,5 +72,5 @@ struct BigInt {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **free_mem** | `free_mem(self)` | Libera manualmente il `Vec` sottostante e lo storage del `BigInt`. |
-| **Tratto** | `impl Drop for BigInt` | Chiama automaticamente `free_mem()` quando esce dall'ambito. |
+| **free_mem** | `free_mem(self)` | Libera manualmente lo storage sottostante di `Vec` e `BigInt`. |
+| **Trait** | `impl Drop for BigInt` | Chiama automaticamente `free_mem()` quando esce dallo scope. |

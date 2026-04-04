@@ -27,14 +27,14 @@ fn main() {
 
 ## Dettagli di Implementazione
 
-- **Ring Buffer**: Utilizza un buffer circolare con indici `head` e `tail`.
+- **Buffer Circolare**: Utilizza un buffer circolare con indici `head` e `tail`.
 - **Prestazioni**:
     - `push`: **O(1) ammortizzato** (ridimensiona quando è pieno).
-    - `pop`: **O(1)** (avanza l'indice di testa).
+    - `pop`: **O(1)** (avanza l'indice head).
     - `clone`: **O(N)**.
 - **Sicurezza**: Gestione sicura del wrapping della memoria e del ridimensionamento.
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct Queue<T> {
@@ -60,19 +60,19 @@ struct Queue<T> {
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
 | **push** | `push(self, value: T)` | Aggiunge un elemento in fondo alla coda. |
-| **pop** | `pop(self) -> Option<T>` | Rimuove e restituisce l'elemento in testa. Restituisce `None` se è vuota. |
+| **pop** | `pop(self) -> Option<T>` | Rimuove e restituisce l'elemento in testa. Restituisce `None` se vuota. |
 | **clear** | `clear(self)` | Rimuove tutti gli elementi dalla coda. |
 
-### Accesso e Interrogazione
+### Accesso e Query
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
 | **length** | `length(self) -> usize` | Restituisce il numero di elementi. |
-| **is_empty** | `is_empty(self) -> bool` | Restituisce `true` se la coda è vuota. |
+| **is_empty** | `is_empty(self) -> bool` | Restituisce `true` if the queue is empty. |
 
 ## Gestione della Memoria
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
 | **free** | `free(self)` | Libera il buffer interno. |
-| **Tratto** | `impl Drop for Queue` | Chiama automaticamente `free()` quando esce dall'ambito. |
+| **Trait** | `impl Drop for Queue" | Chiama automaticamente `free()` quando esce dallo scope. |

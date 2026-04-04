@@ -4,21 +4,21 @@ title = "std/result"
 
 # std/result
 
-`Result<T>` é o tipo padrão para tratamento de erros em Zen-C. Representa sucesso (`Ok`) contendo um valor do tipo `T`, ou falha (`Err`) contendo uma mensagem de erro em string.
+`Result<T>` é o tipo padrão para tratamento de erros em Zen-C. Representa ou sucesso (`Ok`) contendo um valor de tipo `T`, ou falha (`Err`) contendo uma mensagem de erro em string.
 
 ## Visão Geral
 
-- **Seguro**: Força o tratamento explícito de caminhos de sucesso e falha.
-- **Informativo**: Casos de `Err` carregam uma mensagem de erro descritiva.
+- **Seguro**: Força o tratamento explícito dos caminhos de sucesso e falha.
+- **Informativo**: Os casos `Err` carregam uma mensagem de erro descritiva.
 - **Genérico**: Suporta qualquer tipo de valor de sucesso `T`.
-- **Integrado**: Funciona perfeitamente com macros e padrões baseados em `Result` para propagação concisa de erros.
+- **Integrado**: Funciona perfeitamente com macros baseadas em `Result` e padrões para propagação de erro concisa.
 
 ## Uso
 
 ```zc
 import "std/result.zc"
 
-fn dividir(a: int, b: int) -> Result<int> {
+fn divide(a: int, b: int) -> Result<int> {
     if (b == 0) {
         return Result<int>::Err("Divisão por zero");
     }
@@ -26,7 +26,7 @@ fn dividir(a: int, b: int) -> Result<int> {
 }
 
 fn main() {
-    match dividir(10, 0) {
+    match divide(10, 0) {
         Ok(val) => println "Resultado: {val}",
         Err(e)  => println "Erro: {e}"
     }
@@ -63,13 +63,12 @@ struct Result<T> {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **unwrap** | `unwrap(self) -> T` | Retorna o valor de sucesso. Entra em pânico com a mensagem de erro se for `Err`. |
-| **unwrap_ref** | `unwrap_ref(self) -> T*` | Retorna um ponteiro para o valor de sucesso. Entra em pânico se for `Err`. |
-| **expect** | `expect(self, msg: char*) -> T` | Retorna o valor ou entra em pânico com `msg` e a mensagem de erro se for `Err`. |
+| **unwrap** | `unwrap(self) -> T` | Retorna o valor ok. Faz panic com a mensagem de erro se for `Err`. |
+| **unwrap_ref**| `unwrap_ref(self) -> T*` | Retorna um ponteiro para o valor ok. Faz panic se for `Err`. |
+| **expect** | `expect(self, msg: char*) -> T` | Retorna o valor ou faz panic com `msg` e a mensagem de erro se for `Err`. |
 
-## Gerenciamento de Memória
+## Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **forget** | `forget(self)` | Limpa o valor de sucesso sem chamar destruidores ou libertar memória. |
-走
+| **forget** | `forget(self)` | Zera o valor ok sem chamar destrutores ou libertar memória. |

@@ -4,13 +4,13 @@ title = "std/sys/stat"
 
 # std/sys/stat
 
-O módulo `std/sys/stat` fornece uma interface para recuperar metadados estendidos de ficheiros e informações de status, envolvendo o `sys/stat.h` do POSIX.
+O módulo `std/sys/stat` fornece uma interface para recuperar metadados estendidos de ficheiros e informações de estado, envolvendo o `sys/stat.h` do POSIX.
 
 ## Visão Geral
 
-- **Metadados de Ficheiros**: Recupere o tamanho do ficheiro, o modo (permissões) e os timestamps.
-- **Timestamps**: Aceda aos tempos de acesso, modificação e alteração como timestamps Unix.
-- **Verificação de Tipo**: Métodos auxiliares para determinar se um modo representa um ficheiro ou um diretório.
+- **Metadados de Ficheiro**: Recupera o tamanho do ficheiro, modo (permissões) e carimbos de data/hora (timestamps).
+- **Timestamps**: Acede aos tempos de acesso, modificação e alteração como timestamps Unix.
+- **Verificação de Tipo**: Métodos auxiliares para determinar se um modo representa um ficheiro ou diretório.
 
 ## Uso
 
@@ -19,7 +19,7 @@ import "std/sys/stat.zc"
 import "std/io.zc"
 
 fn main() {
-    let res = FileStat::stat("meu_documento.txt");
+    let res = FileStat::stat("myfile.txt");
     if (res.is_some()) {
         let st = res.unwrap();
         println "Tamanho: {st.size} bytes";
@@ -35,7 +35,7 @@ fn main() {
 ## Definição da Estrutura
 
 ### `Stat`
-Contém metadados de ficheiros no estilo Unix.
+Contém metadados de ficheiro ao estilo Unix.
 ```zc
 struct Stat {
     mode: u32;
@@ -50,11 +50,10 @@ struct Stat {
 
 ## Métodos
 
-### Métodos de `FileStat`
+### Métodos `FileStat`
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **stat** | `FileStat::stat(path: char*) -> Option<Stat>` | Retorna os metadados para o caminho fornecido, ou `None` em caso de falha. |
-| **is_dir** | `FileStat::is_dir(mode: u32) -> bool` | Verifica se o modo fornecido representa um diretório. |
-| **is_file** | `FileStat::is_file(mode: u32) -> bool` | Verifica se o modo fornecido representa um ficheiro regular. |
-走
+| **stat** | `FileStat::stat(path: char*) -> Option<Stat>` | Retorna metadados para o caminho dado, ou `None` em caso de falha. |
+| **is_dir** | `FileStat::is_dir(mode: u32) -> bool` | Verifica se o modo dado representa um diretório. |
+| **is_file** | `FileStat::is_file(mode: u32) -> bool` | Verifica se o modo dado representa um ficheiro regular. |

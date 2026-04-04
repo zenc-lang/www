@@ -4,13 +4,10 @@ title = "std/cuda"
 
 # std/cuda
 
-Модуль `std/cuda` предоставляет интерфейс Zen-C для ускоренных вычислений на GPU с использованием платформы NVIDIA CUDA.
+Модуль `std/cuda` предоставляет вспомогательные функции и типы для взаимодействия с CUDA, упрощая управление памятью, синхронизацию и запросы к устройствам.
 
-## Обзор
-
-- **Управление устройствами**: Перечисление и выбор графических процессоров CUDA.
-- **Управление памятью**: Аллокация и передача данных между хостом (CPU) и устройством (GPU).
-- **Запуск кернелов**: Выполнение параллельного кода на тысячах ядер GPU.
+> [!NOTE]
+> Этот модуль требует компиляции с флагом `--cuda`.
 
 ## Использование
 
@@ -18,43 +15,62 @@ title = "std/cuda"
 import "std/cuda.zc"
 
 fn main() {
-    // Инициализация устройства
-    Cuda::init(0);
+    let dev_ptr = cuda_alloc<float>(1024);
+    defer cuda_free(dev_ptr);
     
-    // Выделение памяти на GPU
-    let d_ptr = Cuda::malloc(1024);
-    
-    // Передача данных на GPU
-    let h_data: float[256];
-    Cuda::memcpy_to_device(d_ptr, &h_data[0], 1024);
-    
-    // Настройка и запуск кернела (псевдокод)
-    // kernel<<<blocks, threads>>>(d_ptr);
-    
-    Cuda::free(d_ptr);
+    cuda_sync();
+}
+```
+
+## Определение структуры
+
+```zc
+struct CudaDeviceProp {
+    name: String;
+    total_global_mem: usize;
+    multi_processor_count: int;
+    major: int;
+    minor: int;
+    max_threads_per_block: int;
+    warp_size: int;
 }
 ```
 
 ## Методы
 
-### Управление устройствами
+### Управление памятью
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **init** | `Cuda::init(device_id: int) -> Result<bool>` | Инициализирует драйвер CUDA для указанного устройства. |
-| **get_device_count**| `Cuda::get_device_count() -> int` | Возвращает количество доступных устройств CUDA. |
+| **cuda_alloc** | `cuda_alloc<T>(n: usize) -> T*` | Выделяет память устройства для `n` элементов типа `T`. |
+| **cuda_free** | `cuda_free(ptr: void*)` | Освобождает память устройства. |
+| **cuda_copy_to_device** | `cuda_copy_to_device(dst: void*, src: void*, bytes: usize)` | Копирует данные с хоста (CPU) на устройство (GPU). |
+| **cuda_copy_to_host** | `cuda_copy_to_host(dst: void*, src: void*, bytes: usize)` | Копирует данные с устройства (GPU) на хост (CPU). |
+| **cuda_copy_device** | `cuda_copy_device(dst: void*, src: void*, bytes: usize)` | Копирует данные с устройства на устройство. |
+| **cuda_zero** | `cuda_zero(ptr: void*, bytes: usize)` | Заполняет память устройства нулями. |
 
-### Память устройства
+### Синхронизация
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **malloc** | `Cuda::malloc(size: usize) -> void*` | Выделяет линейную память на устройстве. |
-| **free** | `Cuda::free(ptr: void*)` | Освобождает выделенную память на устройстве. |
-| **memcpy_to_device** | `Cuda::memcpy_to_device(dst: void*, src: void*, size: usize)` | Копирует данные с хоста на устройство. |
-| **memcpy_to_host** | `Cuda::memcpy_to_host(dst: void*, src: void*, size: usize)` | Копирует данные с устройства на хост. |
+| **cuda_sync** | `cuda_sync()` | Синхронизирует устройство (блокирует выполнение до завершения всех предыдущих вызовов CUDA). |
 
-## Обработка ошибок
+### Информация об устройстве
 
-Большинство функций `std/cuda` возвращают тип `Result` или устанавливают глобальный код ошибки, который можно проверить с помощью `Cuda::get_last_error()`.
-走
-走
+| Метод | Сигнатура | Описание |
+| :--- | :--- | :--- |
+| **cuda_device_count** | `cuda_device_count() -> int` | Возвращает количество доступных устройств CUDA. |
+| **cuda_set_device** | `cuda_set_device(id: int)` | Устанавливает активное устройство CUDA. |
+| **cuda_device_properties** | `cuda_device_properties(device_id: int) -> CudaDeviceProp` | Возвращает свойства указанного устройства. |
+
+### Функции устройства (только для ядер)
+
+Эти функции помечены `@device` и должны вызываться только изнутри ядра (`@global`) или функций устройства.
+
+| Функция | Сигнатура | Описание |
+| :--- | :--- | :--- |
+| **thread_id** | `thread_id() -> int` | Глобальный индекс потока. |
+| **block_id** | `block_id() -> int` | Индекс блока (`blockIdx.x`). |
+| **local_id** | `local_id() -> int` | Локальный индекс потока (`threadIdx.x`). |
+| **block_size** | `block_size() -> int` | Размер блока (`blockDim.x`). |
+| **grid_size** | `grid_size() -> int` | Размер сетки (`gridDim.x`). |

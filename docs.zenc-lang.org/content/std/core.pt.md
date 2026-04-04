@@ -4,30 +4,24 @@ title = "std/core"
 
 # std/core
 
-O módulo `std/core` fornece as pedras basilares e os tipos fundamentais da biblioteca padrão de Zen-C.
+O módulo `std/core` fornece as definições mais fundamentais e primitivas de tratamento de erros para programas Zen-C. É implicitamente exigido pela maioria das outras bibliotecas padrão.
 
 ## Visão Geral
 
-- **Tipos Fundamentais**: Define tipos e interfaces essenciais utilizados por todos os outros módulos.
-- **Macros Essenciais**: Inclui macros para asserções e manipulação de erros.
-- **Independência de Plataforma**: Fornece uma camada de abstração sobre as funcionalidades intrínsecas do compilador.
+- **Cabeçalhos Padrão**: Inclui cabeçalhos C críticos como `stdlib.h`, `stdio.h`, e `stdbool.h`.
+- **Mecanismo de Panic**: Fornece o macro `panic` para relatórios de erros irrecuperáveis.
+- **Controlo de Processos**: Inclui funções básicas de controlo de processos como `exit`.
 
-## Uso
+## Métodos
 
-```zc
-import "std/core.zc"
+### Tratamento de Erros
 
-fn main() {
-    // Assert garante que uma condição seja verdadeira em execução
-    assert(1 + 1 == 2);
-}
-```
-
-## Funções e Macros
-
-| Método | Assinatura | Descrizione |
+| Método/Macro | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **assert** | `assert(condition: bool)` | Se a condição for falsa, imprime uma mensagem de erro e aborta a execução. |
-| **panic** | `panic(message: char*)` | Aborta o programa imediatamente com a mensagem fornecida. |
-| **exit** | `exit(code: int)` | Termina o processo com o código de saída fornecido. |
-走
+| **panic** | `panic(msg: char*)` | Imprime uma mensagem de erro formatada incluindo ficheiro, linha e função, e termina o processo. |
+
+### Controlo de Processos
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **exit** | `exit(code: int)` | Termina imediatamente o processo com o código de retorno fornecido. |

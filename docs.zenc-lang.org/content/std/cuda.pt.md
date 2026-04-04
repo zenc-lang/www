@@ -4,13 +4,10 @@ title = "std/cuda"
 
 # std/cuda
 
-O módulo `std/cuda` fornece uma interface Zen-C para computação acelerada por GPU utilizando a plataforma NVIDIA CUDA.
+O módulo `std/cuda` fornece funções auxiliares e tipos para interoperabilidade CUDA, simplificando a gestão de memória, sincronização e consultas de dispositivos.
 
-## Visão Geral
-
-- **Gerenciamento de Dispositivos**: Enumeração e seleção de GPUs CUDA.
-- **Gerenciamento de Memória**: Alocação e transferência de dados entre o Host (CPU) e o Dispositivo (GPU).
-- **Lançamento de Kernels**: Execução de código paralelo em milhares de cores da GPU.
+> [!NOTE]
+> Este módulo requer compilação com a flag `--cuda`.
 
 ## Uso
 
@@ -18,42 +15,62 @@ O módulo `std/cuda` fornece uma interface Zen-C para computação acelerada por
 import "std/cuda.zc"
 
 fn main() {
-    // Inicializar dispositivo
-    Cuda::init(0);
+    let dev_ptr = cuda_alloc<float>(1024);
+    defer cuda_free(dev_ptr);
     
-    // Alocar memória na GPU
-    let d_ptr = Cuda::malloc(1024);
-    
-    // Transferir dados para a GPU
-    let h_data: float[256];
-    Cuda::memcpy_to_device(d_ptr, &h_data[0], 1024);
-    
-    // Configurar e lançar kernel (pseudocódigo)
-    // kernel<<<blocks, threads>>>(d_ptr);
-    
-    Cuda::free(d_ptr);
+    cuda_sync();
+}
+```
+
+## Definição da Estrutura
+
+```zc
+struct CudaDeviceProp {
+    name: String;
+    total_global_mem: usize;
+    multi_processor_count: int;
+    major: int;
+    minor: int;
+    max_threads_per_block: int;
+    warp_size: int;
 }
 ```
 
 ## Métodos
 
-### Gerenciamento de Dispositivos
+### Gestão de Memória
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **init** | `Cuda::init(device_id: int) -> Result<bool>` | Inicializa o driver CUDA para o dispositivo especificado. |
-| **get_device_count**| `Cuda::get_device_count() -> int` | Retorna o número de dispositivos CUDA disponíveis. |
+| **cuda_alloc** | `cuda_alloc<T>(n: usize) -> T*` | Aloca memória de dispositivo para `n` elementos do tipo `T`. |
+| **cuda_free** | `cuda_free(ptr: void*)` | Liberta memória de dispositivo. |
+| **cuda_copy_to_device** | `cuda_copy_to_device(dst: void*, src: void*, bytes: usize)` | Copia dados do host (CPU) para o dispositivo (GPU). |
+| **cuda_copy_to_host** | `cuda_copy_to_host(dst: void*, src: void*, bytes: usize)` | Copia dados do dispositivo (GPU) para o host (CPU). |
+| **cuda_copy_device** | `cuda_copy_device(dst: void*, src: void*, bytes: usize)` | Copia dados de dispositivo para dispositivo. |
+| **cuda_zero** | `cuda_zero(ptr: void*, bytes: usize)` | Define a memória do dispositivo como zero. |
 
-### Memória do Dispositivo
+### Sincronização
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **malloc** | `Cuda::malloc(size: usize) -> void*` | Aloca memória linear no dispositivo. |
-| **free** | `Cuda::free(ptr: void*)` | Liberta memória alocada no dispositivo. |
-| **memcpy_to_device** | `Cuda::memcpy_to_device(dst: void*, src: void*, size: usize)` | Copia dados do host para o dispositivo. |
-| **memcpy_to_host** | `Cuda::memcpy_to_host(dst: void*, src: void*, size: usize)` | Copia dados do dispositivo para o host. |
+| **cuda_sync** | `cuda_sync()` | Sincroniza o dispositivo (bloqueia até que todas as chamadas CUDA anteriores terminem). |
 
-## Tratamento de Erros
+### Informação do Dispositivo
 
-A maioria das funções do `std/cuda` retorna um tipo `Result` ou define um código de erro global que pode ser verificado através de `Cuda::get_last_error()`.
-走
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **cuda_device_count** | `cuda_device_count() -> int` | Retorna o número de dispositivos CUDA disponíveis. |
+| **cuda_set_device** | `cuda_set_device(id: int)` | Define o dispositivo CUDA ativo. |
+| **cuda_device_properties** | `cuda_device_properties(device_id: int) -> CudaDeviceProp` | Retorna as propriedades do dispositivo especificado. |
+
+### Funções de Dispositivo (Apenas Kernel)
+
+Estas funções são marcadas como `@device` e só devem ser chamadas de dentro de um kernel (`@global`) ou funções de dispositivo.
+
+| Função | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **thread_id** | `thread_id() -> int` | Índice global da thread. |
+| **block_id** | `block_id() -> int` | Índice do bloco (`blockIdx.x`). |
+| **local_id** | `local_id() -> int` | Índice local da thread (`threadIdx.x`). |
+| **block_size** | `block_size() -> int` | Dimensão do bloco (`blockDim.x`). |
+| **grid_size** | `grid_size() -> int` | Dimensão da grelha (`gridDim.x`). |

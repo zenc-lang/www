@@ -4,14 +4,14 @@ title = "std/json"
 
 # std/json
 
-Модуль `std/json` предоставляет высокоуровневый API для парсинга, генерации и манипуляции данными в формате JSON.
+Модуль `std/json` предоставляет реализацию парсера и конструктора JSON в стиле DOM для Zen-C. Он отличается простым API для создания, манипулирования и сериализации данных JSON с автоматическим управлением памятью.
 
 ## Обзор
 
-- **Парсинг**: Преобразование строк JSON в древовидную структуру `JsonValue`.
-- **Сериализация**: Генерация строк JSON из объектов `JsonValue`.
-- **Удобная навигация**: Доступ к полям объектов и элементам массивов.
-- **Обработка ошибок**: Подробные сообщения об ошибках парсинга с указанием позиции.
+- **Стиль DOM**: Иерархическая древовидная структура узлов `JsonValue`.
+- **Типобезопасные методы доступа**: Проверка типов (`is_string`, `is_number`) и безопасное извлечение значений.
+- **Автоматическая очистка**: Реализует трейт `Drop` для автоматического рекурсивного управления памятью.
+- **Соответствие стандартам**: Поддерживает стандартные типы JSON, включая объекты, массивы, строки, числа, логические значения и null.
 
 ## Использование
 
@@ -19,68 +19,89 @@ title = "std/json"
 import "std/json.zc"
 
 fn main() {
-    let raw = "{\"имя\": \"Zen\", \"версия\": 1}";
+    // Построение JSON
+    let obj = JsonValue::object();
+    obj.set("name", JsonValue::string("Alice"));
+    obj.set("age", JsonValue::number(30.0));
+    obj.set("active", JsonValue::bool(true));
     
-    // Парсинг JSON
-    match Json::parse(raw) {
-        Ok(json) => {
-            println "Имя: {json.get(\"имя\").as_string()}";
-            // json освобождается автоматически через Drop
-        },
+    // Сериализация
+    let json_str = obj.to_string();
+    println "Сериализовано: {json_str}";
+    
+    // Парсинг
+    let input = "{\"score\": 100}";
+    match JsonValue::parse(input) {
+        Ok(parsed) => {
+            println "Счет: {parsed.get(\"score\").unwrap().as_int().unwrap()}";
+            // parsed освобождается автоматически в конце этого блока
+        }
         Err(e) => println "Ошибка: {e}"
     }
+} // obj освобождается здесь автоматически
+```
 
-    // Создание JSON
-    let obj = JsonValue::object();
-    obj.set("статус", JsonValue::string("ок"));
-    println "Вывод: {obj.stringify()}";
+## Определение структуры
+
+```zc
+struct JsonValue {
+    kind: JsonType;
+    // ... внутренние поля
 }
 ```
 
-## Типы данных (`JsonValue`)
-
-Тип `JsonValue` представляет собой объединение (enum) для всех типов JSON:
-
-| Тип | Проверка | Получение значения |
-| :--- | :--- | :--- |
-| **String** | `is_string()` | `as_string() -> char*` |
-| **Number** | `is_number()` | `as_double() -> double` |
-| **Object** | `is_object()` | `get(key: char*) -> JsonValue*` |
-| **Array** | `is_array()` | `at(idx: usize) -> JsonValue*` |
-| **Boolean**| `is_bool()` | `as_bool() -> bool` |
-| **Null** | `is_null()` | - |
-
 ## Методы
 
-### Парсинг и генерация
+### Конструирование
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **parse** | `Json::parse(s: char*) -> Result<JsonValue>` | Парсит строку JSON. |
-| **stringify**| `stringify(self) -> String` | Преобразует `JsonValue` в максимально компактную строку JSON. |
-| **pretty** | `pretty(self) -> String` | Преобразует `JsonValue` в форматированную (pretty-print) строку. |
+| **null** | `JsonValue::null() -> JsonValue` | Создает значение null. |
+| **bool** | `JsonValue::bool(b: bool) -> JsonValue` | Создает логическое значение. |
+| **number** | `JsonValue::number(n: double) -> JsonValue` | Создает числовое значение. |
+| **string** | `JsonValue::string(s: char*) -> JsonValue` | Создает строковое значение. |
+| **array** | `JsonValue::array() -> JsonValue` | Создает пустой массив JSON. |
+| **object** | `JsonValue::object() -> JsonValue` | Создает пустой объект JSON. |
 
-### Манипуляция объектами и массивами
+### Парсинг
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **set** | `set(self, key: char*, val: JsonValue)` | Устанавливает поле в объекте. |
-| **push** | `push(self, val: JsonValue)` | Добавляет элемент в массив. |
-| **length** | `length(self) -> usize` | Возвращает количество элементов (для объектов и массивов). |
+| **parse** | `JsonValue::parse(json: char*) -> Result<JsonValue*>` | Парсит строку JSON в дерево, выделенное в куче. |
+
+### Методы доступа
+
+| Метод | Сигнатура | Описание |
+| :--- | :--- | :--- |
+| **is_null** | `is_null(self) -> bool` | Возвращает true, если тип - null. |
+| **is_bool** | `is_bool(self) -> bool` | Возвращает true, если тип - логический. |
+| **is_number** | `is_number(self) -> bool` | Возвращает true, если тип - число. |
+| **is_string** | `is_string(self) -> bool` | Возвращает true, если тип - строка. |
+| **is_array** | `is_array(self) -> bool` | Возвращает true, если тип - массив. |
+| **is_object** | `is_object(self) -> bool` | Возвращает true, если тип - объект. |
+| **as_string** | `as_string(self) -> Option<char*>` | Возвращает указатель на строку, если применимо. |
+| **as_int** | `as_int(self) -> Option<int>` | Возвращает целое значение, если применимо. |
+| **as_float** | `as_float(self) -> Option<double>` | Возвращает числовое значение, если применимо. |
+| **as_bool** | `as_bool(self) -> Option<bool>` | Возвращает логическое значение, если применимо. |
+
+### Модификация
+
+| Метод | Сигнатура | Описание |
+| :--- | :--- | :--- |
+| **push** | `push(self, val: JsonValue)` | Добавляет дочернее значение в массив JSON. |
+| **set** | `set(self, key: char*, val: JsonValue)` | Вставляет или обновляет пару ключ-значение в объекте JSON. |
+| **get** | `get(self, key: char*) -> Option<JsonValue*>` | Получает дочернее значение из объекта по ключу. |
+| **at** | `at(self, index: usize) -> Option<JsonValue*>` | Получает дочернее значение из массива по индексу. |
+
+### Сериализация
+
+| Метод | Сигнатура | Описание |
+| :--- | :--- | :--- |
+| **to_string** | `to_string(self) -> String` | Возвращает сериализованную строку JSON. |
 
 ## Управление памятью
 
 | Метод | Сигнатура | Описание |
 | :--- | :--- | :--- |
-| **free** | `free(self)` | Вручную освобождает все ресурсы `JsonValue` рекурсивно. |
-| **Trait** | `impl Drop for JsonValue` | Автоматически вызывает `free()` при выходе из области видимости. |
-走
-走
-走
-走
-走
-走
-走
-走
-走
-走
+| **free** | `free(self)` | Рекурсивно освобождает значение и все дочерние узлы. |
+| **Trait** | `impl Drop for JsonValue` | Автоматически запускает рекурсивный `free()` при выходе из области видимости. |

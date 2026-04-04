@@ -4,29 +4,35 @@ title = "std/slice"
 
 # std/slice
 
-Uma `Slice<T>` é uma visão (view) sobre uma sequência contígua de elementos numa coleção ou array. Consiste num ponteiro e num comprimento.
+`Slice<T>` é uma "visão" leve e sem propriedade de uma sequência contígua de elementos. É usado principalmente para fornecer uma interface segura e conveniente para trabalhar com arrays de tamanho fixo.
 
 ## Visão Geral
 
-- **Leve**: Não possui a propriedade dos dados; é apenas uma referência a dados existentes.
-- **Seguro**: O acesso através de fatias (slices) inclui verificação de limites (bounds checking).
-- **Versátil**: Pode referenciar dados do Heap (`Vec`), da Stack (array) ou até de memória mapeada.
+- **Sem propriedade**: As fatias não copiam nem possuem os dados subjacentes; elas apenas apontam para eles.
+- **Suporte à Iteração**: Implementa o método `iterator()`, permitindo que as fatias sejam usadas diretamente em loops `for-in`.
+- **Conversão Automática**: O compilador Zen-C converte automaticamente arrays de tamanho fixo em fatias ao realizar a iteração ou passar para funções que esperam fatias.
+- **Acesso Seguro**: Fornece os métodos `get()` e `at()` com verificação de limites, retornando `Option<T>`.
 
 ## Uso
 
 ```zc
 import "std/slice.zc"
-import "std/vec.zc"
 
 fn main() {
-    let v = Vec<int>::new();
-    v.push(10); v.push(20); v.push(30);
-
-    // Criar uma fatia dos dois primeiros elementos
-    let s = v.as_slice().sub_slice(0, 2);
+    let arr: int[5] = [10, 20, 30, 40, 50];
     
-    println "Comprimento da fatia: {s.length()}"; // 2
-    println "Primeiro elemento: {s[0]}"; // 10
+    // Criação explícita de fatia
+    let s = Slice<int>::from_array(arr, 5);
+    
+    // Iteração direta sobre a fatia
+    for val in s {
+        println "{val}";
+    }
+    
+    // Iterando diretamente sobre o array (importa automaticamente std/slice.zc)
+    for val in arr {
+        println "{val}";
+    }
 }
 ```
 
@@ -34,7 +40,7 @@ fn main() {
 
 ```zc
 struct Slice<T> {
-    ptr: T*;
+    data: T*;
     len: usize;
 }
 ```
@@ -45,21 +51,25 @@ struct Slice<T> {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `Slice<T>::new(ptr: T*, len: usize) -> Slice<T>` | Cria uma nova fatia a partir de um ponteiro e um comprimento. |
-| **sub_slice**| `sub_slice(self, start: usize, len: usize) -> Slice<T>` | Cria uma nova fatia menor a partir da fatia atual. |
+| **from_array** | `Slice<T>::from_array(ptr: T*, len: usize) -> Slice<T>` | Cria uma visão de fatia sobre um ponteiro de array. |
+| **new** | `Slice<T>::new(data: T*, len: usize) -> Slice<T>` | Alias para `from_array`. |
 
-### Acesso & Consulta
+### Iteração
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **get** | `get(self, idx: usize) -> T` | Retorna uma cópia do elemento. Entra em pânico se estiver fora dos limites. |
-| **get_ptr** | `get_ptr(self, idx: usize) -> T*` | Retorna um ponteiro para o elemento. Entra em pânico se estiver fora dos limites. |
+| **iterator** | `iterator(self) -> SliceIter<T>` | Retorna um iterador para uso em loops `for-in`. |
+
+### Acesso e Consulta
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
 | **length** | `length(self) -> usize` | Retorna o número de elementos na fatia. |
-| **is_empty** | `is_empty(self) -> bool` | Retorna true se o comprimento for 0. |
+| **is_empty** | `is_empty(self) -> bool` | Retorna `true` se a fatia não contiver elementos. |
+| **get** | `get(self, idx: usize) -> Option<T>` | Retorna o elemento em `idx`, ou `None` se estiver fora dos limites. |
+| **at** | `at(self, idx: usize) -> Option<T>` | Alias para `get`. |
 
-### Operações
+## Notas
 
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **copy_from** | `copy_from(self, src: Slice<T>)` | Copia elementos de outra fatia para esta. As fatias devem ter o mesmo comprimento. |
-走
+- **Importação Automática**: `std/slice.zc` é importado automaticamente pelo compilador ao realizar a iteração `for-in` em arrays de tamanho fixo.
+- **Segurança**: Embora `data` seja um ponteiro bruto, a estrutura `Slice` incentiva o uso do método `get()`, que reconhece o comprimento, para um acesso seguro.

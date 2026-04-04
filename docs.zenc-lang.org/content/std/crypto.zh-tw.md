@@ -4,34 +4,47 @@ title = "std/crypto"
 
 # std/crypto
 
-`std/crypto` 模組提供加密函數、哈希算法和安全隨機數生成器。
+`std/crypto` 模組提供了加密原語和雜湊（hashing）演算法。
 
-## 使用
+## SHA1 (`std/crypto/sha1.zc`)
+
+SHA1 雜湊演算法的實現。
+
+### 使用方法
 
 ```zc
-import "std/crypto.zc"
+import "std/crypto/sha1.zc"
 
 fn main() {
-    // 生成一個安全的隨機數
-    let key = Crypto::rand_u64();
-    println "隨機密鑰: {key}";
+    let data = "Hello";
+    let digest = Sha1::hash((u8*)data, 5);
+    // digest.bytes 是 u8[20]
 }
 ```
 
-## 功能
+### 方法
 
-### 隨機數 (Secure Random)
-
-與 `std/random` 不同，此模組使用系統級別的熵源（如 `/dev/urandom`）。
-
-| 方法 | 簽名 | 描述 |
+| 方法 | 簽名 | 說明 |
 | :--- | :--- | :--- |
-| **rand_u64**| `Crypto::rand_u64() -> u64` | 返回一個加密安全的 64 位整數。 |
-| **fill_rand**| `Crypto::fill_rand(buf: u8*, n: usize)` | 用安全隨機字節填充緩衝區。 |
+| **hash** | `Sha1::hash(data: u8*, len: usize) -> Sha1` | 計算給定數據的 SHA1 雜湊值。 |
 
-### 哈希算法 (Hashing)
+## SHA256 (`std/crypto/sha256.zc`)
 
-該模組包含如下算法的實現：
-- **SHA-256**: `std/crypto/sha256.zc`
-- **MD5**: `std/crypto/md5.zc` (僅用於兼容性)
-走
+現代 SHA-256 雜湊演算法的實現 (FIPS 180-4)。
+
+### 使用方法
+
+```zc
+import "std/crypto/sha256.zc"
+
+fn main() {
+    let hash = Sha256::hash("hello world");
+    // hash 是十六進位字串
+}
+```
+
+### 方法
+
+| 方法 | 簽名 | 說明 |
+| :--- | :--- | :--- |
+| **hash** | `Sha256::hash(data: char*) -> String` | 計算給定字串的 SHA-256 雜湊值，並將其作為十六進位字串返回。 |

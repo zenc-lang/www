@@ -4,42 +4,42 @@ title = "Biblioteca Padrão"
 
 # Biblioteca Padrão
 
-A Biblioteca Padrão Zen C fornece uma coleção abrangente de módulos e tipos para tarefas comuns, que vão desde manipulação de bits de baixo nível até redes de alto nível e processamento JSON.
+A Biblioteca Padrão do Zen C fornece uma coleção abrangente de módulos e tipos para tarefas comuns, desde a manipulação de bits de baixo nível até rede de alto nível e processamento JSON.
 
-## Modules
+## Módulos
 
-| Module | Description |
+| Módulo | Descrição |
 | :--- | :--- |
 | **[BigFloat](./bigfloat.md)** | Aritmética de ponto flutuante de precisão arbitrária. |
-| **[BigInt](./bigint.md)** | Aritmética inteira de precisão arbitrária. |
+| **[BigInt](./bigint.md)** | Aritmética de inteiros de precisão arbitrária. |
 | **[Bits](./bits.md)** | Operações bit a bit de baixo nível (`rotl`, `rotr`). |
-| **[Complexo](./complex.md)** | Operações com números complexos. |
-| **[Cripto](./crypto.md)** | Primitivas criptográficas (SHA1). |
-| **[MILAGRE](./cuda.md)** | Operações e interoperabilidade CUDA GPGPU. |
-| **[Codificação](./encoding.md)** | Utilitários de codificação de dados (Base64). |
-| **[Env](./env.md)** | Acesso às variáveis ​​de ambiente do processo. |
-| **[FS](./fs.md)** | E/S do sistema de arquivos e operações de diretório. |
-| **[Eu](./io.md)** | Entrada/saída padrão e formatação. |
-| **[Caminho](./iter.md)** | Características e protocolos de iteradores personalizados. |
-| **[JSON](./json.md)** | Análise e serialização JSON no estilo DOM. |
-| **[Mapa](./map.md)** | Implementação de mapa hash genérico. |
-| **[Bom](./math.md)** | Constantes e funções matemáticas. |
-| **[Mem](./mem.md)** | Gerenciamento de memória, alocadores e características. |
-| **[Rede](./net.md)** | Análise de TCP, UDP, HTTP, DNS e URL. |
-| **[Opção](./option.md)** | Wrapper de valores opcionais (`Some`/`None`). |
-| **[Caminho](./path.md)** | Manipulação de caminho de arquivo entre plataformas. |
-| **[Processo](./process.md)** | Execução e gerenciamento de processos. |
-| **[Resultado](./result.md)** | Padrão de tratamento de erros (`Ok`/`Err`). |
-| **[Regex](./regex.md)** | Suporte a expressões regulares. |
-| **[Aleatório](./random.md)** | Gerador de números pseudo-aleatórios. |
+| **[Complex](./complex.md)** | Operações de números complexos. |
+| **[Crypto](./crypto.md)** | Primitivas criptográficas (SHA1). |
+| **[CUDA](./cuda.md)** | Operações e interoperabilidade CUDA GPGPU. |
+| **[Encoding](./encoding.md)** | Utilitários de codificação de dados (Base64). |
+| **[Env](./env.md)** | Acesso a variáveis de ambiente do processo. |
+| **[FS](./fs.md)** | E/S do sistema de ficheiros e operações de diretório. |
+| **[IO](./io.md)** | Entrada/Saída padrão e formatação. |
+| **[Iter](./iter.md)** | Traits e protocolos de iteradores personalizados. |
+| **[JSON](./json.md)** | Parsing e serialização JSON estilo DOM. |
+| **[Map](./map.md)** | Implementação genérica de tabela de hash. |
+| **[Math](./math.md)** | Constantes e funções matemáticas. |
+| **[Mem](./mem.md)** | Gestão de memória, alocadores e traits. |
+| **[Net](./net.md)** | TCP, UDP, HTTP, DNS e parsing de URL. |
+| **[Option](./option.md)** | Cobertura de valores opcionais (`Some`/`None`). |
+| **[Path](./path.md)** | Manipulação de caminhos de ficheiros multiplataforma. |
+| **[Process](./process.md)** | Execução e gestão de processos. |
+| **[Result](./result.md)** | Padrão de tratamento de erros (`Ok`/`Err`). |
+| **[Regex](./regex.md)** | Suporte para expressões regulares. |
+| **[Random](./random.md)** | Gerador de números pseudo-aleatórios. |
 | **[SIMD](./simd.md)** | Tipos de vetores otimizados por hardware. |
-| **[Fila](./queue.md)** | Implementação de fila FIFO (Ring Buffer). |
-| **[Definir](./set.md)** | Implementação de conjunto de hash genérico. |
-| **[Fatia](./slice.md)** | Visualizações de matriz leves e não proprietárias. |
-| **[Classificar](./sort.md)** | Mecanismo de classificação com sobrecarga zero. |
-| **[Pilha](./stack.md)** | Implementação da pilha LIFO. |
-| **[String](./string.md)** | Tipo de string expansível e alocado em heap. |
-| **[Tópico](./thread.md)** | Multithreading e sincronização. |
-| **[Hora](./time.md)** | Medição de tempo e utilitários de sono. |
+| **[Queue](./queue.md)** | Implementação de fila FIFO (Ring Buffer). |
+| **[Set](./set.md)** | Implementação genérica de conjunto de hash. |
+| **[Slice](./slice.md)** | Visualizações de arrays leves e não proprietárias. |
+| **[Sort](./sort.md)** | Motor de ordenação de custo zero. |
+| **[Stack](./stack.md)** | Implementação de pilha LIFO. |
+| **[String](./string.md)** | Tipo de string expansível, alocada no heap. |
+| **[Thread](./thread.md)** | Multithreading e sincronização. |
+| **[Time](./time.md)** | Medição de tempo e utilitários de suspensão (sleep). |
 | **[UTF-8](./utf8.md)** | Utilitários de manipulação de Unicode e UTF-8. |
-| **[Vetor](./vec.md)** | Tipo de matriz dinâmica expansível. |
+| **[Vector](./vec.md)** | Tipo de array dinâmico expansível. |

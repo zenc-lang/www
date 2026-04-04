@@ -4,13 +4,14 @@ title = "std/simd"
 
 # std/simd
 
-O módulo `std/simd` fornece tipos e operações SIMD (Single Instruction, Multiple Data) portáteis para paralelismo ao nível de dados.
+Zen-C fornece tipos de vetores SIMD (Single Instruction, Multiple Data) nativos que compilam diretamente para instruções de vetores otimizadas por hardware (SSE, AVX, NEON, etc.) suportadas pelo backend de destino.
 
 ## Visão Geral
 
-- **Vetores Portáteis**: Tipos vetoriais que mapeiam para instruções SSE, AVX ou NEON dependendo do hardware de destino.
-- **Alto Desempenho**: Execute a mesma operação em múltiplos elementos de dados simultaneamente.
-- **Alinhamento Automático**: Garante o alinhamento de memória necessário para operações SIMD eficientes.
+- **Desempenho Nativo**: Utiliza extensões de vetores LLVM/GCC para máxima eficiência.
+- **Implicitamente Portátil**: Tipos como `f32x4` mapeiam para o melhor hardware de 128 bits disponível específico da arquitetura.
+- **Aritmética por Elemento**: Operadores padrão (`+`, `-`, `*`, `/`) aplicam-se a todos os canais (lanes) simultaneamente.
+- **Broadcasting**: A inicialização com um único valor distribui-o por todos os canais.
 
 ## Uso
 
@@ -18,48 +19,59 @@ O módulo `std/simd` fornece tipos e operações SIMD (Single Instruction, Multi
 import "std/simd.zc"
 
 fn main() {
-    let a = f32x4::new(1.0, 2.0, 3.0, 4.0);
-    let b = f32x4::new(5.0, 6.0, 7.0, 8.0);
+    // Inicialização (Canais explícitos)
+    let a = f32x4 { 1.0, 2.0, 3.0, 4.0 };
     
-    // Todas as 4 adições ocorrem numa única instrução de CPU
-    let c = a.add(b);
+    // Broadcasting (Valor único para todos os canais)
+    let b = f32x4 { v: 2.0 };
+    
+    // Adição por elemento
+    let c = a + b;   // Resultado: { 3.0, 4.0, 5.0, 6.0 }
+    
+    // Acesso ao Canal
+    let first = c[0];
 }
 ```
 
-## Tipos Vetoriais
+## Tipos de Vetores
 
-### Vetores de Vírgula Flutuante
-- `f32x4`: Vetor de 4 floats de 32 bits (128 bits).
-- `f32x8`: Vetor de 8 floats de 32 bits (256 bits).
-- `f64x2`: Vetor de 2 doubles de 64 bits (128 bits).
-- `f64x4`: Vetor de 4 doubles de 64 bits (256 bits).
+A biblioteca padrão define vários tipos de vetores de 128 bits e 256 bits. Também pode definir os seus próprios usando o atributo `@vector(N)`.
 
-### Vetores Inteiros
-- `i32x4`, `u32x4`, `i32x8`, `u32x8`.
-- `i64x2`, `u64x2`, `i64x4`, `u64x4`.
+### Vetores de 128 bits (SSE / NEON)
 
-## Métodos (Comuns a todos os tipos)
+| Tipo | Tipo de Elemento | Canais | Tamanho em Bytes |
+| :--- | :--- | :--- | :--- |
+| `f32x4` | `f32` | 4 | 16 |
+| `f64x2` | `f64` | 2 | 16 |
+| `i32x4` | `i32` | 4 | 16 |
+| `u32x4` | `u32` | 4 | 16 |
+| `i64x2` | `i64` | 2 | 16 |
+| `u64x2` | `u64` | 2 | 16 |
+| `i16x8` | `i16` | 8 | 16 |
+| `u16x8` | `u16` | 8 | 16 |
+| `i8x16` | `i8` | 16 | 16 |
+| `u8x16` | `u8` | 16 | 16 |
 
-### Construção
+### Vetores de 256 bits (AVX / AVX2)
 
-| Método | Assinatura | Descrição |
+| Tipo | Tipo de Elemento | Canais | Tamanho em Bytes |
+| :--- | :--- | :--- | :--- |
+| `f32x8` | `f32` | 8 | 32 |
+| `f64x4` | `f64` | 4 | 32 |
+| `i32x8` | `i32` | 8 | 32 |
+| `u32x8` | `u32` | 8 | 32 |
+| `i64x4` | `i64` | 4 | 32 |
+| `u64x4` | `u64` | 4 | 32 |
+| `i16x16` | `i16` | 16 | 32 |
+| `u16x16` | `u16` | 16 | 32 |
+| `i8x32` | `i8` | 32 | 32 |
+| `u8x32` | `u8` | 32 | 32 |
+
+## Operações
+
+| Categoria | Operador | Descrição |
 | :--- | :--- | :--- |
-| **new** | `Type::new(...args) -> Vector` | Cria um vetor a partir de componentes individuais. |
-| **splat**| `Type::splat(val) -> Vector` | Cria um vetor onde todos os elementos são preenchidos com `val`. |
-| **load** | `Type::load(ptr: T*) -> Vector` | Carrega um vetor da memória. O ponteiro deve estar alinhado. |
-
-### Operações Aritméticas
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **add** | `add(self, other: Vector) -> Vector` | Adição elemento a elemento. |
-| **sub** | `sub(self, other: Vector) -> Vector` | Subtração elemento a elemento. |
-| **mul** | `mul(self, other: Vector) -> Vector` | Multiplicação elemento a elemento. |
-| **div** | `div(self, other: Vector) -> Vector` | Divisão elemento a elemento. |
-
-### Operações Horizontais
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **sum** | `sum(self) -> T` | Retorna a soma de todos os elementos no vetor. |
-走
+| **Aritmética** | `+`, `-`, `*`, `/` | Adição, subtração, multiplicação e divisão padrão por elemento. |
+| **Bitwise** | `&`, `\|`, `^`, `~` | AND, OR, XOR e NOT bitwise em todos os canais. |
+| **Indexação** | `[i]` | Acede ou modifica canais individuais por índice. |
+| **Comparação** | `==`, `!=`, `<`, `>` | Retorna um vetor de máscara booleana (os resultados variam por backend). |

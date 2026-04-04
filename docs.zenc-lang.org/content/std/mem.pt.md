@@ -4,13 +4,14 @@ title = "std/mem"
 
 # std/mem
 
-O módulo `std/mem` fornece utilitários de baixo nível para manipulação de memória e gerenciamento manual do ciclo de vida de objetos.
+O módulo `std/mem` fornece utilitários principais de gestão de memória, incluindo funções de alocação manual, traits de ciclo de vida padrão e implementações de ponteiros inteligentes.
 
 ## Visão Geral
 
-- **Alocação Manual**: Funções para alocar e libertar memória no heap (`malloc`, `free`).
-- **Cópia e Preenchimento**: Utilitários para grandes operações em blocos de memória (`copy`, `set`).
-- **Informação de Tipos**: Utilitários para obter o tamanho de tipos em tempo de compilação.
+- **Alocação Manual**: Coberturas em torno de `malloc`, `calloc`, e `free` com assinaturas tipadas.
+- **Traits**: Define os principais traits de ciclo de vida: `Drop` (destrutores), `Clone` (cópias profundas), e `Copy` (cópias implícitas).
+- **Ponteiros Inteligentes**: Inclui `Box<T>` para dados alocados no heap com limpeza automática (RAII).
+- **Utilitários de Buffer**: Funções de alto nível para trocar, zerar e copiar memória.
 
 ## Uso
 
@@ -19,13 +20,16 @@ import "std/mem.zc"
 
 fn main() {
     // Alocação manual
-    let ptr = Mem::alloc(1024);
+    let ptr = alloc<int>();
+    *ptr = 42;
+    free(ptr);
     
-    // Definir memória como zero
-    Mem::zero(ptr, 1024);
-    
-    // Liberação manual
-    Mem::free(ptr);
+    // Limpeza automática com Box (RAII)
+    {
+        let b = Box<int>::new();
+        *b.get() = 100;
+        // memória é libertada automaticamente aqui
+    }
 }
 ```
 
@@ -35,29 +39,42 @@ fn main() {
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **alloc** | `Mem::alloc(size: usize) -> void*` | Aloca `size` bytes no heap. |
-| **calloc** | `Mem::calloc(num: usize, size: usize) -> void*` | Aloca memória inicializada a zero. |
-| **realloc** | `Mem::realloc(ptr: void*, size: usize) -> void*` | Redimensiona um bloco de memória previamente alocado. |
-| **free** | `Mem::free(ptr: void*)` | Liberta um bloco de memória no heap. |
+| **alloc\<T>**| `alloc<T>() -> T*` | Aloca memória para uma única instância de `T`. |
+| **zalloc\<T>**| `zalloc<T>() -> T*` | Aloca memória inicializada com zero para uma única instância de `T`. |
+| **alloc_n\<T>**| `alloc_n<T>(n: usize) -> T*` | Aloca memória para um array de `n` instâncias de `T`. |
 
-### Operações em Blocos
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **copy** | `Mem::copy(dest: void*, src: void*, size: usize)` | Copia `size` bytes da origem para o destino. |
-| **move** | `Mem::move(dest: void*, src: void*, size: usize)` | Semelhante ao copy, mas suporta áreas sobrepostas. |
-| **set** | `Mem::set(ptr: void*, val: int, size: usize)` | Preenche o bloco com o byte `val`. |
-| **zero** | `Mem::zero(ptr: void*, size: usize)` | Preenche o bloco com zeros. |
-
-### Utilitários de Tipo
+### Operações
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **size_of** | `size_of(type T) -> usize` | Macro que retorna o tamanho do tipo `T` em bytes. |
-| **align_of**| `align_of(type T) -> usize` | Macro que retorna o requisito de alinhamento do tipo `T`. |
+| **mem_zero\<T>**| `mem_zero<T>(ptr: T*, count: usize)` | Define a memória para `count` instâncias de `T` como zero. |
+| **mem_copy\<T>**| `mem_copy<T>(dst: T*, src: T*, count: usize)`| Copia `count` instâncias de `T` de `src` para `dst`. |
+| **swap\<T>** | `swap<T>(a: T*, b: T*)` | Troca os valores entre dois locais de memória. |
 
-## Segurança
+## Traits
 
-> [!CAUTION]
-> As funções neste módulo são inerentemente inseguras. Um uso incorreto pode causar fugas de memória (leaks), dangling pointers ou erros de segmentação. Sempre que possível, utilize tipos seguros como `Vec` ou `Arena`.
-走
+| Trait | Método | Assinatura | Descrição |
+| :--- | :--- | :--- | :--- |
+| **Drop** | **drop** | `drop(self)` | Destrutor chamado quando o objeto sai do escopo. |
+| **Clone** | **clone** | `clone(self) -> Self` | Cria uma cópia profunda do objeto. |
+| **Copy** | *(Marcador)* | N/A | Indica que o tipo deve usar cópias implícitas em vez de movimentos. |
+
+## Definição da Estrutura: `Box<T>`
+
+Um ponteiro inteligente RAII simples para gerir memória do heap.
+
+```zc
+struct Box<T> {
+    ptr: T*;
+}
+```
+
+### Métodos `Box`
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **new** | `Box::new() -> Box<T>` | Aloca uma nova instância gerida pelo heap. |
+| **from_ptr** | `Box::from_ptr(p: T*) -> Box<T>` | Cria um `Box` que assume a titularidade de um ponteiro existente. |
+| **get** | `get(self) -> T*` | Retorna o ponteiro interno bruto. |
+| **free** | `free(self)` | Liberta manualmente a memória subjacente. |
+| **Trait** | `impl Drop for Box<T>` | Chama automaticamente `free()` quando o box sai do escopo. |

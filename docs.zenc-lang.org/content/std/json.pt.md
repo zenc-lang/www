@@ -4,14 +4,14 @@ title = "std/json"
 
 # std/json
 
-O módulo `std/json` fornece uma interface poderosa e fácil de usar para trabalhar com dados no formato JSON (JavaScript Object Notation). Suporta parsing, geração e manipulação de tipos JSON através de uma API estruturada.
+O módulo `std/json` fornece uma implementação de parser e construtor JSON estilo DOM para Zen-C. Apresenta uma API simples para criar, manipular e serializar dados JSON com gestão automática de memória.
 
 ## Visão Geral
 
-- **Parsing**: Converte uma string JSON numa árvore de objetos `JsonValue`.
-- **Geração**: Converte objetos `JsonValue` de volta para strings JSON.
-- **Tipagem Segura**: Suporte para todos os tipos JSON (String, Number, Object, Array, Boolean, Null).
-- **RAII**: Gerencia automaticamente a memória de toda a árvore JSON através do trait `Drop`.
+- **Estilo DOM**: Estrutura de árvore hierárquica de nós `JsonValue`.
+- **Acessores Tipados**: Verifica tipos (`is_string`, `is_number`) e desembrulha valores com segurança.
+- **Limpeza Automática**: Implementa o trait `Drop` para gestão de memória automática e recursiva.
+- **Conformidade com Padrões**: Suporta tipos JSON padrão, incluindo objetos, arrays, strings, números, booleanos e nulo.
 
 ## Uso
 
@@ -19,60 +19,89 @@ O módulo `std/json` fornece uma interface poderosa e fácil de usar para trabal
 import "std/json.zc"
 
 fn main() {
-    let raw = "{\"id\": 1, \"name\": \"Zen\", \"tags\": [\"lang\", \"c\"]}";
+    // Construir JSON
+    let obj = JsonValue::object();
+    obj.set("name", JsonValue::string("Alice"));
+    obj.set("age", JsonValue::number(30.0));
+    obj.set("active", JsonValue::bool(true));
+    
+    // Serialização
+    let json_str = obj.to_string();
+    println "Serializado: {json_str}";
     
     // Parsing
-    match Json::parse(raw) {
-        Ok(v) => {
-            println "ID: {v.get(\"id\").as_int()}";
-            println "Nome: {v.get(\"name\").as_string().c_str()}";
+    let input = "{\"score\": 100}";
+    match JsonValue::parse(input) {
+        Ok(parsed) => {
+            println "Pontuação: {parsed.get(\"score\").unwrap().as_int().unwrap()}";
+            // parsed é libertado automaticamente quando este bloco termina
         }
-        Err(e) => println "Erro no parsing: {e}"
+        Err(e) => println "Erro: {e}"
     }
-} // A árvore JSON é libertada automaticamente aqui
+} // obj é libertado automaticamente aqui
 ```
 
-## Tipo `JsonValue`
-
-O tipo central que representa qualquer valor JSON.
-
-### Extração de Valores
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **as_int** | `as_int(self) -> int` | Retorna o valor como inteiro. |
-| **as_string** | `as_string(self) -> String` | Retorna o valor como uma `String`. |
-| **as_bool** | `as_bool(self) -> bool` | Retorna o valor como booleano. |
-| **at** | `at(self, index: usize) -> JsonValue*` | Acede a um elemento de um array por índice. |
-| **get** | `get(self, key: char*) -> JsonValue*` | Acede a um valor de um objeto por chave. |
-
-### Verificação de Tipos
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **is_object** | `is_object(self) -> bool` | Retorna true se for um Objeto. |
-| **is_array** | `is_array(self) -> bool` | Retorna true se for um Array. |
-| **is_null** | `is_null(self) -> bool` | Retorna true se for Null. |
-
-## Métodos de `Json` (Geração e Parsing)
-
-| Método | Assinatura | Descrição |
-| :--- | :--- | :--- |
-| **parse** | `Json::parse(s: char*) -> Result<JsonValue>` | Faz o parsing de uma string JSON. |
-| **stringify**| `Json::stringify(v: JsonValue*) -> String` | Converte um `JsonValue` para uma string. |
-
-## Construção Programática
+## Definição da Estrutura
 
 ```zc
-let obj = JsonValue::new_object();
-obj.set("servidor", JsonValue::new_string("ativo"));
-obj.set("porta", JsonValue::new_int(8080));
+struct JsonValue {
+    kind: JsonType;
+    // ... campos internos
+}
 ```
 
-## Gerenciamento de Memória
+## Métodos
+
+### Construção
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **free** | `free(self)` | Liberta manualmente a memória de um `JsonValue` e de todos os seus filhos. |
-| **Trait** | `impl Drop for JsonValue` | Chama automaticamente `free()` quando o objeto sai do escopo. |
-走
+| **null** | `JsonValue::null() -> JsonValue` | Cria um valor nulo. |
+| **bool** | `JsonValue::bool(b: bool) -> JsonValue` | Cria um valor booleano. |
+| **number** | `JsonValue::number(n: double) -> JsonValue` | Cria um valor numérico. |
+| **string** | `JsonValue::string(s: char*) -> JsonValue` | Cria um valor de string. |
+| **array** | `JsonValue::array() -> JsonValue` | Cria um array JSON vazio. |
+| **object** | `JsonValue::object() -> JsonValue` | Cria um objeto JSON vazio. |
+
+### Parsing
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **parse** | `JsonValue::parse(json: char*) -> Result<JsonValue*>` | Faz o parse de uma string JSON para uma árvore alocada no heap. |
+
+### Acessores
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **is_null** | `is_null(self) -> bool` | Retorna verdadeiro se o tipo for nulo. |
+| **is_bool** | `is_bool(self) -> bool` | Retorna verdadeiro se o tipo for booleano. |
+| **is_number** | `is_number(self) -> bool` | Retorna verdadeiro se o tipo for um número. |
+| **is_string** | `is_string(self) -> bool` | Retorna verdadeiro se o tipo for uma string. |
+| **is_array** | `is_array(self) -> bool` | Retorna verdadeiro se o tipo for um array. |
+| **is_object** | `is_object(self) -> bool` | Retorna verdadeiro se o tipo for um objeto. |
+| **as_string** | `as_string(self) -> Option<char*>` | Retorna o ponteiro da string se aplicável. |
+| **as_int** | `as_int(self) -> Option<int>` | Retorna o valor inteiro se aplicável. |
+| **as_float** | `as_float(self) -> Option<double>` | Retorna o valor numérico se aplicável. |
+| **as_bool** | `as_bool(self) -> Option<bool>` | Retorna o valor booleano se aplicável. |
+
+### Modificação
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **push** | `push(self, val: JsonValue)` | Adiciona um valor filho a um array JSON. |
+| **set** | `set(self, key: char*, val: JsonValue)` | Insere ou atualiza um par chave-valor num objeto JSON. |
+| **get** | `get(self, key: char*) -> Option<JsonValue*>` | Recupera um valor filho de um objeto pela chave. |
+| **at** | `at(self, index: usize) -> Option<JsonValue*>` | Recupera um valor filho de um array pelo índice. |
+
+### Serialização
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **to_string** | `to_string(self) -> String` | Retorna uma string JSON serializada. |
+
+## Gestão de Memória
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **free** | `free(self)` | Liberta recursivamente o valor e todos os nós descendentes. |
+| **Trait** | `impl Drop for JsonValue` | Aciona automaticamente o `free()` recursivo quando sai do escopo. |

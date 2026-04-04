@@ -8,10 +8,10 @@ title = "std/bigfloat"
 
 ## Panoramica
 
-- **Precisione Arbitraria**: Supporta numeri decimali di qualsiasi dimensione, limitati solo dalla memoria.
-- **Rappresentazione Scalata**: Utilizza una magnitudo `BigInt` e un `scale` intero per rappresentare i valori decimali.
+- **Precisione Arbitraria**: Supporta numeri decimali di qualsiasi dimensione, limitata solo dalla memoria.
+- **Rappresentazione Scalata**: Utilizza una magnitudo `BigInt` e una `scale` intera per rappresentare i valori decimali.
 - **Controllo della Precisione**: Allinea facilmente le scale per addizioni e sottrazioni precise.
-- **RAII**: La memoria per la magnitudo sottostante è gestita automaticamente tramite il tratto `Drop`.
+- **RAII**: La memoria per la magnitudo sottostante è gestita automaticamente tramite il trait `Drop`.
 
 ## Utilizzo
 
@@ -33,7 +33,7 @@ fn main() {
 } // a, b e sum vengono liberati automaticamente qui
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ```zc
 struct BigFloat {
@@ -69,5 +69,5 @@ struct BigFloat {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **free_mem** | `free_mem(self)` | Libera manualmente la memoria `BigInt` sottostante. |
-| **Tratto** | `impl Drop for BigFloat` | Chiama automaticamente `free_mem()` quando esce dall'ambito. |
+| **free_mem** | `free_mem(self)` | Libera manualmente la memoria del `BigInt` sottostante. |
+| **Trait** | `impl Drop for BigFloat` | Chiama automaticamente `free_mem()` quando esce dallo scope. |

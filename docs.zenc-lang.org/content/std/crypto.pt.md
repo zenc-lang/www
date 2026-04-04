@@ -4,41 +4,47 @@ title = "std/crypto"
 
 # std/crypto
 
-O módulo `std/crypto` fornece uma API de alto nível para algoritmos criptográficos comuns, incluindo hashing e encriptação.
+O módulo `std/crypto` fornece primitivas criptográficas e algoritmos de hashing.
 
-## Uso
+## SHA1 (`std/crypto/sha1.zc`)
+
+Implementação do algoritmo de hashing SHA1.
+
+### Uso
+
+```zc
+import "std/crypto/sha1.zc"
+
+fn main() {
+    let data = "Hello";
+    let digest = Sha1::hash((u8*)data, 5);
+    // digest.bytes é u8[20]
+}
+```
+
+### Métodos
+
+| Método | Assinatura | Descrição |
+| :--- | :--- | :--- |
+| **hash** | `Sha1::hash(data: u8*, len: usize) -> Sha1` | Calcula o hash SHA1 dos dados fornecidos. |
+
+## SHA256 (`std/crypto/sha256.zc`)
+
+Implementação do moderno algoritmo de hashing SHA-256 (FIPS 180-4).
+
+### Uso
 
 ```zc
 import "std/crypto/sha256.zc"
 
 fn main() {
     let hash = Sha256::hash("hello world");
-    println "SHA-256: {hash}";
+    // hash é uma string hexadecimal
 }
 ```
 
-## Submódulos
-
-O `std/crypto` está organizado em submódulos específicos para cada algoritmo:
-
-- **std/crypto/sha256.zc**: Algoritmo de hash SHA-256.
-- **std/crypto/aes.zc**: Encriptação AES (Advanced Encryption Standard).
-- **std/crypto/rand.zc**: Gerador de números aleatórios criptograficamente seguro.
-
-## Tipos e Interfaces
-
-Muitos submódulos de criptografia seguem um padrão comum para processamento incremental de dados:
-
-### Interface de Hashing (Exemplo: Sha256)
+### Métodos
 
 | Método | Assinatura | Descrição |
 | :--- | :--- | :--- |
-| **new** | `new() -> Context` | Inicializa um novo contexto de hash. |
-| **update** | `update(self, data: u8*, len: usize)` | Adiciona dados ao contexto. |
-| **finalize** | `finalize(self, out: u8*)` | Finaliza o hash e escreve o resultado no buffer de saída. |
-
-## Segurança
-
-> [!WARNING]
-> Certifique-se sempre de utilizar tamanhos de chave e modos de operação recomendados (ex: AES-GCM) para aplicações sensíveis à segurança.
-走
+| **hash** | `Sha256::hash(data: char*) -> String` | Calcula o hash SHA-256 da string fornecida e retorna-o como uma string Hex. |

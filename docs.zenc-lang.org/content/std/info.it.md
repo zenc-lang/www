@@ -4,12 +4,12 @@ title = "std/sys/info"
 
 # std/sys/info
 
-Il modulo `std/sys/info` fornisce utilità per il recupero dell'identificazione e delle informazioni del sistema, avvolgendo `uname` di POSIX.
+Il modulo `std/sys/info` fornisce utilità per il recupero dell'identificazione e delle informazioni di sistema, come wrapper per `uname` di POSIX.
 
 ## Panoramica
 
-- **Identificazione del Sistema**: Accedi al nome del sistema operativo, alla versione del kernel, all'architettura hardware e altro ancora.
-- **Conformità RAII**: La struttura `Uname` gestisce automaticamente la memoria per le sue stringhe interne.
+- **Identificazione del Sistema**: Accesso al nome del sistema operativo, alla versione del kernel, all'architettura hardware e altro ancora.
+- **Conformità RAII**: La struct `Uname` gestisce automaticamente la memoria per le sue stringhe interne.
 
 ## Utilizzo
 
@@ -19,16 +19,16 @@ import "std/io.zc"
 
 fn main() {
     let info = SysInfo::get_uname();
-    println "S.O.: {info.sysname}";
+    println "SO: {info.sysname}";
     println "Kernel: {info.release}";
-    println "Architettura: {info.machine}";
+    println "Arch: {info.machine}";
 }
 ```
 
-## Definizione della Struttura
+## Definizione Struct
 
 ### `Uname`
-Contiene campi di identificazione del sistema.
+Contiene i campi di identificazione del sistema.
 ```zc
 struct Uname {
     sysname: String;
@@ -45,7 +45,7 @@ struct Uname {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **get_uname** | `SysInfo::get_uname() -> Uname` | Restituisce una struttura `Uname` contenente varie stringhe di sistema. |
+| **get_uname** | `SysInfo::get_uname() -> Uname` | Restituisce una struct `Uname` contenente varie stringhe di sistema. |
 
 ## Gestione della Memoria
-- `Uname` implementa `impl Drop` e libererà automaticamente i suoi buffer `String` interni quando esce dall'ambito.
+- `Uname` implementa `impl Drop` e libererà automaticamente i suoi buffer `String` interni quando esce dallo scope.

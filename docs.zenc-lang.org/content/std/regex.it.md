@@ -4,7 +4,7 @@ title = "std/regex"
 
 # std/regex
 
-Il modulo `std/regex` fornisce il supporto alle espressioni regolari basato su `regex.h` di POSIX.
+Il modulo `std/regex` fornisce il supporto per le espressioni regolari basato su `regex.h` di POSIX.
 
 ## Utilizzo
 
@@ -12,17 +12,17 @@ Il modulo `std/regex` fornisce il supporto alle espressioni regolari basato su `
 import "std/regex.zc"
 
 fn main() {
-    if regex_match("^[a-z]+$", "ciao") {
-        println "Corrispondenza trovata!";
+    if regex_match("^[a-z]+$", "hello") {
+        println "Corrisponde!";
     }
     
     let re = Regex::compile("\\d+");
-    let conteggio = re.count("123 abc 456");
+    let count = re.count("123 abc 456");
     re.destroy();
 }
 ```
 
-## Definizioni delle Strutture
+## Definizioni Struct
 
 ### `Regex`
 
@@ -36,7 +36,7 @@ struct Regex {
 
 ### `Match`
 
-Rappresenta una corrispondenza (match) riuscita dell'espressione regolare.
+Rappresenta una corrispondenza regex riuscita.
 
 ```zc
 struct Match {
@@ -48,7 +48,7 @@ struct Match {
 
 ## Metodi
 
-### Costruzione dell'Espressione Regolare
+### Costruzione Regex
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
@@ -60,10 +60,10 @@ struct Match {
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **match** | `match(self, text: char*) -> bool` | Restituisce true se il pattern trova una corrispondenza in qualsiasi punto di `text`. |
+| **match** | `match(self, text: char*) -> bool` | Restituisce true se il pattern corrisponde in qualsiasi punto di `text`. |
 | **find** | `find(self, text: char*) -> Option<Match>` | Restituisce la prima corrispondenza inclusi posizione e lunghezza. |
-| **count** | `count(self, text: char*) -> int` | Restituisce il numero di corrispondenze non sovrapposte. |
-| **split** | `split(self, text: char*) -> Vec<String>` | Suddivide il testo in base al pattern. |
+| **count** | `count(self, text: char*) -> int" | Restituisce il numero di corrispondenze non sovrapposte. |
+| **split** | `split(self, text: char*) -> Vec<String>` | Divide il testo in base al pattern. |
 
 ### Accesso alla Corrispondenza
 
@@ -72,11 +72,11 @@ struct Match {
 | **as_string** | `as_string(self) -> char*` | Restituisce un puntatore all'inizio della corrispondenza. |
 | **end** | `end(self) -> int` | Restituisce l'indice dopo l'ultimo carattere della corrispondenza. |
 
-### Funzioni di Supporto Statiche
+### Funzioni Helper Statiche
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
 | **regex_match** | `regex_match(pattern: char*, text: char*) -> bool` | Controllo rapido per una corrispondenza. |
 | **regex_find** | `regex_find(pattern: char*, text: char*) -> Option<Match>` | Trova la prima corrispondenza. |
 | **regex_count** | `regex_count(pattern: char*, text: char*) -> int` | Conta tutte le corrispondenze. |
-| **regex_split** | `regex_split(pattern: char*, text: char*) -> Vec<String>` | Suddivide il testo in base al pattern. |
+| **regex_split** | `regex_split(pattern: char*, text: char*) -> Vec<String>` | Divide il testo in base al pattern. |

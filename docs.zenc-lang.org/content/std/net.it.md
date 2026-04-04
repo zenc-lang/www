@@ -33,7 +33,7 @@ Fornisce l'handshake e il framing WebSocket lato server.
 
 ### Tipo `Server`
 
-Un semplice server HTTP con capacità multithread.
+Un semplice server HTTP in grado di gestire il multithreading.
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
@@ -60,7 +60,7 @@ Un semplice server HTTP con capacità multithread.
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **bind** | `TcpListener::bind(host: char*, port: int) -> Result<TcpListener>` | Si associa a un indirizzo locale. |
+| **bind** | `TcpListener::bind(host: char*, port: int) -> Result<TcpListener>` | Si lega a un indirizzo locale. |
 | **accept** | `accept(self) -> Result<TcpStream>` | Accetta una nuova connessione. |
 
 ### Tipo `TcpStream`
@@ -69,7 +69,7 @@ Un semplice server HTTP con capacità multithread.
 | :--- | :--- | :--- |
 | **connect** | `TcpStream::connect(host: char*, port: int) -> Result<TcpStream>` | Si connette a un host remoto. |
 | **read** | `read(self, buf: char*, len: usize) -> Result<usize>` | Legge dallo stream. |
-| **write** | `write(self, buf: u8*, len: usize) -> Result<usize>` | Scrive sullo stream. |
+| **write** | `write(self, buf: u8*, len: usize) -> Result<usize>` | Scrive nello stream. |
 
 ## UDP (`std/net/udp.zc`)
 
@@ -77,7 +77,7 @@ Un semplice server HTTP con capacità multithread.
 
 | Metodo | Firma | Descrizione |
 | :--- | :--- | :--- |
-| **bind** | `UdpSocket::bind(host: char*, port: int) -> Result<UdpSocket>` | Si associa a un indirizzo locale. |
+| **bind** | `UdpSocket::bind(host: char*, port: int) -> Result<UdpSocket>` | Si lega a un indirizzo locale. |
 | **recv_from** | `recv_from(self, buf: char*, len: usize) -> Result<UdpRecvResult>` | Riceve dati e informazioni sul mittente. |
 | **send_to** | `send_to(self, buf: char*, len: usize, host: char*, port: int) -> Result<usize>` | Invia dati a una destinazione specifica. |
 
