@@ -57,6 +57,18 @@ jobs:
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" zenc/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/zenc/          
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" cgit-theme/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/cgit-theme/
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" docs.zenc-lang.org/public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/docs.zenc-lang.org/public/
+          
+      - name: Sync and Link Mirror Infrastructure
+        run: |
+          # Sync mirror metadata and scripts
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" mirror/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/mirror/
+          
+          # Link the repository-specific cgitrc to the bare repo
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "ln -sf /var/www/mirror/configs/Zen-C.cgitrc /var/www/git/Zen-C.git/cgitrc"
+          
+          # Ensure scripts are executable
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "chmod +x /var/www/mirror/scripts/*.sh"
+
       - name: Purge Cloudflare Cache
         run: |
           curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \

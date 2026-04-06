@@ -1,5 +1,6 @@
 # Ignore the cgit bare repositories (they are dynamically synced)
 git/
+!mirror/
 
 # Ignore Zola generated static files
 docs.zenc-lang.org/public/
