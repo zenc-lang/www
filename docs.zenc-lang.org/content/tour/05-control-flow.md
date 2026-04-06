@@ -9,11 +9,11 @@ weight = 5
 #### Conditionals
 ```zc
 if x > 10 {
-    print("Large");
+    print "Large";
 } else if x > 5 {
-    print("Medium");
+    print "Medium";
 } else {
-    print("Small");
+    print "Small";
 }
 
 // Ternary

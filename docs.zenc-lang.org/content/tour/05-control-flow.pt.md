@@ -9,11 +9,11 @@ weight = 5
 #### Condicionais
 ```zc
 if x > 10 {
-    print("Large");
+    print "Large";
 } else if x > 5 {
-    print("Medium");
+    print "Medium";
 } else {
-    print("Small");
+    print "Small";
 }
 
 // Condicional Ternária
@@ -40,9 +40,9 @@ match val {
 
 // Desestruturando Enums
 match shape {
-    Shape::Circle(r)   => println "Radius: {r}",
-    Shape::Rect(w, h)  => println "Area: {w*h}",
-    Shape::Point       => println "Point"
+    Shape::Circle(r)   => { println "Radius: {r}" },
+    Shape::Rect(w, h)  => { println "Area: {w*h}" },
+    Shape::Point       => { println "Point" }
 }
 ```
 
