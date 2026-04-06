@@ -1,21 +1,28 @@
 /* ==========================================================================
-   ZEN C - CGIT ADAPTER (ZINC THEME)
+   ZEN C - CGIT ADAPTER (ZEN GARDEN THEME)
    ========================================================================== */
 
 /* 1. IMPORTS & VARIABLES */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Kaisei+Tokumin:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Kaisei+Tokumin:wght@700;800&display=swap');
 
 :root {
-    --bg: #09090b;       
-    --surface: #121214; 
+    /* "Zen Garden" Dark Palette */
+    --bg: #0c0c0b;
+    --surface: #161615;
+    --surface-alt: #1c1c1b;
+    --fg: #e2e8f0;
+    --muted: #94a3b8;
     --border: rgba(255, 255, 255, 0.08);
-    --fg: #e4e4e7;      
-    --muted: #a1a1aa;    
-    --primary: #ffffff;
+    --primary: #f8fafc;
+    --accent: #4ade80;
     
-    /* Syntax Colors */
-    --kwd: #ff7b72; --str: #a5d6ff; --typ: #79c0ff; 
-    --fn:  #d2a8ff; --num: #79c0ff;
+    /* Syntax Colors - Dark Theme */
+    --kwd: #f97316;
+    --str: #a3e635;
+    --typ: #fbbf24;
+    --fn: #38bdf8;
+    --num: #fb7185;
+    --com: #71717a;
     
     /* Fonts */
     --font-ui: 'Inter', -apple-system, sans-serif;
@@ -30,35 +37,41 @@ body {
     font-family: var(--font-ui);
     margin: 0; padding: 0;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; text-decoration: none; transition: color 0.2s; }
-a:hover { color: var(--primary); }
+a { color: inherit; text-decoration: none; transition: all 0.2s; }
+a:hover { color: var(--accent); }
 
 /* Main Container */
 div#cgit {
-    max-width: 1040px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 3rem 2rem;
 }
 
 /* 3. HEADER (The "Navbar") */
 table#header {
     width: 100%;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 1.5rem;
+    padding-bottom: 2rem;
 }
-table#header td.logo { display: none; } /* Hide default image logo slot */
+table#header td.logo { display: none; } 
 table#header td.main {
     font-family: var(--font-brand);
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2.5rem;
+    font-weight: 800;
     color: var(--primary);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
 }
 table#header td.main a { color: var(--primary); }
+table#header td.sub {
+    color: var(--muted);
+    font-size: 1rem;
+    padding-top: 0.5rem;
+}
 
 /* Search & Dropdowns */
 table#header form { display: inline-block; margin-left: auto; }
@@ -66,118 +79,145 @@ select, input {
     background: #000;
     border: 1px solid var(--border);
     color: var(--fg);
-    padding: 6px 10px;
-    border-radius: 4px;
+    padding: 8px 14px;
+    border-radius: 8px;
     font-family: var(--font-ui);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    outline: none;
 }
+select:focus, input:focus { border-color: var(--accent); }
 
 /* 4. TABS (Summary, Log, Tree) */
 table.tabs {
     border-bottom: 1px solid var(--border);
     border-collapse: collapse;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     width: 100%;
 }
-table.tabs td { padding: 10px 20px; font-size: 0.9rem; font-weight: 500; }
+table.tabs td { padding: 12px 24px; font-size: 0.95rem; font-weight: 500; }
 table.tabs td a { color: var(--muted); }
 table.tabs td a.active { 
-    color: var(--primary); 
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 8px;
+    color: var(--accent); 
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 10px;
 }
 table.tabs td.form { text-align: right; }
 
-/* 5. FILE BROWSER (The "Content" Table) */
+/* 5. REPO LIST & CONTENT TABLES */
 div.content { margin-top: 1rem; }
 
 table.list {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 6px; 
+    border-radius: 12px; 
     overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
 }
 
 /* Header Row */
 table.list th {
     text-align: left;
-    background: #18181b;
-    padding: 12px 16px;
+    background: var(--surface-alt);
+    padding: 14px 20px;
     font-weight: 600;
     color: var(--muted);
     text-transform: uppercase;
     font-size: 0.75rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     border-bottom: 1px solid var(--border);
 }
 table.list th a { color: var(--muted); }
 
 /* Rows */
 table.list td {
-    padding: 10px 16px;
+    padding: 12px 20px;
     border-bottom: 1px solid var(--border);
     color: var(--fg);
 }
 table.list tr:last-child td { border-bottom: none; }
-table.list tr:hover { background: rgba(255,255,255,0.02); }
+table.list tr:hover { background: rgba(255,255,255,0.03); }
 table.list tr.nohover:hover { background: none; }
 
 /* Mode & Links */
-table.list td.mode { color: #52525b; }
-table.list td a { color: var(--fg); font-weight: 500; }
-table.list td a[href$="/"] { color: var(--typ); } /* Folders Blue */
+table.list td.mode { color: var(--muted); opacity: 0.6; }
+table.list td a { color: var(--primary); font-weight: 500; }
+table.list td a:hover { color: var(--accent); }
+table.list td a[href$="/"] { color: var(--fn); } /* Folders Blue-ish */
 
-/* 6. COMMIT LOG */
+/* 6. COMMIT INFO */
 table.commit-info {
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    padding: 20px;
-    border-radius: 6px;
+    padding: 24px;
+    border-radius: 12px;
+    border-collapse: separate;
 }
-div.commit-subject { font-size: 1.1rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; }
-div.commit-msg { color: var(--muted); font-family: var(--font-mono); font-size: 0.9rem; white-space: pre-wrap; }
+div.commit-subject { font-size: 1.25rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem; }
+div.commit-msg { color: var(--muted); font-family: var(--font-mono); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6; }
 
-/* 7. CODE VIEW (Syntax Highlighting) */
+/* 7. BLOB VIEW (Terminal Aesthetic) */
 table.blob {
     width: 100%;
     font-family: var(--font-mono);
-    font-size: 0.85rem;
-    margin-top: 1rem;
-    background: #050505; 
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+    background: #0d0d0c; 
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 12px;
+    border-collapse: separate;
+    overflow: hidden;
 }
 table.blob td.linenumbers {
     border-right: 1px solid var(--border);
-    padding: 10px;
+    padding: 12px 18px;
     text-align: right;
-    color: #3f3f46;
-    background: #09090b;
+    color: #4b5563;
+    background: rgba(255,255,255,0.02);
     user-select: none;
+    width: 40px;
 }
-table.blob td.linenumbers a { color: #3f3f46; }
-table.blob td.lines { padding: 10px 20px; color: var(--fg); }
+table.blob td.linenumbers a { color: inherit; }
+table.blob td.lines { padding: 12px 24px; color: var(--fg); line-height: 1.6; }
 
-/* Highlight Classes */
-.hl.k { color: var(--kwd); font-weight: bold; }
+/* Highlight Classes (Match Website) */
+.hl.k { color: var(--kwd); font-weight: 600; }
 .hl.s { color: var(--str); }
-.hl.c { color: #52525b; font-style: italic; }
+.hl.c { color: var(--com); font-style: italic; }
 .hl.t { color: var(--typ); }
 .hl.n { color: var(--num); }
 .hl.f { color: var(--fn); }
 
 /* 8. FOOTER */
 div.footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
+    margin-top: 5rem;
+    padding: 3rem 0;
     border-top: 1px solid var(--border);
     text-align: center;
     color: var(--muted);
-    font-size: 0.75rem;
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+/* 9. DECORATIONS */
+/* Add window circles to the top of the main container */
+div#cgit::before {
+    content: "";
+    display: block;
+    margin-bottom: 2rem;
+    width: 44px;
+    height: 10px;
+    background: radial-gradient(circle, #ff5f56 4px, transparent 5px),
+                radial-gradient(circle, #ffbd2e 4px, transparent 5px),
+                radial-gradient(circle, #27c93f 4px, transparent 5px);
+    background-size: 14px 10px;
+    background-position: 0 0, 16px 0, 32px 0;
+    background-repeat: no-repeat;
+    opacity: 0.8;
 }

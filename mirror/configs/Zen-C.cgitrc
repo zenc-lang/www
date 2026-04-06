@@ -1,3 +1,14 @@
-name=Zen C
-desc=Official self-hosted mirror for Zen C
-owner=z-libs
+# Zen C Mirror Configuration
+repo.url=Zen-C
+repo.path=/var/www/git/Zen-C.git
+repo.desc=Official Zen C source code mirror (self-hosted)
+repo.owner=z-libs
+
+# Theme integration
+css=/cgit-theme/style.css
+logo=/zenc/zibi.svg
+favicon=/favicon.ico
+
+# Mirror settings
+repo.branch=main
+repo.readme=main:README.md

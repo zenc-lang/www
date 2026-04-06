@@ -66,6 +66,9 @@ jobs:
           # Link the repository-specific cgitrc to the bare repo
           ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "ln -sf /var/www/mirror/configs/Zen-C.cgitrc /var/www/git/Zen-C.git/cgitrc"
           
+          # Update the git description file in the bare repo (to fix the 'Unnamed repository' text)
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo 'Official Zen C source code mirror (self-hosted)' > /var/www/git/Zen-C.git/description"
+
           # Ensure scripts are executable
           ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "chmod +x /var/www/mirror/scripts/*.sh"
 
