@@ -14,3 +14,5 @@ docs.zenc-lang.org/public/
 # Ignore generated sponsors data
 docs.zenc-lang.org/static/data/sponsors.json
 zenc/sponsors.json
+
+zola
