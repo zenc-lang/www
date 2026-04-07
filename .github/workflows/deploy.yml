@@ -62,6 +62,11 @@ jobs:
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" cgit-theme/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/cgit-theme/
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" docs.zenc-lang.org/public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/docs.zenc-lang.org/public/
           
+      - name: Restart Backend Services
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo systemctl restart playground-api"
+
+          
       - name: Sync and Link Mirror Infrastructure
         run: |
           # Sync mirror metadata and scripts
