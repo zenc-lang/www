@@ -370,6 +370,13 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ code })
                     });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        output.innerText += `\n[Server Error ${response.status}]: ${errorText}\n`;
+                        return;
+                    }
+
                     const data = await response.json();
 
                     if (data.error && data.error !== "") {
