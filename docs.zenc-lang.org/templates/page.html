@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-{{ page.content | safe }}
 
 {% set txt_prev = "Previous" %}
 {% set txt_next = "Next" %}
@@ -11,6 +10,72 @@
 {% if lang == "ru" %}{% set txt_prev = "Назад" %}{% set txt_next = "Далее" %}{% endif %}
 {% if lang == "zh-cn" %}{% set txt_prev = "上一页" %}{% set txt_next = "下一页" %}{% endif %}
 {% if lang == "zh-tw" %}{% set txt_prev = "上一頁" %}{% set txt_next = "下一頁" %}{% endif %}
+
+{% if current_path and '/tour/' in current_path %}
+<!-- INTERACTIVE TOUR SPLIT PANE -->
+<div class="tour-layout"
+    style="display: flex; flex: 1; height: 100%; gap: 2rem; overflow: hidden; margin: -1.5rem -2rem; padding: 1.5rem 2rem;">
+    <!-- LEFT PANE: LESSON TEXT -->
+    <div class="tour-text-content" style="flex: 1; overflow-y: auto; padding-right: 1.5rem; max-width: 50%;">
+        {{ page.content | safe }}
+
+        <div class="page-navigation"
+            style="display: flex; justify-content: space-between; margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 2rem; padding-bottom: 2rem;">
+            {% if page.lower %}
+            <a href="{{ page.lower.permalink }}" class="nav-prev"
+                style="text-decoration: none; color: var(--primary); font-weight: 500;">
+                ← {{ txt_prev }}: <span style="color: var(--muted); font-weight: normal;">{{ page.lower.title }}</span>
+            </a>
+            {% else %}<div></div>{% endif %}
+
+            {% if page.higher %}
+            <a href="{{ page.higher.permalink }}" class="nav-next"
+                style="text-decoration: none; color: var(--primary); font-weight: 500;">
+                {{ txt_next }}: <span style="color: var(--muted); font-weight: normal;">{{ page.higher.title }}</span> →
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- RIGHT PANE: INTERACTIVE PLAYGROUND -->
+    <div class="tour-playground-pane"
+        style="flex: 1; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface);">
+        <div id="editor-wrapper"
+            style="flex: 1; display: flex; flex-direction: column; border-bottom: 1px solid var(--border);">
+            <div class="zen-panel-header"
+                style="display: flex; align-items: center; justify-content: space-between; height: 48px; min-height: 48px; flex-shrink: 0; padding: 0 20px; border-bottom: 1px solid var(--border); background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(180, 170, 150, 0.05) 10px, rgba(180, 170, 150, 0.05) 11px);">
+                <button class="ui-btn run-btn" id="run-btn"
+                    style="background: transparent; color: var(--muted); border: 1px solid transparent; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s;">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                        <path d="M8 5v14l11-7z" />
+                    </svg> Run Code
+                </button>
+            </div>
+            <div id="editor-container" style="flex: 1; position: relative; padding-top: 5px;"></div>
+        </div>
+
+        <div id="terminal-wrapper" style="height: 35%; display: flex; flex-direction: column;">
+            <div class="zen-panel-header"
+                style="display: flex; align-items: center; justify-content: space-between; height: 48px; min-height: 48px; flex-shrink: 0; padding: 0 20px; border-bottom: 1px solid var(--border); background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(180, 170, 150, 0.05) 10px, rgba(180, 170, 150, 0.05) 11px);">
+                <span
+                    style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; font-weight: 600;">OUTPUT</span>
+                <button id="clear-terminal" class="ui-btn"
+                    style="padding: 4px 8px; background: transparent; color: var(--muted); border: none; font-size: 0.85rem;">Clear</button>
+            </div>
+            <div class="terminal-output" id="output"
+                style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; padding: 1.5rem; color: var(--fg); overflow-y: auto; flex: 1; line-height: 1.5; white-space: pre-wrap;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Monaco and Tour Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+<script src="/js/interactive_tour.js"></script>
+
+{% else %}
+<!-- STANDARD DOCUMENTATION FORMAT -->
+{{ page.content | safe }}
 
 <div class="page-navigation"
     style="display: flex; justify-content: space-between; margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 2rem;">
@@ -30,4 +95,6 @@
     </a>
     {% endif %}
 </div>
+{% endif %}
+
 {% endblock content %}
