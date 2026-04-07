@@ -439,15 +439,6 @@
             width: 100%;
         }
 
-        .doc-content.tour-mode {
-            max-width: 100%;
-            padding: 1.5rem 2rem;
-            height: calc(100vh - 60px);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
         /* Typography for Docs */
         .doc-content h1 {
             font-size: 2.5rem;
@@ -1318,7 +1309,7 @@
 
         </aside>
 
-        <main class="doc-content {% if current_path and '/tour/' in current_path %}tour-mode{% endif %}">
+        <main class="doc-content">
             {% block content %}
             {{ section.content | default(value=page.content) | safe }}
             {% endblock content %}
