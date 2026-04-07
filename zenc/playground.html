@@ -143,9 +143,18 @@
             gap: 0;
         }
 
-        #editor-wrapper {
+        #right-column {
             flex: 1;
-            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #editor-wrapper {
+            flex: 2;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
         }
 
         #editor-container {
@@ -162,11 +171,10 @@
         }
 
         #terminal-wrapper {
-            width: 35%;
-            min-width: 400px;
-            max-width: 600px;
+            flex: 1;
             display: flex;
             flex-direction: column;
+            background: var(--surface);
         }
 
         .terminal-output {
@@ -182,14 +190,21 @@
             z-index: 10;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
             .playground-container {
                 flex-direction: column;
             }
 
-            #terminal-wrapper {
-                width: 100%;
+            #tutorial-sidebar {
+                width: 100% !important;
                 height: 300px;
+                border-right: none !important;
+                border-bottom: 1px solid var(--border);
+            }
+
+            #terminal-wrapper {
+                height: 250px;
+                flex: none;
             }
         }
     </style>
@@ -229,55 +244,89 @@
         </div>
     </header>
 
-    <main class="playground-main">
-        <div class="playground-container">
-            <div id="editor-wrapper" class="zen-panel">
-                <div class="zen-panel-header">
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <button class="ui-btn run-btn" id="run-btn">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                            Run Code
-                        </button>
+    <main class="playground-main" style="padding: 0; display: flex; flex-direction: column;">
+        <div class="playground-container" style="flex: 1; display: flex;">
 
-                        <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;"></div>
-
-                        <button id="copy-btn" class="ui-btn">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                            Copy
-                        </button>
-
-                        <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;"></div>
-
-                        <select id="examples-select" class="ui-select"
-                            style="max-width: 200px; text-overflow: ellipsis;">
-                        </select>
-                    </div>
-                </div>
-                <div id="editor-container" style="padding-top: 5px;"></div>
-            </div>
-
-            <div id="terminal-wrapper" class="zen-panel">
-                <div class="zen-panel-header">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
+            <!-- LEFT PANE: TUTORIALS -->
+            <div id="tutorial-sidebar" class="zen-panel"
+                style="width: 28%; min-width: 320px; max-width: 400px; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; background: var(--surface);">
+                <div class="zen-panel-header"
+                    style="height: 48px; min-height: 48px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px;">
+                    <span
+                        style="font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--fg); display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
-                            <polyline points="4 17 10 11 4 5"></polyline>
-                            <line x1="12" y1="19" x2="20" y2="19"></line>
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
-                        <span
-                            style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; font-weight: 600;">OUTPUT</span>
-                    </div>
-                    <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
+                        Guided Tutorials
+                    </span>
                 </div>
-                <div class="terminal-output" id="output">Welcome to the Zen C Playground.
-Press 'Run' to compile and execute your code.</div>
+                <div id="tutorial-content"
+                    style="flex: 3; padding: 1.5rem; overflow-y: auto; font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.6; color: var(--fg); border-bottom: 1px solid var(--border);">
+                    <h2 style="margin-top: 0; font-size: 1.25rem;">Welcome to the Playground</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Select a tutorial below to learn the
+                        fundamentals of Zen C right inside your browser.</p>
+                </div>
+                <div id="tutorial-list" style="flex: 2; overflow-y: auto; background: var(--bg);">
+                    <!-- JS fills this -->
+                </div>
             </div>
+
+            <!-- RIGHT COLUMN: EDITOR + OUTPUT -->
+            <div id="right-column">
+                <div id="editor-wrapper" class="zen-panel" style="border-right: none;">
+                    <div class="zen-panel-header">
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="ui-btn run-btn" id="run-btn">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                                Run Code
+                            </button>
+
+                            <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;">
+                            </div>
+
+                            <button id="copy-btn" class="ui-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copy
+                            </button>
+
+                            <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;">
+                            </div>
+
+                            <select id="examples-select" class="ui-select"
+                                style="max-width: 200px; text-overflow: ellipsis;">
+                                <option value="" disabled selected>-- Load Reference Code --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="editor-container" style="padding-top: 5px;"></div>
+                </div>
+
+                <div id="terminal-wrapper" class="zen-panel" style="border-right: none;">
+                    <div class="zen-panel-header">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
+                                stroke-width="2">
+                                <polyline points="4 17 10 11 4 5"></polyline>
+                                <line x1="12" y1="19" x2="20" y2="19"></line>
+                            </svg>
+                            <span
+                                style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; font-weight: 600;">OUTPUT</span>
+                        </div>
+                        <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
+                    </div>
+                    <div class="terminal-output" id="output">Welcome to the Zen C Playground.&#13;&#10;Press 'Run' to
+                        compile and execute your code.</div>
+                </div>
+            </div>
+        </div>
         </div>
     </main>
 
@@ -402,7 +451,7 @@ Press 'Run' to compile and execute your code.</div>
                     examplesData = await resp.json();
 
                     // Clear existing and add new
-                    examplesSelect.innerHTML = '<option value="">-- Select an Example --</option>';
+                    examplesSelect.innerHTML = '<option value="" disabled selected>-- Load Reference Code --</option>';
                     examplesData.forEach((ex, idx) => {
                         const opt = document.createElement('option');
                         opt.value = idx;
@@ -414,10 +463,97 @@ Press 'Run' to compile and execute your code.</div>
                 }
             }
 
+            // Tutorial Data & Hydration
+            const tutorialsData = [
+                {
+                    id: 'hello-world',
+                    title: '1. Hello World',
+                    content: `<h2>Hello World</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Let's get started with Zen C.</p>
+                    <p>Every executable Zen C program must begin with a <code>main</code> function. The syntax is simple and clean.</p>
+                    <p>Unlike standard C, you can use the <code>println</code> builtin macro to automatically print complete strings with a trailing newline, without importing standard IO headers!</p>`,
+                    code: `fn main() {\n    println "Hello, World!";\n}`
+                },
+                {
+                    id: 'variables',
+                    title: '2. Variables & Constants',
+                    content: `<h2>Variables & Constants</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Storage is explicitly defined.</p>
+                    <p>Zen C strictly separates true compile-time constants (<code>def</code>) from runtime memory variables (<code>let</code>).</p>
+                    <p>By default variables are mutable, but you can explicitly mark them <code>const</code> to prevent reassignment. String interpolation is built right into the language using curly braces!</p>`,
+                    code: `def PI = 3.14159;\n\nfn main() {\n    let radius = 10.0;\n    let area = PI * radius * radius;\n    println "Area: {area}";\n}`
+                },
+                {
+                    id: 'control-flow',
+                    title: '3. Control Flow',
+                    content: `<h2>Control Flow</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Branching and iterating seamlessly.</p>
+                    <p>Zen C drops the unnecessary parentheses from <code>if</code> statements and <code>while</code> loops, adopting a much cleaner modern syntax.</p>`,
+                    code: `fn main() {\n    let count = 3;\n    while count > 0 {\n        println "T-minus {count}..";\n        count = count - 1;\n    }\n    if count == 0 {\n        println "Liftoff!";\n    }\n}`
+                },
+                {
+                    id: 'structs',
+                    title: '4. Structs',
+                    content: `<h2>Structs</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Organizing data efficiently.</p>
+                    <p>Structs in Zen C use a modern block syntax. You can initialize them using field-value pairs, making your code highly readable.</p>`,
+                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 10, y: 20 };\n    println "Point: ({p.x}, {p.y})";\n}`
+                },
+                {
+                    id: 'pointers',
+                    title: '5. Pointers',
+                    content: `<h2>Pointers</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Direct memory access.</p>
+                    <p>Zen C provides safe and explicit pointer syntax. Use <code>&</code> to get an address and <code>*</code> to dereference.</p>`,
+                    code: `fn main() {\n    let x = 42;\n    let ptr = &x;\n    println "Value: {*ptr}";\n    \n    *ptr = 100;\n    println "New Value: {x}";\n}`
+                }
+            ];
+
+            const tutorialList = document.getElementById('tutorial-list');
+            const tutorialContent = document.getElementById('tutorial-content');
+
+            function hydrateTutorials(activeEditor) {
+                tutorialList.innerHTML = '';
+                tutorialsData.forEach((tut, idx) => {
+                    const btn = document.createElement('div');
+                    btn.style.cssText = "padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between;";
+                    if (idx === 0) btn.style.borderTop = "1px solid var(--border)";
+
+                    const titleSpan = document.createElement('span');
+                    titleSpan.textContent = tut.title;
+                    btn.appendChild(titleSpan);
+
+                    // Add a tiny 'play' indicator icon
+                    const icon = document.createElement('div');
+                    icon.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+                    icon.style.opacity = "0.3";
+                    btn.appendChild(icon);
+
+                    btn.addEventListener('mouseenter', () => {
+                        btn.style.background = "var(--surface-alt)";
+                        icon.style.opacity = "0.8";
+                        icon.style.color = "var(--primary)";
+                    });
+                    btn.addEventListener('mouseleave', () => {
+                        btn.style.background = "transparent";
+                        icon.style.opacity = "0.3";
+                        icon.style.color = "currentColor";
+                    });
+
+                    btn.addEventListener('click', () => {
+                        tutorialContent.innerHTML = tut.content;
+                        activeEditor.setValue(tut.code);
+                    });
+
+                    tutorialList.appendChild(btn);
+                });
+            }
+
             examplesSelect.addEventListener('change', (e) => {
                 const idx = e.target.value;
                 if (idx !== "" && examplesData[idx]) {
-                    editor.setValue(examplesData[idx].code);
+                    // Update editor if it exists (captured in closure below)
+                    window._globalEditorInstance.setValue(examplesData[idx].code);
                 }
             });
 
@@ -434,6 +570,10 @@ Press 'Run' to compile and execute your code.</div>
                 cursorBlinking: 'smooth',
                 padding: { top: 20 }
             });
+
+            // Hydrate logic
+            window._globalEditorInstance = editor;
+            hydrateTutorials(editor);
 
             const themeToggle = document.getElementById('theme-toggle');
             if (themeToggle) {
