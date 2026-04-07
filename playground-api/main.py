@@ -23,11 +23,28 @@ async def run_code(request: RunRequest):
         # We'll use the user's Docker image: zenc_sandbox
         # Adjusting execution to match the Zen-C compiler flow
         try:
+            # Security Constraints:
+            # - --network none: Disable all network access (prevent botnet/mining)
+            # - --cpus 0.5: Throttle to 50% of CPU time
+            # - -m 128m: Cap RAM at 128 MB (prevents OOMs)
+            # - --pids-limit 64: Prevent fork-bombs
+            # - --read-only: Lock the entire filesystem
+            # - --tmpfs /tmp:rw,nosuid,size=64m: Only allow writes strictly to 64MB of RAM disk (allows executing the compiled binary)
+            # - --cap-drop ALL: Strip all Linux kernel capabilities
+            # - --security-opt no-new-privileges: Stop privilege escalation
             cmd = [
                 "docker", "run", "--rm",
+                "--network", "none",
+                "--cpus", "0.5",
+                "-m", "128m",
+                "--pids-limit", "64",
+                "--read-only",
+                "--tmpfs", "/tmp:rw,nosuid,size=64m",
+                "--cap-drop", "ALL",
+                "--security-opt", "no-new-privileges=true",
                 "-v", f"{zc_file}:/tmp/main.zc:ro",
                 "zenc_sandbox",
-                "sh", "-c", "timeout -s 9 30s zc /tmp/main.zc -o /tmp/main && timeout -s 9 10s /tmp/main"
+                "sh", "-c", "timeout -s 9 10s zc /tmp/main.zc -o /tmp/main && timeout -s 9 5s /tmp/main"
             ]
 
             result = subprocess.run(
