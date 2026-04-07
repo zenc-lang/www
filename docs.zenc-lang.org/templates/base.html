@@ -1172,6 +1172,7 @@
                         trans(key="ui-home", lang=lang) }}</a>
                     <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{{ trans(key="ui-docs", lang=lang)
                         }}</a>
+                    <a href="https://zenc-lang.org/playground.html">{{ trans(key="ui-playground", lang=lang) }}</a>
                     <a href="https://git.zenc-lang.org">{{ trans(key="ui-git", lang=lang) }}</a>
                 </div>
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
@@ -1238,7 +1239,7 @@
 
             {% if lang != "zh-cn" and lang != "zh-tw" %}
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key="search-placeholder",
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder",
                     lang=lang) }}" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>

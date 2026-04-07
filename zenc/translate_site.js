@@ -7,7 +7,7 @@ const rawHtml = fs.readFileSync(srcThemePath, 'utf8');
 const locales = {
     'es': {
         title: "Zen C - Ergonomía Moderna. C Puro.", desc: "Un lenguaje moderno de programación de sistemas que transpila a C11 legible por humanos con cero sobrecarga.",
-        nav: { docs: "Documentación", mirror: "Espejo", interop: "Interop", roadmap: "Hoja de Ruta", newsletter: "Boletín", sponsors: "Patrocinadores" },
+        nav: { docs: "Documentación", playground: "Playground", mirror: "Espejo", interop: "Interop", roadmap: "Hoja de Ruta", newsletter: "Boletín", sponsors: "Patrocinadores" },
         hero: {
             sub: "Ergonomía Moderna.<br>Cero Overhead.<br>C Puro.",
             lead: "Un lenguaje de sistemas con tipado fuerte que trae <strong>coincidencia de patrones</strong>, <strong>traits</strong>, y <strong>semántica de propiedad</strong> al ecosistema C.",
@@ -56,7 +56,7 @@ const locales = {
     },
     'de': {
         title: "Zen C - Moderne Ergonomie. Reines C.", desc: "Moderne Sprache, die kompiliert.",
-        nav: { docs: "Dokumentation", mirror: "Spiegel", interop: "Interop", roadmap: "Roadmap", newsletter: "Newsletter", sponsors: "Sponsoren" },
+        nav: { docs: "Dokumentation", playground: "Spielplatz", mirror: "Spiegel", interop: "Interop", roadmap: "Roadmap", newsletter: "Newsletter", sponsors: "Sponsoren" },
         hero: {
             sub: "Moderne Ergonomie.<br>Null Overhead.<br>Reines C.",
             lead: "Strenge Sprache mit <strong>Pattern Matching</strong>.",
@@ -100,7 +100,7 @@ const locales = {
     },
     'it': {
         title: "Zen C - Ergonomia Moderna.", desc: "Linguaggio di sistema.",
-        nav: { docs: "Documentazione", mirror: "Mirror", interop: "Interop", roadmap: "Roadmap", newsletter: "Newsletter", sponsors: "Sponsor" },
+        nav: { docs: "Documentazione", playground: "Playground", mirror: "Mirror", interop: "Interop", roadmap: "Roadmap", newsletter: "Newsletter", sponsors: "Sponsor" },
         hero: {
             sub: "Ergonomia Moderna.<br>Zero Overhead.<br>Puro C.",
             lead: "Linguaggio con <strong>pattern matching</strong>.",
@@ -144,7 +144,7 @@ const locales = {
     },
     'pt': {
         title: "Zen C - Ergonomia Moderna.", desc: "Linguagem de sistemas.",
-        nav: { docs: "Documentação", mirror: "Espelho", interop: "Interop", roadmap: "Roteiro", newsletter: "Boletim", sponsors: "Patrocinadores" },
+        nav: { docs: "Documentação", playground: "Playground", mirror: "Espelho", interop: "Interop", roadmap: "Roteiro", newsletter: "Boletim", sponsors: "Patrocinadores" },
         hero: {
             sub: "Ergonomia Moderna.<br>Zero Overhead.<br>C Puro.",
             lead: "Linguagem com <strong>pattern matching</strong>.",
@@ -188,7 +188,7 @@ const locales = {
     },
     'ru': {
         title: "Zen C - Эргономика. Чистый C.", desc: "Системный язык.",
-        nav: { docs: "Документация", mirror: "Зеркало", interop: "Взаимодействие", roadmap: "План", newsletter: "Новости", sponsors: "Спонсоры" },
+        nav: { docs: "Документация", playground: "Песочница", mirror: "Зеркало", interop: "Взаимодействие", roadmap: "План", newsletter: "Новости", sponsors: "Спонсоры" },
         hero: {
             sub: "Эргономика.<br>Ноль расходов.<br>Чистый C.",
             lead: "Язык с <strong>сопоставлением с образцом</strong>.",
@@ -232,7 +232,7 @@ const locales = {
     },
     'zh-cn': {
         title: "Zen C - 现代人体工程学。", desc: "现代系统编程语言。",
-        nav: { docs: "文档", mirror: "镜像", interop: "互操作", roadmap: "路线图", newsletter: "通讯", sponsors: "赞助" },
+        nav: { docs: "文档", playground: "演练场", mirror: "镜像", interop: "互操作", roadmap: "路线图", newsletter: "通讯", sponsors: "赞助" },
         hero: {
             sub: "现代工程学。<br>零开销。<br>纯粹的 C。",
             lead: "带有<strong>模式匹配</strong>的系统语言。",
@@ -276,7 +276,7 @@ const locales = {
     },
     'zh-tw': {
         title: "Zen C - 現代人體工學。", desc: "現代系統程式語言。",
-        nav: { docs: "文件", mirror: "鏡像", interop: "互通", roadmap: "路線圖", newsletter: "電子報", sponsors: "贊助" },
+        nav: { docs: "文件", playground: "演練場", mirror: "鏡像", interop: "互通", roadmap: "路線圖", newsletter: "電子報", sponsors: "贊助" },
         hero: {
             sub: "現代工程學。<br>零開銷。<br>純粹的 C。",
             lead: "帶有<strong>模式匹配</strong>的系統語言。",
@@ -324,6 +324,7 @@ const regexes = [
     { eng: /<title>Zen C - Modern Ergonomics\. Pure C\.<\/title>/, key: 'title', tag: '<title>{VAL}</title>' },
     { eng: /content="A modern systems programming language that compiles to human-readable C11 with zero overhead\."/, key: 'desc', tag: 'content="{VAL}"' },
     { eng: /<a href="https:\/\/docs\.zenc-lang\.org\/">Docs<\/a>/g, key: 'nav.docs', tag: '<a href="https://docs.zenc-lang.org/">{VAL}</a>' },
+    { eng: /<a href="\/playground\.html">Playground<\/a>/g, key: 'nav.playground', tag: '<a href="/playground.html">{VAL}</a>' },
     { eng: /<a href="https:\/\/git\.zenc-lang\.org\/">Mirror<\/a>/g, key: 'nav.mirror', tag: '<a href="https://git.zenc-lang.org/">{VAL}</a>' },
     { eng: /<a href="#interop">Interop<\/a>/g, key: 'nav.interop', tag: '<a href="#interop">{VAL}</a>' },
     { eng: /<a href="#roadmap">Roadmap<\/a>/g, key: 'nav.roadmap', tag: '<a href="#roadmap">{VAL}</a>' },
