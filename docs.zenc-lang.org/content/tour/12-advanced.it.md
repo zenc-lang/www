@@ -6,7 +6,9 @@ weight = 12
 # 12. Avanzate e Metaprogrammazione
 
 
-### Metaprogramming
+### Avanzate e Metaprogrammazione
+
+#### 12.1 Metaprogrammazione
 
 #### Comptime
 Esegui codice al momento della compilazione per generare sorgente o stampare messaggi.
@@ -157,7 +159,7 @@ fn fallback_init() { println "Nessun backend selezionato"; }
 
 Più `@cfg` su una dichiarazione vengono combinati con AND. `not()` può essere usato dentro `any()` e `all()`. Funziona con qualsiasi dichiarazione di livello superiore: `fn`, `struct`, `import`, `impl`, `raw`, `def`, `test`, ecc.
 
-### Attributi
+#### 12.2 Attributi
 
 Decora le funzioni e gli struct per modificare il comportamento del compilatore.
 
@@ -207,7 +209,7 @@ Zen C fornisce delle "derivazioni intelligenti" che rispettano le Semantiche di 
     - Quando si confrontano due struct non-Copy (`a == b`), il compilatore passa automaticamente `b` per referenza (`&b`) per non doverlo spostare.
     - I controlli di uguaglianza ricorsivi preferiscono l'accesso da puntatore per prevenire il trasferimento del proprietario.
 
-### Assembly Inline
+#### 12.3 Assembly Inline
 
 Zen C fornisce supporto di prima-classe per l'assembly _inline_, traspilando direttamente ad `asm` con estensioni in stile GCC.
 
@@ -261,7 +263,13 @@ fn aggiungi_cinque(x: int) -> int {
 Quando si usa la sintassi Intel (via `-masm=intel`), dovrai assicurarti che la tua build sia configurata correttamente (per esempio, `//> cflags: -masm=intel`). TCC non supporta la sintassi assembly Intel.
 {% end %}
 
-### Direttive della Build
+#### 12.4 Sistema di Diagnostica
+
+Zen C fornisce un sistema di diagnostica categorizzato che può essere controllato tramite i flag `-W` e `-Wno-`. Questo è utile per gestire gli avvisi relativi alla sicurezza, al codice non utilizzato e all'interoperabilità C.
+
+[Maggiori informazioni sul Sistema di Diagnostica](#15-sistema-di-diagnostica)
+
+#### 12.5 Direttive della Build
 
 Zen C supporta dei commenti speciali all'inizio del tuo file sorgente che ti permettono di configurare il processo di build senza necessitare di un sistema di build complesso o di un *Makefile*.
 
@@ -311,7 +319,7 @@ import "raylib.h"
 fn main() { ... }
 ```
 
-### Keyword
+#### 12.6 Parole Chiave
 
 Le keyword che seguono sono riservate in Zen C.
 

@@ -6,7 +6,9 @@ weight = 12
 # 12. Advanced & Metaprogramming
 
 
-### Metaprogramming
+### Advanced & Metaprogramming
+
+#### 12.1 Metaprogramming
 
 #### Comptime
 Run code at compile-time to generate source or print messages.
@@ -162,7 +164,7 @@ fn fallback_init() { println "No backend selected"; }
 
 Multiple `@cfg` on one declaration are ANDed. `not()` can be used inside `any()` and `all()`. Works on any top-level declaration: `fn`, `struct`, `import`, `impl`, `raw`, `def`, `test`, etc.
 
-### Attributes
+#### 12.2 Attributes
 
 Decorate functions and structs to modify compiler behavior.
 
@@ -213,7 +215,7 @@ Zen C provides "Smart Derives" that respect Move Semantics:
     - When comparing two non-Copy structs (`a == b`), the compiler automatically passes `b` by reference (`&b`) to avoid moving it.
     - Recursive equality checks on fields also prefer pointer access to prevent ownership transfer.
 
-### Inline Assembly
+#### 12.3 Inline Assembly
 
 Zen C provides first-class support for inline assembly, transpiling directly to GCC-style extended `asm`.
 
@@ -261,9 +263,13 @@ fn add_five(x: int) -> int {
 | **Clobber** | `: clobber("rax")` | `"rax"` |
 | **Memory** | `: clobber("memory")` | `"memory"` |
 
-> **Note:** When using Intel syntax (via `-masm=intel`), you must ensure your build is configured correctly (for example, `//> cflags: -masm=intel`). TCC does not support Intel syntax assembly.
+#### 12.4 Diagnostic System
 
-### Build Directives
+Zen C provides a categorized diagnostic system that can be controlled via `-W` and `-Wno-` flags. This is useful for managing warnings related to safety, unused code, and C interop.
+
+[Read more about the Diagnostic System](#15-diagnostics)
+
+#### 12.5 Build Directives
 
 Zen C supports special comments at the top of your source file to configure the build process without needing a complex build system or Makefile.
 
@@ -313,7 +319,7 @@ import "raylib.h"
 fn main() { ... }
 ```
 
-### Keywords
+#### 12.6 Keywords
 
 The following keywords are reserved in Zen C.
 
