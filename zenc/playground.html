@@ -487,49 +487,49 @@
                     content: `<h2>Hello World</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Let's get started with Zen C.</p>
                     <p>Every executable Zen C program must begin with a <code>main</code> function. Unlike standard C, you can use the <code>println</code> builtin macro to print strings with a trailing newline effortlessly.</p>`,
-                    mission: "Change the message from 'Hello, World!' to <b>'Zen C is fast!'</b>",
+                    mission: "Change the message from 'Hello, World!' to <b>'Zenith of C!'</b>",
                     code: `fn main() {\n    println "Hello, World!";\n}`,
-                    validator: (output, code) => output.includes("Zen C is fast!")
+                    validator: (output, code) => output.includes("Zenith of C!")
                 },
                 {
                     id: 'variables',
-                    title: '2. Variables & Constants',
-                    content: `<h2>Variables & Constants</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Storage is explicitly defined.</p>
-                    <p>Zen C strictly separates true compile-time constants (<code>def</code>) from runtime memory variables (<code>let</code>).</p>`,
-                    mission: "Update the <code>radius</code> to <b>20.0</b> and see the area recalculate.",
-                    code: `def PI = 3.14159;\n\nfn main() {\n    let radius = 10.0;\n    let area = PI * radius * radius;\n    println "Area: {area}";\n}`,
-                    validator: (output, code) => code.includes("radius = 20.0") || code.includes("radius = 20")
+                    title: '2. Variables & Geometry',
+                    content: `<h2>Variables & Geometry</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Storage and Calculation.</p>
+                    <p>Zen C uses <code>def</code> for constants and <code>let</code> for variables. String interpolation makes formatting easy.</p>`,
+                    mission: "Calculate the <b>volume</b> of a cylinder. Define <code>let h = 5.0;</code> and use it to calculate <code>PI * r * r * h</code>. Print <b>'Volume: {v}'</b>.",
+                    code: `def PI = 3.14159;\n\nfn main() {\n    let r = 10.0;\n    // Your code here\n    let area = PI * r * r;\n    println "Area: {area}";\n}`,
+                    validator: (output, code) => output.includes("Volume: 1570.795")
                 },
                 {
                     id: 'control-flow',
-                    title: '3. Control Flow',
-                    content: `<h2>Control Flow</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Branching and iterating seamlessly.</p>
-                    <p>Zen C drops the unnecessary parentheses from <code>if</code> statements and <code>while</code> loops.</p>`,
-                    mission: "Change the initial <code>count</code> to <b>5</b> to extend the countdown.",
-                    code: `fn main() {\n    let count = 3;\n    while count > 0 {\n        println "T-minus {count}..";\n        count = count - 1;\n    }\n    if count == 0 {\n        println "Liftoff!";\n    }\n}`,
-                    validator: (output, code) => output.includes("T-minus 5")
+                    title: '3. Sequences (Fibonacci)',
+                    content: `<h2>Sequences</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Loops and Logic.</p>
+                    <p>Zen C <code>while</code> loops are clean and parenthesize-free.</p>`,
+                    mission: "Generate the first <b>10</b> numbers of the Fibonacci sequence, one per line. Use a loop to compute and print them.",
+                    code: `fn main() {\n    let a = 1;\n    let b = 1;\n    let count = 0;\n    \n    // Implement Fibonacci loop here\n}`,
+                    validator: (output, code) => output.includes("1\n1\n2\n3\n5\n8\n13\n21\n34\n55")
                 },
                 {
                     id: 'structs',
-                    title: '4. Structs',
-                    content: `<h2>Structs</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Organizing data efficiently.</p>
-                    <p>Structs in Zen C use a modern block syntax. Coordinate data has never looked so clean.</p>`,
-                    mission: "Update the point coordinates to <b>x: 50, y: 100</b>.",
-                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 10, y: 20 };\n    println "Point: ({p.x}, {p.y})";\n}`,
-                    validator: (output, code) => output.includes("(50, 100)")
+                    title: '4. Structs & Functions',
+                    content: `<h2>Structs & Functions</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Data Modeling.</p>
+                    <p>Structs organize data; functions operate on it.</p>`,
+                    mission: "Implement a function <code>fn area(r: Rect) -> i32</code> that returns <code>r.w * r.h</code>. Use it in main to print <b>'Area: {result}'</b> for a 10x20 rectangle.",
+                    code: `struct Rect {\n    w: i32,\n    h: i32,\n}\n\nfn main() {\n    let r = Rect { w: 10, h: 20 };\n    // Implement area function and call it here\n}`,
+                    validator: (output, code) => output.includes("Area: 200")
                 },
                 {
                     id: 'pointers',
-                    title: '5. Pointers',
-                    content: `<h2>Pointers</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Direct memory access.</p>
-                    <p>Zen C provides safe and explicit pointer syntax. Memory is yours to command.</p>`,
-                    mission: "Change the line where <code>*ptr</code> is assigned to set the final value of x to <b>200</b>.",
-                    code: `fn main() {\n    let x = 42;\n    let ptr = &x;\n    println "Value: {*ptr}";\n    \n    *ptr = 100;\n    println "New Value: {x}";\n}`,
-                    validator: (output, code) => output.includes("New Value: 200")
+                    title: '5. Pointer Mastery',
+                    content: `<h2>Pointer Mastery</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Memory Control.</p>
+                    <p>Zen C pointers provide full command over your data's location.</p>`,
+                    mission: "Implement a <code>swap</code> function that takes two <code>*i32</code> pointers and swaps their values. Swap x (10) and y (20) and print <b>'x: {x}, y: {y}'</b>.",
+                    code: `fn swap(p1: *i32, p2: *i32) {\n    // Implement swap logic here\n}\n\nfn main() {\n    let x = 10;\n    let y = 20;\n    // Call swap with addresses of x and y\n    println "x: {x}, y: {y}";\n}`,
+                    validator: (output, code) => output.includes("x: 20, y: 10")
                 }
             ];
 
