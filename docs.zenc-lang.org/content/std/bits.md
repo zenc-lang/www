@@ -1,6 +1,5 @@
 +++
 title = "std/bits"
-description = "Low-level bitwise operations (`rotl`, `rotr`)."
 +++
 
 # std/bits

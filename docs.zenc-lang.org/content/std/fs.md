@@ -1,6 +1,5 @@
 +++
 title = "std/fs"
-description = "File system I/O and directory operations."
 +++
 
 # std/fs

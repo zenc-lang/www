@@ -1,6 +1,5 @@
 +++
 title = "std/map"
-description = "Generic hash map implementation."
 +++
 
 # std/map

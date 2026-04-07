@@ -1,6 +1,5 @@
 +++
 title = "std/bigint"
-description = "Arbitrary-precision integer arithmetic."
 +++
 
 # std/bigint

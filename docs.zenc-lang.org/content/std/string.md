@@ -1,6 +1,5 @@
 +++
 title = "std/string"
-description = "Growable, heap-allocated string type."
 +++
 
 # std/string

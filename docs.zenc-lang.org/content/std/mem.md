@@ -1,6 +1,5 @@
 +++
 title = "std/mem"
-description = "Memory management, allocators, and traits."
 +++
 
 # std/mem

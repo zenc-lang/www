@@ -1,6 +1,5 @@
 +++
 title = "std/complex"
-description = "Complex number operations."
 +++
 
 # std/complex

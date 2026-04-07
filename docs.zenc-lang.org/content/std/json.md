@@ -1,6 +1,5 @@
 +++
 title = "std/json"
-description = "DOM-style JSON parsing and serialization."
 +++
 
 # std/json

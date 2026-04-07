@@ -1,6 +1,5 @@
 +++
 title = "std/crypto"
-description = "Cryptographic primitives (SHA1)."
 +++
 
 # std/crypto

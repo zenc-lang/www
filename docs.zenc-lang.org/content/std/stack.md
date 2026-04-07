@@ -1,6 +1,5 @@
 +++
 title = "std/stack"
-description = "LIFO stack implementation."
 +++
 
 # std/stack

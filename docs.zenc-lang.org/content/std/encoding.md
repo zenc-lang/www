@@ -1,6 +1,5 @@
 +++
 title = "std/encoding"
-description = "Data encoding utilities (Base64)."
 +++
 
 # std/encoding

@@ -1,8 +1,5 @@
 +++
 title = "Standard Library"
-
-[extra]
-no_alphabet_grouping = true
 +++
 
 # Standard Library
@@ -11,7 +8,6 @@ The Zen C Standard Library provides a comprehensive collection of modules and ty
 
 ## Modules
 
-<!--
 | Module | Description |
 | :--- | :--- |
 | **[BigFloat](./bigfloat.md)** | Arbitrary-precision floating-point arithmetic. |
@@ -47,4 +43,3 @@ The Zen C Standard Library provides a comprehensive collection of modules and ty
 | **[Time](./time.md)** | Time measurement and sleep utilities. |
 | **[UTF-8](./utf8.md)** | Unicode and UTF-8 handling utilities. |
 | **[Vector](./vec.md)** | Growable dynamic array type. |
--->

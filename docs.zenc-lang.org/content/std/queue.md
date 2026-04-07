@@ -1,6 +1,5 @@
 +++
 title = "std/queue"
-description = "FIFO queue (Ring Buffer) implementation."
 +++
 
 # std/queue

@@ -1,6 +1,5 @@
 +++
 title = "std/option"
-description = "Optional values wrapper (`Some`/`None`)."
 +++
 
 # std/option
