@@ -4,6 +4,7 @@ import subprocess
 import tempfile
 import os
 import shutil
+import re
 
 app = FastAPI()
 
@@ -57,10 +58,18 @@ async def run_code(request: RunRequest):
             output = result.stdout + result.stderr
             
             # Clean up noisy compiler logs from standard output to keep playground execution clean
+            # We must aggressively strip ANSI color codes first because the compiler uses colored text (e.g. \x1b[32mCompiling)
+            ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
             clean_lines = []
+            
             for line in output.splitlines():
-                if "Compiling /tmp/" in line or "Finished build in" in line:
+                line_plain = ansi_escape.sub('', line)
+                
+                # Check against the uncolored text
+                if "Compiling /tmp/" in line_plain or "Finished build in" in line_plain:
                     continue
+                
+                # Keep the original colored line so user's own colored outputs aren't magically destroyed
                 clean_lines.append(line)
             
             output = "\n".join(clean_lines).strip()
