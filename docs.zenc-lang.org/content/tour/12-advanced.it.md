@@ -267,7 +267,7 @@ Quando si usa la sintassi Intel (via `-masm=intel`), dovrai assicurarti che la t
 
 Zen C fornisce un sistema di diagnostica categorizzato che può essere controllato tramite i flag `-W` e `-Wno-`. Questo è utile per gestire gli avvisi relativi alla sicurezza, al codice non utilizzato e all'interoperabilità C.
 
-[Maggiori informazioni sul Sistema di Diagnostica](#15-sistema-di-diagnostica)
+[Maggiori informazioni sul Sistema di Diagnostica](@/tour/15-diagnostics.it.md#15-sistema-di-diagnostica)
 
 #### 12.5 Direttive della Build
 
