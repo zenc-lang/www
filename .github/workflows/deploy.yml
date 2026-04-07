@@ -64,7 +64,7 @@ jobs:
           
       - name: Restart Backend Services
         run: |
-          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo systemctl restart playground-api"
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo rsync -av --delete /var/www/playground-api/ /opt/zenc-playground-api/ && sudo systemctl restart playground-api"
 
           
       - name: Sync and Link Mirror Infrastructure
