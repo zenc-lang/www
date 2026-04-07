@@ -193,18 +193,39 @@
 
         #mission-goal code {
             font-family: 'JetBrains Mono', monospace;
+            background: rgba(148, 163, 184, 0.05);
+            color: var(--muted);
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            margin: 0 1px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #mission-goal code:hover {
             background: rgba(74, 222, 128, 0.08);
             color: #4ade80;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            margin: 0 2px;
-            border: 1px solid rgba(74, 222, 128, 0.15);
+            border-color: rgba(74, 222, 128, 0.2);
         }
 
         #mission-goal b {
-            color: var(--accent);
-            font-weight: 700;
+            color: var(--fg);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Mission Sidebar Polish */
+        #tutorial-mission {
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        #tutorial-content h2,
+        #mission-goal b {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
         }
 
         @media (max-width: 1024px) {
@@ -287,18 +308,20 @@
                 </div>
                 <!-- MISSION SECTION -->
                 <div id="tutorial-mission"
-                    style="padding: 1.5rem; background: var(--surface-alt); border-bottom: 1px solid var(--border); display: none;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;">
+                    style="margin: 1rem; padding: 1.25rem; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 12px; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.75rem;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)"
-                            stroke-width="3">
+                            stroke-width="3" style="opacity: 0.8;">
                             <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                         <span
-                            style="font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase;">Mission</span>
+                            style="font-size: 0.7rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;">Mission</span>
                     </div>
-                    <div id="mission-goal" style="font-size: 0.9rem; font-weight: 500; color: var(--fg);"></div>
+                    <div id="mission-goal"
+                        style="font-size: 0.88rem; font-weight: 500; color: var(--fg); line-height: 1.7;"></div>
                     <div id="mission-status"
-                        style="margin-top: 0.75rem; font-size: 0.8rem; font-weight: 600; display: none;"></div>
+                        style="margin-top: 1rem; font-size: 0.8rem; font-weight: 600; display: none; transition: all 0.3s;">
+                    </div>
                 </div>
                 <div id="tutorial-list" style="flex: 2; overflow-y: auto; background: var(--bg);">
                     <!-- JS fills this -->
@@ -594,6 +617,11 @@
 
                         // Show Mission
                         tutorialMission.style.display = 'block';
+                        setTimeout(() => {
+                            tutorialMission.style.opacity = '1';
+                            tutorialMission.style.transform = 'translateY(0)';
+                        }, 10);
+
                         missionGoal.innerHTML = tut.mission;
                         missionStatus.style.display = tut.completed ? 'block' : 'none';
                         if (tut.completed) {
