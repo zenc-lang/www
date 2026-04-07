@@ -10,7 +10,7 @@ app = FastAPI()
 class RunRequest(BaseModel):
     code: str
 
-@app.post("/run")
+@app.post("/api/run")
 async def run_code(request: RunRequest):
     # Create a temporary directory for the execution
     with tempfile.TemporaryDirectory() as tmp_dir:
