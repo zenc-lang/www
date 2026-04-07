@@ -1,5 +1,6 @@
 +++
 title = "std/result"
+description = "Error handling pattern (`Ok`/`Err`)."
 +++
 
 # std/result

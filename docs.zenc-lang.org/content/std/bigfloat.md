@@ -1,5 +1,6 @@
 +++
 title = "std/bigfloat"
+description = "Arbitrary-precision floating-point arithmetic."
 +++
 
 # std/bigfloat

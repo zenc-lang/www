@@ -1,5 +1,6 @@
 +++
 title = "std/net"
+description = "TCP, UDP, HTTP, DNS, and URL parsing."
 +++
 
 # std/net

@@ -1,5 +1,6 @@
 +++
 title = "std/cuda"
+description = "CUDA GPGPU operations and interoperability."
 +++
 
 # std/cuda

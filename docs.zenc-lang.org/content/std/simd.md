@@ -1,5 +1,6 @@
 +++
 title = "std/simd"
+description = "Hardware-optimized vector types."
 +++
 
 # std/simd

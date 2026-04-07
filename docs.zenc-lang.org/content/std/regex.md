@@ -1,5 +1,6 @@
 +++
 title = "std/regex"
+description = "Regular expressions support."
 +++
 
 # std/regex

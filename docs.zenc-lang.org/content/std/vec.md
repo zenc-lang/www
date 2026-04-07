@@ -1,5 +1,6 @@
 +++
 title = "std/vec"
+description = "Growable dynamic array type."
 +++
 
 # std/vec

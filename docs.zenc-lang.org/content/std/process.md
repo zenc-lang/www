@@ -1,5 +1,6 @@
 +++
 title = "std/process"
+description = "Process execution and management."
 +++
 
 # std/process

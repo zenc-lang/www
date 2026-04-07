@@ -1,5 +1,6 @@
 +++
 title = "std/thread"
+description = "Multithreading and synchronization."
 +++
 
 # std/thread

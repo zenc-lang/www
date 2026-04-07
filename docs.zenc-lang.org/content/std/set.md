@@ -1,5 +1,6 @@
 +++
 title = "std/set"
+description = "Generic hash set implementation."
 +++
 
 # std/set

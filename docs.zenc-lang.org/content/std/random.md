@@ -1,5 +1,6 @@
 +++
 title = "std/random"
+description = "Pseudo-random number generator."
 +++
 
 # std/random

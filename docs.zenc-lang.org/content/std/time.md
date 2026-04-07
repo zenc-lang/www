@@ -1,5 +1,6 @@
 +++
 title = "std/time"
+description = "Time measurement and sleep utilities."
 +++
 
 # std/time

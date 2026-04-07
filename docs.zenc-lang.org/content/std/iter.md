@@ -1,5 +1,6 @@
 +++
 title = "std/iter"
+description = "Custom iterator traits and protocols."
 +++
 
 # std/iter

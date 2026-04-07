@@ -1,5 +1,6 @@
 +++
 title = "std/path"
+description = "Cross-platform file path manipulation."
 +++
 
 # std/path

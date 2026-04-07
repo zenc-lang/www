@@ -1,5 +1,6 @@
 +++
 title = "std/io"
+description = "Standard Input/Output and formatting."
 +++
 
 # std/io

@@ -1,5 +1,6 @@
 +++
 title = "std/math"
+description = "Mathematical constants and functions."
 +++
 
 # std/math

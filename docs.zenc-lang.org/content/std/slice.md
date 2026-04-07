@@ -1,5 +1,6 @@
 +++
 title = "std/slice"
+description = "Lightweight non-owning array views."
 +++
 
 # std/slice

@@ -1,5 +1,6 @@
 +++
 title = "std/sort"
+description = "Zero-overhead sorting engine."
 +++
 
 # std/sort
