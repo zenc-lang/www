@@ -263,10 +263,25 @@
                     </span>
                 </div>
                 <div id="tutorial-content"
-                    style="flex: 3; padding: 1.5rem; overflow-y: auto; font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.6; color: var(--fg); border-bottom: 1px solid var(--border);">
+                    style="flex: 2; padding: 1.5rem; overflow-y: auto; font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.6; color: var(--fg); border-bottom: 1px solid var(--border);">
                     <h2 style="margin-top: 0; font-size: 1.25rem;">Welcome to the Playground</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Select a tutorial below to learn the
                         fundamentals of Zen C right inside your browser.</p>
+                </div>
+                <!-- MISSION SECTION -->
+                <div id="tutorial-mission"
+                    style="padding: 1.5rem; background: var(--surface-alt); border-bottom: 1px solid var(--border); display: none;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)"
+                            stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span
+                            style="font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase;">Mission</span>
+                    </div>
+                    <div id="mission-goal" style="font-size: 0.9rem; font-weight: 500; color: var(--fg);"></div>
+                    <div id="mission-status"
+                        style="margin-top: 0.75rem; font-size: 0.8rem; font-weight: 600; display: none;"></div>
                 </div>
                 <div id="tutorial-list" style="flex: 2; overflow-y: auto; background: var(--bg);">
                     <!-- JS fills this -->
@@ -322,8 +337,8 @@
                         </div>
                         <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
                     </div>
-                    <div class="terminal-output" id="output">Welcome to the Zen C Playground.&#13;&#10;Press 'Run' to
-                        compile and execute your code.</div>
+                    <div class="terminal-output" id="output">Welcome to the Zen C Playground. Press 'Run' to compile and
+                        execute your code.</div>
                 </div>
             </div>
         </div>
@@ -470,52 +485,65 @@
                     title: '1. Hello World',
                     content: `<h2>Hello World</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Let's get started with Zen C.</p>
-                    <p>Every executable Zen C program must begin with a <code>main</code> function. The syntax is simple and clean.</p>
-                    <p>Unlike standard C, you can use the <code>println</code> builtin macro to automatically print complete strings with a trailing newline, without importing standard IO headers!</p>`,
-                    code: `fn main() {\n    println "Hello, World!";\n}`
+                    <p>Every executable Zen C program must begin with a <code>main</code> function. Unlike standard C, you can use the <code>println</code> builtin macro to print strings with a trailing newline effortlessly.</p>`,
+                    mission: "Change the message from 'Hello, World!' to <b>'Zen C is fast!'</b>",
+                    code: `fn main() {\n    println "Hello, World!";\n}`,
+                    validator: (output, code) => output.includes("Zen C is fast!")
                 },
                 {
                     id: 'variables',
                     title: '2. Variables & Constants',
                     content: `<h2>Variables & Constants</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Storage is explicitly defined.</p>
-                    <p>Zen C strictly separates true compile-time constants (<code>def</code>) from runtime memory variables (<code>let</code>).</p>
-                    <p>By default variables are mutable, but you can explicitly mark them <code>const</code> to prevent reassignment. String interpolation is built right into the language using curly braces!</p>`,
-                    code: `def PI = 3.14159;\n\nfn main() {\n    let radius = 10.0;\n    let area = PI * radius * radius;\n    println "Area: {area}";\n}`
+                    <p>Zen C strictly separates true compile-time constants (<code>def</code>) from runtime memory variables (<code>let</code>).</p>`,
+                    mission: "Update the <code>radius</code> to <b>20.0</b> and see the area recalculate.",
+                    code: `def PI = 3.14159;\n\nfn main() {\n    let radius = 10.0;\n    let area = PI * radius * radius;\n    println "Area: {area}";\n}`,
+                    validator: (output, code) => code.includes("radius = 20.0") || code.includes("radius = 20")
                 },
                 {
                     id: 'control-flow',
                     title: '3. Control Flow',
                     content: `<h2>Control Flow</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Branching and iterating seamlessly.</p>
-                    <p>Zen C drops the unnecessary parentheses from <code>if</code> statements and <code>while</code> loops, adopting a much cleaner modern syntax.</p>`,
-                    code: `fn main() {\n    let count = 3;\n    while count > 0 {\n        println "T-minus {count}..";\n        count = count - 1;\n    }\n    if count == 0 {\n        println "Liftoff!";\n    }\n}`
+                    <p>Zen C drops the unnecessary parentheses from <code>if</code> statements and <code>while</code> loops.</p>`,
+                    mission: "Change the initial <code>count</code> to <b>5</b> to extend the countdown.",
+                    code: `fn main() {\n    let count = 3;\n    while count > 0 {\n        println "T-minus {count}..";\n        count = count - 1;\n    }\n    if count == 0 {\n        println "Liftoff!";\n    }\n}`,
+                    validator: (output, code) => output.includes("T-minus 5")
                 },
                 {
                     id: 'structs',
                     title: '4. Structs',
                     content: `<h2>Structs</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Organizing data efficiently.</p>
-                    <p>Structs in Zen C use a modern block syntax. You can initialize them using field-value pairs, making your code highly readable.</p>`,
-                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 10, y: 20 };\n    println "Point: ({p.x}, {p.y})";\n}`
+                    <p>Structs in Zen C use a modern block syntax. Coordinate data has never looked so clean.</p>`,
+                    mission: "Update the point coordinates to <b>x: 50, y: 100</b>.",
+                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 10, y: 20 };\n    println "Point: ({p.x}, {p.y})";\n}`,
+                    validator: (output, code) => output.includes("(50, 100)")
                 },
                 {
                     id: 'pointers',
                     title: '5. Pointers',
                     content: `<h2>Pointers</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Direct memory access.</p>
-                    <p>Zen C provides safe and explicit pointer syntax. Use <code>&</code> to get an address and <code>*</code> to dereference.</p>`,
-                    code: `fn main() {\n    let x = 42;\n    let ptr = &x;\n    println "Value: {*ptr}";\n    \n    *ptr = 100;\n    println "New Value: {x}";\n}`
+                    <p>Zen C provides safe and explicit pointer syntax. Memory is yours to command.</p>`,
+                    mission: "Change the line where <code>*ptr</code> is assigned to set the final value of x to <b>200</b>.",
+                    code: `fn main() {\n    let x = 42;\n    let ptr = &x;\n    println "Value: {*ptr}";\n    \n    *ptr = 100;\n    println "New Value: {x}";\n}`,
+                    validator: (output, code) => output.includes("New Value: 200")
                 }
             ];
 
             const tutorialList = document.getElementById('tutorial-list');
             const tutorialContent = document.getElementById('tutorial-content');
+            const tutorialMission = document.getElementById('tutorial-mission');
+            const missionGoal = document.getElementById('mission-goal');
+            const missionStatus = document.getElementById('mission-status');
+            let currentTutorialIndex = -1;
 
             function hydrateTutorials(activeEditor) {
                 tutorialList.innerHTML = '';
                 tutorialsData.forEach((tut, idx) => {
                     const btn = document.createElement('div');
+                    btn.classList.add('tutorial-btn');
                     btn.style.cssText = "padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between;";
                     if (idx === 0) btn.style.borderTop = "1px solid var(--border)";
 
@@ -523,26 +551,41 @@
                     titleSpan.textContent = tut.title;
                     btn.appendChild(titleSpan);
 
-                    // Add a tiny 'play' indicator icon
                     const icon = document.createElement('div');
-                    icon.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-                    icon.style.opacity = "0.3";
+                    icon.innerHTML = tut.completed ?
+                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="#4ade80"><polyline points="20 6 9 17 4 12"></polyline></svg>' :
+                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+                    icon.style.opacity = tut.completed ? "1" : "0.3";
                     btn.appendChild(icon);
 
                     btn.addEventListener('mouseenter', () => {
-                        btn.style.background = "var(--surface-alt)";
-                        icon.style.opacity = "0.8";
-                        icon.style.color = "var(--primary)";
+                        if (currentTutorialIndex !== idx) btn.style.background = "var(--surface-alt)";
                     });
                     btn.addEventListener('mouseleave', () => {
-                        btn.style.background = "transparent";
-                        icon.style.opacity = "0.3";
-                        icon.style.color = "currentColor";
+                        if (currentTutorialIndex !== idx) btn.style.background = "transparent";
                     });
 
                     btn.addEventListener('click', () => {
+                        // Deselect others
+                        Array.from(tutorialList.children).forEach(child => child.style.background = "transparent");
+
+                        currentTutorialIndex = idx;
+                        btn.style.background = "var(--surface-alt)";
+
                         tutorialContent.innerHTML = tut.content;
                         activeEditor.setValue(tut.code);
+
+                        // Show Mission
+                        tutorialMission.style.display = 'block';
+                        missionGoal.innerHTML = tut.mission;
+                        missionStatus.style.display = tut.completed ? 'block' : 'none';
+                        if (tut.completed) {
+                            missionStatus.style.color = '#4ade80';
+                            missionStatus.innerHTML = 'Mission Accomplished! 🏁';
+                            tutorialMission.style.borderLeft = '4px solid #4ade80';
+                        } else {
+                            tutorialMission.style.borderLeft = '1px solid var(--border)';
+                        }
                     });
 
                     tutorialList.appendChild(btn);
@@ -591,6 +634,8 @@
             runBtn.addEventListener('click', async () => {
                 const code = editor.getValue();
                 output.innerText = "> Compiling and running...\n";
+                runBtn.disabled = true;
+                runBtn.style.opacity = "0.5";
 
                 try {
                     const response = await fetch('/api/run', {
@@ -606,13 +651,42 @@
                     }
 
                     const data = await response.json();
+                    let finalOutput = data.output || "No output returned.";
 
                     if (data.error && data.error !== "") {
-                        output.innerText += "\n[Error]: " + data.error + "\n";
+                        output.innerText = finalOutput + "\n[Error]: " + data.error + "\n";
+                    } else {
+                        output.innerText = finalOutput;
                     }
-                    output.innerText = data.output || "No output returned.";
+
+                    // MISSION VALIDATION
+                    if (currentTutorialIndex !== -1) {
+                        const tut = tutorialsData[currentTutorialIndex];
+                        if (tut.validator(finalOutput, code)) {
+                            tut.completed = true;
+                            missionStatus.style.display = 'block';
+                            missionStatus.style.color = '#4ade80';
+                            missionStatus.innerHTML = 'Mission Accomplished! 🎉 Keep going.';
+                            tutorialMission.style.borderLeft = '4px solid #4ade80';
+
+                            // Update sidebar icon
+                            const activeBtn = tutorialList.children[currentTutorialIndex];
+                            const iconDiv = activeBtn.querySelector('div:last-child');
+                            iconDiv.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="#4ade80"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                            iconDiv.style.opacity = "1";
+                        } else {
+                            missionStatus.style.display = 'block';
+                            missionStatus.style.color = '#f87171';
+                            missionStatus.innerHTML = 'Not quite there yet. Try again!';
+                            tutorialMission.style.borderLeft = '4px solid #f87171';
+                        }
+                    }
+
                 } catch (err) {
                     output.innerText = "Error connecting to server: " + err.message;
+                } finally {
+                    runBtn.disabled = false;
+                    runBtn.style.opacity = "1";
                 }
             });
 
