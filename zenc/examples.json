@@ -1,0 +1,722 @@
+[
+    {
+        "id": "99_bottles_of_beer",
+        "title": "99 bottles of beer",
+        "code": "fn main() {\n    // Descending loop from 99 down to 1\n    for i in 99..0 step -1 {\n        let b1 = i == 1 ? \"bottle\" : \"bottles\";\n        println \"{i} {b1} of beer on the wall, {i} {b1} of beer.\";\n        \n        let next = i - 1;\n        if next > 0 {\n            let b2 = next == 1 ? \"bottle\" : \"bottles\";\n            println \"Take one down and pass it around, {next} {b2} of beer on the wall.\\n\";\n        } else {\n            println \"Take one down and pass it around, no more bottles of beer on the wall.\\n\";\n        }\n    }\n    \n    println \"No more bottles of beer on the wall, no more bottles of beer.\";\n    println \"Go to the store and buy some more, 99 bottles of beer on the wall.\";\n}"
+    },
+    {
+        "id": "A+B",
+        "title": "A+B",
+        "code": "fn main() {\n    let a: int;\n    let b: int;\n    \n    // Read two space-separated integers directly from the input stream\n    if (? a, b) == 2 {\n        let sum = a + b;\n        println \"{sum}\";\n    }\n}"
+    },
+    {
+        "id": "Ackermann_function",
+        "title": "Ackermann function",
+        "code": "fn ackermann(m: int, n: int) -> int {\n    if m == 0 {\n        return n + 1;\n    }\n    if m > 0 && n == 0 {\n        return ackermann(m - 1, 1);\n    }\n    return ackermann(m - 1, ackermann(m, n - 1));\n}\n\nfn main() {\n    // Test the function for small values... \n    for let m = 0; m <= 3; m += 1 {\n        for let n = 0; n <= 4; n += 1 {\n            let a = ackermann(m, n);\n            println \"A({m}, {n}) = {a}\";\n        }\n    }\n}"
+    },
+    {
+        "id": "Address_of_a_variable",
+        "title": "Address of a variable",
+        "code": "fn main() {\n    let a = 10;\n    let b = 20;\n\n    // Get the address of 'a' and store it in a pointer\n    let p: int* = &a;\n    println \"Pointer p holds the address of a: {(usize)p}\";\n\n    // Set the pointer to hold a new address\n    p = &b;\n    println \"Pointer p now holds the address of b: {(usize)p}\";\n}"
+    },
+    {
+        "id": "Angle_difference_between_two_bearings",
+        "title": "Angle difference between two bearings",
+        "code": "import \"std/math.zc\"\n\nfn subtract(b1: f64, b2: f64) -> f64 {\n    let d = Math::mod(b2 - b1, 360.0);\n    if d < -180.0 {\n        d += 360.0;\n    } else if d >= 180.0 {\n        d -= 360.0;\n    }\n    return d;\n}\n\nfn main() {\n    let pairs: (f64, f64)[12] = [\n        ( 20.0,  45.0),\n        (-45.0,  45.0),\n        (-85.0,  90.0),\n        (-95.0,  90.0),\n        (-45.0, 125.0),\n        (-45.0, 145.0),\n        ( 29.4803, -88.6381),\n        (-78.3251, -159.036),\n        (-70099.74233810938, 29840.67437876723),\n        (-165313.6666297357, 33693.9894517456),\n        (1174.8380510598456, -154146.66490124757),\n        (60175.77306795546, 42213.07192354373)\n    ];\n\n    println \"Differences (to 4dp) between these bearings:\";\n    for pair in pairs {\n        let (p0, p1) = pair;\n        let diff = subtract(p0, p1);\n        println \"{p0:12.4f}\u00b0 and {p1:12.4f}\u00b0 -> {diff:9.4f}\u00b0\";\n    }\n}"
+    },
+    {
+        "id": "Apply_a_callback_to_an_array",
+        "title": "Apply a callback to an array",
+        "code": "fn square(n: int) -> int {\n    return n * n;\n}\n\nfn main() {\n    let a = [1, 2, 3, 4, 5];\n    for i in 0..a.len {\n        a[i] = square(a[i]);\n        println \"{a[i]}\";\n    }\n}"
+    },
+    {
+        "id": "Arithmetic-geometric_mean",
+        "title": "Arithmetic-geometric mean",
+        "code": "import \"std/math.zc\"\n\nfn agm(a: f64, g: f64) -> f64 {\n    let eps: const f64 = 1e-14;\n    while Math::abs(a - g) > Math::abs(a) * eps {\n        let t = a;\n        a = (a + g) / 2.0;\n        g = Math::sqrt(t * g);\n    }\n    return a;\n}\n\nfn main() {\n    let a = agm(1.0, 1.0 / Math::sqrt(2.0));\n    println \"{a:0.16f}\";\n}"
+    },
+    {
+        "id": "Arithmetic_Integer",
+        "title": "Arithmetic/Integer",
+        "code": "// Custom divmod using Tuples for multiple return values\nfn divmod(a: int, b: int) -> (int, int) {\n    return (a / b, a % b);\n}\n\nfn main() {\n    let a: int;\n    let b: int;\n    \n    // Read two integers using the input shorthand\n    ? \"Enter two integers separated by a space: \" (a, b);\n    \n    let sum = a + b;\n    let diff = a - b;\n    let prod = a * b;\n    let quot = a / b;\n    let rem = a % b;\n    let pow = a ** b;\n    let (q, r) = divmod(a, b);\n    \n    println \"a + b  = {sum}\";\n    println \"a - b  = {diff}\";\n    println \"a * b  = {prod}\";\n    println \"a / b  = {quot}\";\n    println \"a % b  = {rem}\";\n    println \"a ** b = {pow}\"; \n    println \"divmod(a, b) = ({q}, {r})\";\n}"
+    },
+    {
+        "id": "Array_concatenation",
+        "title": "Array concatenation",
+        "code": "fn main() {\n    let a: int[3] = [1, 2, 3];\n    let b: int[2] = [4, 5];\n    \n    let c: int[5]; \n    \n    // Performant memory block copying for raw arrays\n    memcpy(c, a, sizeof(int) * 3);\n    // Offset by 3 integers to append 'b'\n    memcpy((int*)c + 3, b, sizeof(int) * 2);\n    \n    print \"Concatenated array: [\";\n    for let i = 0; i < 5; i += 1 {\n        print \"{c[i]}\";\n        if i < 4 {\n            print \", \";\n        }\n    }\n    println \"]\";\n}"
+    },
+    {
+        "id": "Array_length",
+        "title": "Array length",
+        "code": "fn main() {\n    let fruits: string[2] = [\"apple\", \"orange\"];\n    \n    // Calculate the number of elements using sizeof\n    let count = sizeof(fruits) / sizeof(fruits[0]);\n    \n    println \"Raw array length: {count}\";\n}"
+    },
+    {
+        "id": "Arrays",
+        "title": "Arrays",
+        "code": "fn main() {\n    def SIZE = 3;\n\n    // Explicitly initialized array\n    let ints: int[5] = [1, 2, 3, 4, 5];\n    \n    // Zero-initialized array using a compile-time constant for size\n    let zeros: [int; SIZE];\n    \n    // Element access and mutation\n    zeros[0] = 42;\n    zeros[2] = 100;\n    \n    println \"Iterating over ints array:\";\n    for val in ints {\n        println \"{val}\";\n    }\n    \n    println \"\\nIterating over zeros array:\";\n    for val in zeros {\n        println \"{val}\";\n    }\n}"
+    },
+    {
+        "id": "Assertions",
+        "title": "Assertions",
+        "code": "fn main() {\n    let n = 42\n    assert(n == 42)\n    \n    let not_n = 24\n    assert(not_n == 42, \"Why aren't you using n?!\")\n}"
+    },
+    {
+        "id": "Averages_Arithmetic_mean",
+        "title": "Averages/Arithmetic mean",
+        "code": "import \"std/vec.zc\"\n\nfn mean(v: Vec<f64>*) -> f64 {\n    if v.is_empty() {\n        return 0.0;\n    }\n\n    let sum: f64 = 0.0;\n    for x in v {\n        sum += x;\n    }\n    \n    return sum / (f64)v.length();\n}\n\nfn main() {\n    let numbers = Vec<f64>::new();\n    numbers.push(10.0);\n    numbers.push(20.0);\n    numbers.push(30.0);\n    numbers.push(40.0);\n    \n    let m = mean(&numbers);\n    println \"Numbers: 10, 20, 30, 40\";\n    println \"Mean: {m}\";\n\n    let empty = Vec<f64>::new();\n    let m_empty = mean(&empty);\n    println \"Empty mean: {m_empty}\";\n}"
+    },
+    {
+        "id": "Averages_Mean_angle",
+        "title": "Averages/Mean angle",
+        "code": "import \"std/math.zc\"\n\nfn mean_angle(aa: f64*, n: const int) -> f64 {\n    let sin_sum = 0.0;\n    let cos_sum = 0.0;\n    for i in 0..n {\n        sin_sum += Math::sin(aa[i] * Math::PI() / 180.0);\n        cos_sum += Math::cos(aa[i] * Math::PI() / 180.0);\n    }\n    return Math::atan2(sin_sum / n, cos_sum / n) * 180.0 / Math::PI();\n}\n\nfn main() {\n    let a1: f64[2]  = [350.0, 10.0];\n    let a2: f64[4]  = [90.0, 180.0, 270.0, 360.0];\n    let a3: f64[3]  = [10.0, 20.0, 30.0];\n    let aa: f64*[3] = [a1, a2, a3];\n    let ls: int[3]  = [2, 4, 3];\n    for i in 0..3 {\n        let mean = mean_angle(aa[i], ls[i]);\n        println \"Mean for angles {i + 1} is : {mean:6.2f}\";\n    }\n}"
+    },
+    {
+        "id": "Averages_Mean_time_of_day",
+        "title": "Averages/Mean time of day",
+        "code": "import \"std/math.zc\"\n\nfn time_to_degs(time: string) -> f64 {\n    let h = (10 * (time[0] - 48) + time[1] - 48) * 3600;\n    let m = (10 * (time[3] - 48) + time[4] - 48) * 60;\n    let s =  10 * (time[6] - 48) + time[7] - 48;\n    return (f64)(h + m + s) / 240.0;\n}\n\nfn degs_to_time(d: f64, buf: char*) {\n    while d < 0 { d += 360.0; }\n    let s = (int)Math::round(d * 240.0);\n    let h = (int)Math::floor(s / 3600.0);\n    let m = s % 3600;\n    s = m % 60;\n    m /= 60;\n    sprintf(buf, \"%2d:%2d:%2d\", h, m, s);\n}\n\nfn mean_angle(aa: f64*, n: const int) -> f64 {\n    let sin_sum = 0.0;\n    let cos_sum = 0.0;\n    for i in 0..n {\n        sin_sum += Math::sin(aa[i] * Math::PI() / 180.0);\n        cos_sum += Math::cos(aa[i] * Math::PI() / 180.0);\n    }\n    return Math::atan2(sin_sum / n, cos_sum / n) * 180.0 / Math::PI();\n}\n\nfn main() {\n    let times: string[4] = [\"23:00:17\", \"23:40:20\", \"00:12:45\", \"00:17:19\"];\n    let angles: f64[4];\n    for i in 0..4 {\n        angles[i] = time_to_degs(times[i]);\n    }\n    let mean = mean_angle(angles, 4);\n    let buf: char[9];\n    degs_to_time(mean, buf);\n    println \"Mean time of day is : {buf}\";\n}"
+    },
+    {
+        "id": "Averages_Median",
+        "title": "Averages/Median",
+        "code": "import \"std/sort.zc\"\n\nfn median(a: f64*, len: const usize) -> f64 {\n    // Avoid mutating 'a' by copying it to a new buffer 'b'.\n    let bytes = len * sizeof(f64);\n    autofree let b = (f64*)malloc(bytes);\n    memcpy(b, a, bytes);\n    sort_double(b, len);\n    let hl = len / 2;\n    let med = len % 2 ? b[hl] : (b[hl - 1] + b[hl]) / 2.0;\n    return med;\n}\n\nfn main() {\n    let a1 = [4.1, 5.6, 7.2, 1.7, 9.3, 4.4, 3.2];\n    let a2 = [4.1, 7.2, 1.7, 9.3, 4.4, 3.2];\n    let as: f64*[2] = [a1, a2];\n    let lens = [7, 6];\n    for i in 0..2 { println \"{median(as[i], lens[i]):g}\" };\n}"
+    },
+    {
+        "id": "Averages_Mode",
+        "title": "Averages/Mode",
+        "code": "import \"std/map.zc\"\nimport \"std/vec.zc\"\n\nfn mode<T>(a: T*, n: const usize) {\n    if n == 0 {\n        println \"There are no modes as the array is empty.\";\n        return;\n    }\n    let m = Map<int>::new();\n    for i in 0..n {\n        let k = \"{a[i]}\";\n        if m.contains(k) {\n            let val = m[k].unwrap();\n            m.put(k, ++val);\n        } else {\n            m.put(k, 1);\n        }\n    }\n    let most = 0;\n    for entry in m {\n        if entry.val > most { most = entry.val; }\n    }\n    let modes = Vec<string>::new();\n    for entry in m {\n        if entry.val == most { modes << entry.key; }\n    }\n    print \"For the array : [\";\n    for i in 0..n { print \"{a[i]}, \"; }\n    println \"\\b\\b]\";\n    print \"  mode(s)     : \";\n    for mo in modes { print \"{mo}, \"; }\n    println \"\\b\\b \\n  occurrences : {most}\";\n}\n\nfn main() {\n    let a = [1, 3, 5, 7, 1, 3, 1, 2, 3];\n    mode<int>(a, 9);\n    println \"\";\n    let b = [\"a\", \"b\", \"c\", \"a\", \"b\", \"a\", \"b\", \"b\", \"c\"];\n    mode<string>(b, 9);\n}"
+    },
+    {
+        "id": "Averages_Pythagorean_means",
+        "title": "Averages/Pythagorean means",
+        "code": "import \"std/math.zc\"\n\nfn a_mean(a: f64*, len: const usize) -> f64 {\n    let sum = 0.0;\n    for i in 0..len { sum += a[i]; }\n    return sum / (f64)len;\n}\n\nfn g_mean(a: f64*, len: const usize) -> f64 {\n    let prod = 1.0;\n    for i in 0..len { prod *= a[i]; }\n    return Math::pow(prod, 1.0 / (f64)len);\n}\n\nfn h_mean(a: f64*, len: const usize) -> f64 {\n    let sum = 0.0;\n    for i in 0..len { sum += 1.0 / a[i]; }\n    return 1.0 / sum * (f64)len;\n}\n\nfn main() {\n    let a: f64[10];\n    for i in 0..10 { a[i] = (f64)(i + 1); }\n    let am = a_mean(a, 10);\n    let gm = g_mean(a, 10);\n    let hm = h_mean(a, 10);\n    let cmp = (am >= gm && gm >= hm) ? \"true\" : \"false\";\n    println \"For the numbers 1 to 10:\";\n    println \"  Arithmetic mean = {am:g}\";\n    println \"  Geometric mean  = {gm:0.14f}\";\n    println \"  Harmonic mean   = {hm:0.14f}\";\n    println \"  A >= G >= H     = {cmp}\";\n}"
+    },
+    {
+        "id": "Averages_Root_mean_square",
+        "title": "Averages/Root mean square",
+        "code": "import \"std/math.zc\"\n\nfn rms(a: f64[], len: const int) -> f64 {\n    let sum = 0.0;\n    for i in 0..len { sum += a[i] * a[i]; }\n    return Math::sqrt(sum / len);\n}\n\nfn main() {\n    let a = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];\n    println \"{rms(a, 10):0.16f}\";\n}"
+    },
+    {
+        "id": "Averages_Simple_moving_average",
+        "title": "Averages/Simple moving average",
+        "code": "import \"std/vec.zc\"\n\nalias clos = fn(f64) -> f64;\n\nfn sma(period: usize) -> clos {\n    let storage = Vec<f64>::new();\n    let i = 0;\n    let sum = 0.0;\n    return fn[=](input: f64) -> f64 {\n        if storage.length() < period {\n            sum += input;\n            storage << input;\n        }\n        sum += input - storage[i];\n        storage[i] = input;\n        i = (i + 1) % period;\n        return sum / storage.length();\n    }\n}\n\nfn main() {\n    let sma3 = sma(3);\n    let sma5 = sma(5);\n    println \"  x     sma3   sma5\";\n    let a: f64[10] = [1.0, 2.0, 3.0, 4.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0];\n    for i in 0..10 {\n        let x = a[i];\n        printf(\"%5.2f  %5.2f  %5.2f\\n\", x, sma3(x), sma5(x));\n    }\n}"
+    },
+    {
+        "id": "Bell_numbers",
+        "title": "Bell numbers",
+        "code": "import \"std/bigint.zc\"\n\nfn main() {\n    let a: BigInt[51];\n    let bells: BigInt[51];\n    \n    a[0] = BigInt::from_int(1);\n    bells[0] = BigInt::from_int(1);\n    for i in 1..=50 {\n        a[i] = BigInt::new();\n        bells[i] = BigInt::new();\n    }\n    \n    println \"First 10 rows of the Bell Triangle\\n1\";\n    \n    for i in 1..=50 {\n        let prev = (&a[0]).clone();\n        a[0] = (&a[i - 1]).clone();\n        bells[i] = (&a[0]).clone();\n        \n        let pr = i < 10;\n        if pr { print \"{a[0]} \"; }\n        \n        for j in 1..=i {\n            let next_val = (&a[j]).clone();\n            a[j] = prev + &a[j-1];\n            prev = next_val;\n            \n            if pr { print \"{a[j]} \"; }\n        }\n        if pr { println \"\"; }\n    }\n    \n    println \"\\nFirst 15 Bell Numbers\";\n    for i in 0..15 { println \"B({i}) = {bells[i]}\"; }\n    \n    println \"\\n50th Bell Number\";\n    println \"B(50) = {bells[50]}\";\n}"
+    },
+    {
+        "id": "Bernoulli's_triangle",
+        "title": "Bernoulli's triangle",
+        "code": "fn main() {\n    let rows = 15;\n    let triangle: uint[15][15];\n\n    for n in 0..rows {\n\n        triangle[n][0] = 1;\n \n        for k in 1..n {\n            triangle[n][k] = triangle[n-1][k] + triangle[n-1][k-1];\n        }\n \n        if n > 0 {\n            triangle[n][n] = 2 * triangle[n-1][n-1];\n        }\n    }\n\n    // Print the triangle\n    for n in 0..rows {\n        for k in 0..=n {\n            print \"{triangle[n][k]} \";\n        }\n        println \"\";\n    }\n}"
+    },
+    {
+        "id": "Binary_digits",
+        "title": "Binary digits",
+        "code": "fn main() {\n    let a = [5, 50, 9000];\n    for i in a { printf(\"%b\\n\", i);\n}"
+    },
+    {
+        "id": "Binary_search",
+        "title": "Binary search",
+        "code": "fn binary_search_iterative(arr: int*, value: int, low: int, high: int) -> int {\n    let l = low;\n    let h = high;\n    \n    while l <= h {\n        let mid = l + (h - l) / 2;\n        \n        if arr[mid] > value {\n            h = mid - 1;\n        } else if arr[mid] < value {\n            l = mid + 1;\n        } else {\n            return mid;\n        }\n    }\n    return -1;\n}\n\nfn main() {\n    let arr: int[10] = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];\n    let n = 10;\n    let targets: int[3] = [12, 5, 20];\n    \n    println \"=> Iterative Binary Search\";\n    for target in targets {\n        let index = binary_search_iterative(arr, target, 0, n - 1);\n        if index != -1 {\n            println \"Value {target} found at index {index}.\";\n        } else {\n            println \"Value {target} not found.\";\n        }\n    }\n}"
+    },
+    {
+        "id": "Bitmap",
+        "title": "Bitmap",
+        "code": "import \"std/mem.zc\"\nimport \"std/core.zc\"\n\nstruct Color {\n    r: u8;\n    g: u8;\n    b: u8;\n}\n\nstruct Image {\n    width: usize;\n    height: usize;\n    pixels: Color*;\n}\n\nimpl Image {\n    fn new(width: usize, height: usize) -> Self {\n        return Self {\n            width: width,\n            height: height,\n            pixels: alloc_n<Color>(width * height)\n        };\n    }\n\n    fn fill(self, color: Color) {\n        for let i: usize = 0; i < self.width * self.height; i++ {\n            self.pixels[i] = color;\n        }\n    }\n\n    fn set_pixel(self, x: usize, y: usize, color: Color) {\n        if x < self.width && y < self.height {\n            self.pixels[y * self.width + x] = color;\n        }\n    }\n\n    fn get_pixel(self, x: usize, y: usize) -> Color {\n        if x < self.width && y < self.height {\n            return self.pixels[y * self.width + x];\n        }\n        return Color { r: 0, g: 0, b: 0 };\n    }\n}\n\n// RAII: Automatically free memory when the struct goes out of scope\nimpl Drop for Image {\n    fn drop(self) {\n        if self.pixels != NULL {\n            println \"[RAII] Freeing image buffer ({self.width}x{self.height})\";\n            free(self.pixels);\n        }\n    }\n}\n\nfn main() {\n    let img = Image::new(3, 3);\n    println \"Created {img.width}x{img.height} image.\";\n\n    // Fill image with blue\n    let blue = Color { r: 0, g: 0, b: 255 };\n    img.fill(blue);\n    println \"Image filled with blue (0, 0, 255).\";\n\n    // Set center pixel to red\n    let red = Color { r: 255, g: 0, b: 0 };\n    img.set_pixel(1, 1, red);\n    println \"Set pixel at (1, 1) to red (255, 0, 0).\";\n\n    // Get colors and verify\n    let c11 = img.get_pixel(1, 1);\n    let c00 = img.get_pixel(0, 0);\n\n    println \"Pixel (1, 1): R={c11.r}, G={c11.g}, B={c11.b}\";\n    println \"Pixel (0, 0): R={c00.r}, G={c00.g}, B={c00.b}\";\n\n    assert(c11.r == 255 && c11.g == 0 && c11.b == 0, \"Pixel (1,1) should be red\");\n    assert(c00.r == 0 && c00.g == 0 && c00.b == 255, \"Pixel (0,0) should be blue\");\n\n    println \"Verification successful!\";\n}"
+    },
+    {
+        "id": "Bitwise_operations",
+        "title": "Bitwise operations",
+        "code": "import \"std/bits.zc\"\n\nfn main() {\n    let a: u32 = 255;\n    let b: u32 = 3;\n\n    println \"a AND b: {a & b}\";\n    println \"a OR b: {a | b}\";\n    println \"a XOR b: {a ^ b}\";\n    println \"NOT a: {~a}\";\n    \n    // Shifts\n    println \"Left shift (a << b): {a << b}\";\n    \n    // Logical right shift comes natively when using unsigned types ('u32')\n    println \"Logical right shift (a >> b): {a >> b}\";\n    \n    // Arithmetic right shift requires casting to a signed type to retain the sign bit\n    let arithmetic_rs = ((i32)a) >> b;\n    println \"Arithmetic right shift: {arithmetic_rs}\";\n    \n    let left_rot = Bits::rotl32(a, b);\n    let right_rot = Bits::rotr32(a, b);\n    println \"Left rotate: {left_rot}\";\n    println \"Right rotate: {right_rot}\";\n    \n    // A little bonus.\n    println \"Population Count: {Bits::popcount32(a)}\";\n    println \"Leading Zeros: {Bits::clz32(a)}\";\n    println \"Trailing Zeros: {Bits::ctz32(a)}\";\n}"
+    },
+    {
+        "id": "Boolean_values",
+        "title": "Boolean values",
+        "code": "fn main() {\n    // Native boolean type and keywords\n    let is_valid: bool = true;\n    let is_empty: bool = false;\n    \n    println \"Native true evaluates to: {is_valid}\";\n    println \"Native false evaluates to: {is_empty}\\n\";\n\n    // C-style truthiness evaluation\n    let zero_int = 0;\n    let non_zero_int = 42;\n    let zero_float = 0.0;\n    \n    if zero_int {\n        println \"0 is true\";\n    } else {\n        println \"0 evaluates to false\";\n    }\n    \n    if non_zero_int {\n        println \"42 evaluates to true\";\n    }\n    \n    if zero_float {\n        println \"0.0 is true\";\n    } else {\n        println \"0.0 evaluates to false\";\n    }\n}"
+    },
+    {
+        "id": "Caesar_cipher",
+        "title": "Caesar cipher",
+        "code": "import \"std/string.zc\"\nimport \"std/core.zc\"\n\nfn caesar_shift(input: char*, key: int) -> String {\n    let result = String::new(\"\");\n    let len = strlen(input);\n    \n    let shift = key % 26;\n    if (shift < 0) {\n        shift = shift + 26;\n    }\n\n    for let i: usize = 0; i < len; i++ {\n        let c = input[i];\n        \n        match (c) {\n            'A'..='Z' => {\n                let base = (int)'A';\n                let val = (int)c - base;\n                let shifted = (val + shift) % 26;\n                result.push_rune((rune)(base + shifted));\n            }\n            'a'..='z' => {\n                let base = (int)'a';\n                let val = (int)c - base;\n                let shifted = (val + shift) % 26;\n                result.push_rune((rune)(base + shifted));\n            }\n            _ => {\n                result.push_rune((rune)c);\n            }\n        }\n    }\n    \n    return result;\n}\n\nfn encode(text: char*, key: int) -> String {\n    return caesar_shift(text, key);\n}\n\nfn decode(text: char*, key: int) -> String {\n    return caesar_shift(text, -key);\n}\n\nfn main() {\n    let original = \"Hello, Zen-C World! (XYZ)\";\n    let key = 3;\n\n    println \"Original: {original}\";\n    println \"Key: {key}\";\n\n    // Encode\n    let encoded = encode(original, key);\n    println \"Encoded: {encoded.c_str()}\";\n\n    // Decode\n    let decoded = decode(encoded.c_str(), key);\n    println \"Decoded: {decoded.c_str()}\";\n\n    assert(strcmp(original, decoded.c_str()) == 0, \"Decode(Encode(text)) should be original\");\n    \n    // Test wrapping\n    let wrapped = encode(\"XYZ\", 3);\n    println \"Wrap Test ('XYZ' + 3): {wrapped.c_str()}\";\n    assert(strcmp(wrapped.c_str(), \"ABC\") == 0, \"XYZ should wrap to ABC\");\n}"
+    },
+    {
+        "id": "Calculating_the_value_of_e",
+        "title": "Calculating the value of e",
+        "code": "import \"std/math.zc\"\n\nfn main() {\n    def EPS = 1e-15;\n    let e = 2.0;\n    let fact: u64 = 1;\n    let n: u64 = 2;\n    loop {\n        let e0 = e;\n        fact *= n++;\n        e += 1.0 / (f64)fact;\n        if Math::abs(e - e0) < EPS { break; }\n    }\n    println \"e = {e:0.15f}\";\n}"
+    },
+    {
+        "id": "Calendar",
+        "title": "Calendar",
+        "code": "fn IS_LEAP(Y: int) -> int {\n    if Y > 1582 return (Y % 4 == 0 && Y % 100 != 0) || (Y % 400 == 0) ? 1 : 0;\n    return Y % 4 == 0 ? 1 : 0;\n}\n\nfn GET_DAYS(Y: int, M: int) -> int {\n    if M == 2 return IS_LEAP(Y) == 1 ? 29 : 28;\n    if M == 4 || M == 6 || M == 9 || M == 11 return 30;\n    return 31;\n}\n\nfn GET_START_DAY(Y: int, M: int) -> int {\n    let TY = Y;\n    let TM = M;\n    if TM < 3 { TY--; TM += 12; }\n    if Y > 1582 || (Y == 1582 && M > 10) {\n        return (1 + 2*TM + 3*(TM+1)/5 + TY + TY/4 - TY/100 + TY/400 + 1) % 7;\n    }\n    return (1 + 2*TM + 3*(TM+1)/5 + TY + TY/4 + 5) % 7;\n}\n\nfn PRINT_MONTH_NAME(M: int) {\n    let NAMES: char*[12] = [\"JANUARY\", \"FEBRUARY\", \"MARCH\", \"APRIL\", \"MAY\", \"JUNE\", \"JULY\", \"AUGUST\", \"SEPTEMBER\", \"OCTOBER\", \"NOVEMBER\", \"DECEMBER\"];\n    let NAME = NAMES[M-1];\n    print \"      {NAME}\";\n    // Simple padding for 20-char width\n    for I in 0..(14 - (M == 9 ? 9 : (M == 1 || M == 3 || M == 7 || M == 8 ? 7 : 8))) { print \" \"; }\n}\n\nfn main() {\n    let YEAR = 1969;\n    let WIDTH = 80;\n    let MONTHS_PER_ROW = WIDTH / 20;\n\n    println \"                                    ,-~~-.___.\";\n    println \"                                   / ()=(()   \\\\\";\n    println \"                                  (   (        0\";\n    println \"                                   \\\\._\\\\, ,----'\";\n    println \"                              ##XXXxxxxxxx\";\n    println \"                                     /  ---'~;\";\n    println \"                                    /    /~|-\";\n    println \"                              _____=(   ~~  |______\";\n    println \"                             /_____________________\\\\\";\n    println \"                            /_______________________\\\\\";\n    println \"                           /_________________________\\\\\";\n    println \"                          /___________________________\\\\\";\n    println \"                             |____________________|\";\n    println \"                             |____________________|\";\n    println \"                             |____________________|\";\n    println \"                               CALENDAR FOR {YEAR}\";\n\n    for ROW in 0..(12 / MONTHS_PER_ROW) {\n        let START_M = ROW * MONTHS_PER_ROW + 1;\n        \n        // Headers\n        for M_OFF in 0..MONTHS_PER_ROW { PRINT_MONTH_NAME(START_M + M_OFF); }\n        println \"\";\n        for M_OFF in 0..MONTHS_PER_ROW { print \"SU MO TU WE TH FR SA \"; }\n        println \"\";\n\n        // Weeks (Max 6)\n        for W in 0..6 {\n            for M_OFF in 0..MONTHS_PER_ROW {\n                let M = START_M + M_OFF;\n                let S = GET_START_DAY(YEAR, M);\n                let D_MAX = GET_DAYS(YEAR, M);\n                for D in 0..7 {\n                    let DATE = W * 7 + D - S + 1;\n                    if DATE > 0 && DATE <= D_MAX {\n                        if DATE < 10 print \" \";\n                        print \"{DATE} \";\n                    } else {\n                        print \"   \";\n                    }\n                }\n            }\n            println \"\";\n        }\n    }\n}"
+    },
+    {
+        "id": "Character_codes",
+        "title": "Character codes",
+        "code": "import \"std/io.zc\"\n\nfn main() {\n    // Character to Code (ASCII)\n    let c = 'a';\n    println \"The character '{c}' has a code of {(int)c} in ASCII/Unicode.\";\n\n    // Code to Character (ASCII)\n    let code = 97;\n    println \"The code {code} corresponds to the character '{(char)code}'.\";\n\n    // Multibyte Character (Rune) to Code\n    let r: rune = '\ud83d\ude80';\n    println \"The rune '{r}' has a code of {(uint32_t)r} in Unicode.\";\n\n    // Code to Multibyte Character (Rune)\n    let r_code: uint32_t = 128640;\n    println \"The code {r_code} corresponds to the rune '{(rune)r_code}'.\";\n    \n    // Using Unicode Escapes for conversion clarity and Hex formatting\n    let r_esc: rune = '\\u{2764}';\n    println \"The rune '{r_esc}' has code {(uint32_t)r_esc} (0x{(uint32_t)r_esc : X})\";\n}"
+    },
+    {
+        "id": "Check_input_device_is_a_terminal",
+        "title": "Check input device is a terminal",
+        "code": "import \"unistd.h\"\n\nfn main() {\n    let res = isatty(fileno(stdin)) ? \"true\" : \"false\";\n    println \"Input device is a terminal? {res}\";\n}"
+    },
+    {
+        "id": "Check_output_device_is_a_terminal",
+        "title": "Check output device is a terminal",
+        "code": "import \"unistd.h\"\n\nfn main() {\n    let res = isatty(fileno(stdout)) ? \"true\" : \"false\";\n    println \"Output device is a terminal? {res}\";\n}"
+    },
+    {
+        "id": "Chinese_zodiac",
+        "title": "Chinese zodiac",
+        "code": "let animals  = [\"Rat\", \"Ox\", \"Tiger\", \"Rabbit\", \"Dragon\", \"Snake\", \"Horse\", \"Goat\", \"Monkey\", \"Rooster\", \"Dog\", \"Pig\"];\nlet aspects  = [\"Yang\",\"Yin\"];\nlet elements = [\"Wood\", \"Fire\", \"Earth\", \"Metal\", \"Water\"];\nlet stems    = [\"\u7532\", \"\u4e59\", \"\u4e19\", \"\u4e01\", \"\u620a\", \"\u5df1\", \"\u5e9a\", \"\u8f9b\", \"\u58ec\", \"\u7678\"];\nlet branches = [\"\u5b50\", \"\u4e11\", \"\u5bc5\", \"\u536f\", \"\u8fb0\", \"\u5df3\", \"\u5348\", \"\u672a\", \"\u7533\", \"\u9149\", \"\u620c\", \"\u4ea5\"];\nlet s_names  = [\"ji\u0103\", \"y\u012d\", \"b\u012dng\", \"d\u012bng\", \"w\u00f9\", \"j\u012d\", \"g\u0113ng\", \"x\u012bn\", \"r\u00e9n\", \"g\u016di\"];\nlet b_names  = [\"z\u012d\", \"ch\u014fu\", \"y\u00edn\", \"m\u0103o\", \"ch\u00e9n\", \"s\u00ec\", \"w\u016d\", \"w\u00e8i\", \"sh\u0113n\", \"y\u014fu\",  \"x\u016b\", \"h\u00e0i\"];\n\nstruct ChineseZodiac {\n    year:    int;\n    stem:    string;\n    branch:  string;\n    s_name:  string;\n    b_name:  string;\n    element: string;\n    animal:  string;\n    aspect:  string;\n    cycle:   int;\n}\n\nimpl ChineseZodiac {\n    fn new(year: int) -> Self {\n        let y = year - 4;\n        let s = y % 10;\n        let b = y % 12;\n        return ChineseZodiac {\n            year:    year,\n            stem:    stems[s],\n            branch:  branches[b],\n            s_name:  s_names[s],\n            b_name:  b_names[b],\n            element: elements[s / 2],\n            animal:  animals[b],\n            aspect:  aspects[s % 2],\n            cycle:   y % 60 + 1\n        };\n    }\n\n    fn display(self) {\n        let fmt = \"%d    %s%s   %5s-%-5s   %-7s  %-7s  %-6s  %02d/60\\n\";\n        printf(fmt, .year, .stem, .branch, .s_name, .b_name, .element, .animal, .aspect, .cycle);\n    }\n}\n\nfn main() {\n    let years = [1935, 1938, 1968, 1972, 1976, 1984, 2017, 2020, 2026];\n    println \"Year  Chinese  Pinyin      Element  Animal   Aspect  Cycle\";\n    println \"----  -------  ---------   -------  -------  ------  -----\";\n    for i in 0..9 {\n        let cz = ChineseZodiac::new(years[i]);\n        cz.display();\n    }\n}"
+    },
+    {
+        "id": "Classes",
+        "title": "Classes",
+        "code": "struct Point {\n    x: int;\n    y: int;\n}\n\nimpl Point {\n    // Constructor convention (static method returning Self)\n    fn new(x: int, y: int) -> Self {\n        return Point{x: x, y: y};\n    }\n\n    // Instance method\n    fn print_coords(self) {\n        // Using the .field shorthand for self.x and self.y\n        println \"Point coordinates: ({.x}, {.y})\";\n    }\n    \n    // Method that mutates state using 'self' directly\n    fn move_by(self, dx: int, dy: int) {\n        self.x += dx;\n        self.y += dy;\n    }\n}\n\nfn main() {\n    // Instantiate using the constructor\n    let p = Point::new(10, 20);\n    p.print_coords();\n    \n    // Mutate state directly\n    p.move_by(5, -5);\n    \n    print \"After moving: \";\n    p.print_coords();\n}"
+    },
+    {
+        "id": "Code_Golf",
+        "title": "Code Golf",
+        "code": "fn main(){\"Code Golf\"..}"
+    },
+    {
+        "id": "Command-line_arguments",
+        "title": "Command-line arguments",
+        "code": "fn main(argc: int, argv: char**) {\n    for i in 0..argc {\n        println \"{argv[i]}\";\n    }\n}"
+    },
+    {
+        "id": "Conjugate_a_Latin_verb",
+        "title": "Conjugate a Latin verb",
+        "code": "fn conjugate(inf: string, eng: string, stem: string, \n             e1: string, e2: string, e3: string, e4: string, e5: string, e6: string) {\n             \n    println \"Present indicative tense, active voice, of '{inf}' to '{eng}':\";\n    \n    let endings: string[6] = [e1, e2, e3, e4, e5, e6];\n    let pronouns: string[6] = [\"I\", \"you (singular)\", \"he, she or it\", \"we\", \"you (plural)\", \"they\"];\n    \n    for let i = 0; i < 6; i += 1 {\n        print \"    {stem}{endings[i]}\";\n        \n        // Calculate padding for alignment.\n        let word_len = strlen(stem) + strlen(endings[i]);\n        for let p = word_len; p < 12; p += 1 {\n            print \" \";\n        }\n        \n        if i == 2 {\n            println \"{pronouns[i]} {eng}s\";\n        } else {\n            println \"{pronouns[i]} {eng}\";\n        }\n    }\n    println \"\";\n}\n\nfn main() {\n    // 1st Conjugation\n    conjugate(\"amare\", \"love\", \"am\", \n              \"o\", \"as\", \"at\", \"amus\", \"atis\", \"ant\");\n\n    // 2nd Conjugation\n    conjugate(\"videre\", \"see\", \"vid\", \n              \"eo\", \"es\", \"et\", \"emus\", \"etis\", \"ent\");\n\n    // 3rd Conjugation\n    conjugate(\"ducere\", \"lead\", \"duc\", \n              \"o\", \"is\", \"it\", \"imus\", \"itis\", \"unt\");\n\n    // 4th Conjugation\n    conjugate(\"audire\", \"hear\", \"aud\", \n              \"io\", \"is\", \"it\", \"imus\", \"itis\", \"iunt\");\n}"
+    },
+    {
+        "id": "Convert_seconds_to_compound_duration",
+        "title": "Convert seconds to compound duration",
+        "code": "fn ends_with(s1: char*, s2: char*) -> bool {\n    let l1 = strlen(s1);\n    let l2 = strlen(s2);\n    if l2 > l1 { return false; }\n    for i in 0..l2 {\n        if s1[l1 - i - 1] != s2[l2 - i - 1] { return false; }\n    }\n    return true;\n}\n\nfn duration(s: int) {\n    if s < 1 {\n        println \"0 sec\";\n        return;\n    }\n    let dur: char[30] = [0];\n    let divs: int[5] = [7, 24, 60, 60, 1];\n    let units: string[5] = [\"wk\", \"d\", \"hr\", \"min\", \"sec\"];\n    let t = 1;\n    for d in divs { t *= d; }\n    for i in 0..5 {\n        let u = s / t;\n        if u > 0 {\n            strcat(dur, \"{u} {units[i]}, \");\n            s %= t;\n        }\n        t /= divs[i];\n    }\n    if ends_with(dur, \", \") { dur[strlen(dur) - 2] = '\\0'; }\n    println \"{dur}\";\n}\n\nfn main() {\n    let tests: int[3] = [7_259, 86_400, 6_000_000];\n    for t in tests { duration(t); }\n}"
+    },
+    {
+        "id": "Copy_a_string",
+        "title": "Copy a string",
+        "code": "fn main() {\n    autofree let dup = strdup(\"I'm a duplicate!\");\n    println \"{dup}\";\n}"
+    },
+    {
+        "id": "Count_occurrences_of_a_substring",
+        "title": "Count occurrences of a substring",
+        "code": "fn str_occurs(s: string, t: string) -> int {\n    let ptr = s;\n    let count = 0;\n    let l = strlen(t);\n    if l == 0 { return -1; }\n    loop {\n        ptr = strstr(ptr, t);\n        if ptr {\n            count++;\n            ptr += l;\n        } else {\n            break;\n        }\n    }\n    return count;\n}\n\nfn str_quote(s: string, q: char*) {\n    sprintf(q, \"'%s'\", s);\n}\n\nfn main() {\n    let t1 = [\"the three truths\", \"th\"];\n    let t2 = [\"ababababab\", \"abab\"];\n    let t3 = [\"abaabba*bbaba*bbab\", \"a*b\"];\n    let t4 = [\"aaaaaaaaaaaaaa\", \"aa\"];\n    let t5 = [\"aaaaaaaaaaaaaa\", \"b\"];\n    let ts: string*[5] = [t1, t2, t3, t4, t5];\n    let q: char[10];\n    for i in 0..5 {\n        let t = ts[i];\n        let count = str_occurs(t[0], t[1]);\n        str_quote(t[1], q);\n        println \"{q:6s} occurs {count} times in '{t[0]}'\";\n    }\n}"
+    },
+    {
+        "id": "Create_a_file",
+        "title": "Create a file",
+        "code": "import \"std/fs.zc\"\n\nfn try_create_file(path: char*) {\n    println \"Creating file: {path}\";\n    let res = File::open(path, \"w\");\n    if res.is_ok() {\n        println \"Success: {path} created.\";\n        res.unwrap().close();\n    } else {\n        println \"Error: {res.err}\";\n    }\n}\n\nfn try_create_dir(path: char*) {\n    println \"Creating directory: {path}\";\n    let res = File::create_dir(path);\n    if res.is_ok() {\n        println \"Success: {path} created.\";\n    } else {\n        println \"Error: {res.err}\";\n    }\n}\n\nfn main() {\n    // Current directory\n    try_create_file(\"output.txt\");\n    try_create_dir(\"docs\");\n\n    // Filesystem root\n    try_create_file(\"/output.txt\");\n    try_create_dir(\"/docs\");\n}"
+    },
+    {
+        "id": "Determine_if_a_string_is_numeric",
+        "title": "Determine if a string is numeric",
+        "code": "fn is_numeric(s: const string) -> bool {\n    if !s || *s == '\\0' { return false; }\n    let p: char*;\n    strtod(s, &p);\n    return *p == '\\0';\n}\n\nfn main() {\n    println \"Are these strings numeric?\\n\"\n    let tests: const string[8] = [NULL, \"1\", \" 3.14\", \"-100\", \"1e2\", \"NaN\", \"0xaf\", \"rose\"];\n    for t in tests {\n        let isnum = is_numeric(t);\n        let yn = isnum ? \"yes\" : \"no\";\n        println \"{t:-6s} -> {yn}\";\n    }\n}"
+    },
+    {
+        "id": "Diversity_prediction_theorem",
+        "title": "Diversity prediction theorem",
+        "code": "fn average_square_diff(f: f64, preds: f64*, size: usize) -> f64 {\n    let sum = 0.0;\n    for i in 0..<size {\n        sum += (preds[i] - f) * (preds[i] - f);\n    }\n    return sum / size;\n}\n\nfn diversity_theorem(truth: f64, preds: f64*, size: usize) -> (f64, f64, f64) {\n    let sum = 0.0;\n    for i in 0..<size {\n        sum += preds[i];\n    }\n    let av = sum / size;\n    let av_err = average_square_diff(truth, preds, size);\n    let crowd_err = (truth - av) * (truth - av);\n    let div = average_square_diff(av, preds, size);\n    let res = (av_err, crowd_err, div);\n    return res;\n}\n\nfn main() {\n    let truth = 49.0;\n    let a1: f64[3] = [48.0, 47.0, 51.0];\n    let a2: f64[4] = [48.0, 47.0, 51.0, 42.0];\n    let res: (f64, f64, f64)[2];\n    res[0] = diversity_theorem(truth, a1, 3);\n    res[1] = diversity_theorem(truth, a2, 4);\n    for r in res {\n        let (ae, ce, div) = r;\n        println \"Average-error {ae:6.3f}\";\n        println \"Crowd-error   {ce:6.3f}\";\n        println \"Diversity     {div:6.3f}\\n\";\n    }\n}"
+    },
+    {
+        "id": "Dot_product",
+        "title": "Dot product",
+        "code": "fn dot_product(v1: [double], v2: [double]) -> double {\n    if v1.len != v2.len {\n        eprintln \"Error: Vectors must have the same length (got {v1.len} and {v2.len})\";\n        return 0.0;\n    }\n\n    let sum = 0.0;\n    for i in 0..v1.len {\n        sum += (v1[i] * v2[i]);\n    }\n    return sum;\n}\n\nfn main() {\n    let a: [double] = [1.0, 3.0, -5.0];\n    let b: [double] = [4.0, -2.0, -1.0];\n\n    let result = dot_product(a, b);\n\n    println \"Vector A: [1, 3, -5]\";\n    println \"Vector B: [4, -2, -1]\";\n    println \"A . B  = {result}\";\n\n    let a2: [double] = [1.0, 2.0, 3.0, 4.0];\n    let b2: [double] = [0.5, 0.5, 0.5, 0.5];\n    \n    println \"\";\n    println \"Vector A2: [1, 2, 3, 4]\";\n    println \"Vector B2: [0.5, 0.5, 0.5, 0.5]\";\n    println \"A2 . B2 = {dot_product(a2, b2)}\";    \n}"
+    },
+    {
+        "id": "Echo_server",
+        "title": "Echo server",
+        "code": "import \"std/net/tcp.zc\"\nimport \"std/thread.zc\"\nimport \"std/string.zc\"\n\nfn handle_client(stream_ptr: TcpStream*) {\n    // Ensure cleanup happens automatically upon exiting scope\n    defer stream_ptr.close();\n    defer free(stream_ptr);\n    \n    println \"[Thread] Client connected!\";\n    \n    let buffer = String::from(\"\");\n    defer buffer.free();\n    let read_buf: char[1024];\n    \n    while true {\n        let res = stream_ptr.read(read_buf, 1023);\n        if res.is_err() {\n            eprintln \"[Thread] Error reading from stream: {res.err}\";\n            break;\n        }\n        \n        let n: usize = res.unwrap();\n        if n == 0 {\n            println \"[Thread] Client disconnected normally.\";\n            break;\n        }\n        \n        read_buf[n] = 0;\n        buffer.append_c(read_buf);\n        \n        // Check for complete lines terminated by CRLF\n        let idx = buffer.find_str(\"\\r\\n\");\n        while idx.is_some() {\n            let limit = idx.unwrap() + 2;\n            let line = buffer.substring(0, limit);\n            \n            // Echo the line back to the client\n            let write_res = stream_ptr.write((u8*)line.c_str(), line.length());\n            if write_res.is_err() {\n                eprintln \"[Thread] Failed to write back.\";\n                break;\n            }\n            \n            // Update the buffer to hold only the remaining unparsed data\n            let remaining = buffer.substring(limit, buffer.length() - limit);\n            buffer.free();\n            buffer = remaining;\n            \n            idx = buffer.find_str(\"\\r\\n\");\n        }\n    }\n    \n    println \"[Thread] Connection closed.\";\n}\n\nfn main() {\n    println \"Starting Concurrent Echo Server on 127.0.0.1:12321...\";\n    \n    let listener_res = TcpListener::bind(\"127.0.0.1\", 12321);\n    if listener_res.is_err() {\n        eprintln \"Failed to bind: {listener_res.err}\";\n        return 0;\n    }\n    \n    let listener = listener_res.unwrap();\n    println \"Listening for incoming connections...\";\n    \n    loop {\n        let client_res = listener.accept();\n        if client_res.is_err() {\n            eprintln \"Accept failed: {client_res.err}\";\n            continue;\n        }\n        \n        // Allocate the stream on the heap so the thread can safely take ownership\n        let stream_ptr = (TcpStream*)malloc(sizeof(TcpStream));\n        *stream_ptr = client_res.unwrap();\n        \n        // Spawn a new thread to handle the client concurrently\n        let thread_res = Thread::spawn(fn() {\n            handle_client(stream_ptr);\n        });\n        \n        if thread_res.is_err() {\n            eprintln \"Failed to spawn thread: {thread_res.err}\";\n            stream_ptr.close(); // Zen C auto-dereferences the pointer\n            free(stream_ptr);\n        } else {\n            let t = thread_res.unwrap();\n            t.detach(); // Detach so the thread cleans itself up upon completion\n        }\n    }\n}"
+    },
+    {
+        "id": "Empty_program",
+        "title": "Empty program",
+        "code": "fn main() {}"
+    },
+    {
+        "id": "Environment_variables",
+        "title": "Environment variables",
+        "code": "import \"std/env.zc\"\n\nfn main() {\n    let shell = Env::get_dup(\"SHELL\").unwrap();\n    println \"{shell}\";\n}"
+    },
+    {
+        "id": "Even_or_odd",
+        "title": "Even or odd",
+        "code": "fn is_even<T>(n: T) -> bool {\n    return n & 1 == 0;\n}\n\nfn is_odd<T>(n: T) -> bool {\n    return n & 1 == 1;\n}\n\nfn main() {\n    let n1: i32 = 124;\n    println \"{n1} is even? {is_even(n1)}\";\n    println \"{n1} is odd ? {is_odd(n1)}\";\n    println \"\";\n    let n2: i64 = -1231231231231231237;\n    println \"{n2} is even? {is_even(n2)}\";\n    println \"{n2} is odd ? {is_odd(n2)}\";\n}"
+    },
+    {
+        "id": "Experimental_Verification_of_the_NKTg_Law_Using_NASA_Neptune_Data_(2023\u20132024)",
+        "title": "Experimental Verification of the NKTg Law Using NASA Neptune Data (2023\u20132024)",
+        "code": "import \"std/math.zc\"\n\nfn compute_nktg(x: f64, v: f64, m: f64, dm_dt: f64) {\n    let p = m * v;\n    let nktg1 = x * p;\n    let nktg2 = dm_dt * p;\n    let nktg  = Math::sqrt(nktg1 * nktg1 + nktg2 * nktg2);\n\n    println \"--------------------------------------------\";\n    println \"Position (x)         : {x:0.0f}\";\n    println \"Velocity (v)         : {v:0.2f}\";\n    println \"Mass (m)             : {m:0.0f}\";\n    println \"Momentum (p = m * v) : {p:0.0f}\";\n    println \"NKTg1 = x * p        : {nktg1:0.0f}\";\n    println \"NKTg2 = dm_dt * p    : {nktg2:0.0f}\";\n    println \"Total NKTg           : {nktg:0.0f}\";\n}\n\nfn main() {\n    println \"============================================\";\n    println \"NKTg Law - Neptune 2023 NASA Data\";\n    println \"============================================\";\n\n    // 2023 NASA Data (Neptune)\n    let dm_dt = -0.00002000;\n\n    let data2023: (f64, f64, f64)[5] = [\n        [4498396440.0, 5.43, 1.02430000e26],\n        [4503443661.0, 5.43, 1.02429980e26],\n        [4553946490.0, 5.43, 1.02429960e26],\n        [4503443661.0, 5.43, 1.02429940e26],\n        [4498396440.0, 5.43, 1.02429920e26]\n    ];\n\n    for e in data2023 {\n        let (x, v, m) = e;\n        compute_nktg(x, v, m, dm_dt);\n    }\n\n    println \"\\n============================================\";\n    println \"NKTg Law - Neptune 2024 Simulation\";\n    println \"============================================\";\n\n    let data2024: (f64, f64, f64)[5] = [ \n        (4498396440.0, 5.43, 1.02429900e26),\n        (4503443661.0, 5.43, 1.02429880e26),\n        (4553946490.0, 5.43, 1.02429860e26),\n        (4503443661.0, 5.43, 1.02429840e26),\n        (4498396440.0, 5.43, 1.02429820e26)\n    ];\n\n    for e in data2024 {\n        let (x, v, m) = e;\n        compute_nktg(x, v, m, dm_dt);\n    }\n\n    println \"\\n============================================\";\n    println \"Experiment Completed\";\n    println \"============================================\";\n}"
+    },
+    {
+        "id": "Experimental_Verification_of_the_NKTg_Law_in_Earth_Orbit_Based_on_NASA\u2019s_2025_Earth_Dataset",
+        "title": "Experimental Verification of the NKTg Law in Earth Orbit Based on NASA\u2019s 2025 Earth Dataset",
+        "code": "def DM_DT = -1.8; // kg/s\n\nstruct OrbitalData {\n    date: string;\n    x: f64;\n    v: f64;\n    m: f64;\n}\n\nfn new_od(date: string, x: f64, v: f64, m: f64) -> OrbitalData {\n    return OrbitalData { date: date, x: x, v: v, m: m };\n}\n        \nstruct ResultRow {\n    date:   string;\n    p:      f64;\n    nktg1:  f64;\n    nktg2:  f64;\n    v_sim:  f64;\n    v_nasa: f64;\n    error:  f64;\n}\n\nimpl ResultRow {\n    fn display(self) -> void {\n        println \"{.date:-12s} {.p:14.3e} {.nktg1:14.3e} {.nktg2:14.3e} {.v_sim:12.3e} {.v_nasa:12.3e} {.error:10.4f}%\";\n    }\n}\n\nfn momentum(m: f64, v: f64) -> f64 {\n    return m * v;\n}\n\nfn nktg1(x: f64, p: f64) -> f64 {\n    return x * p;\n}\n\nfn nktg2(p: f64) -> f64 {\n    return DM_DT * p;\n}\n\nfn relative_error(sim: f64, nasa: f64) -> f64 {\n    return (sim - nasa) / nasa * 100.0;\n}\n\nfn main() {\n    // Simulated NKTg 2025 dataset\n    let sim_2025: OrbitalData[5] = [\n        new_od(\"01/01/2025\", 1.471012e11, 3.0276e4, 5.97219e24),\n        new_od(\"04/01/2025\", 1.494953e11, 2.9791e4, 5.97218999999998e24),\n        new_od(\"07/01/2025\", 1.520965e11, 2.9282e4, 5.97218999999997e24),\n        new_od(\"10/01/2025\", 1.496328e11, 2.9764e4, 5.97218999999995e24),\n        new_od(\"12/31/2025\", 1.471025e11, 3.0276e4, 5.97218999999994e24)\n    ];\n\n    // NASA observed velocities\n    let nasa_2025: (string, f64)[5] = [\n        (\"01/01/2025\", 3.0287e4),\n        (\"04/01/2025\", 2.9791e4),\n        (\"07/01/2025\", 2.9291e4),\n        (\"10/01/2025\", 2.9778e4),\n        (\"12/31/2025\", 3.0286e4)\n    ];\n\n    println \"\\nExperimental Verification of NKTg Law (Earth 2025)\\n\";\n\n    println \"Date            Momentum(p)          NKTg1          NKTg2        v_sim       v_NASA      Error\";\n    println \"-----------------------------------------------------------------------------------------------\";\n\n    for i, data in sim_2025 {\n        let p      = momentum(data.m, data.v);\n        let n1     = nktg1(data.x, p);\n        let n2     = nktg2(p);\n        let v_nasa = nasa_2025[i].1;\n        let error  = relative_error(data.v, v_nasa);\n\n        let row = ResultRow {\n            date  : data.date,\n            p     : p,\n            nktg1 : n1,\n            nktg2 : n2,\n            v_sim : data.v,\n            v_nasa: v_nasa,\n            error : error\n        };\n        row.display();\n    }\n}"
+    },
+    {
+        "id": "Factorial",
+        "title": "Factorial",
+        "code": "fn factorial(n: i64) -> i64 {\n    // Using a ternary operator for the base case\n    return n <= 1 ? 1 : n * factorial(n - 1);\n}\n\nfn main() {\n    for i in 0..=15 {\n        let res = factorial(i);\n        println \"{i}! = {res}\";\n    }\n}"
+    },
+    {
+        "id": "Fast_Fourier_transform",
+        "title": "Fast Fourier transform",
+        "code": "import \"std/complex.zc\"\nimport \"std/vec.zc\"\n\nfn fft_recursive(input: Vec<Complex>) -> Vec<Complex> {\n    let N = input.len;\n    \n    if N <= 1 {\n        let res = Vec<Complex>::with_capacity(1);\n        if N == 1 {\n            res.push(input.get(0));\n        }\n        return res;\n    }\n\n    let even = Vec<Complex>::with_capacity(N / 2);\n    let odd = Vec<Complex>::with_capacity(N / 2);\n    \n    for let i: usize = 0; i < N; i += 2 {\n        even.push(input.get(i));\n        if i + 1 < N {\n            odd.push(input.get(i + 1));\n        }\n    }\n\n    let even_fft = fft_recursive(even);\n    let odd_fft = fft_recursive(odd);\n\n    let result = Vec<Complex>::with_capacity(N);\n    for _i in 0..N {\n        result.push(Complex::new(0.0, 0.0));\n    }\n\n    let half_N = N / 2;\n    for k in 0..half_N {\n        let theta = -2.0 * Math::PI() * (double)k / (double)N;\n        let twiddle = Complex::new(Math::cos(theta), Math::sin(theta));\n        \n        let t = twiddle * odd_fft.get(k);\n        let e = even_fft.get(k);\n        \n        result.set(k, e + t);\n        result.set(k + half_N, e - t);\n    }\n    \n    return result;\n}\n\nfn pad_to_power_of_2(input: Vec<Complex>*) {\n    let current_len = input.len;\n    let next_power = 1;\n    while next_power < current_len {\n        next_power *= 2;\n    }\n    \n    for _i in current_len..next_power {\n        input.push(Complex::new(0.0, 0.0));\n    }\n}\n\nfn main() {\n    println \"=> Fast Fourier Transform (FFT)\";\n    \n    let signal = Vec<Complex>::with_capacity(8);\n    for _i in 0..4 {\n        signal.push(Complex::new(1.0, 0.0));\n    }\n    for _i in 4..8 {\n        signal.push(Complex::new(0.0, 0.0));\n    }\n\n    pad_to_power_of_2(&signal);\n\n    println \"Input Signal (len: {signal.len}):\";\n    let i = 0;\n    for val in signal {\n        let mag = val.magnitude();\n        let s = val.to_string();\n        let s_ptr = s.c_str();\n        println \"\\tx[{i}] = {s_ptr}  (Magnitude: {mag})\";\n        i += 1;\n    }\n    \n    let fft_output = fft_recursive(signal);\n    \n    println \"\\nFFT Output:\";\n    let k = 0;\n    for X in fft_output {\n        let mag = X.magnitude();\n        let s = X.to_string();\n        let s_ptr = s.c_str();\n        println \"\\tX[{k}] = {s_ptr}  (Magnitude: {mag})\";\n        k += 1;\n    }\n}"
+    },
+    {
+        "id": "Fibonacci_sequence",
+        "title": "Fibonacci sequence",
+        "code": "// Recursive approach using pattern matching\nfn fib_rec(n: int) -> int {\n    match n {\n        0 => { return 0; },\n        1 => { return 1; },\n        _ => { return fib_rec(n - 1) + fib_rec(n - 2); }\n    }\n}\n\n// Iterative approach using exclusive range loops\nfn fib_iter(n: int) -> int {\n    let a = 0;\n    let b = 1;\n    \n    // The loop variable is ignored using the '_' wildcard\n    for _ in 0..<n {\n        let next = a + b;\n        a = b;\n        b = next;\n    }\n    \n    return a;\n}\n\nfn main() {\n    println \"Fibonacci Sequence (0 to 20):\";\n    \n    println \"\\nRecursive:\";\n    for i in 0..=20 {\n        let res = fib_rec(i);\n        println \"fib({i}) = {res}\";\n    }\n\n    println \"\\nIterative:\";\n    for i in 0..=20 {\n        let res = fib_iter(i);\n        println \"fib({i}) = {res}\";\n    }\n}"
+    },
+    {
+        "id": "Finite_state_machine",
+        "title": "Finite state machine",
+        "code": "import \"ctype.h\"\n\ndef READY     = 0;\ndef WAITING   = 1;\ndef EXIT      = 2;\ndef DISPENSE  = 3;\ndef REFUNDING = 4;\n\nfn fsm() {\n    println \"Please enter your option when prompted\";\n    println \"(any characters after the first will be ignored)\";\n    let state = READY;\n    let input: char[10];\n    let trans: int;\n    loop {\n        match state {\n            READY => {\n                do {\n                    ? \"\\n(D)ispense or (Q)uit : \" (input);\n                    trans = tolower(input[0]);\n                } while trans != 'd' && trans != 'q';\n                state = (trans == 'd') ? WAITING : EXIT;\n            },\n            WAITING => {\n                println \"OK, put your money in the slot\";\n                do {\n                    ? \"(S)elect product or choose a (R)efund : \" (input);\n                    trans = tolower(input[0]);\n                } while trans != 's' && trans != 'r';\n                state = (trans == 's') ? DISPENSE : REFUNDING ;\n            },\n            DISPENSE => {\n                do {\n                    ? \"(R)emove product : \" (input);\n                    trans = tolower(input[0]);\n                } while trans != 'r' ;\n                state = READY;\n            },\n            REFUNDING => {\n                // No transitions defined.\n                println \"OK, refunding your money\";\n                state = READY;\n            },\n            EXIT => {\n                println \"OK, quitting\";\n                return;\n            }\n        }\n    }\n}\n\nfn main() {\n    fsm();\n}"
+    },
+    {
+        "id": "Fivenum",
+        "title": "Fivenum",
+        "code": "import \"std/sort.zc\"\nimport \"std/math.zc\"\n\nfn fivenum(a: f64*, len: const usize) {\n    sort_double(a, len);\n    let n5: [f64; 5];\n    let n = (f64)len;\n    let n4 = Math::floor((n + 3.0) / 2.0) / 2.0;\n    let d = [1.0, n4, (n + 1.0) / 2.0, n + 1.0 - n4, n];\n    let e = 0;\n    for de in d {\n        let floor = (usize)Math::floor(de - 1.0);\n        let ceil  = (usize)Math::ceil (de - 1.0);\n        n5[e++] = 0.5 * (a[floor] + a[ceil]);\n    }\n    print \"[\";\n    for i in 0..5 {\n        print \"{n5[i]:0.9g}\";\n        if i < 4 {\n            print \", \";\n        } else {\n            println \"]\";\n        }\n    }\n}\n\nfn main() {\n    let x1 = [36.0, 40.0, 7.0, 39.0, 41.0, 15.0];\n    let x2 = [15.0, 6.0, 42.0, 41.0, 7.0, 36.0, 49.0, 40.0, 39.0, 47.0, 43.0];\n    let x3 = [\n        0.14082834,  0.09748790,  1.73131507,  0.87636009, -1.95059594,\n        0.73438555, -0.03035726,  1.46675970, -0.74621349, -0.72588772,\n        0.63905160,  0.61501527, -0.98983780, -1.00447874, -0.62759469,\n        0.66206163,  1.04312009, -0.10305385,  0.75775634,  0.32566578\n    ];\n    let xs: f64*[3] = [x1, x2, x3];\n    let lens = [6, 11, 20];\n    for i in 0..3 { fivenum(xs[i], lens[i]) };\n}"
+    },
+    {
+        "id": "FizzBuzz",
+        "title": "FizzBuzz",
+        "code": "fn main() {\n    for i in 1..=100 {\n        if i % 15 == 0 {\n            println \"FizzBuzz\";\n        } else if i % 3 == 0 {\n            println \"Fizz\";\n        } else if i % 5 == 0 {\n            println \"Buzz\";\n        } else {\n            println \"{i}\";\n        }\n    }\n}"
+    },
+    {
+        "id": "Forward_difference",
+        "title": "Forward difference",
+        "code": "fn forward_diff(a: int*, ac: int, order: const uint) {\n    if ac == 0 || order == 0 { return; }\n    for o in 0..=order {\n        print \"{o:2u}: \";\n        for i in 0..ac {\n            print \"{a[i]:5d} \";\n            if i == ac - 1 { break; }\n            a[i] = a[i + 1] - a[i];\n        }\n        println \"\";\n        if !(--ac) { return; }\n    }\n}\n\nfn main() {\n    let a = [90, 47, 58, 29, 22, 32, 55, 5, 55, 73];\n    forward_diff(a, 10, 9);\n}"
+    },
+    {
+        "id": "Function_definition",
+        "title": "Function definition",
+        "code": "@inline\nfn multiply(a: f64, b: f64) -> f64 {\n    return a * b;\n}"
+    },
+    {
+        "id": "Generic_swap",
+        "title": "Generic swap",
+        "code": "import \"std/mem.zc\"\n\nfn main() {\n    let a = 1;\n    let b = 2;\n    println \"Before: a = {a}, b = {b}\";\n    swap(&a, &b);\n    println \"After : a = {a}, b = {b}\";\n    println \"\";\n    let s = \"Rosetta\";\n    let t = \"Code\";\n    println \"Before: s = {s}, t = {t}\";\n    swap(&s, &t);\n    println \"After : s = {s}, t = {t}\";\n}"
+    },
+    {
+        "id": "Gosper's_hack",
+        "title": "Gosper's hack",
+        "code": "fn gospers_hack(x: int) -> int {\n    let c = x & -x;\n    let r = x + c;\n    return (((r ^ x) >> 2) / c) | r;\n}\n\nfn main() {\n    let a = [1, 3, 7, 15];\n    for start in a {\n        print \"{start:2d}:\";\n        let x = start;\n        for i in 0..10 {\n            x = gospers_hack(x);\n            print \" {x:4d}\";\n        }\n        println \"\";\n    }\n}"
+    },
+    {
+        "id": "Greatest_common_divisor",
+        "title": "Greatest common divisor",
+        "code": "fn gcd(x: int, y: int) -> int {\n    while y {\n        let t = y;\n        y = x % y;\n        x = t;\n    }\n    return abs(x);\n}\n\nfn main() {\n    println \"gcd(33, 77) = {gcd(33, 77)}\";\n    println \"gcd(49865, 69811) = {gcd(49865, 69811)}\";\n}"
+    },
+    {
+        "id": "Guess_the_number",
+        "title": "Guess the number",
+        "code": "import \"std/random.zc\"\n\nfn main() {\n    let rng = Random::new();\n    let comp = rng.next_int_range(1, 10); // computer number\n    let attempt = 0\n    let guess: int\n    do {\n        ? \"Your guess 1 to 10 : \" (guess);\n        attempt++;\n    } while comp != guess;\n    println \"\\nYou guessed correctly after {attempt} attempt(s)!\";\n}"
+    },
+    {
+        "id": "Hello_world_Newbie",
+        "title": "Hello world/Newbie",
+        "code": "git clone https://github.com/zenc-lang/zenc.git\ncd Zen-C\nmake clean # remove old build files\nmake\nsudo make install"
+    },
+    {
+        "id": "Hello_world_Newline_omission",
+        "title": "Hello world/Newline omission",
+        "code": "fn main() {\n    print \"Goodbye, World!\";\n}"
+    },
+    {
+        "id": "Hello_world_Standard_error",
+        "title": "Hello world/Standard error",
+        "code": "fn main() {\n    eprintln \"Goodbye, World!\";\n}"
+    },
+    {
+        "id": "Hello_world_Text",
+        "title": "Hello world/Text",
+        "code": "fn main() {\n    println \"Hello world!\";\n}"
+    },
+    {
+        "id": "Hello_world_Web_server",
+        "title": "Hello world/Web server",
+        "code": "import \"std/net/http.zc\"\n\n// The handler receives a pointer to the Request and Response objects\nfn handler(_req: Request*, res: Response*) {\n    res.set_body_str(\"Goodbye, World!\");\n}\n\nfn main() {\n    // Create a new HTTP server on port 8080 routing to the handler\n    let server = Server::new(8080, handler);\n    println \"Serving 'Goodbye, World!' at http://localhost:8080/\";\n    \n    // Start listening for incoming connections\n    server.start();\n}"
+    },
+    {
+        "id": "IBAN",
+        "title": "IBAN",
+        "code": "import \"std/string.zc\"\nimport \"std/vec.zc\"\n\nfn main() {\n    let iban = \"GB82 WEST 1234 5698 7654 32\";\n    let s = Vec<char>::new();\n    \n    // Clean and normalize using for-in and match\n    for c in String::from(iban).chars() {\n        match c {\n            'a'..='z' => s.push((char)((int)c - 32)),\n            'A'..='Z', '0'..='9' => s.push((char)c),\n            _ => {}\n        }\n    }\n\n    // Modulo 97 calculation\n    let rem = 0;\n    let n = s.len;\n    for let i = 0; i < n; i += 1 {\n        let c = s.get((i + 4) % n);\n        match c {\n            '0'..='9' => rem = (rem * 10 + (int)(c - '0')) % 97,\n            'A'..='Z' => rem = (rem * 100 + (int)(c - 'A' + 10)) % 97,\n            _ => {}\n        }\n    }\n    \n    println \"IBAN: {iban}\";\n    if rem == 1 {\n        println \"Valid: Yes\";\n    } else {\n        println \"Valid: No\";\n    }\n}"
+    },
+    {
+        "id": "Increment_a_numerical_string",
+        "title": "Increment a numerical string",
+        "code": "fn main() {\n    let n1 = \"123\";\n    let n2 = \"{atoi(n1) + 1}\";\n    println \"{n1} + 1 = {n2}\";\n}"
+    },
+    {
+        "id": "Inheritance_Multiple",
+        "title": "Inheritance/Multiple",
+        "code": "struct Camera {}\n\nimpl Camera {\n    fn snap(self) { println \"Taking a photo.\"; }\n}\n\nstruct Phone {}\n\nimpl Phone {\n    fn call(self) { println \"Calling home.\"; }\n}\n\nstruct CameraPhone {\n    use camera : Camera;\n    use phone  : Phone;\n}\n\nfn main() {\n    let cp = CameraPhone{camera: Camera{}, phone: Phone{}};\n    cp.camera.snap();\n    cp.phone.call();\n}"
+    },
+    {
+        "id": "Inheritance_Single",
+        "title": "Inheritance/Single",
+        "code": "trait Animal {\n    fn make_noise(self);\n}\n\nstruct Dog { name: string; }\n\nimpl Animal for Dog {\n    fn make_noise(self) { println \"{.name} says, woof!\"; }\n}\n\nstruct Cat { name: string; }\n\nimpl Animal for Cat {\n    fn make_noise(self) { println \"{.name} says, meow!\" }\n}\n\nstruct Lab { use dog: Dog; }\n\nstruct Collie { use dog: Dog; }\n\nfn main() {\n    let prince = Lab{dog: Dog{name: \"Prince\"}};\n    prince.dog.make_noise();\n\n    let lassie = Collie{dog: Dog{name: \"Lassie\"}};\n    lassie.dog.make_noise();\n\n    let fluffy = Cat{name: \"Fluffy\"};\n    fluffy.make_noise();\n}"
+    },
+    {
+        "id": "Input_loop",
+        "title": "Input loop",
+        "code": "import \"std/io.zc\"\nimport \"std/string.zc\"\n\nfn main(argc: int, argv: char**) {\n    // Check if the user passed the line-by-line flag\n    let line_mode = argc > 1 && strcmp(argv[1], \"-l\") == 0;\n    \n    while true {\n        // readln() dynamically allocates and returns NULL on EOF\n        let line = readln();\n        if line == NULL break;\n        \n        // Ensure the line buffer is freed at the end of the current scope\n        defer free(line);\n        \n        if line_mode {\n            println \"Line: [{line}]\";\n        } else {\n            let s = String::from(line);\n            let words = s.split(' ');\n            \n            for word in words {\n                if !word.is_empty() {\n                    let w = word.c_str();\n                    println \"Word: [{w}]\";\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+        "id": "Integer_comparison",
+        "title": "Integer comparison",
+        "code": "fn main() {\n    let a: int;\n    let b: int;\n    \n    ? \"Enter two integers separated by a space: \" (a, b);\n    \n    if a < b {\n        println \"{a} is less than {b}\";\n    }\n    \n    if a == b {\n        println \"{a} is equal to {b}\";\n    }\n    \n    if a > b {\n        println \"{a} is greater than {b}\";\n    }\n}"
+    },
+    {
+        "id": "JSON",
+        "title": "JSON",
+        "code": "import \"std/json.zc\"\n\nfn main() {\n    // Load a JSON string into a data structure\n    // Double braces {{ }} are used to escape Zen C's string interpolation\n    let input = \"{{\\\"user\\\": \\\"zuhaitz\\\", \\\"version\\\": 4.2, \\\"active\\\": true}}\";\n    let json = JsonValue::parse_val(input).expect(\"failed to parse json\");\n    \n    let user = json.get_string(\"user\").unwrap();\n    let active = json.get_bool(\"active\").unwrap();\n    println \"Loaded User: {user} (Active: {active})\";\n\n    // Create a new data structure and serialize it into JSON\n    let res = JsonValue::object(); \n    res.set(\"status\", JsonValue::string(\"ok\"));\n    res.set(\"timestamp\", JsonValue::number(1710422672));\n    \n    let tags = JsonValue::array();\n    tags.push(JsonValue::string(\"zen-c\"));\n    tags.push(JsonValue::string(\"fast\"));\n    res.set(\"tags\", tags);\n\n    println \"Serialized: {res.to_string().c_str()}\";\n}"
+    },
+    {
+        "id": "Jewels_and_stones",
+        "title": "Jewels and stones",
+        "code": "fn count_jewels(stones: string, jewels: string) -> int {\n    let count = 0;\n    for i in 0..strlen(stones) {\n        for j in 0..strlen(jewels) {\n            if stones[i] == jewels[j] { count++; break; }\n        }\n    }\n    return count;\n}\n\nfn main() {\n    let stones = \"aAAbbbb\";\n    let jewels = \"aA\";\n    println \"{count_jewels(stones, jewels)}\";\n}"
+    },
+    {
+        "id": "Largest_prime_factor",
+        "title": "Largest prime factor",
+        "code": "fn largest_prime_factor(n: u64) -> u64 {\n    if n < 2 { return 1; }\n    let inc: int[8] = [4, 2, 4, 2, 4, 6, 2, 6];\n    let largest: u64;\n    while n % 2 == 0 {\n        largest = 2;\n        n /= 2;\n    }\n    while n % 3 == 0 {\n        largest = 3;\n        n /= 3;\n    }\n    while n % 5 == 0 {\n        largest = 5;\n        n /= 5;\n    }\n    let k: u64 = 7;\n    let i: usize = 0;\n    while k * k <= n {\n        if n % k == 0 {\n            largest = k;\n            n /= k;\n        } else {\n            k += inc[i];\n            i = (i + 1) % 8;\n        }\n    }\n    if n > 1 { largest = n; }\n    return largest;\n}\n\nfn main() {\n    let n: u64 = 600_851_475_143;\n    println \"{largest_prime_factor(n)}\";\n}"
+    },
+    {
+        "id": "Least_common_multiple",
+        "title": "Least common multiple",
+        "code": "fn gcd(x: int, y: int) -> int {\n    while y {\n        let t = y;\n        y = x % y;\n        x = t;\n    }\n    return abs(x);\n}\n\nfn lcm(x: int, y: int) -> int {\n    if !x && !y { return 0; }\n    return abs(x * y) / gcd(x, y);\n}\n\nfn main() {\n    println \"lcm(12, 18) = {lcm(12, 18)}\";\n    println \"lcm(-6, 14) = {lcm(-6, 14)}\";\n    println \"lcm(35,  0) = {lcm(35,  0)}\";\n}"
+    },
+    {
+        "id": "List_division",
+        "title": "List division",
+        "code": "import \"std/vec.zc\"\n\ndef BS2 = \"\\x08\\x08\";\n\nfn list_divide(a: int*, c: const usize, n: const int) {\n    assert(n > 0, \"'n' must be a positive integer.\");\n    let q = c / n;\n    let r = c % n;\n    let p = Vec<int>::new();\n    if r > 0 {\n        for i in 1..=r { p << (q + 1); }\n    }\n    // Only include non-empty parts.\n    if q > 0 {\n        for i in 1..=(n - r) { p << q; }\n    }\n    let pc = p.length();\n    let res = Vec<Vec<int>>::new();\n    let start = 0;\n    for i in 0..pc {\n        let chunk = Vec<int>::new()\n        let end = start + p[i];\n        for j in start..end { chunk << a[j]; }\n        res << chunk;\n        start = end;\n    }\n\n    print \"[\";\n    for chunk in res {\n        print \"[\";\n        for i in chunk { print \"{i}, \"; }\n        print \"{BS2}], \";\n    }\n    println \"{BS2}]\";\n}\n\nfn main() {\n    let t1: int[9]  = [94, 94, 13, 77, 35, 10, 51, 27, 60];\n    let t2: int[5]  = [19, 46, 43, 17, 94];\n    let t3: int[8]  = [93, 88, 40, 88, 30, 68, 84, 25];\n    let t4: int[6]  = [88, 94, 10, 27, 54, 14];\n    let t5: int[9]  = [31, 19, 63, 57, 57, 74, 50, 14, 38];\n    let t6: int[10] = [72, 57, 89, 55, 36, 84, 10, 95, 99, 35];\n    let t7: int[3]  = [23, 49, 57];\n    let t8: int[1]  = [1];\n\n    let tests: int*[8] = [t1, t2, t3, t4, t5, t6, t7, t8];\n    let cs: usize[8] = [9, 5, 8, 6, 9, 10, 3, 1];\n    let ns:   int[8] = [6, 1, 3, 3, 4, 7, 10, 2];\n\n    for i in 0..8 { list_divide(tests[i], cs[i], ns[i]); }\n}"
+    },
+    {
+        "id": "Logical_operations",
+        "title": "Logical operations",
+        "code": "fn logical_ops(a: bool, b: bool) {\n    println \"Inputs -> a: {a}, b: {b}\";\n    println \"  a AND b: {a && b}\";\n    println \"  a OR b:  {a || b}\";\n    println \"  NOT a:   {!a}\";\n    println \"  a XOR b: {a ^ b}\";\n}\n\nfn main() {\n    println \"(true, false)\";\n    logical_ops(true, false);\n    \n    println \"\\n(true, true)\";\n    logical_ops(true, true);\n    \n    println \"\\n(false, false)\";\n    logical_ops(false, false);\n}"
+    },
+    {
+        "id": "Longest_common_suffix",
+        "title": "Longest common suffix",
+        "code": "fn substring(s: char*, ss: char*, index: int, len: usize){\n    strncpy(ss, s + index, len);\n    ss[len] = '\\0';\n}\n\nfn ends_with(s1: char*, s2: char*) -> bool {\n    let l1 = strlen(s1);\n    let l2 = strlen(s2);\n    if l2 > l1 { return false; }\n    for i in 0..l2 {\n        if s1[l1 - i - 1] != s2[l2 - i - 1] { return false; }\n    }\n    return true;\n}\n\nfn lcs(a: string*, res: char*, len: const int) {\n    res[0] = '\\0';\n    if len == 0 { return; }\n    let sl0 = strlen(a[0]);\n    if len == 1 {\n        strcpy(res, a[0]);\n        res[sl0] = '\\0';\n        return;\n    }\n    let min_len = sl0;\n    for i in 1..len {\n        let sl = strlen(a[i]);\n        if sl < min_len { min_len = sl; }\n    }\n    if min_len == 0 { return; }\n\n    let suffix: char[20];\n    for i in 1..=min_len {\n        substring(a[0], suffix, sl0 - i, i);\n        for j in 1..len {\n            if !ends_with(a[j], suffix) { return; }\n        }\n        strcpy(res, suffix);\n        res[strlen(suffix)] = '\\0';\n    }\n}\n\nfn main() {\n    let t1: string[3] = [\"baabababc\",\"baabc\",\"bbbabc\"];\n    let t2: string[3] = [\"baabababc\",\"baabc\",\"bbbazc\"];\n    let t3: string[7] = [\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"];\n    let t4: string[3] = [\"longest\", \"common\", \"suffix\"];\n    let t5: string[1] = [\"suffix\"];\n    let t6: string[1] = [\"\"];\n\n    let tests: string*[6] = [t1, t2, t3, t4, t5, t6];\n    let lens: int[6] = [3, 3, 7, 3, 1, 1];\n    let res: char[20];\n    def BS2 = \"\\x08\\x08\";\n    for i in 0..6 {\n        print \"[\";\n        for j in 0..lens[i] { print \"{tests[i][j]}, \" };\n        print \"{BS2}] -> \";\n        lcs(tests[i], res, lens[i]);\n        println \"\\\"{res}\\\"\";\n    }\n}"
+    },
+    {
+        "id": "Loop_over_multiple_arrays_simultaneously",
+        "title": "Loop over multiple arrays simultaneously",
+        "code": "fn main() {\n    let a1: string[3] = [\"a\", \"b\", \"c\"];\n    let a2: string[3] = [\"A\", \"B\", \"C\"];\n    let a3: int[3] = [1, 2, 3];\n    for i in a3 {\n        println \"{a1[i - 1]}{a2[i - 1]}{i}\";\n    }\n}"
+    },
+    {
+        "id": "Loops_Break",
+        "title": "Loops/Break",
+        "code": "import \"std/random.zc\"\n\nfn main() {\n    let rng = Random::new();\n    loop {\n        let a = rng.next_int_range(0, 19);\n        println \"{a}\";\n        if a == 10 { break; }\n        let b = rng.next_int_range(0, 19);\n        println \"{b}\";\n    }\n}"
+    },
+    {
+        "id": "Loops_Continue",
+        "title": "Loops/Continue",
+        "code": "fn main() {\n    for i in 1..=10 {\n        print \"{i}\";\n        if i % 5 == 0 {\n            println \"\";\n            continue;\n        }\n        print \", \";\n    }\n}"
+    },
+    {
+        "id": "Loops_Do-while",
+        "title": "Loops/Do-while",
+        "code": "fn main() {\n    let v = 0;\n    do {\n       println \"{++v}\";\n    } while v % 6;\n}"
+    },
+    {
+        "id": "Loops_Downward_for",
+        "title": "Loops/Downward for",
+        "code": "fn main() {\n    for i in 10..=0 step -1 { print \"{i}  \"; }\n    println \"\";\n}"
+    },
+    {
+        "id": "Loops_For",
+        "title": "Loops/For",
+        "code": "fn main() {\n    println \"Using a Zen C range loop:\";\n    // Inclusive range loop\n    for i in 1..=5 {\n        println \"Iteration: {i}\";\n    }\n\n    println \"\\nUsing a C-style for loop (without parentheses):\";\n    // Traditional 3-part loop, parenthesis-free\n    for let j = 1; j <= 5; j += 1 {\n        println \"Iteration: {j}\";\n    }\n\n    println \"\\nUsing a C-style for loop (with parentheses):\";\n    // Traditional 3-part loop, exactly like C\n    for (let k = 1; k <= 5; k += 1) {\n        println \"Iteration: {k}\";\n    }\n}"
+    },
+    {
+        "id": "Loops_For_with_a_specified_step",
+        "title": "Loops/For with a specified step",
+        "code": "fn main() {\n    for i in 1..=19 step 2 { print \"{i} \"; }\n    println \"\";\n}"
+    },
+    {
+        "id": "Loops_Foreach",
+        "title": "Loops/Foreach",
+        "code": "fn main() {\n    let colors: string[4] = [\"red\", \"blue\", \"green\", \"yellow\"];\n    for color in colors { println \"{color}\"; }\n}"
+    },
+    {
+        "id": "Loops_Increment_loop_index_within_loop_body",
+        "title": "Loops/Increment loop index within loop body",
+        "code": "import \"locale.h\"\n\nfn is_prime(n: u64) -> bool {\n    if n < 2 { return false; }\n    if n % 2 == 0 { return n == 2; }\n    if n % 3 == 0 { return n == 3; }\n    let d: u64 = 5;\n    while d * d <= n {\n        if n % d == 0 { return false; }\n        d += 2;\n        if n % d == 0 { return false; }\n        d += 4;\n    }\n    return true;\n}\n\nfn main() {\n    let count = 0;\n    setlocale(LC_NUMERIC, \"en_US.UTF-8\");\n    for let i: u64 = 42; count < 42; i++ {\n    if is_prime(i) {\n        count++;\n        println \"{count:2d}: {i:'18lu}\";\n        i = 2 * i - 1;\n    }\n}"
+    },
+    {
+        "id": "Loops_Infinite",
+        "title": "Loops/Infinite",
+        "code": "fn main() {\n    // A simple infinite loop\n    loop {\n        println \"SPAM\";\n    }\n}"
+    },
+    {
+        "id": "Loops_N_plus_one_half",
+        "title": "Loops/N plus one half",
+        "code": "fn main() {\n    for i in 1..=10 {\n        print \"{i}\";\n        let s = i < 10 ? \", \" : \"\\n\"\n        print \"{s}\"\n    }\n}"
+    },
+    {
+        "id": "Loops_Nested",
+        "title": "Loops/Nested",
+        "code": "import \"std/random.zc\"\n\nfn main() {\n    let rng = Random::new();\n    let a: int[20][20];\n    for i in 0..=19 {\n        for j in 0..=19 {\n            a[i][j] = rng.next_int_range(1, 20);\n        }\n    }\n\n    outer: for i in 0..=19 {\n        for j in 0..=19 {\n            print \"{a[i][j]:2d} \";\n            if a[i][j] == 20 {\n                println \"\";\n                break outer;\n            }\n            if (j + 1) % 10 == 0 { println \"\"; }\n        }\n    }\n}"
+    },
+    {
+        "id": "Loops_While",
+        "title": "Loops/While",
+        "code": "fn main() {\n    let i = 1024;\n    while i > 0 {\n        println \"{i}\";\n        i /= 2;\n    }\n}"
+    },
+    {
+        "id": "Loops_With_multiple_ranges",
+        "title": "Loops/With multiple ranges",
+        "code": "import \"locale.h\"\n\ndef ONE   = 1;\ndef THREE = 3;\ndef SEVEN = 7;\n\nlet sum  = 0;\nlet prod = 1;\n\nfn abs(n: int) -> int {\n    return n >= 0 ? n : -n;\n}\n\nfn process(j: int) {\n    sum += abs(j);\n    if abs(prod) < (1 << 27) && j { prod *= j; }\n}\n\nfn main() {\n    let x: const int = 5;\n    let y: const int = -5;\n    let z: const int = -2;\n    let p: const int = 11 ** 5;\n\n    let j: int;\n    for j = -THREE; j <= 3 ** 3; j += THREE { process(j); }\n    for j = -SEVEN; j <= SEVEN; j += x      { process(j); }\n    for j = 555; j <= 550 - y; ++j          { process(j); }\n    for j = 22; j >= -28; j -= THREE        { process(j); }\n    for j = 1927; j <= 1939; ++j            { process(j); }\n    for j = x; j >= y; j -= -z              { process(j); }\n    for j = p; j <= p + ONE; ++j            { process(j); }\n\n    setlocale(LC_NUMERIC, \"en_US.UTF-8\");\n    println \"sum  = {sum:' d}\";\n    println \"prod = {prod:' d}\";\n}"
+    },
+    {
+        "id": "Machine_code",
+        "title": "Machine code",
+        "code": "import \"std/sys/mman.zc\"\nimport \"std/io.zc\"\n\nfn main() {\n    let opcodes: byte[5];\n    opcodes[0] = 0x89; // mov eax, edi\n    opcodes[1] = 0xF8;\n    opcodes[2] = 0x01; // add eax, esi\n    opcodes[3] = 0xF0;\n    opcodes[4] = 0xC3; // ret\n\n    let size: usize = 4096; // Standard page size\n\n    // Map memory as Read / Write\n    let addr = Memory::mmap(size, Z_PROT_READ | Z_PROT_WRITE, Z_MAP_PRIVATE | Z_MAP_ANONYMOUS);\n    \n    if (isize)addr == Z_MAP_FAILED {\n        eprintln \"Failed to mmap memory\";\n        exit(1);\n    }\n\n    // Poke the opcodes into the allocated memory\n    let ptr = (byte*)addr;\n    for i in 0..5 {\n        ptr[i] = opcodes[i];\n    }\n\n    // Change memory protection to Read / Execute (Preventing W^X violations)\n    if !Memory::mprotect(addr, size, Z_PROT_READ | Z_PROT_EXEC) {\n        eprintln \"Failed to mprotect memory\";\n        Memory::munmap(addr, size);\n        exit(1);\n    }\n\n    // Cast the executable memory address to a Zen C raw function pointer\n    let add_func: fn* (int, int) -> int = (void*)addr;\n    \n    // Execute the machine code\n    let a = 7;\n    let b = 12;\n    let result = add_func(a, b);\n\n    println \"Executing machine code (x86_64: mov eax, edi; add eax, esi; ret)\";\n    println \"Arguments: {a}, {b}\";\n    println \"Result: {result}\";\n\n    // Clean up\n    Memory::munmap(addr, size);\n    \n    if result == 19 {\n        println \"Success!\";\n    } else {\n        eprintln \"Failure: expected 19, got {result}\";\n        exit(1);\n    }\n}"
+    },
+    {
+        "id": "Magic_constant",
+        "title": "Magic constant",
+        "code": "//> link: -lm\n\nimport \"locale.h\"\nimport \"std/math.zc\"\nimport \"math.h\" as c_math // for cbrt function\n\nfn magic_constant(n: u64) -> u64 {\n    return (n * n + 1) * n / 2;\n}\n\nfn main() {\n    \"First 20 magic constants:\";\n    for i in 3..=22 {\n        let mc = magic_constant((u64)i);\n        print \"{mc:5ld}\";\n        if i == 12 || i == 22 { println \"\"; }\n    }\n\n    setlocale(LC_NUMERIC, \"en_US.UTF-8\");\n    println \"\\n1,000th magic constant: {magic_constant(1002):'lu}\";\n\n    println \"\\nSmallest order magic square with a constant greater than:\";\n    for i in 1..=20 {\n        let goal = Math::pow(10.0, i);\n        let order = (u64)(Math::floor(c_math::cbrt(goal * 2.0))) + 1;\n        println \"10 ^ {i:2d} : {order:'9lu}\";\n    }\n}"
+    },
+    {
+        "id": "Monty_Hall_problem",
+        "title": "Monty Hall problem",
+        "code": "import \"std/random.zc\"\nimport \"locale.h\";\n\nfn monty_hall(games: int) {\n    let rng = Random::new();\n    let switch_wins = 0;\n    let stay_wins = 0;\n    for _ in 1..=games {\n        let doors: int[3] = [0, 0, 0];         // all zero (goats) by default\n        doors[rng.next_int_range(0, 2)] = 1;   // put car in a random door\n        let choice = rng.next_int_range(0, 2); // choose a door at random\n        let shown = 0;\n        do {\n            shown = rng.next_int_range(0, 2);   // the shown door\n        } while doors[shown] == 1 || shown == choice;\n        stay_wins += doors[choice];\n        switch_wins += doors[3 - choice - shown];\n    }\n    setlocale(LC_NUMERIC, \"en_US.UTF-8\");\n    println \"Simulating {games:'d} games:\";\n    println \"Staying   wins {stay_wins:'d} times\";\n    println \"Switching wins {switch_wins:'d} times\";\n}\n\nfn main() {\n    monty_hall(1_000_000);\n}"
+    },
+    {
+        "id": "Multifactorial",
+        "title": "Multifactorial",
+        "code": "fn mf(n: int, d: int) -> int {\n    let prod  = 1;\n    while n > 1 {\n        prod *= n;\n        n -= d;\n    }\n    return prod;\n}\n\nfn main() {\n    for d in 1..=5 {\n        print \"degree {d}: \";\n        for n in 1..=10 { print \"{mf(n, d):8d}\"; }\n        println \"\";\n    }\n}"
+    },
+    {
+        "id": "Multiplication_tables",
+        "title": "Multiplication tables",
+        "code": "fn main() {\n    let n: const int = 12;\n    for j in 1..=n { printf(\"%3d%c\", j, j != n ? ' ' : '\\n'); }\n    for j in 0..=n { printf(j != n ? \"----\" : \"+\\n\"); }\n\n    for i in 1..=n {\n        for j in 1..=n {\n\t\t    printf(j < i ? \"  - \" : \"%3d \", i * j);\n        }\n        printf(\"| %d\\n\", i);\n    }\n}"
+    },
+    {
+        "id": "M\u00f6bius_function",
+        "title": "M\u00f6bius function",
+        "code": "import \"std/vec.zc\"\n\nfn prime_factors(n: int) -> Vec<int> {\n    let factors = Vec<int>::new();\n    if n < 2 { return factors; }\n    let inc: int[8] = [4, 2, 4, 2, 4, 6, 2, 6];\n    while n % 2 == 0 {\n        factors << 2;\n        n /= 2;\n    }\n    while n % 3 == 0 {\n        factors << 3;\n        n /= 3;\n    }\n    while n % 5 == 0 {\n        factors << 5;\n        n /= 5;\n    }\n    let k = 7;\n    let i: usize = 0;\n    while k * k <= n {\n        if n % k == 0 {\n            factors << k;\n            n /= k;\n        } else {\n            k += inc[i];\n            i = (i + 1) % 8;\n        }\n    }\n    if n > 1 { factors << n; }\n    return factors;\n}\n\nfn is_square_free(n: int) -> bool {\n    let i = 2;\n    let s: int;\n    while (s = i * i) <= n {\n        if n % s == 0 { return false; }\n        i += (i > 2) ? 2 : 1;\n    }\n    return true;\n}\n\nfn mu(n: int) -> int {\n    assert(n >= 1, \"Argument must be a positive integer.\");\n    if n == 1 { return 1; }\n    let sqfree = is_square_free(n);\n    let factors = prime_factors(n);\n    if sqfree && (factors.length() % 2 == 0) { return 1; }\n    if sqfree { return -1; }\n    return 0;\n}\n\nfn main() {\n    println \"The first 199 M\u00f6bius numbers are:\";\n    for i in 0..10 {\n        for j in 0..20 {\n            if i == 0 && j == 0 {\n                print \"    \";\n            } else {\n                print \"{mu(i * 20 + j): 3d} \";\n            }\n        }\n        println \"\";\n    }\n}"
+    },
+    {
+        "id": "Nth_root",
+        "title": "Nth root",
+        "code": "def EPS = 2.220446e-016 * 10;\n\nfn power(x: f64, e: int) -> f64 {\n    let r = 1.0;\n    for i in 0..e { r *= x; }\n    return r;\n}\n\nfn root(n: int, x: f64) -> f64 {\n    let d: f64;\n    let r = 1.0;\n    if n < 1 || (x < 0 && !(n & 1)) { return 0.0 / 0.0; } // NaN\n    do {\n        d = (x / power(r, n - 1) - r)  / n;\n        r += d;\n    } while d >= EPS || d <= -EPS;\n    return r;\n}\n\nfn main()  {\n    let n = 15;\n    let x = power(-3.14159, 15);\n    printf(\"root(%d, %g) = %g\\n\", n, x, root(n, x));\n}"
+    },
+    {
+        "id": "Numbers_which_are_the_cube_roots_of_the_product_of_their_proper_divisors",
+        "title": "Numbers which are the cube roots of the product of their proper divisors",
+        "code": "import \"locale.h\"\n\nfn divisor_count(n: int) -> int {\n    let i = 1;\n    let k = (n % 2 == 0) ? 1 : 2;\n    let count = 0;\n    while i * i <= n {\n        if n % i == 0 {\n            count++;\n            let j = n / i;\n            if j != i { count++; }\n        }\n        i += k;\n    }\n    return count;\n}\n\nfn main() {\n    let count = 0;\n    let n = 1;\n    setlocale(LC_NUMERIC, \"en_US.UTF-8\");\n    println \"First 50 numbers which are the cube roots of the products of their proper divisors:\";\n    loop {\n        let dc = divisor_count(n);\n        if n == 1 || dc  == 8 {\n            if ++count <= 50 {\n                print \"{n:3d} \";\n                if !(count % 10) { println \"\"; }\n            } else if count == 500 {\n                println \"\\n500th    : {n:'7d}\";\n            } else if count == 5_000 {\n                println \"\\n5,000th  : {n:'7d}\";\n            } else if count == 50_000 {\n                println \"\\n50,000th : {n:'7d}\";\n                break;\n            }\n        }\n        n++;\n    }\n}"
+    },
+    {
+        "id": "Odd_and_square_numbers",
+        "title": "Odd and square numbers",
+        "code": "import \"std/math.zc\"\n\nfn is_square(n: int) -> bool {\n    let sqrt = (int)Math::round(Math::sqrt((f64)n));\n    return sqrt * sqrt == n;\n}\n\nfn main() {\n    for i in 101..1000 step 2 {\n        if is_square(i) { print \"{i} \"; }\n    }\n    println \"\";\n}"
+    },
+    {
+        "id": "Old_lady_swallowed_a_fly",
+        "title": "Old lady swallowed a fly",
+        "code": "let animals: string[8] = [\"fly\", \"spider\", \"bird\", \"cat\",\"dog\", \"goat\", \"cow\", \"horse\"];\n\nlet phrases: string[8] = [\n    \"\",\n    \"That wriggled and jiggled and tickled inside her\",\n    \"How absurd to swallow a bird\",\n    \"Fancy that to swallow a cat\",\n    \"What a hog, to swallow a dog\",\n    \"She just opened her throat and swallowed a goat\",\n    \"I don't know how she swallowed a cow\",\n    \"\\n  ...She's dead of course\"\n];\n\nfn sing() {\n    for i in 0..8 {\n        println \"There was an old lady who swallowed a {animals[i]};\";\n        if i > 0 { println \"{phrases[i]}!\"; }\n        if i == 7 { return; }\n        println \"\";\n        if i > 0 {\n            for j in i..=1 step -1 {\n                print \"  She swallowed the {animals[j]} to catch the {animals[j - 1]}\";\n                if j < 3  { \n                    println \";\";\n                } else {\n                    println \":\";\n                }\n                if j == 2 { println \"  {phrases[1]}!\"; }\n            }\n        }\n        println \"  I don't know why she swallowed a fly - Perhaps she'll die!\\n\";\n    }\n}\n\nfn main() {\n    sing();\n}"
+    },
+    {
+        "id": "Padovan_n-step_number_sequences",
+        "title": "Padovan n-step number sequences",
+        "code": "fn padovan_n(n: int, t: usize, p: int*) {\n    if n < 2 || t < 3 { \n        for i in 0..t { p[i] = 1; }\n        return;\n    }\n    padovan_n(n - 1, t, p);\n    for i in (n + 1)..t {\n        p[i] = 0;\n        for j in (i - 2)..=(i - n - 1) step -1 { p[i] += p[j]; }\n    }\n}\n\nfn main() {\n    let t: const usize = 15;\n    let p: int[t];\n    println \"First {t} terms of the Padovan n-step number sequences:\";\n    for n in 2..=8 {\n        for i in 0..t { p[i] = 0; }\n        padovan_n(n, t, p);\n        print \"{n}: \";\n        for i in 0..t { print \"{p[i]:3d} \"; }\n        println \"\";\n    }\n}"
+    },
+    {
+        "id": "Perfect_numbers",
+        "title": "Perfect numbers",
+        "code": "import \"std/math.zc\"\n\nfn is_perfect(n: int) -> bool {\n    if n <= 2 { return false; }\n    let tot = 1;\n    for i in 2..=Math::floor(Math::sqrt((f64)n)) {\n        if n % i == 0 {\n            tot += i;\n            let q = n / i;\n            if q > i { tot += q; }\n        }\n    }\n    return n == tot;\n}\n\nfn main() {\n    println \"The first four perfect numbers are:\";\n    let count = 0;\n    let i = 2;\n    while count < 4 {\n        if is_perfect(i) {\n            println \"{i} \";\n            count++;\n        }\n        i += 2;  // there are no known odd perfect numbers\n    }\n}"
+    },
+    {
+        "id": "Pointers_and_references",
+        "title": "Pointers and references",
+        "code": "struct Data {\n    id: int;\n    active: bool;\n}\n\nfn increment(ptr: int*) {\n    // Dereference to modify the value in the caller's scope\n    *ptr = *ptr + 1;\n}\n\nfn main() {\n    println \"STACK POINTERS\";\n    let x = 42;\n    let x_ptr = &x; // Take the address of a stack variable\n\n    println \"Value of x: {x}\";\n    println \"Address of x: {(usize)x_ptr}\";\n    println \"Value via x_ptr: {*x_ptr}\";\n\n    // Modifying via pointer\n    *x_ptr = 100;\n    println \"New value of x: {x}\";\n\n    // Pass by reference\n    increment(&x);\n    println \"Value after increment(ptr): {x}\";\n\n    println \"\\nSTRUCT POINTERS & AUTO-DEREF\";\n    let d = Data { id: 1, active: true };\n    let d_ptr = &d;\n\n    // Zen C supports auto-dereferencing for struct fields\n    println \"id via d_ptr.id: {d_ptr.id}\";\n    d_ptr.active = false;\n    println \"Active via d.active: {d.active}\";\n\n    // Manual dereferencing for clarity or specific cases\n    println \"id via (*d_ptr).id: {(*d_ptr).id}\";\n\n    println \"\\nHEAP POINTERS\";\n    // Allocate memory for an integer on the heap\n    let h_ptr: int* = malloc(sizeof(int));\n    \n    if ((usize)h_ptr == 0) {\n        println \"Failed to allocate memory!\";\n        return 0;\n    }\n\n    *h_ptr = 500;\n    println \"Value on heap: {*h_ptr}\";\n\n    // Always free heap memory\n    free(h_ptr);\n    println \"Heap memory freed.\";\n\n    println \"\\nNULL POINTERS\";\n    let null_ptr: int* = 0;\n    if ((usize)null_ptr == 0) {\n        println \"null_ptr is indeed null (0).\";\n    }\n}"
+    },
+    {
+        "id": "Rep-string",
+        "title": "Rep-string",
+        "code": "fn substring(s: char*, ss: char*, index: int, len: usize) {\n    strncpy(ss, s + index, len);\n    ss[len] = '\\0';\n}\n\nfn mul_string(s: char*, mul: char*, n: const int) {\n    let len = strlen(s)\n    let ptr = mul;\n    for i in 1..=n {\n        strcpy(ptr, s);\n        ptr += len;\n    }\n    *ptr = '\\0';\n}\n\nfn rep_string(s: char*) {\n    let rep: char[10];\n    rep[0] = '\\0';\n    let size = strlen(s);\n    if size >= 2 {\n        for i in 0..size {\n            assert(s[i] == '0' || s[i] == '1', \"Argument is not a binary string.\");\n        }\n        for len in 1..=size / 2 {\n            let t: char[10];\n            substring(s, t, 0, len);\n            let n = size / len;\n            let r = size % len;\n            let u: char[20];\n            mul_string(t, u, n);\n            strncat(u, t, r);\n            if !strcmp(u, s) {\n                strcpy(rep, t);\n                rep[strlen(t)] = '\\0';\n            }\n        }\n    }\n    print \"{s:10s} -> \";\n    if strlen(rep) > 0 {\n        println \"{rep}\";\n    } else {\n        println \"Not a rep-string\";\n    }\n}\n\nfn main() {\n    println \"The (longest) rep-strings are:\\n\";\n    let strings: string[11] = [\n        \"1001110011\",\n        \"1110111011\",\n        \"0010010010\",\n        \"1010101010\",\n        \"1111111111\",\n        \"0100101101\",\n        \"0100100\",\n        \"101\",\n        \"11\",\n        \"00\",\n        \"1\"\n    ];\n    for s in strings { rep_string(s); }\n}"
+    },
+    {
+        "id": "Repeat",
+        "title": "Repeat",
+        "code": "// The procedure accepts a standard closure and an integer\nfn times(proc: fn(), n: uint) {\n    for _ in 0..n {\n        proc();\n    }\n}\n\nfn main() {\n    times(fn() { \n        println \"Hello from closure!\"; \n    }, 3);\n}"
+    },
+    {
+        "id": "Repeat_a_string",
+        "title": "Repeat a string",
+        "code": "import \"std/string.zc\"\n\nfn main() {\n    let s = String::new(\"\");\n    for _ in 0..5 { s.append_c(\"ha\"); }\n    println \"{s}\";\n}"
+    },
+    {
+        "id": "Return_multiple_values",
+        "title": "Return multiple values",
+        "code": "// Function returning a tuple of two integers\nfn add_and_subtract(a: int, b: int) -> (int, int) {\n    return (a + b, a - b);\n}\n\nfn main() {\n    // Destructuring the returned tuple directly into 'sum' and 'diff'\n    let (sum, diff) = add_and_subtract(10, 4);\n    \n    println \"Sum: {sum}\";\n    println \"Difference: {diff}\";\n}"
+    },
+    {
+        "id": "Reverse_a_string",
+        "title": "Reverse a string",
+        "code": "import \"std/string.zc\"\n\nfn reverse_str(s: string) -> string {\n    let s2 = String::from(s);\n    let r = s2.runes();\n    r.reverse();\n    return String::from_runes_vec(r).c_str();\n}\n\nfn main() {\n    let words= [\"asdf\", \"jos\u00e9\", \"m\u00f8\u00f8se\", \"was it a car or a cat I saw\", \"\ud83d\ude00\ud83d\ude82\ud83e\udd8a\"];\n    for word in words {\n        let rev = reverse_str(word);\n        println \"{rev}\";\n    }\n}"
+    },
+    {
+        "id": "Rot-13",
+        "title": "Rot-13",
+        "code": "fn rot13(s: const char*, r: char*) {\n    let len: usize = strlen(s);\n    for i in 0..len {\n        let c = s[i];\n        if (c >= 'A' && c <= 'M') || (c >= 'a' && c <= 'm') {\n            r[i] = c + 13;\n        } else if (c >= 'N' && c <= 'Z') || (c >= 'n' && c <= 'z') {\n            r[i] = c - 13;\n        } else {\n            r[i] = c;\n        }\n    }\n    r[len] = '\\0';\n}\n\nfn main() {\n    let s = \"nowhere ABJURER\";\n    autofree let r: char* = malloc(strlen(s) + 1);\n    rot13(s, r);\n    println \"{r}\";\n}"
+    },
+    {
+        "id": "SEDOLs",
+        "title": "SEDOLs",
+        "code": "import \"ctype.h\"\n\nfn is_upper_vowel(c: char) -> bool {\n    return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';\n}\n\nfn sedol_checkdigit(s: const string) -> int {\n    if strlen(s) != 6 { return -1; }\n    let weights: int[6] = [1, 3, 1, 7, 3, 9];\n    let sum = 0;\n    for i in 0..=5 {\n        let c = s[i];\n        if !isupper(c) && !isdigit(c) { return -1; }\n        if is_upper_vowel(c) { return -1; }\n        let j = (c <= '9') ? c - '0' : c - 'A' + 10;\n        sum += j * weights[i];\n    }\n    return (10 - sum % 10) % 10;\n}\n\nfn main() {\n    let tests: const string[12] = [\n        \"710889\",\n        \"B0YBKJ\",\n        \"406566\",\n        \"B0YBLH\",\n        \"228276\",\n        \"B0YBKL\",\n        \"557910\",\n        \"B0YBKR\",\n        \"585284\",\n        \"B0YBKT\",\n        \"B00030\",\n        \"I23456\"\n    ];\n\n    for t in tests {\n        let cd = sedol_checkdigit(t);\n        if cd >= 0 {\n            println \"{t} -> {t}{cd}\";\n        } else {\n            println \"{t} -> not valid\";\n        }\n    }\n}"
+    },
+    {
+        "id": "Shape-Machine",
+        "title": "Shape-Machine",
+        "code": "fn main() {\n    let prev = 0.0;\n    ? \"\" (prev);\n    let count = 0;\n    loop {\n        let next = (prev + 3) * 0.86;\n        if prev == next { break; }\n        prev = next;\n        print \"{prev:9.6f} \";\n        if ++count % 10 == 0 { println \"\"; }\n    }\n    println \"\\nTook {count + 1} iterations.\";\n}"
+    },
+    {
+        "id": "Show_the_(decimal)_value_of_a_number_of_1s_appended_with_a_3,_then_squared",
+        "title": "Show the (decimal) value of a number of 1s appended with a 3, then squared",
+        "code": "fn main() {\n    let s: char[9];\n    for n in 0..8 {\n        if n > 0 { s[n - 1] = '1'; }\n        s[n] = '3';\n        s[n + 1] = '\\0';\n        let i: u64 = atoll(s);\n        println \"{s:9s} {i * i:15llu}\";\n    }\n}"
+    },
+    {
+        "id": "Sieve_of_Pritchard",
+        "title": "Sieve of Pritchard",
+        "code": "import \"std/vec.zc\"\n\nfn sieve_of_pritchard(limit: usize) -> Vec<int> {\n    let s = Vec<bool>::new();\n    s.grow_to_fit(limit + 1);\n    for i in 0..=limit {\n        s << false;\n    }\n    s.set(1, true);\n    \n    let primes = Vec<int>::new();\n    let pr: usize = 1;\n    let p: usize = 2;\n    \n    while p * p <= limit {\n        let pr_next = pr * p;\n        \n        if pr_next <= limit {\n            for k in 1..p {\n                for w in 1..=pr {\n                    if s.get(w) {\n                        s.set(w + k * pr, true);\n                    }\n                }\n            }\n            pr = pr_next;\n        } else {\n            for w in 1..=pr {\n                if s.get(w) {\n                    let mut_k = 1;\n                    let current_pos = w + mut_k * pr;\n                    while current_pos <= limit {\n                        s.set(current_pos, true);\n                        mut_k = mut_k + 1;\n                        current_pos = w + mut_k * pr;\n                    }\n                }\n            }\n            pr = limit;\n        }\n        \n        for w in (pr / p)..=1 step -1 {\n            if s.get(w) {\n                s.set(w * p, false);\n            }\n        }\n        \n        primes << (int)p;\n        \n        let next_p = p + 1;\n        while next_p <= limit {\n            let rem = next_p % pr;\n            let wheel_pos = (rem == 0) ? pr : rem;\n            if s.get(wheel_pos) {\n                break;\n            }\n            next_p = next_p + 1;\n        }\n        p = next_p;\n    }\n    \n    if pr < limit {\n        for w in 1..=pr {\n            if s.get(w) {\n                let mut_k = 1;\n                let current_pos = w + mut_k * pr;\n                while current_pos <= limit {\n                    s.set(current_pos, true);\n                    mut_k = mut_k + 1;\n                    current_pos = w + mut_k * pr;\n                }\n            }\n        }\n    }\n    \n    for i in 2..=limit {\n        if s.get(i) {\n            primes << (int)i;\n        }\n    }\n    \n    return primes;\n}\n\nfn main() {\n    let limit: usize = 150;\n    let primes = sieve_of_pritchard(limit);\n    \n    print \"Primes up to {limit}: [\";\n    for i in 0..primes.len {\n        print \"{primes[i]}\";\n        if i < primes.len - 1 {\n            print \", \";\n        }\n    }\n    println \"]\";\n    println \"Total primes found: {primes.len}\";\n}"
+    },
+    {
+        "id": "Simple_windowed_application",
+        "title": "Simple windowed application",
+        "code": "//> pkg-config: gtk+-3.0\n\nimport \"gtk/gtk.h\" as gtk;\n\nlet counter = 0;\nlet label: gtk::GtkWidget*;\n\nfn on_button_clicked(button: gtk::GtkWidget*, data: gtk::gpointer) {\n    counter += 1;\n    \n    let text = \"Button clicked {counter} times\";\n    if counter == 1 {\n        text = \"Button clicked 1 time\";\n    }\n    \n    gtk::gtk_label_set_text((gtk::GtkLabel*)label, text);\n}\n\nfn main(argc: int, argv: char**) {\n    // Initialize GTK\n    gtk::gtk_init(&argc, &argv);\n\n    // Create the main window\n    let window = gtk::gtk_window_new(gtk::GTK_WINDOW_TOPLEVEL);\n    gtk::gtk_window_set_title((gtk::GtkWindow*)window, \"Click Counter\");\n    gtk::gtk_window_set_default_size((gtk::GtkWindow*)window, 300, 200);\n    gtk::gtk_container_set_border_width((gtk::GtkContainer*)window, 10);\n\n    // Connect the destroy signal to quit the application\n    gtk::g_signal_connect_data(window, \"destroy\", (gtk::GCallback)gtk::gtk_main_quit, 0, 0, 0);\n\n    // Create a vertical box container\n    let vbox = gtk::gtk_box_new(gtk::GTK_ORIENTATION_VERTICAL, 10);\n    gtk::gtk_container_add((gtk::GtkContainer*)window, vbox);\n    \n    // Create and add the label\n    label = gtk::gtk_label_new(\"There have been no clicks yet\");\n    gtk::gtk_box_pack_start((gtk::GtkBox*)vbox, label, true, true, 0);\n\n    // Create and add the button\n    let button = gtk::gtk_button_new_with_label(\"click me\");\n    gtk::gtk_box_pack_start((gtk::GtkBox*)vbox, button, true, true, 0);\n\n    // Connect the button click signal\n    gtk::g_signal_connect_data(button, \"clicked\", (gtk::GCallback)on_button_clicked, 0, 0, 0);\n    \n    // Show all widgets and start the GTK main loop\n    gtk::gtk_widget_show_all(window);\n    gtk::gtk_main();\n}"
+    },
+    {
+        "id": "Split_a_character_string_based_on_change_of_character",
+        "title": "Split a character string based on change of character",
+        "code": "import \"std/string.zc\"\n\nfn split(s: String) {\n    if s.length() == 0 { return; }\n    let last = s.utf8_at(0);\n    let curr = last;\n    for i, code in s {\n        if i != 0 {\n            let c = String::from_rune(code);\n            if c == last {\n                curr += &c;\n            } else {\n                print \"{curr}, \";\n                curr = c;\n            }\n            last = c;\n        }\n    }\n    println \"{curr}\";\n}\n\nfn main() {\n    let s = String::from(\"gHHH5YY++///\\\\\");\n    split(s);\n}"
+    },
+    {
+        "id": "String_append",
+        "title": "String append",
+        "code": "import \"std/string.zc\"\n\nfn main() {\n    let s = String::from(\"Hello, \");\n    s.append_c(\"world!\");\n    println \"{s}\";\n}"
+    },
+    {
+        "id": "String_case",
+        "title": "String case",
+        "code": "import \"std/string.zc\"\n\nfn main() {\n    let s = String::from(\"alphaBETA\");\n    println \"{s.to_uppercase()}\";\n    println \"{s.to_lowercase()}\";\n}"
+    },
+    {
+        "id": "String_comparison",
+        "title": "String comparison",
+        "code": "import \"std/string.zc\"\n\nfn main() {\n    let s1 = String::from(\"apple\");\n    let s2 = String::from(\"banana\");\n    let s3 = String::from(\"apple\");\n    let s4 = String::from(\"APPLE\");\n\n    println \"BASIC EQUALITY & INEQUALITY.\";\n    // Zen C supports operator overloading (==, !=) mapping to eq() and neq()\n    println \"s1 ('{s1}') == s3 ('{s3}'): {s1 == &s3}\"; \n    println \"s1 ('{s1}') != s2 ('{s2}'): {s1 != &s2}\";\n\n    println \"\\nLEXICAL ORDERING (CASE-SENSITIVE).\";\n    // Operators <, >, <=, >= map to lt(), gt(), le(), ge()\n    println \"s1 < s2  ('apple' < 'banana'): {s1 < &s2}\";\n    println \"s2 > s1  ('banana' > 'apple'): {s2 > &s1}\";\n    println \"s1 >= s3 ('apple' >= 'apple'): {s1 >= &s3}\";\n\n    println \"\\nCASE-SENSITIVITY.\";\n    println \"s1 == s4 ('apple' == 'APPLE'): {s1 == &s4} (Case-sensitive)\";\n    println \"s1.eq_ignore_case(s4): {s1.eq_ignore_case(&s4)} (Case-insensitive)\";\n\n    println \"\\nNUMERIC STRING COMPARISON (LEXICAL).\";\n    let n1 = String::from(\"10\");\n    let n2 = String::from(\"2\");\n    // '1' comes before '2', so \"10\" < \"2\"\n    println \"n1 < n2 ('10' < '2'): {n1 < &n2}\"; \n    \n    println \"\\nTYPE SYSTEM REFLECTION\";\n    let i1 = 10;\n    let i2 = 2;\n    println \"Integer comparison: i1 < i2 (10 < 2): {i1 < i2}\"; // false (numerical)\n    \n    // Zen C doesn't implicitly coerce/allomorphically convert strings to numbers\n    // during comparison. If you want numerical comparison for strings, \n    // you must explicitly convert them.\n    \n    println \"\\nCOMPARISON METHOD (RESULT-BASED)\";\n    let cmp_res = s1.compare(&s2);\n    if cmp_res < 0 {\n        println \"'{s1}' comes before '{s2}'\";\n    } else if cmp_res > 0 {\n        println \"'{s1}' comes after '{s2}'\";\n    } else {\n        println \"Strings are equal\";\n    }\n}"
+    },
+    {
+        "id": "String_concatenation",
+        "title": "String concatenation",
+        "code": "import \"std/string.zc\"\n\nfn main() {\n    let s1 = String::from(\"Hello\");\n\n    // Instead of raw pointers, wrap the literal in a String and utilize native operator overloading (+).\n    // Note: The right operand for overloaded operators generally needs an address reference '&'.\n    // We pass by reference ('&') so the operator only *borrows* the string.\n    // If we passed by value, the operator function would take ownership and free it.\n    let part = String::from(\" World\");\n    let s2 = s1 + &part;\n\n    // We can also use += assignments...\n    let excited = String::from(\"!!\");\n    s2 += &excited;\n\n    // If we don't want to create intermediate String wrappers, we can use the 'append_c' method\n    // on a string object to push raw C-strings directly.\n    s2.append_c(\" Welcome \");\n\n    // Alternatively, 'append' accepts a pointer to another String object, matching '+='.\n    let to_zen = String::from(\"to Zen C!\");\n    s2.append(&to_zen);\n\n    println \"Original string: {s1}\";\n    println \"Concatenated string: {s2}\";\n}"
+    },
+    {
+        "id": "String_interpolation_(included)",
+        "title": "String interpolation (included)",
+        "code": "fn main() {\n    let word = \"little\";\n    \n    // The variable 'word' is interpolated directly into the string\n    println \"Mary had a {word} lamb\";\n}"
+    },
+    {
+        "id": "String_matching",
+        "title": "String matching",
+        "code": "import \"std/string.zc\"\n\nfn main() {\n    let text = String::from(\"The quick brown fox jumps over the lazy dog. The fox is quick.\");\n    let target = \"fox\";\n\n    println \"Text: {text}\";\n    println \"Target: {target}\";\n\n    // Starts with\n    if (text.starts_with(\"The quick\")) {\n        println \"The text starts with 'The quick'.\";\n    }\n\n    // Contains (and Optional Requirements)\n    if (text.contains_str(target)) {\n        println \"The text contains '{target}'.\";\n        \n        // Optional: Print the location of the match\n        let first_match = text.find_str(target);\n        if (first_match.is_some()) {\n            println \"First match at index: {first_match.unwrap()}\";\n        }\n\n        // Optional: Handle multiple occurrences\n        let all_matches = text.find_all_str(target);\n        print \"All match indices: \";\n        for idx in all_matches {\n            print \"{idx} \";\n        }\n        println \"\";\n    }\n\n    // Ends with\n    if (text.ends_with(\"quick.\")) {\n        println \"The text ends with 'quick.'.\";\n    }\n}"
+    },
+    {
+        "id": "Strip_a_set_of_characters_from_a_string",
+        "title": "Strip a set of characters from a string",
+        "code": "import \"std/string.zc\"\n\nfn strip_chars(s: String, t: String) -> String {\n    let r = String::from(\"\");\n    for c in s {\n        if !t.contains(c) { r.push_rune(c); }\n    }\n    return r;\n}\n\nfn main() {\n    let s = String::from(\"She was a soul stripper. She took my heart!\");\n    let t = String::from(\"aei\");\n    let r = strip_chars(s, t);\n    println \"{r}\";\n}"
+    },
+    {
+        "id": "Sub-unit_squares",
+        "title": "Sub-unit squares",
+        "code": "import \"std/vec.zc\"\nimport \"std/math.zc\"\n\nfn digits<T>(n: T) -> Vec<int> {\n    let digs = Vec<int>::new();\n    if n == 0 {\n        digs << 0;\n        return digs;\n    }\n    while n > 0 {\n        digs << (n % 10);\n        n /= 10;\n    }\n    digs.reverse();\n    return digs;\n}\n\nfn is_square<T>(n: T) -> bool {\n    let sqrt = (T)Math::round(Math::sqrt((f64)n));\n    return sqrt * sqrt == n;\n}\n\nfn main() {\n    println \"The first 7 sub-unit squares are:\";\n    println \"1\";\n    let count = 1;\n    for let i: u64 = 2; count < 7; i++ {\n        let sq = i * i;\n        let digs = digits(sq);\n        if digs[0] != 1 && !digs.contains(0) {\n            let sum: u64 = digs[0] - 1;\n            for j in 1..digs.length() { sum = sum * 10 + digs[j] - 1; }\n            if is_square(sum) {\n                println \"{sq]\";\n                count++;\n            }\n        }\n    }\n}"
+    },
+    {
+        "id": "Sum_and_product_of_an_array",
+        "title": "Sum and product of an array",
+        "code": "fn main() {\n    let a: int[10] = [7, 10, 2, 4, 6, 1, 8, 3, 9, 5];\n    let sum  = 0;\n    let prod = 1;\n    print \"Array    : \";\n    for e in a {\n        sum  += e;\n        prod *= e;\n        print \"{e} \";\n    }\n    println \"\";\n    println \"Sum      : {sum}\";\n    println \"Product  : {prod}\";\n}"
+    },
+    {
+        "id": "Sum_digits_of_an_integer",
+        "title": "Sum digits of an integer",
+        "code": "fn digits_sum(n: int, b: const int) -> int {\n    let sum = 0;\n    while n > 0 {\n        sum += n % b;\n        n /= b;\n    }\n    return sum;\n}\n\nfn main() {\n    let a: (int, int)[4] = [(1, 10), (1234, 10), (0xfe, 16), (0xf0e, 16)];\n    for p in a {\n        let (n, b) = p;\n        println \"{digits_sum(n, b)}\";\n    }\n}"
+    },
+    {
+        "id": "Sum_of_first_n_cubes",
+        "title": "Sum of first n cubes",
+        "code": "import \"locale.h\"\n\nfn main() {\n    setlocale(LC_NUMERIC, \"en_US.UTF-8\");\n    println \"Sums of the first 'n' cubes (0 <= n < 50):\";\n    let sum = 0;\n    for i in 0..50 {\n        sum += i * i * i;\n        print \"{sum:'9d} \";\n        if i % 10 == 9 { println \"\"; }\n    }\n}"
+    },
+    {
+        "id": "Sum_of_the_digits_of_n_is_substring_of_n",
+        "title": "Sum of the digits of n is substring of n",
+        "code": "fn digit_sum(n: int) -> int {\n    let sum: int = 0;\n    while n > 0 {\n        sum += n % 10;\n        n /= 10;\n    }\n    return sum;\n}\n\nfn main() {\n    println \"Numbers under 1,000 whose sum of digits is a substring of themselves:\"\n    let count = 0;\n    for n in 0..<1000 {\n        let ns = \"{n}\";\n        let ds = \"{digit_sum(n)}\";\n        if strstr(ns, ds) {\n            print \"{n:3d} \";\n            if ++count % 8 == 0 { println \"\"; }\n        }\n    }\n    println \"\\n{count} such numbers found.\"\n}"
+    },
+    {
+        "id": "Temperature_conversion",
+        "title": "Temperature conversion",
+        "code": "import \"std/math.zc\"\n\nfn temp_conv(k: f64) {\n    let c = k - 273.15;\n    let f = c * 1.8 + 32.0;\n    let r = f + 459.67;\n    println \"{k:7.2f}\u02da Kelvin\";\n    println \"{c:7.2f}\u02da Celsius\";\n    println \"{f:7.2f}\u02da Fahrenheit\";\n    println \"{r:7.2f}\u02da Rankine\";\n    println \"\";\n}\n\nfn main() {\n    let ks: f64[3] = [0.0, 21.0, 100.0];\n    for k in ks { temp_conv(k); }\n}"
+    },
+    {
+        "id": "Terminal_control_Clear_the_screen",
+        "title": "Terminal control/Clear the screen",
+        "code": "fn main() {\n    println \"\\e[2J\";\n}"
+    },
+    {
+        "id": "Terminal_control_Display_an_extended_character",
+        "title": "Terminal control/Display an extended character",
+        "code": "fn main() {\n    println \"\u00a3\";\n}"
+    },
+    {
+        "id": "Terminal_control_Ringing_the_terminal_bell",
+        "title": "Terminal control/Ringing the terminal bell",
+        "code": "fn main() {\n    println \"\\a\";\n}"
+    },
+    {
+        "id": "Terminal_control_Unicode_output",
+        "title": "Terminal control/Unicode output",
+        "code": "import \"std/env.zc\"\n\nfn supports_unicode() -> bool {\n    let lang = Env::get(\"LANG\").unwrap();\n    let res = strstr(lang, \"utf-8\") || strstr(lang, \"UTF-8\");\n    return (bool)res;\n}\n\nfn main() {\n    if supports_unicode() {\n        println \"Unicode is supported on this terminal and U+25B3 is : \\u25b3\";\n    } else {\n        println \"Unicode is not supported on this terminal.\";\n    }\n}"
+    },
+    {
+        "id": "Ternary_logic",
+        "title": "Ternary logic",
+        "code": "struct Trit {\n    val: int; // 0: False, 1: Unknown, 2: True\n}\n\n// Struct-based constants participate in operator overloading\nlet FALSE   = Trit { val: 0 };\nlet UNKNOWN = Trit { val: 1 };\nlet TRUE    = Trit { val: 2 };\n\nimpl Trit {\n    fn new(v: int) -> Trit { return Trit { val: v }; }\n\n    // Maps to the '!' operator\n    fn not(self) -> Trit { return Trit { val: 2 - self.val }; }\n\n    // Maps to the '~' operator\n    fn bitnot(self) -> Trit { return !self; }\n\n    // Maps to the '&' operator (Kleene AND: min(a, b))\n    fn bitand(self, other: Trit) -> Trit {\n        let a = self.val;\n        let b = other.val;\n        return Trit { val: a < b ? a : b };\n    }\n\n    // Maps to the '|' operator (Kleene OR: max(a, b))\n    fn bitor(self, other: Trit) -> Trit {\n        let a = self.val;\n        let b = other.val;\n        return Trit { val: a > b ? a : b };\n    }\n\n    // Maps to the '^' operator\n    fn bitxor(self, other: Trit) -> Trit {\n        // Kleene XOR logic: (A or B) and not (A and B)\n        return (self | other) & !(self & other);\n    }\n\n    fn to_string(self) -> char* {\n        if self.val == 0 return \"F\";\n        if self.val == 1 return \"?\";\n        return \"T\";\n    }\n}\n\nfn main() {\n    let vals: Trit[3] = [FALSE, UNKNOWN, TRUE];\n\n    println \"Truth Table (Kleene Logic):\";\n    println \"A B | !A | A&B | A|B | A^B\";\n    println \"----+----+-----+-----+----\";\n    for i in 0..3 {\n        for j in 0..3 {\n            let a = vals[i];\n            let b = vals[j];\n            println \"{a.to_string()} {b.to_string()} | {(!a).to_string()}  | { (a&b).to_string() }   | { (a|b).to_string() }   | { (a^b).to_string() }\";\n        }\n    }\n\n    println \"\\nPractical Case: SQL-style Null/Unknown Filtering\";\n    \n    // Evaluation without branching\n    let r1 = (TRUE & TRUE) | FALSE;      // Authorized\n    let r2 = (FALSE & UNKNOWN) | FALSE;  // Denied\n    let r3 = (TRUE & UNKNOWN) | FALSE;   // Manual Review (?)\n    let r4 = (UNKNOWN & FALSE) | TRUE;   // Authorized (Emergency override)\n\n    let results: Trit[4] = [r1, r2, r3, r4];\n\n    for i in 0..4 {\n        let r = results[i];\n        print \"Result {i+1}: {r.to_string()} -> \";\n        if r.val == 2 println \"Authorized\";\n        else if r.val == 1 println \"Manual Review Required\";\n        else println \"Denied\";\n    }\n}"
+    },
+    {
+        "id": "Time_a_function",
+        "title": "Time a function",
+        "code": "import \"std/time.zc\" // uses system time\n\nfn func() {\n    for i in 0..10_000_000 {}\n}\n\nfn main() {\n    let iterations = 100;\n    let start = Time::now();\n    for i in 0..iterations { func(); }\n    let end = Time::now();\n    println \"Calling 'func' {iterations} times took {end - start} ms.\";\n}"
+    },
+    {
+        "id": "User_input_Text",
+        "title": "User input/Text",
+        "code": "fn main() {\n    let str_val: char[256];\n    let int_val: int;\n    \n    // Prompt for the string (infers %s for the char array)\n    ? \"Enter a string: \" (str_val);\n    \n    // Prompt for the integer (infers %d for the int)\n    ? \"Enter the integer 75000: \" (int_val);\n    \n    println \"\\nYou entered the string: {str_val}\";\n    println \"You entered the integer: {int_val}\";\n}"
+    },
+    {
+        "id": "Variables",
+        "title": "Variables",
+        "code": "// Other variable related facilities: Manifest Constants (compile-time only)\ndef GLOBAL_LIMIT = 1024;\n\nfn main() {\n    /* Declaration & Initialization (Type inferred automatically) */\n    let a = 10;\n    \n    /* Assignment */\n    a = 20;\n    \n    /* Datatypes (Explicit type annotations) */\n    let my_int: int = 42;               // Standard 32-bit integer\n    let my_float: f32 = 3.14;           // Floating point\n    let my_bool: bool = true;           // Boolean\n    let my_string: string = \"Rosetta\";  // Null-terminated C-string\n    let my_u8: u8 = 255;                // Fixed-width unsigned 8-bit integer\n    let my_c_long: c_long = 10000;      // C interop type (size varies by platform)\n    \n    // Read-only variables use the `const` type qualifier\n    let max_retries: const int = 3;\n    // max_retries = 5; // This would cause a compiler error\n    \n    /* Scope */\n    {\n        // Block scope: shadows the outer variable 'a'\n        let a = 50;\n        println \"Inner scope 'a': {a}\";\n        \n        // Other facilities: `autofree` automatically frees resources when scope exits\n        // autofree let buffer = malloc(GLOBAL_LIMIT);\n    }\n    println \"Outer scope 'a' remains: {a}\";\n    \n    /* Referencing */\n    // Zen C uses explicit pointers for referencing\n    let ref_a: int* = &a; \n    *ref_a = 30; // Dereferencing to mutate the original variable\n    println \"Mutated 'a' via reference: {a}\";\n    \n    /* Other facilities: Tuples and Destructuring */\n    // Variables can be grouped and destructured in a single line\n    let pair = (1, \"Apple\");\n    let (id, name) = pair;\n    \n    println \"Destructured Tuple - ID: {id}, Name: {name}\";\n}"
+    },
+    {
+        "id": "Vector",
+        "title": "Vector",
+        "code": "import \"std/core.zc\"\nimport \"std/math.zc\"\n\nstruct Vector {\n    x: double;\n    y: double;\n}\n\nimpl Vector {\n    // Standard initialization\n    fn new(x: double, y: double) -> Vector {\n        return Vector { x: x, y: y };\n    }\n\n    // Initialize from start and end points\n    fn from_points(x1: double, y1: double, x2: double, y2: double) -> Vector {\n        return Vector { x: x2 - x1, y: y2 - y1 };\n    }\n\n    // Initialize from angle and length\n    fn from_polar(angle: double, length: double) -> Vector {\n        return Vector {\n            x: length * Math::cos(angle),\n            y: length * Math::sin(angle)\n        };\n    }\n\n    // Maps to the '+' operator\n    fn add(self, other: Vector) -> Vector {\n        return Vector { x: self.x + other.x, y: self.y + other.y };\n    }\n\n    // Maps to the '-' operator\n    fn sub(self, other: Vector) -> Vector {\n        return Vector { x: self.x - other.x, y: self.y - other.y };\n    }\n\n    // Maps to the '*' operator\n    fn mul(self, scalar: double) -> Vector {\n        return Vector { x: self.x * scalar, y: self.y * scalar };\n    }\n\n    // Maps to the '/' operator\n    fn div(self, scalar: double) -> Vector {\n        if (scalar == 0.0) {\n            println \"Warning: Division by zero vector scalar!\";\n            return *self;\n        }\n        return Vector { x: self.x / scalar, y: self.y / scalar };\n    }\n\n    // Implicitly called during string interpolation\n    fn to_string(self) -> char* {\n        let buf = (char*)malloc(64);\n        sprintf(buf, \"Vector(x: %.2f, y: %.2f)\", self.x, self.y);\n        return buf;\n    }\n\n    fn show(self) {\n        let s = self.to_string();\n        println \"{s}\";\n        free(s);\n    }\n}\n\nfn main() {\n    // Initialization\n    let v1 = Vector::new(3.0, 4.0);\n    println \"v1 (new): {v1}\";\n\n    let v2 = Vector::from_points(0.0, 0.0, -1.0, 2.0);\n    println \"v2 (from_points): {v2}\";\n\n    println \"v_polar (from_polar): {Vector::from_polar(Math::PI() / 4.0, 5.0)}\";\n\n    println \"\";\n\n    // Operations\n    println \"v1 + v2: {v1 + v2}\";\n    println \"v1 - v2: {v1 - v2}\";\n    println \"v1 * 2.5: {v1 * 2.5}\";\n    println \"v1 / 2.0: {v1 / 2.0}\";\n}"
+    },
+    {
+        "id": "Vector_products",
+        "title": "Vector products",
+        "code": "struct Vector3 {\n    x: double;\n    y: double;\n    z: double;\n}\n\nimpl Vector3 {\n    fn new(x: double, y: double, z: double) -> Vector3 {\n        return Vector3 { x: x, y: y, z: z };\n    }\n\n    fn dot(self, other: Vector3) -> double {\n        return (self.x * other.x) + (self.y * other.y) + (self.z * other.z);\n    }\n\n    fn cross(self, other: Vector3) -> Vector3 {\n        return Vector3 {\n            x: (self.y * other.z) - (self.z * other.y),\n            y: (self.z * other.x) - (self.x * other.z),\n            z: (self.x * other.y) - (self.y * other.x)\n        };\n    }\n\n    // Scalar triple product: a \u2022 (b x c)\n    fn scalar_triple(self, b: Vector3, c: Vector3) -> double {\n        return self.dot(b.cross(c));\n    }\n\n    // Vector triple product: a x (b x c)\n    fn vector_triple(self, b: Vector3, c: Vector3) -> Vector3 {\n        return self.cross(b.cross(c));\n    }\n\n    // Implicitly called during string interpolation\n    fn to_string(self) -> char* {\n        let buf = (char*)malloc(128);\n        sprintf(buf, \"(%.1f, %.1f, %.1f)\", self.x, self.y, self.z);\n        return buf;\n    }\n}\n\nfn main() {\n    let a = Vector3::new(3.0, 4.0, 5.0);\n    let b = Vector3::new(4.0, 3.0, 5.0);\n    let c = Vector3::new(-5.0, -12.0, -13.0);\n\n    println \"Vectors:\";\n    println \"a = {a}\";\n    println \"b = {b}\";\n    println \"c = {c}\";\n    println \"\";\n\n    println \"a . b       = {a.dot(b)}\";\n    println \"a x b       = {a.cross(b)}\";\n    println \"a . (b x c) = {a.scalar_triple(b, c)}\";\n    println \"a x (b x c) = {a.vector_triple(b, c)}\";\n}"
+    },
+    {
+        "id": "Write_entire_file",
+        "title": "Write entire file",
+        "code": "import \"std/fs.zc\"\n\nfn main() {\n    let filename = \"output.txt\";\n    let content = \"Hello, Zen C!\";\n\n    // Open the file in \"write\" mode (overwrites if it exists, creates if not)\n    let res = File::open(filename, \"wb\");\n    if res.is_err() {\n        eprintln \"Error opening file for writing: {res.err}\";\n        return 1;\n    }\n\n    let f = res.unwrap();\n    let write_res = f.write_string(content);\n    \n    // Explicit error handling for the write operation\n    if write_res.is_err() {\n        eprintln \"Error writing to file: {write_res.err}\";\n        f.close();\n        return 1;\n    }\n\n    f.close();\n    println \"Successfully wrote to {filename}\";\n}"
+    }
+]

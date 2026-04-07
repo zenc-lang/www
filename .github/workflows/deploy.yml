@@ -35,6 +35,10 @@ jobs:
           # Copy the JSON to the main website folder to avoid CORS issues
           cp docs.zenc-lang.org/static/data/sponsors.json zenc/sponsors.json
 
+      - name: Generate Playground Examples
+        run: |
+          python3 scripts/generate_playground_examples.py
+
       - name: Build Zola Docs
         run: |
           wget -qO- https://github.com/getzola/zola/releases/download/v0.18.0/zola-v0.18.0-x86_64-unknown-linux-gnu.tar.gz | tar xz          

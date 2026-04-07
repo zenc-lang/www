@@ -320,20 +320,35 @@
 
             const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'zenc-dark' : 'zenc-light';
 
-            const examples = {
-                hello: `import "std/io.zc"\n\nfn main() {\n    println "Hello, Zen C!"\n}`,
-                match: `import "std/io.zc"\n\nfn main() {\n    let x = 42\n    match x {\n        42 => println "The answer!"\n        _  => println "Something else"\n    }\n}`,
-                struct: `import "std/io.zc"\n\nstruct Point {\n    x: int,\n    y: int\n}\n\nimpl Point {\n    fn print(self) {\n        println "Point({self.x}, {self.y})"\n    }\n}\n\nfn main() {\n    let p = Point { x: 10, y: 20 }\n    p.print()\n}`,
-                async: `import "std/io.zc"\nimport "std/async.zc"\n\nfn main() {\n    async {\n        println "Fetching data..."\n        let result = await fetch_data() \n        println "Result: {result}"\n    }\n}\n\nasync fn fetch_data() -> str {\n    return "Some data"\n}`
-            };
-
             const examplesSelect = document.getElementById('examples-select');
+            let examplesData = [];
+
+            async function loadExamples() {
+                try {
+                    const resp = await fetch('examples.json');
+                    examplesData = await resp.json();
+
+                    // Clear existing and add new
+                    examplesSelect.innerHTML = '<option value="">-- Select an Example --</option>';
+                    examplesData.forEach((ex, idx) => {
+                        const opt = document.createElement('option');
+                        opt.value = idx;
+                        opt.textContent = ex.title;
+                        examplesSelect.appendChild(opt);
+                    });
+                } catch (err) {
+                    console.error("Failed to load examples:", err);
+                }
+            }
+
             examplesSelect.addEventListener('change', (e) => {
-                const val = e.target.value;
-                if (examples[val]) {
-                    editor.setValue(examples[val]);
+                const idx = e.target.value;
+                if (idx !== "" && examplesData[idx]) {
+                    editor.setValue(examplesData[idx].code);
                 }
             });
+
+            loadExamples();
 
             const editor = monaco.editor.create(document.getElementById('editor-container'), {
                 value: `import "std/io.zc"\n\nfn main() {\n    println "Hello, Zen C!"\n\n    let x = 42\n    match x {\n        42 => println "The answer!"\n        _  => println "Something else"\n    }\n}`,
