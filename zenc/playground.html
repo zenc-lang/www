@@ -51,56 +51,42 @@
             flex-direction: column;
             border: 1px solid #e2e8f0;
             border-left: 4px solid #cbd5e1;
-            background-color: #fdfbf7;
-            background-image:
-                repeating-linear-gradient(45deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(180, 170, 150, 0.08) 10px,
-                    rgba(180, 170, 150, 0.08) 11px);
-            box-shadow: none;
+            background-color: var(--surface);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
         }
 
         [data-theme="dark"] .zen-panel {
-            background-color: #121211;
             border-color: #2d2d2a;
             border-left-color: #475569;
-            background-image:
-                repeating-linear-gradient(45deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(255, 255, 255, 0.02) 10px,
-                    rgba(255, 255, 255, 0.02) 11px);
-        }
-
-        .zen-panel::before {
-            content: '';
-            position: absolute;
-            top: 24px;
-            right: 28px;
-            width: 24px;
-            height: 20px;
-            border-radius: 50% 60% 50% 40%;
-            background: radial-gradient(ellipse at 30% 30%, #d1d5db, #9ca3af);
-            opacity: 0.35;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        [data-theme="dark"] .zen-panel::before {
-            background: radial-gradient(ellipse at 35% 35%, #94a3b8, #475569);
-            opacity: 0.35;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
         }
 
         .zen-panel-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 28px 12px 20px;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
             position: relative;
             z-index: 10;
+            background-color: rgba(0, 0, 0, 0.015);
+            /* Raked sand texture on header for Zen vibe */
+            background-image:
+                repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(180, 170, 150, 0.06) 10px,
+                    rgba(180, 170, 150, 0.06) 11px);
+        }
+
+        [data-theme="dark"] .zen-panel-header {
+            background-color: rgba(255, 255, 255, 0.01);
+            background-image:
+                repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255, 255, 255, 0.015) 10px,
+                    rgba(255, 255, 255, 0.015) 11px);
         }
 
         .ui-btn {
@@ -243,16 +229,18 @@
     </header>
 
     <main class="playground-main" style="padding-top: 10px;">
-        <div class="playground-container">
+        <div class="playground-container" style="gap: 24px;">
             <div id="editor-wrapper" class="zen-panel">
                 <div class="zen-panel-header">
-                    <div style="display: flex; gap: 4px; align-items: center;">
+                    <div style="display: flex; gap: 8px; align-items: center;">
                         <button class="ui-btn run-btn" id="run-btn">
                             <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
                                 <path d="M8 5v14l11-7z" />
                             </svg>
                             Run Code
                         </button>
+
+                        <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;"></div>
 
                         <button id="copy-btn" class="ui-btn">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -263,18 +251,28 @@
                             Copy
                         </button>
 
-                        <select id="examples-select" class="ui-select">
+                        <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;"></div>
+
+                        <select id="examples-select" class="ui-select"
+                            style="max-width: 200px; text-overflow: ellipsis;">
                         </select>
                     </div>
                 </div>
-                <div id="editor-container"></div>
+                <div id="editor-container" style="padding-top: 5px;"></div>
             </div>
 
             <div id="terminal-wrapper" class="zen-panel">
-                <div class="zen-panel-header" style="padding-bottom: 0;">
-                    <span
-                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; font-weight: 600; padding-top: 4px;">OUTPUT</span>
-                    <button id="clear-terminal" class="ui-btn" style="padding: 0;">Clear</button>
+                <div class="zen-panel-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
+                            stroke-width="2">
+                            <polyline points="4 17 10 11 4 5"></polyline>
+                            <line x1="12" y1="19" x2="20" y2="19"></line>
+                        </svg>
+                        <span
+                            style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; font-weight: 600;">OUTPUT</span>
+                    </div>
+                    <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
                 </div>
                 <div class="terminal-output" id="output">Welcome to the Zen C Playground.
                     Press 'Run' to compile and execute your code.</div>
