@@ -55,6 +55,16 @@ async def run_code(request: RunRequest):
             )
 
             output = result.stdout + result.stderr
+            
+            # Clean up noisy compiler logs from standard output to keep playground execution clean
+            clean_lines = []
+            for line in output.splitlines():
+                if "Compiling /tmp/" in line or "Finished build in" in line:
+                    continue
+                clean_lines.append(line)
+            
+            output = "\n".join(clean_lines).strip()
+
             return {"output": output, "error": "" if result.returncode == 0 else "Execution failed"}
 
         except subprocess.TimeoutExpired:
