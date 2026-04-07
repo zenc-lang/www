@@ -44,69 +44,114 @@
         }
 
         .zen-panel {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            position: relative;
             border-radius: 8px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #cbd5e1;
+            background-color: #fdfbf7;
+            background-image:
+                repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(180, 170, 150, 0.08) 10px,
+                    rgba(180, 170, 150, 0.08) 11px);
+            box-shadow: none;
         }
 
-        .code-header-simple {
+        [data-theme="dark"] .zen-panel {
+            background-color: #121211;
+            border-color: #2d2d2a;
+            border-left-color: #475569;
+            background-image:
+                repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255, 255, 255, 0.02) 10px,
+                    rgba(255, 255, 255, 0.02) 11px);
+        }
+
+        .zen-panel::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            width: 24px;
+            height: 20px;
+            border-radius: 50% 60% 50% 40%;
+            background: radial-gradient(ellipse at 30% 30%, #d1d5db, #9ca3af);
+            opacity: 0.35;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        [data-theme="dark"] .zen-panel::before {
+            background: radial-gradient(ellipse at 35% 35%, #94a3b8, #475569);
+            opacity: 0.35;
+        }
+
+        .zen-panel-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            padding: 12px 20px;
-            background: var(--surface-alt);
+            padding: 16px 28px 12px 20px;
+            position: relative;
+            z-index: 10;
         }
 
-        .window-controls {
-            display: flex;
-            gap: 6px;
-        }
-
-        .control {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .control.red {
-            background-color: #ff5f56;
-        }
-
-        .control.yellow {
-            background-color: #ffbd2e;
-        }
-
-        .control.green {
-            background-color: #27c93f;
-        }
-
-        .run-btn {
-            background: var(--accent);
-            color: #0c0c0b;
-            border: none;
-            padding: 6px 16px;
+        .ui-btn {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid transparent;
+            padding: 6px 12px;
             border-radius: 6px;
-            font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-family: 'Inter', sans-serif;
             transition: all 0.2s;
         }
 
-        .run-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+        .ui-btn:hover {
+            color: var(--fg);
         }
 
-        .run-btn:active {
-            transform: translateY(0);
+        .ui-select {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .ui-select:hover {
+            color: var(--fg);
+        }
+
+        .run-btn {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .run-btn:hover {
+            color: #4ade80;
+            /* Brighter green */
+        }
+
+        [data-theme="light"] .run-btn {
+            color: #16a34a;
+            /* Deeper green for light mode */
         }
 
         .playground-container {
@@ -126,36 +171,28 @@
             position: relative;
         }
 
+        /* Make Monaco editor background transparent to let diagonal lines show */
+        .monaco-editor,
+        .monaco-editor-background,
+        .monaco-editor .margin {
+            background-color: transparent !important;
+        }
+
         #terminal-wrapper {
             width: 450px;
-            background: #0c0c0b;
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        [data-theme="light"] #terminal-wrapper {
-            background: #1c1c1b;
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .terminal-header {
-            background: #161615;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
 
         .terminal-output {
             flex: 1;
-            padding: 15px;
+            padding: 15px 20px;
             font-size: 0.85rem;
             line-height: 1.5;
             overflow-y: auto;
             white-space: pre-wrap;
             word-break: break-all;
-            color: #e2e8f0;
+            color: var(--fg);
             font-family: 'JetBrains Mono', monospace;
+            z-index: 10;
         }
 
         @media (max-width: 900px) {
@@ -208,20 +245,16 @@
     <main class="playground-main" style="padding-top: 10px;">
         <div class="playground-container">
             <div id="editor-wrapper" class="zen-panel">
-                <div class="code-header-simple">
-                    <div class="window-controls">
-                        <div class="control red"></div>
-                        <div class="control yellow"></div>
-                        <div class="control green"></div>
-                    </div>
+                <div class="zen-panel-header">
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                        <button class="ui-btn run-btn" id="run-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                            Run Code
+                        </button>
 
-                    <div style="display: flex; gap: 12px; align-items: center;">
-                        <select id="examples-select"
-                            style="background: var(--surface); color: var(--fg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; outline: none; font-family: 'Inter', sans-serif;">
-                        </select>
-
-                        <button id="copy-btn"
-                            style="background: var(--surface); color: var(--fg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif;">
+                        <button id="copy-btn" class="ui-btn">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -230,23 +263,18 @@
                             Copy
                         </button>
 
-                        <button class="run-btn" id="run-btn" style="font-family: 'Inter', sans-serif;">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                            Run
-                        </button>
+                        <select id="examples-select" class="ui-select">
+                        </select>
                     </div>
                 </div>
                 <div id="editor-container"></div>
             </div>
 
             <div id="terminal-wrapper" class="zen-panel">
-                <div class="terminal-header">
+                <div class="zen-panel-header" style="padding-bottom: 0;">
                     <span
-                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #94a3b8; letter-spacing: 0.05em; font-weight: 600;">OUTPUT</span>
-                    <button id="clear-terminal"
-                        style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:0.75rem; font-family: 'Inter', sans-serif;">Clear</button>
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; font-weight: 600; padding-top: 4px;">OUTPUT</span>
+                    <button id="clear-terminal" class="ui-btn" style="padding: 0;">Clear</button>
                 </div>
                 <div class="terminal-output" id="output">Welcome to the Zen C Playground.
                     Press 'Run' to compile and execute your code.</div>
@@ -336,10 +364,10 @@
                     { token: 'comment', foreground: '71717a', fontStyle: 'italic' },
                 ],
                 colors: {
-                    'editor.background': '#0c0c0b',
+                    'editor.background': '#00000000',
                     'editor.foreground': '#e2e8f0',
-                    'editorLineNumber.foreground': '#4b5563',
-                    'editor.lineHighlightBackground': '#1c1c1b',
+                    'editorLineNumber.foreground': '#475569',
+                    'editor.lineHighlightBackground': '#ffffff05',
                     'editor.selectionBackground': '#334155',
                 }
             });
@@ -356,10 +384,10 @@
                     { token: 'comment', foreground: '94a3b8', fontStyle: 'italic' },
                 ],
                 colors: {
-                    'editor.background': '#ffffff',
+                    'editor.background': '#00000000',
                     'editor.foreground': '#1a1a19',
                     'editorLineNumber.foreground': '#94a3b8',
-                    'editor.lineHighlightBackground': '#f1f5f9',
+                    'editor.lineHighlightBackground': '#00000005',
                     'editor.selectionBackground': '#e2e8f0',
                 }
             });
