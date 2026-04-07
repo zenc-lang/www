@@ -1,0 +1,39 @@
+name: Update Playground Sandbox
+
+on:
+  schedule:
+    # Run automatically every day at 3:00 AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    # Allows you to trigger the sandbox rebuild manually!
+
+jobs:
+  update-sandbox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up SSH Key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+
+      - name: Rebuild Docker Sandbox on VPS
+        run: |
+          # SSH into the VPS and securely execute the build process
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            set -e
+            echo "Starting zenc_sandbox automated rebuild..."
+            
+            # The Dockerfile is automatically synced to this path via deploy.yml
+            cd /var/www/playground-api/sandbox || exit 1
+            
+            # Use CACHEBUST to force git clone to run again and pull the absolute latest compiler changes
+            docker build --build-arg CACHEBUST=$(date +%s) -t zenc_sandbox:latest .
+            
+            echo "Restarting playground-api service..."
+            # Restart the FastAPI service just to clear any caching
+            sudo systemctl restart playground-api
+            
+            echo "zenc_sandbox rebuild completed successfully!"
+          EOF
