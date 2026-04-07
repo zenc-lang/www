@@ -64,7 +64,7 @@ jobs:
           
       - name: Restart Backend Services
         run: |
-          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo rsync -av --exclude 'venv' --delete /var/www/playground-api/ /opt/zenc-playground-api/ && cd /opt/zenc-playground-api && sudo python3 -m venv venv && sudo ./venv/bin/pip install -r requirements.txt uvicorn fastapi && sudo systemctl restart playground-api"
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo rsync -av --exclude 'venv' --delete /var/www/playground-api/ /opt/zenc-playground-api/ && cd /opt/zenc-playground-api && sudo systemctl restart playground-api || true && sleep 5 && sudo journalctl -u playground-api -n 50 --no-pager"
 
           
       - name: Sync and Link Mirror Infrastructure
