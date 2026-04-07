@@ -17,7 +17,7 @@ async def run_code(request: RunRequest):
         zc_file = os.path.join(tmp_dir, "main.zc")
         with open(zc_file, "w") as f:
             f.write(request.code)
-        
+
         # Prepare Docker command
         # Syntax: docker run --rm -v /local/path:/container/path image command
         # We'll use the user's Docker image: zenc_sandbox
@@ -29,17 +29,17 @@ async def run_code(request: RunRequest):
                 "zenc_sandbox",
                 "sh", "-c", "timeout -s 9 30s zenc /tmp/main.zc -o /tmp/main && timeout -s 9 10s /tmp/main"
             ]
-            
+
             result = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
                 timeout=45 # Outer timeout
             )
-            
+
             output = result.stdout + result.stderr
             return {"output": output, "error": "" if result.returncode == 0 else "Execution failed"}
-            
+
         except subprocess.TimeoutExpired:
             return {"output": "Error: Execution timed out.", "error": "timeout"}
         except Exception as e:
