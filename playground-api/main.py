@@ -40,7 +40,7 @@ async def run_code(request: RunRequest):
                 "-m", "128m",
                 "--pids-limit", "64",
                 "--read-only",
-                "--tmpfs", "/tmp:rw,nosuid,size=64m",
+                "--tmpfs", "/tmp:rw,nosuid,exec,size=64m",
                 "--cap-drop", "ALL",
                 "--security-opt", "no-new-privileges=true",
                 "-v", f"{zc_file}:/tmp/main.zc:ro",
