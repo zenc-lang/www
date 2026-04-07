@@ -185,6 +185,7 @@
             overflow-y: auto;
             white-space: pre-wrap;
             overflow-wrap: break-word;
+            text-align: left !important;
             color: var(--fg);
             font-family: 'JetBrains Mono', monospace;
             z-index: 10;
@@ -337,8 +338,8 @@
                         </div>
                         <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
                     </div>
-                    <div class="terminal-output" id="output">Welcome to the Zen C Playground. Press 'Run' to compile and
-                        execute your code.</div>
+                    <div class="terminal-output" id="output">Welcome! Press 'Run' to compile and execute your code.
+                    </div>
                 </div>
             </div>
         </div>
@@ -581,7 +582,7 @@
                         missionStatus.style.display = tut.completed ? 'block' : 'none';
                         if (tut.completed) {
                             missionStatus.style.color = '#4ade80';
-                            missionStatus.innerHTML = 'Mission Accomplished! 🏁';
+                            missionStatus.innerHTML = 'Mission Accomplished!';
                             tutorialMission.style.borderLeft = '4px solid #4ade80';
                         } else {
                             tutorialMission.style.borderLeft = '1px solid var(--border)';
@@ -666,7 +667,7 @@
                             tut.completed = true;
                             missionStatus.style.display = 'block';
                             missionStatus.style.color = '#4ade80';
-                            missionStatus.innerHTML = 'Mission Accomplished! 🎉 Keep going.';
+                            missionStatus.innerHTML = 'Mission Accomplished! Keep going.';
                             tutorialMission.style.borderLeft = '4px solid #4ade80';
 
                             // Update sidebar icon
