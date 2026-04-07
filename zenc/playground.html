@@ -554,7 +554,7 @@
 
                     const icon = document.createElement('div');
                     icon.innerHTML = tut.completed ?
-                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="#4ade80"><polyline points="20 6 9 17 4 12"></polyline></svg>' :
+                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' :
                         '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
                     icon.style.opacity = tut.completed ? "1" : "0.3";
                     btn.appendChild(icon);
@@ -673,7 +673,7 @@
                             // Update sidebar icon
                             const activeBtn = tutorialList.children[currentTutorialIndex];
                             const iconDiv = activeBtn.querySelector('div:last-child');
-                            iconDiv.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="#4ade80"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                            iconDiv.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                             iconDiv.style.opacity = "1";
                         } else {
                             missionStatus.style.display = 'block';
