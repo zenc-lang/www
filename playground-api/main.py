@@ -10,7 +10,7 @@ app = FastAPI()
 class RunRequest(BaseModel):
     code: str
 
-@app.post("/api/run")
+@app.post("/run")
 async def run_code(request: RunRequest):
     # Create a temporary directory for the execution
     with tempfile.TemporaryDirectory() as tmp_dir:
@@ -27,7 +27,7 @@ async def run_code(request: RunRequest):
                 "docker", "run", "--rm",
                 "-v", f"{zc_file}:/tmp/main.zc:ro",
                 "zenc_sandbox",
-                "sh", "-c", "timeout -s 9 30s zenc /tmp/main.zc -o /tmp/main && timeout -s 9 10s /tmp/main"
+                "sh", "-c", "timeout -s 9 30s zc /tmp/main.zc -o /tmp/main && timeout -s 9 10s /tmp/main"
             ]
 
             result = subprocess.run(
