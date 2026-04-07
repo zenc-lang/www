@@ -272,7 +272,7 @@
                     <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
                 </div>
                 <div class="terminal-output" id="output">Welcome to the Zen C Playground.
-Press 'Run' to compile and execute your code.</div>
+                    Press 'Run' to compile and execute your code.</div>
             </div>
         </div>
     </main>
@@ -420,7 +420,7 @@ Press 'Run' to compile and execute your code.</div>
             loadExamples();
 
             const editor = monaco.editor.create(document.getElementById('editor-container'), {
-                value: `import "std/io.zc"\n\nfn main() {\n    println "Hello, Zen C!"\n\n    let x = 42\n    match x {\n        42 => println "The answer!"\n        _  => println "Something else"\n    }\n}`,
+                value: `fn main() {\n    println "Welcome to the Zen C Playground!";\n\n    let a = 10;\n    let b = 32;\n    let sum = a + b;\n\n    println "The sum of {a} and {b} is {sum}.";\n}`,
                 language: 'zenc',
                 theme: currentTheme,
                 fontSize: 14,
