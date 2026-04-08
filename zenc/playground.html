@@ -664,12 +664,29 @@
             hydrateTutorials(editor);
 
             const themeToggle = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+
             if (themeToggle) {
                 themeToggle.addEventListener('click', () => {
-                    setTimeout(() => {
-                        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'zenc-dark' : 'zenc-light';
-                        monaco.editor.setTheme(newTheme);
-                    }, 50);
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                    let newTheme;
+                    if (currentTheme === 'dark') {
+                        newTheme = 'light';
+                    } else if (currentTheme === 'light') {
+                        newTheme = 'dark';
+                    } else {
+                        newTheme = systemDark ? 'light' : 'dark';
+                    }
+
+                    htmlElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    document.cookie = `theme=${newTheme}; Domain=.zenc-lang.org; Path=/; Max-Age=31536000; SameSite=Lax`;
+
+                    // Update Monaco
+                    const monacoTheme = newTheme === 'dark' ? 'zenc-dark' : 'zenc-light';
+                    monaco.editor.setTheme(monacoTheme);
                 });
             }
 
