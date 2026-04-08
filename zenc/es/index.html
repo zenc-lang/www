@@ -39,10 +39,11 @@
 
     <header>
         <div class="container nav-container">
-            <a href="/es/" class="logo">Zen C <span class="version">v0.4.4</span></a>
+            <a href="/" class="logo">Zen C <span class="version">v0.4.4</span></a>
             <nav>
                 <div class="nav-links">
                     <a href="https://docs.zenc-lang.org/es/">Documentación</a>
+                    <a href="/playground.html">Playground</a>
                     <a href="#sponsors">Patrocinadores</a>
                     <a href="https://github.com/zenc-lang/zenc" class="github-link">GitHub ↗</a>
                 </div>
@@ -75,7 +76,7 @@
                             <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
                             <path d="M2 12h20" />
                         </svg>
-                        Español
+                        English
                     </button>
                     <div class="lang-menu">
                         <a href="/" class="lang-option">English</a>
@@ -99,8 +100,7 @@
                 <h2 class="sub-title">Ergonomía Moderna.<br>Cero Overhead.<br>C Puro.</h2>
 
                 <p class="lead">
-                    Un lenguaje de sistemas con tipado fuerte que trae <strong>coincidencia de patrones</strong>,
-                    <strong>traits</strong>, y <strong>semántica de propiedad</strong> al ecosistema C.
+                    Un lenguaje de sistemas con tipado fuerte que trae <strong>coincidencia de patrones</strong>, <strong>traits</strong>, y <strong>semántica de propiedad</strong> al ecosistema C.
                 </p>
 
                 <div class="cmd-line-wrapper">
@@ -239,8 +239,7 @@
         <section id="features" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Cero Fricción. Control Máximo.</h2>
-                <p class="section-desc">Experimenta la transparencia de C combinada con la experiencia de desarrollo de
-                    un lenguaje moderno.</p>
+                <p class="section-desc">Experimenta la transparencia de C combinada con la experiencia de desarrollo de un lenguaje moderno.</p>
             </div>
 
             <div class="features-split">
@@ -359,8 +358,7 @@
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">pattern_matching</span></span>
-                        <p><code>match</code> exhaustivo sobre enums y tuplas para un flujo de control a prueba de
-                            balas.</p>
+                        <p><code>match</code> exhaustivo sobre enums y tuplas para un flujo de control a prueba de balas.</p>
                     </div>
                     <div class="feature-item">
                         <span class="feature-field"><span class="fn">zero_cost_generics</span></span>
@@ -376,8 +374,7 @@
         <section id="interop" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Arquitectura Políglota</h2>
-                <p class="section-desc">Zen C se adapta a tu ecosistema. Enlázalo sin problemas con bases de código
-                    existentes.</p>
+                <p class="section-desc">Zen C se adapta a tu ecosistema. Enlázalo sin problemas con bases de código existentes.</p>
             </div>
 
             <div class="interop-grid">
@@ -386,9 +383,7 @@
                         <h3>CUDA</h3>
                         <span class="flag-badge">--cuda</span>
                     </div>
-                    <p>Escribe kernels de GPU con sintaxis Zen usando atributos <code>launch</code> y
-                        <code>@global</code>.
-                    </p>
+                    <p>Escribe kernels de GPU con sintaxis Zen usando atributos <code>launch</code> y <code>@global</code>.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">@global</span>
 <span class="kwd">fn</span> <span class="fn">add</span>(a: <span class="typ">float</span>*, b: <span class="typ">float</span>*) {
@@ -403,9 +398,7 @@
                         <h3>C++</h3>
                         <span class="flag-badge">--cpp</span>
                     </div>
-                    <p>Genera código compatible con C++ para enlazar con librerías. Instancia plantillas en bloques
-                        <code>raw</code>.
-                    </p>
+                    <p>Genera código compatible con C++ para enlazar con librerías. Instancia plantillas en bloques <code>raw</code>.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     std::vector&lt;<span class="typ">int</span>&gt; <span class="fn">get_vec</span>() {
@@ -420,8 +413,7 @@
                         <h3>Objective-C</h3>
                         <span class="flag-badge">--objc</span>
                     </div>
-                    <p>Soporte nativo para macOS. Mezcla la sintaxis <code>[Object message]</code> dentro de tu código
-                        de sistemas.</p>
+                    <p>Soporte nativo para macOS. Mezcla la sintaxis <code>[Object message]</code> dentro de tu código de sistemas.</p>
                     <div class="mini-code">
                         <pre><code><span class="kwd">raw</span> {
     id pool = [[NSPool alloc] init];
@@ -435,12 +427,10 @@
         <section id="rosetta" class="container section-pad">
             <div
                 style="max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Establecido en
-                    Rosetta Code</h2>
+                <h2 class="section-title" style="margin-bottom: 1rem; text-align: center; width: 100%;">Establecido en Rosetta Code</h2>
                 <p
                     style="font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; text-align: center;">
-                    Zen C es un ciudadano de primera clase en Rosetta Code, la crestomatía de programación. Compara
-                    nuestra sintaxis y semántica en cientos de tareas estandarizadas.
+                    Zen C es un ciudadano de primera clase en Rosetta Code, la crestomatía de programación. Compara nuestra sintaxis y semántica en cientos de tareas estandarizadas.
                 </p>
                 <a href="https://rosettacode.org/wiki/Category:Zen_C" class="btn btn-primary" target="_blank"
                     style="padding: 14px 32px; font-size: 1rem; border-radius: 8px; font-weight: 600;">
@@ -452,8 +442,7 @@
         <section id="videos" class="container section-pad">
             <div class="section-header">
                 <h2 class="section-title">Videos Comunitarios</h2>
-                <p class="section-desc">Mira tutoriales, reseñas y profundizaciones creadas por la comunidad de Zen C.
-                </p>
+                <p class="section-desc">Mira tutoriales, reseñas y profundizaciones creadas por la comunidad de Zen C.</p>
             </div>
             <div class="videos-grid">
                 <div class="video-card">
@@ -554,8 +543,7 @@
                 <div class="sponsors-intro">
                     <h2 class="section-title">Sostiene el Proyecto</h2>
                     <p class="section-desc">
-                        Zen C es estrictamente Open Source y se financia mediante la comunidad. Las contribuciones a
-                        través de Open Collective aseguran la longevidad de la infraestructura.
+                        Zen C es estrictamente Open Source y se financia mediante la comunidad. Las contribuciones a través de Open Collective aseguran la longevidad de la infraestructura.
                     </p>
                     <a href="https://opencollective.com/z-libs" class="btn btn-primary" target="_blank">
                         Ver Open Collective &rarr;
@@ -642,17 +630,14 @@
             <div class="container">
                 <div class="newsletter-content">
                     <h2 class="section-title">La lista de correo para ingenieros.</h2>
-                    <p>Actualizaciones directas sobre características del lenguaje, lanzamientos de la biblioteca
-                        estándar y progreso de la hoja de ruta.</p>
+                    <p>Actualizaciones directas sobre características del lenguaje, lanzamientos de la biblioteca estándar y progreso de la hoja de ruta.</p>
                     <div class="newsletter-form-large">
                         <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                             target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')">
                             <input type="email" name="email" id="bd-email-large" placeholder="email@example.com"
                                 required>
                             <input type="hidden" value="1" name="embed">
-                            <button type="submit" class="btn btn-primary"
-                                style="padding: 14px 32px; border-radius: 8px;">Suscribirse a las
-                                Actualizaciones</button>
+                            <button type="submit" class="btn btn-primary" style="padding: 14px 32px; border-radius: 8px;">Suscribirse a las Actualizaciones</button>
                         </form>
                     </div>
                 </div>
@@ -682,8 +667,7 @@
             <div class="footer-col">
                 <h4>Boletín</h4>
                 <div class="footer-links">
-                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Únete a la lista de correo
-                        para actualizaciones.</p>
+                    <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--muted);">Únete a la lista de correo para actualizaciones.</p>
                     <form action="https://buttondown.com/api/emails/embed-subscribe/zenc" method="post"
                         target="popupwindow" onsubmit="window.open('https://buttondown.com/zenc', 'popupwindow')"
                         class="newsletter-form-footer">

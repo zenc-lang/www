@@ -682,12 +682,24 @@
                 runBtn.disabled = true;
                 runBtn.style.opacity = "0.5";
 
+                let seconds = 0;
+                const timerInterval = setInterval(() => {
+                    seconds++;
+                    let text = `> Compiling and running...\n> Execution in progress (${seconds}s)...`;
+                    if (seconds >= 3) {
+                        text += `\n> (Note: Network examples and infinite loops will be forcefully stopped after 15s)`;
+                    }
+                    output.innerText = text;
+                }, 1000);
+
                 try {
                     const response = await fetch('/api/run', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ code })
                     });
+
+                    clearInterval(timerInterval);
 
                     if (!response.ok) {
                         const errorText = await response.text();
@@ -699,7 +711,11 @@
                     let finalOutput = data.output || "No output returned.";
 
                     if (data.error && data.error !== "") {
-                        output.innerText = finalOutput + "\n[Error]: " + data.error + "\n";
+                        if (data.error === "Execution failed" && seconds >= 14) {
+                             output.innerText = finalOutput + "\n[Execution stopped: Sandbox 15s time limit reached]\n";
+                        } else {
+                             output.innerText = finalOutput + "\n[Error]: " + data.error + "\n";
+                        }
                     } else {
                         output.innerText = finalOutput;
                     }
