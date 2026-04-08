@@ -31,9 +31,8 @@ async def run_code(request: RunRequest):
             # - --pids-limit 64: Prevent fork-bombs
             # - --read-only: Lock the entire filesystem
             # - --tmpfs /tmp:rw,nosuid,size=64m: Only allow writes strictly to 64MB of RAM disk (allows executing the compiled binary)
-            # - --cap-drop ALL: Strip all Linux kernel capabilities
-            # - --security-opt no-new-privileges: Stop privilege escalation
-            cmd = [
+            import shlex
+            docker_cmd = [
                 "docker", "run", "--rm", "-t",
                 "--network", "none",
                 "--cpus", "0.5",
@@ -46,6 +45,10 @@ async def run_code(request: RunRequest):
                 "-v", f"{zc_file}:/tmp/main.zc:ro",
                 "zenc_sandbox",
                 "sh", "-c", "timeout -s 9 10s zc /tmp/main.zc -o /tmp/main && timeout -s 9 5s /tmp/main"
+            ]
+
+            cmd = [
+                "script", "-q", "-e", "-c", shlex.join(docker_cmd), "/dev/null"
             ]
 
             result = subprocess.run(
