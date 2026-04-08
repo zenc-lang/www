@@ -522,53 +522,63 @@
             const tutorialsData = [
                 {
                     id: 'hello-world',
-                    title: '1. Hello World',
-                    content: `<h2>Hello World</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Let's get started with Zen C.</p>
-                    <p>Every executable Zen C program must begin with a <code>main</code> function. Unlike standard C, you can use the <code>println</code> builtin macro to print strings with a trailing newline effortlessly.</p>`,
+                    title: '1. Hello, Zen C!',
+                    content: `<h2>Hello, Zen C!</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">First steps in the Zenith.</p>
+                    <p>Every Zen C program starts with a <code>main</code> function. You can use the <code>println</code> builtin to output strings followed by a newline.</p>`,
                     mission: "Change the message from 'Hello, World!' to <b>'Zenith of C!'</b>",
                     code: `fn main() {\n    println "Hello, World!";\n}`,
                     validator: (output, code) => output.includes("Zenith of C!")
                 },
                 {
                     id: 'variables',
-                    title: '2. Variables & Geometry',
-                    content: `<h2>Variables & Geometry</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Storage and Calculation.</p>
-                    <p>Zen C uses <code>def</code> for constants and <code>let</code> for variables. String interpolation makes formatting easy.</p>`,
-                    mission: "Calculate the <b>volume</b> of a cylinder. Define <code>let h = 5.0;</code> and use it to calculate <code>PI * r * r * h</code>. Print <b>'Volume: {v}'</b>.",
-                    code: `def PI = 3.14159;\n\nfn main() {\n    let r = 10.0;\n    // Your code here\n    let area = PI * r * r;\n    println "Area: {area}";\n}`,
-                    validator: (output, code) => output.includes("Volume: 1570.795")
+                    title: '2. Alchemist\'s Variables',
+                    content: `<h2>Alchemist's Variables</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Constants and Storage.</p>
+                    <p>Use <code>def</code> for compile-time constants and <code>let</code> for variables. String interpolation with <code>{ }</code> makes formatting a breeze.</p>`,
+                    mission: "Calculate the <b>volume</b> of a sphere: <code>(4.0/3.0) * PI * r * r * r</code>. Print <b>'Sphere Volume: {v}'</b>.",
+                    code: `def PI = 3.14159;\n\nfn main() {\n    let r = 5.0;\n    // Calculate volume here\n    let v = (4.0 / 3.0) * PI * r * r * r;\n    println "Sphere Volume: {v}";\n}`,
+                    validator: (output, code) => output.includes("Sphere Volume: 523.598")
                 },
                 {
                     id: 'control-flow',
-                    title: '3. Sequences (Fibonacci)',
-                    content: `<h2>Sequences</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Loops and Logic.</p>
-                    <p>Zen C <code>while</code> loops are clean and parenthesize-free.</p>`,
-                    mission: "Generate the first <b>10</b> numbers of the Fibonacci sequence, one per line. Use a loop to compute and print them.",
-                    code: `fn main() {\n    let a = 1;\n    let b = 1;\n    let count = 0;\n    \n    // Implement Fibonacci loop here\n}`,
-                    validator: (output, code) => output.includes("1\n1\n2\n3\n5\n8\n13\n21\n34\n55")
+                    title: '3. Fibonacci Garden',
+                    content: `<h2>Fibonacci Garden</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Loops and Growth.</p>
+                    <p>Zen C <code>while</code> loops are clean and parenthesis-free. Perfect for generating sequences.</p>`,
+                    mission: "Generate Fibonacci numbers up to <b>100</b>, one per line. Use a <code>while</code> loop to compute and print them.",
+                    code: `fn main() {\n    let a = 1;\n    let b = 1;\n    // Implement Fibonacci loop here\n}`,
+                    validator: (output, code) => output.includes("1") && output.includes("5") && output.includes("89")
                 },
                 {
                     id: 'structs',
-                    title: '4. Structs & Functions',
-                    content: `<h2>Structs & Functions</h2>
+                    title: '4. Alchemist\'s Structs',
+                    content: `<h2>Alchemist's Structs</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Data Modeling.</p>
-                    <p>Structs organize data; functions operate on it.</p>`,
-                    mission: "Implement a function <code>fn area(r: Rect) -> i32</code> that returns <code>r.w * r.h</code>. Use it in main to print <b>'Area: {result}'</b> for a 10x20 rectangle.",
-                    code: `struct Rect {\n    w: i32,\n    h: i32,\n}\n\nfn main() {\n    let r = Rect { w: 10, h: 20 };\n    // Implement area function and call it here\n}`,
-                    validator: (output, code) => output.includes("Area: 200")
+                    <p>Structs organize related data. Functions can take structs as arguments to perform calculations.</p>`,
+                    mission: "Implement a function <code>fn dist_sq(p: Point) -> i32</code> that returns <code>p.x * p.x + p.y * p.y</code>. Print <b>'DistSq: {d}'</b> for the point (3, 4).",
+                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 3, y: 4 };\n    // Implement and call dist_sq here\n}`,
+                    validator: (output, code) => output.includes("DistSq: 25")
                 },
                 {
                     id: 'pointers',
-                    title: '5. Pointer Mastery',
-                    content: `<h2>Pointer Mastery</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Memory Control.</p>
-                    <p>Zen C pointers provide full command over your data's location.</p>`,
-                    mission: "Implement a <code>swap</code> function that takes two <code>*i32</code> pointers and swaps their values. Swap x (10) and y (20) and print <b>'x: {x}, y: {y}'</b>.",
-                    code: `fn swap(p1: *i32, p2: *i32) {\n    // Implement swap logic here\n}\n\nfn main() {\n    let x = 10;\n    let y = 20;\n    // Call swap with addresses of x and y\n    println "x: {x}, y: {y}";\n}`,
-                    validator: (output, code) => output.includes("x: 20, y: 10")
+                    title: '5. Master\'s Pointers',
+                    content: `<h2>Master's Pointers</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Memory Command.</p>
+                    <p>Pointers use the <code>T*</code> syntax. Use <code>&</code> to take an address and <code>*</code> to dereference.</p>`,
+                    mission: "Implement <code>fn double_val(p: i32*)</code> to double the value at the pointer. Call it on <code>n = 21</code> and print <b>'Result: {n}'</b>.",
+                    code: `fn double_val(p: i32*) {\n    // Implement doubling here\n}\n\nfn main() {\n    let n = 21;\n    // Call and print result here\n}`,
+                    validator: (output, code) => output.includes("Result: 42")
+                },
+                {
+                    id: 'strings',
+                    title: '6. Zen Strings',
+                    content: `<h2>Zen Strings</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Modern String Handling.</p>
+                    <p>Zen C provides a powerful <code>String</code> object in <code>std/string.zc</code> for dynamic manipulation.</p>`,
+                    mission: "Start with an empty String, append <b>'Zen'</b> then <b>' C'</b>. Finally, print the length: <b>'Length: {s.length()}'</b>.",
+                    code: `import "std/string.zc"\n\nfn main() {\n    let s = String::from("");\n    // Append and print here\n}`,
+                    validator: (output, code) => output.includes("Length: 5")
                 }
             ];
 
