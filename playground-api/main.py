@@ -34,7 +34,7 @@ async def run_code(request: RunRequest):
             # - --cap-drop ALL: Strip all Linux kernel capabilities
             # - --security-opt no-new-privileges: Stop privilege escalation
             cmd = [
-                "docker", "run", "--rm",
+                "docker", "run", "--rm", "-t",
                 "--network", "none",
                 "--cpus", "0.5",
                 "-m", "128m",
@@ -56,6 +56,7 @@ async def run_code(request: RunRequest):
             )
 
             output = result.stdout + result.stderr
+            output = output.replace('\r\n', '\n')
             
             # Clean up noisy compiler logs from standard output to keep playground execution clean
             # We must aggressively strip ANSI color codes first because the compiler uses colored text (e.g. \x1b[32mCompiling)
