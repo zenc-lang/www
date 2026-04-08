@@ -28,9 +28,6 @@ async def run_code(request: RunRequest):
             # - --network none: Disable all network access (prevent botnet/mining)
             # - --cpus 0.5: Throttle to 50% of CPU time
             # - -m 128m: Cap RAM at 128 MB (prevents OOMs)
-            # - --pids-limit 64: Prevent fork-bombs
-            # - --read-only: Lock the entire filesystem
-            # - --tmpfs /tmp:rw,nosuid,size=64m: Only allow writes strictly to 64MB of RAM disk (allows executing the compiled binary)
             import shlex
             docker_cmd = [
                 "docker", "run", "--rm", "-t",
@@ -44,19 +41,24 @@ async def run_code(request: RunRequest):
                 "--security-opt", "no-new-privileges=true",
                 "-v", f"{zc_file}:/tmp/main.zc:ro",
                 "zenc_sandbox",
-                "sh", "-c", "timeout -s 9 10s zc /tmp/main.zc -o /tmp/main && timeout -s 9 5s /tmp/main"
+                "sh", "-c", "timeout -s 9 10 zc /tmp/main.zc -o /tmp/main && timeout -s 9 5 /tmp/main"
             ]
 
             cmd = [
                 "script", "-q", "-e", "-c", shlex.join(docker_cmd), "/dev/null"
             ]
 
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=45 # Outer timeout
-            )
+            try:
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    stdin=subprocess.DEVNULL,
+                    timeout=15 # Outer timeout synced with UI
+                )
+            except subprocess.TimeoutExpired:
+                # Fallback safeguard in case Docker takes too long to clean up the container
+                return {"output": "Execution reached the hard 15s time limit.", "error": "Execution failed"}
 
             output = result.stdout + result.stderr
             output = output.replace('\r\n', '\n')
