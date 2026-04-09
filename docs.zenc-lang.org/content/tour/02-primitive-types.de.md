@@ -13,7 +13,7 @@ weight = 2
 | `c_short`, `c_ushort` | `short`, `unsigned short` | C-`short` / `unsigned short` (Interoperabilität) |
 | `c_int`, `c_uint` | `int`, `unsigned int` | C-`int` / `unsigned int` (Interoperabilität) |
 | `c_long`, `c_ulong` | `long`, `unsigned long` | C-`long` / `unsigned long` (Interoperabilität) |
-| `c_long_long`, `c_ulong_long` | `long long`, `unsigned long long` | C-`long long` / `unsigned long long` (Interoperabilität) |
+| `c_longlong`, `c_ulonglong` | `long long`, `unsigned long long` | C-`long long` / `unsigned long long` (Interoperabilität) |
 | `I8` .. `I128` oder `i8` .. `i128` | `int8_t` .. `__int128_t` | Vorzeichenbehaftete Ganzzahlen mit fester Bitbreite |
 | `U8` .. `U128` oder `u8` .. `u128` | `uint8_t` .. `__uint128_t` | Vorzeichenlose Ganzzahlen mit fester Bitbreite |
 | `isize`, `usize` | `ptrdiff_t`, `size_t` | Ganzzahlen mit Zeigergröße |
@@ -68,6 +68,6 @@ fn main() {
 **Bewährte Vorgehensweisen für portablen Code**
 
 - Verwende **portable Datentypen** (`int`, `uint`, `i64`, `u8` usw.) für die gesamte reine Zen-C-Logik. `int` ist auf allen Architekturen garantiert 32-Bit-Datentypen mit Vorzeichen.
-- Verwende **C-Interop-Datentypen** (`c_int`, `c_char`, `c_long`, `c_ulong`, `c_long_long`, `c_ulong_long`) **nur** bei der Interaktion mit C-Bibliotheken (FFI). Deren Größe variiert je nach Plattform und C-Compiler (z. B. unterscheidet sich die Größe von `c_long` zwischen Windows und Linux).
+- Verwende **C-Interop-Datentypen** (`c_int`, `c_char`, `c_long`, `c_ulong`, `c_longlong`, `c_ulonglong`) **nur** bei der Interaktion mit C-Bibliotheken (FFI). Deren Größe variiert je nach Plattform und C-Compiler (z. B. unterscheidet sich die Größe von `c_long` zwischen Windows und Linux).
 - Verwende `isize` und `usize` für Array-Indizierung und Speicherzeigerarithmetik.
 {% end %}

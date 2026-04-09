@@ -13,7 +13,7 @@ weight = 2
 | `c_short`, `c_ushort` | `short`, `unsigned short` | C short (互操作) |
 | `c_int`, `c_uint` | `int`, `unsigned int` | C int (互操作) |
 | `c_long`, `c_ulong` | `long`, `unsigned long` | C long (互操作) |
-| `c_long_long`, `c_ulong_long` | `long long`, `unsigned long long` | C long long / unsigned long long (互操作) |
+| `c_longlong`, `c_ulonglong` | `long long`, `unsigned long long` | C long long / unsigned long long (互操作) |
 | `I8` .. `I128` 或 `i8` .. `i128` | `int8_t` .. `__int128_t` | 有符号固定宽度整数 |
 | `U8` .. `U128` 或 `u8` .. `u128` | `uint8_t` .. `__uint128_t` | 无符号固定宽度整数 |
 | `isize`, `usize` | `ptrdiff_t`, `size_t` | 指针大小的整数 |
@@ -67,6 +67,6 @@ fn main() {
 {% alert(type="important") %}
 **可移植代码最佳实践**
 - 对于所有纯 Zen C 逻辑，请使用 **可移植类型** (`int`、`uint`、`i64`、`u8` 等)。`int` 保证在所有架构上都是 32 位有符号整数。
-- 仅在与 C 库 (FFI) 交互时使用 **C 互操作类型** (`c_int`、`c_char`、`c_long`, ``c_ulong``, ``c_long_long``, ``c_ulong_long``)。它们的大小因平台和 C 编译器而异。
+- 仅在与 C 库 (FFI) 交互时使用 **C 互操作类型** (`c_int`、`c_char`、`c_long`, ``c_ulong``, ``c_longlong``, ``c_ulonglong``)。它们的大小因平台和 C 编译器而异。
 - 使用 `isize` 和 `usize` 进行数组索引和内存指针运算。
 {% end %}

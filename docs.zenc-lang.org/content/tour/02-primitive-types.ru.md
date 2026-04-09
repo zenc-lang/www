@@ -13,7 +13,7 @@ weight = 2
 | `c_short`, `c_ushort`             | `short`, `unsigned short`  | C short / unsigned short (Interop)              |
 | `c_int`, `c_uint`                 | `int`, `unsigned int`      | C int / unsigned int (Interop)                  |
 | `c_long`, `c_ulong`               | `long`, `unsigned long`    | C long / unsigned long (Interop)                |
-| `c_long_long`, `c_ulong_long`     | `long long`, `unsigned long long` | C long long / unsigned long long (Interop) |
+| `c_longlong`, `c_ulonglong`     | `long long`, `unsigned long long` | C long long / unsigned long long (Interop) |
 | `I8` .. `I128` или `i8` .. `i128` | `int8_t` .. `__int128_t`   | Целые числа со знаком фиксированной ширины      |
 | `U8` .. `U128` или `u8` .. `u128` | `uint8_t` .. `__uint128_t` | Целые числа без знака фиксированной ширины      |
 | `isize`, `usize`                  | `ptrdiff_t`, `size_t`      | Целые числа размером с указатель                |
@@ -67,6 +67,6 @@ fn main() {
 {% alert(type="important") %}
 **Лучшие практики для портативного кода**
 - Используйте **Портативные типы** (`int`, `uint`, `i64`, `u8` и т.д.) для чистой логики Zen C. `int` гарантированно имеет "ширину" в 32 бита и является знаковым на всех архитектурах.
-- Используйте **Типы Interop C** (`c_int`, `c_char`, `c_long, ``c_ulong``, ``c_long_long``, ``c_ulong_long``) **только** при взаимодействии с библиотеками C (FFI). Их размер зависит от платформы и компилятора C (например, размер `c_long` отличается между Windows и Linux).
+- Используйте **Типы Interop C** (`c_int`, `c_char`, `c_long, ``c_ulong``, ``c_longlong``, ``c_ulonglong``) **только** при взаимодействии с библиотеками C (FFI). Их размер зависит от платформы и компилятора C (например, размер `c_long` отличается между Windows и Linux).
 - Используйте `isize` и `usize` для индексирования массивов и арифметики указателей на память.
 {% end %}

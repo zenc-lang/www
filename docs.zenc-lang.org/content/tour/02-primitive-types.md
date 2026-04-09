@@ -13,7 +13,7 @@ weight = 2
 | `c_short`, `c_ushort` | `short`, `unsigned short` | C short / unsigned short (Interop) |
 | `c_int`, `c_uint` | `int`, `unsigned int` | C int / unsigned int (Interop) |
 | `c_long`, `c_ulong` | `long`, `unsigned long` | C long / unsigned long (Interop) |
-| `c_long_long`, `c_ulong_long` | `long long`, `unsigned long long` | C long long / unsigned long long (Interop) |
+| `c_longlong`, `c_ulonglong` | `long long`, `unsigned long long` | C long long / unsigned long long (Interop) |
 | `I8` .. `I128` or `i8` .. `i128` | `int8_t` .. `__int128_t` | Signed fixed-width integers |
 | `U8` .. `U128` or `u8` .. `u128` | `uint8_t` .. `__uint128_t` | Unsigned fixed-width integers |
 | `isize`, `usize` | `ptrdiff_t`, `size_t` | Pointer-sized integers |
@@ -67,6 +67,6 @@ fn main() {
 {% alert(type="important") %}
 **Best Practices for Portable Code**
 - Use **Portable Types** (`int`, `uint`, `i64`, `u8`, etc.) for all pure Zen C logic. `int` is guaranteed to be 32-bit signed on all architectures.
-- Use **C Interop Types** (`c_int`, `c_char`, `c_long`, ``c_ulong``, ``c_long_long``, ``c_ulong_long``) **only** when interacting with C libraries (FFI). Their size varies by platform and C compiler (e.g. `c_long` size differs between Windows and Linux).
+- Use **C Interop Types** (`c_int`, `c_char`, `c_long`, ``c_ulong``, ``c_longlong``, ``c_ulonglong``) **only** when interacting with C libraries (FFI). Their size varies by platform and C compiler (e.g. `c_long` size differs between Windows and Linux).
 - Use `isize` and `usize` for array indexing and memory pointer arithmetic.
 {% end %}
