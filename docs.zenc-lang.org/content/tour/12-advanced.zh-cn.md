@@ -73,11 +73,20 @@ let wav  = embed "sound.wav" as u8[];        // 嵌入为 Slice_u8
 ```
 
 #### 插件
-导入编译器插件以扩展语法。
+Zen C 支持原生 Zen C (`.zc`) 插件，通过编译时代码生成来扩展语言语法。
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun square (x) (* x x))
+        (print (square 10))
+    }
+}
 ```
+
+阅读完整的 **[插件系统指南](../PLUGINS.md)** 以了解更多详情。
 
 #### 泛型 C 宏
 将预处理器宏传递给 C。

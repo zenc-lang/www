@@ -72,12 +72,21 @@ let rom  = embed "bios.bin" as u8[1024];     // 嵌入為固定數組
 let wav  = embed "sound.wav" as u8[];        // 嵌入為 Slice_u8
 ```
 
-#### 插件
-導入編譯器插件以擴展語法。
+#### 插件 (Plugins)
+Zen C 支援原生 Zen C (`.zc`) 插件，透過編譯時程式碼生成來擴展語言語法。
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun square (x) (* x x))
+        (print (square 10))
+    }
+}
 ```
+
+閱讀完整的 **[插件系統指南](../PLUGINS.md)** 以了解更多詳情。
 
 #### 泛型 C 宏
 將預處理器宏傳遞給 C。
