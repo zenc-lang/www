@@ -122,7 +122,7 @@ Il server del linguaggio (LSP) di Zen C supporta le feature standard per l'integ
 
 *   **Vai alla definizione**
 *   **Trova riferimenti**
-*   **Informazioni sull'hover**
+*   **Informazioni di Hover** (inclusi i plugin DSL personalizzati)
 *   **Completamenti automatici** (Nomi di funzioni/struct, Completamento dal punto per i methods/campi)
 *   **Simboli dei documenti** (Outline)
 *   **Aiuto con le signature delle funzioni**

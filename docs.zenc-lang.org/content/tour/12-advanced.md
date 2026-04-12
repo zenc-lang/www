@@ -116,7 +116,7 @@ let wav  = embed "sound.wav" as u8[];        // Embed as Slice_u8
 ```
 
 #### Plugins
-Zen C supports native Zen C (`.zc`) plugins that extend language syntax through compile-time code generation.
+Zen C supports native Zen C (`.zc`) plugins that extend language syntax through compile-time code generation. Plugins can now provide interactive hover documentation (tooltips) for the Language Server (LSP).
 
 ```zc
 import plugin "plugins/lisp" as lisp
