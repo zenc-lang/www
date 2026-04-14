@@ -44,7 +44,7 @@ The Zen C Language Server (LSP) supports standard LSP features for editor integr
 
 *   **Go to Definition**
 *   **Find References**
-*   **Hover Information**
+*   **Hover Information** (including custom DSL plugins)
 *   **Completion** (Function/Struct names, Dot-completion for methods/fields)
 *   **Document Symbols** (Outline)
 *   **Signature Help**

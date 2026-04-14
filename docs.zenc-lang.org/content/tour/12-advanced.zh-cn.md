@@ -73,7 +73,7 @@ let wav  = embed "sound.wav" as u8[];        // 嵌入为 Slice_u8
 ```
 
 #### 插件
-Zen C 支持原生 Zen C (`.zc`) 插件，通过编译时代码生成来扩展语言语法。
+Zen C 支持原生 Zen C (`.zc`) 插件，通过编译时代码生成来扩展语言语法。现在插件可以为语言服务器 (LSP) 提供交互式悬停文档（工具提示）。
 
 ```zc
 import plugin "plugins/lisp" as lisp

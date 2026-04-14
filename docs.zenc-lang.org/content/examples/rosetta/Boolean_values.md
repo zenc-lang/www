@@ -43,8 +43,8 @@ fn main() {
 **Output:**
 
 ```
-Native true evaluates to: 1
-Native false evaluates to: 0
+Native true evaluates to: true
+Native false evaluates to: false
 
 0 evaluates to false
 42 evaluates to true

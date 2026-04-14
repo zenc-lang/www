@@ -80,7 +80,7 @@ El Servidor de Lenguaje de Zen C (LSP) soporta las características estándar de
 
 *   **Ir a la Definición**
 *   **Encontrar Referencias**
-*   **Información al pasar el ratón (Hover)**
+*   **Información de Hover** (incluyendo plugins DSL personalizados)
 *   **Autocompletado** (Nombres de funciones/structs, autocompletado tras punto para métodos/campos)
 *   **Símbolos del Documento** (Esquema)
 *   **Ayuda de Firma**

@@ -28,7 +28,7 @@ fn main() {
     
     // Using Unicode Escapes for conversion clarity and Hex formatting
     let r_esc: rune = '\u{2764}';
-    println "The rune '{r_esc}' has code {(uint32_t)r_esc} (0x{(uint32_t)r_esc : X})";
+    println "The rune '{r_esc}' has code {(uint32_t)r_esc} (0x{(uint32_t)r_esc :X})";
 }
 ```
 

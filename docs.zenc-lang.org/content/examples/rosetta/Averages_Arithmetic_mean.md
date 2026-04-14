@@ -15,7 +15,7 @@ fn mean(v: Vec<f64>*) -> f64 {
     }
 
     let sum: f64 = 0.0;
-    for x in v {
+    for x in *v {
         sum += x;
     }
     
