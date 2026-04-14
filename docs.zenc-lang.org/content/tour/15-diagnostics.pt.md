@@ -122,7 +122,7 @@ O Zen C Language Server (LSP) suporta funcionalidades padrão de LSP para integr
 
 *   **Go to Definition** - Vá para definição
 *   **Find References** - Encontrar referências
-*   **Informações de Hover** (incluindo plugins DSL personalizados) - Informação com sobreposição do ponteiro do mouse
+*   **Hover Information** - Informação com sobreposição do ponteiro do mouse
 *   **Completion** - Auto-completar (Nomes de Função/Struct, compleção de ponto para métodos/campos)
 *   **Document Symbols** - Símbolos de documento (Outline)
 *   **Signature Help** - Ajuda de assinatura

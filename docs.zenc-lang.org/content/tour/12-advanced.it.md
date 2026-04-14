@@ -116,7 +116,7 @@ let wav   = embed "sound.wav" as u8[];        // Incorpora come Slice_u8
 ```
 
 #### Plugin
-Zen C supporta plugin nativi in Zen C (`.zc`) che estendono la sintassi del linguaggio attraverso la generazione di codice al momento della compilazione. I plugin possono ora fornire documentazione interattiva al passaggio del mouse (tooltip) per il Language Server (LSP).
+Zen C supporta plugin nativi in Zen C (`.zc`) che estendono la sintassi del linguaggio attraverso la generazione di codice al momento della compilazione.
 
 ```zc
 import plugin "plugins/lisp" as lisp

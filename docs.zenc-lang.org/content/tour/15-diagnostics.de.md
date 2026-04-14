@@ -79,7 +79,7 @@ Der Zen C Language Server unterstützt das Language Server Protocol (LSP) und bi
 
 * **Gehe zu Definition** (`Go to Definition`)
 * **Finde Referenzen** (`Find References`)
-*   **Hover-Informationen** (einschließlich benutzerdefinierter DSL-Plugins)
+* **Hover-Informationen**
 * **Autovervollständigung** (Funktions-/Struct-Namen, Methoden/Felder via Punkt)
 * **Dokumentstruktur** (`Document Symbols` / Outline)
 * **Signatur-Hilfe**
