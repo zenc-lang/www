@@ -53,7 +53,7 @@ async def run_code(request: RunRequest):
             except subprocess.TimeoutExpired:
                 return {"output": "Execution reached the hard 15s time limit.", "error": "timeout"}
 
-            output = result.stdout + result.stderr
+            output = (result.stdout + result.stderr).replace('/tmp/', '').replace('\r\n', '\n')
             # Return raw output for Xterm.js to handle ANSI colors
             return {"output": output, "error": "" if result.returncode == 0 else "Execution failed"}
 
