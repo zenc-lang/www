@@ -35,5 +35,9 @@ jobs:
             # Restart the FastAPI service just to clear any caching
             sudo systemctl restart playground-api
             
+            echo "Pruning old images and dangling containers..."
+            docker image prune -f
+            docker container prune -f --filter "until=1h"
+            
             echo "zenc_sandbox rebuild completed successfully!"
           EOF
