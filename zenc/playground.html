@@ -702,9 +702,12 @@
                     const monacoTheme = newTheme === 'dark' ? 'zenc-dark' : 'zenc-light';
                     monaco.editor.setTheme(monacoTheme);
                 });
-                      // --- LSP INTEGRATION ---
+            }
+
+            // --- LSP INTEGRATION ---
             let lspSocket = null;
             let requestId = 0;
+            let version = 1; // Track document version for sync
             const pendingRequests = new Map();
 
             function connectLSP() {
