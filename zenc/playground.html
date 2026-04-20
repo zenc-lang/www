@@ -15,6 +15,11 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟩</text></svg>">
 
+    <!-- Xterm.js for ANSI Color Support -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.js"></script>
+
     <script>
         (function () {
             const getCookie = (name) => {
@@ -377,8 +382,7 @@
                         </div>
                         <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
                     </div>
-                    <div class="terminal-output" id="output">Welcome! Press 'Run' to compile and execute your code.
-                    </div>
+                    <div class="terminal-output" id="output" style="padding: 0; background: #000;"></div>
                 </div>
             </div>
         </div>
@@ -698,9 +702,7 @@
                     const monacoTheme = newTheme === 'dark' ? 'zenc-dark' : 'zenc-light';
                     monaco.editor.setTheme(monacoTheme);
                 });
-            }
-
-            // --- LSP INTEGRATION ---
+                      // --- LSP INTEGRATION ---
             let lspSocket = null;
             let requestId = 0;
             const pendingRequests = new Map();
@@ -730,12 +732,17 @@
                     });
                 };
 
-                lspSocket.onmessage = (event) => {
+                lspSocket.onmessage = async (event) => {
                     const msg = JSON.parse(event.data);
                     if (msg.id !== undefined && pendingRequests.has(msg.id)) {
                         const { resolve } = pendingRequests.get(msg.id);
                         pendingRequests.delete(msg.id);
                         resolve(msg.result);
+
+                        // Handshake completion
+                        if (msg.id === 0) {
+                            sendLSPNotification('initialized', {});
+                        }
                     } else if (msg.method === 'textDocument/publishDiagnostics') {
                         updateDiagnostics(msg.params.diagnostics);
                     }
@@ -774,8 +781,6 @@
                 monaco.editor.setModelMarkers(editor.getModel(), 'zenc', markers);
             }
 
-            // Sync changes with LSP
-            let version = 1;
             editor.onDidChangeModelContent(() => {
                 const content = editor.getValue();
                 sendLSPNotification('textDocument/didChange', {
@@ -784,7 +789,6 @@
                 });
             });
 
-            // Hover Provider
             monaco.languages.registerHoverProvider('zenc', {
                 provideHover: async (model, position) => {
                     const res = await sendLSPRequest('textDocument/hover', {
@@ -797,9 +801,8 @@
                 }
             });
 
-            // Completion Provider
             monaco.languages.registerCompletionItemProvider('zenc', {
-                triggerCharacters: ['.', ':'],
+                triggerCharacters: ['.', ':', '-', '>'],
                 provideCompletionItems: async (model, position) => {
                     const res = await sendLSPRequest('textDocument/completion', {
                         textDocument: { uri: 'file:///main.zc' },
@@ -821,24 +824,48 @@
 
             connectLSP();
 
+            // --- TERMINAL INITIALIZATION ---
+            const terminal = new Terminal({
+                cursorBlink: true,
+                fontSize: 13,
+                fontFamily: 'JetBrains Mono, monospace',
+                theme: {
+                    background: '#00000000',
+                    foreground: '#e2e8f0'
+                },
+                allowTransparency: true,
+                convertEol: true
+            });
+            const fitAddon = new FitAddon.FitAddon();
+            terminal.loadAddon(fitAddon);
+            terminal.open(document.getElementById('output'));
+            
+            function updateTerminalTheme(theme) {
+                if (theme === 'dark') {
+                    terminal.options.theme = { background: '#00000000', foreground: '#e2e8f0' };
+                } else {
+                    terminal.options.theme = { background: '#00000000', foreground: '#1a1a19' };
+                }
+            }
+            updateTerminalTheme(document.documentElement.getAttribute('data-theme'));
+
+            window.addEventListener('resize', () => fitAddon.fit());
+            setTimeout(() => fitAddon.fit(), 100);
+
+            terminal.writeln("\x1b[32mWelcome to Zen C Playground!\x1b[0m");
+            terminal.writeln("Press \x1b[1mRun\x1b[0m to compile and execute your code.\r\n");
+
             const runBtn = document.getElementById('run-btn');
-            const output = document.getElementById('output');
+            const clearBtn = document.getElementById('clear-terminal');
+
+            clearBtn.addEventListener('click', () => terminal.clear());
 
             runBtn.addEventListener('click', async () => {
                 const code = editor.getValue();
-                output.innerText = "> Compiling and running...\n";
                 runBtn.disabled = true;
-                runBtn.style.opacity = "0.5";
-
-                let seconds = 0;
-                const timerInterval = setInterval(() => {
-                    seconds++;
-                    let text = `> Compiling and running...\n> Execution in progress (${seconds}s)...`;
-                    if (seconds >= 3) {
-                        text += `\n> (Note: Network examples and infinite loops will be forcefully stopped after 15s)`;
-                    }
-                    output.innerText = text;
-                }, 1000);
+                runBtn.innerHTML = '<span class="loading-spinner"></span> Compiling...';
+                
+                terminal.writeln("\x1b[90m$ zc main.zc -o main && ./main\x1b[0m");
 
                 try {
                     const response = await fetch('/api/run', {
@@ -846,32 +873,16 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ code })
                     });
-
-                    clearInterval(timerInterval);
-
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        output.innerText += `\n[Server Error ${response.status}]: ${errorText}\n`;
-                        return;
-                    }
-
                     const data = await response.json();
-                    let finalOutput = data.output || "No output returned.";
-
-                    if (data.error && data.error !== "") {
-                        if (data.error === "Execution failed" && seconds >= 14) {
-                             output.innerText = finalOutput + "\n[Execution stopped: Sandbox 15s time limit reached]\n";
-                        } else {
-                             output.innerText = finalOutput + "\n[Error]: " + data.error + "\n";
-                        }
-                    } else {
-                        output.innerText = finalOutput;
+                    
+                    if (data.output) {
+                        terminal.write(data.output + "\r\n");
                     }
-
+                    
                     // MISSION VALIDATION
                     if (currentTutorialIndex !== -1) {
                         const tut = tutorialsData[currentTutorialIndex];
-                        if (tut.validator(finalOutput, code)) {
+                        if (tut.validator(data.output || "", code)) {
                             tut.completed = true;
                             missionStatus.style.display = 'block';
                             missionStatus.style.color = '#4ade80';
@@ -883,24 +894,38 @@
                             const iconDiv = activeBtn.querySelector('div:last-child');
                             iconDiv.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                             iconDiv.style.opacity = "1";
-                        } else {
-                            missionStatus.style.display = 'block';
-                            missionStatus.style.color = '#f87171';
-                            missionStatus.innerHTML = 'Not quite there yet. Try again!';
-                            tutorialMission.style.borderLeft = '4px solid #f87171';
                         }
                     }
 
+                    if (data.error && !data.output) {
+                        terminal.writeln("\x1b[31mError:\x1b[0m " + data.error);
+                    }
                 } catch (err) {
-                    output.innerText = "Error connecting to server: " + err.message;
+                    terminal.writeln("\x1b[31mConnection error:\x1b[0m " + err.message);
                 } finally {
                     runBtn.disabled = false;
-                    runBtn.style.opacity = "1";
+                    runBtn.innerHTML = `
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                                Run Code`;
+                    fitAddon.fit();
                 }
             });
 
-            document.getElementById('clear-terminal').addEventListener('click', () => {
-                output.innerText = "";
+            const copyBtn = document.getElementById('copy-btn');
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(editor.getValue());
+                copyBtn.innerHTML = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = `
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copy`;
+                }, 2000);
             });
         });
     </script>

@@ -54,18 +54,7 @@ async def run_code(request: RunRequest):
                 return {"output": "Execution reached the hard 15s time limit.", "error": "timeout"}
 
             output = result.stdout + result.stderr
-            output = output.replace('\r\n', '\n')
-            
-            ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-            clean_lines = []
-            
-            for line in output.splitlines():
-                line_plain = ansi_escape.sub('', line)
-                if "Compiling /tmp/" in line_plain or "Finished build in" in line_plain:
-                    continue
-                clean_lines.append(line)
-            
-            output = "\n".join(clean_lines).strip()
+            # Return raw output for Xterm.js to handle ANSI colors
             return {"output": output, "error": "" if result.returncode == 0 else "Execution failed"}
 
         except Exception as e:
