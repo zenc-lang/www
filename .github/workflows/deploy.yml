@@ -88,6 +88,14 @@ jobs:
             sudo journalctl -u playground-api -n 20 --no-pager
           "
 
+      - name: Rebuild Docker Sandbox on VPS
+        run: |
+          # Ensure the sandbox image is fresh during deploy
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
+            cd /var/www/playground-api/sandbox && 
+            sudo docker build --build-arg CACHEBUST=$(date +%s) -t zenc_sandbox:latest .
+          "
+
           
       - name: Sync and Link Mirror Infrastructure
         run: |
