@@ -698,9 +698,10 @@
                     localStorage.setItem('theme', newTheme);
                     document.cookie = `theme=${newTheme}; Domain=.zenc-lang.org; Path=/; Max-Age=31536000; SameSite=Lax`;
 
-                    // Update Monaco
+                    // Update Monaco and Terminal
                     const monacoTheme = newTheme === 'dark' ? 'zenc-dark' : 'zenc-light';
                     monaco.editor.setTheme(monacoTheme);
+                    updateTerminalTheme(newTheme);
                 });
             }
 
@@ -844,13 +845,43 @@
             terminal.open(document.getElementById('output'));
             
             function updateTerminalTheme(theme) {
-                if (theme === 'dark') {
-                    terminal.options.theme = { background: '#00000000', foreground: '#e2e8f0' };
-                } else {
-                    terminal.options.theme = { background: '#00000000', foreground: '#1a1a19' };
-                }
+                const isDark = theme === 'dark';
+                const premiumTheme = isDark ? {
+                    background: '#00000000',
+                    foreground: '#e2e8f0',
+                    cursor: '#38bdf8',
+                    selectionBackground: 'rgba(56, 189, 248, 0.3)',
+                    black: '#1e293b',
+                    red: '#ef4444',
+                    green: '#4ade80',
+                    yellow: '#fbbf24',
+                    blue: '#3b82f6',
+                    magenta: '#a855f7',
+                    cyan: '#38bdf8',
+                    white: '#f8fafc',
+                    brightBlack: '#475569',
+                    brightGreen: '#22c55e',
+                    brightCyan: '#0ea5e9'
+                } : {
+                    background: '#00000000',
+                    foreground: '#1e293b',
+                    cursor: '#0284c7',
+                    selectionBackground: 'rgba(2, 132, 199, 0.2)',
+                    black: '#f8fafc',
+                    red: '#dc2626',
+                    green: '#16a34a',
+                    yellow: '#d97706',
+                    blue: '#2563eb',
+                    magenta: '#9333ea',
+                    cyan: '#0284c7',
+                    white: '#0f172a',
+                    brightBlack: '#64748b',
+                    brightGreen: '#15803d',
+                    brightCyan: '#0369a1'
+                };
+                terminal.options.theme = premiumTheme;
             }
-            updateTerminalTheme(document.documentElement.getAttribute('data-theme'));
+            updateTerminalTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
             window.addEventListener('resize', () => fitAddon.fit());
             setTimeout(() => fitAddon.fit(), 100);
