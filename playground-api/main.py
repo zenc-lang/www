@@ -63,7 +63,7 @@ async def run_code(request: RunRequest):
             subprocess.run(["docker", "kill", container_name], capture_output=True, check=False)
             subprocess.run(["docker", "rm", "-f", container_name], capture_output=True, check=False)
 
-@app.websocket("/api/lsp")
+@app.websocket("/lsp")
 async def lsp_proxy(websocket: WebSocket):
     await websocket.accept()
     print(f"LSP: New WebSocket connection accepted")

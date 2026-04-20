@@ -61,10 +61,32 @@ jobs:
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" zenc/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/zenc/          
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" cgit-theme/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/cgit-theme/
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key" docs.zenc-lang.org/public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/var/www/docs.zenc-lang.org/public/
+
+      - name: Sync and Reload Caddy Configuration
+        run: |
+          # Sync Caddyfile to the VPS and reload service
+          rsync -avz -e "ssh -i ~/.ssh/deploy_key" Caddyfile ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:/tmp/Caddyfile
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo mv /tmp/Caddyfile /etc/caddy/Caddyfile && sudo systemctl reload caddy"
           
       - name: Restart Backend Services
         run: |
-          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo rsync -av --exclude 'venv' --delete /var/www/playground-api/ /opt/zenc-playground-api/ && cd /opt/zenc-playground-api && sudo systemctl restart playground-api || true && sleep 5 && sudo journalctl -u playground-api -n 50 --no-pager"
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
+            # Sync API code
+            sudo rsync -av --exclude 'venv' --delete /var/www/playground-api/ /opt/zenc-playground-api/ && 
+            cd /opt/zenc-playground-api && 
+            
+            # Install/Update dependencies in virtualenv
+            # Assuming venv is in /opt/zenc-playground-api/venv
+            if [ -d 'venv' ]; then
+              sudo ./venv/bin/pip install --upgrade pip &&
+              sudo ./venv/bin/pip install -r requirements.txt
+            fi &&
+            
+            # Restart service
+            sudo systemctl restart playground-api || true && 
+            sleep 2 && 
+            sudo journalctl -u playground-api -n 20 --no-pager
+          "
 
           
       - name: Sync and Link Mirror Infrastructure

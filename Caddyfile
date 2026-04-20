@@ -1,0 +1,41 @@
+# Zen C Infrastructure Configuration
+# Mirrors /etc/caddy/Caddyfile
+
+zenc-lang.org, www.zenc-lang.org {
+    root * /var/www/zenc
+    file_server
+    encode gzip
+
+    # Playground API Proxy
+    # Note: handle_path strips the /api prefix before forwarding
+    handle_path /api/* {
+        reverse_proxy localhost:8000
+    }
+}
+
+git.zenc-lang.org {
+    root * /usr/share/cgit
+
+    @style {
+        path_regexp \.css$
+    }
+    rewrite @style /cgit.css
+
+    # Serve the file
+    file_server
+
+    # Send everything else to cgit backend
+    @backend {
+        not path *.css *.png *.ico
+    }
+    reverse_proxy @backend unix//run/fcgiwrap.socket {
+        transport fastcgi {
+            env SCRIPT_FILENAME /usr/lib/cgit/cgit.cgi
+        }
+    }
+}
+
+docs.zenc-lang.org {
+    root * /var/www/docs.zenc-lang.org/public
+    file_server
+}
