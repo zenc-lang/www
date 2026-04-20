@@ -185,6 +185,7 @@
         .terminal-output {
             flex: 1;
             padding: 15px 20px;
+            background: transparent;
             font-size: 0.85rem;
             line-height: 1.5;
             overflow-y: auto;
@@ -847,7 +848,7 @@
             function updateTerminalTheme(theme) {
                 const isDark = theme === 'dark';
                 const premiumTheme = isDark ? {
-                    background: '#00000000',
+                    background: '#1e293b',
                     foreground: '#e2e8f0',
                     cursor: '#38bdf8',
                     selectionBackground: 'rgba(56, 189, 248, 0.3)',
@@ -863,7 +864,7 @@
                     brightGreen: '#22c55e',
                     brightCyan: '#0ea5e9'
                 } : {
-                    background: '#00000000',
+                    background: '#f8fafc',
                     foreground: '#1e293b',
                     cursor: '#0284c7',
                     selectionBackground: 'rgba(2, 132, 199, 0.2)',
@@ -874,7 +875,7 @@
                     blue: '#2563eb',
                     magenta: '#9333ea',
                     cyan: '#0284c7',
-                    white: '#0f172a',
+                    white: '#1e293b',
                     brightBlack: '#64748b',
                     brightGreen: '#15803d',
                     brightCyan: '#0369a1'
