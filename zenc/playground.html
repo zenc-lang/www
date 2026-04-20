@@ -700,6 +700,127 @@
                 });
             }
 
+            // --- LSP INTEGRATION ---
+            let lspSocket = null;
+            let requestId = 0;
+            const pendingRequests = new Map();
+
+            function connectLSP() {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const host = window.location.host;
+                lspSocket = new WebSocket(`${protocol}//${host}/api/lsp`);
+
+                lspSocket.onopen = () => {
+                    console.log("Connected to Zen C LSP");
+                    // Initialize LSP
+                    sendLSPRequest('initialize', {
+                        processId: null,
+                        rootUri: 'file:///',
+                        capabilities: {}
+                    });
+                    
+                    // Open the virtual main file
+                    sendLSPNotification('textDocument/didOpen', {
+                        textDocument: {
+                            uri: 'file:///main.zc',
+                            languageId: 'zenc',
+                            version: 1,
+                            text: editor.getValue()
+                        }
+                    });
+                };
+
+                lspSocket.onmessage = (event) => {
+                    const msg = JSON.parse(event.data);
+                    if (msg.id !== undefined && pendingRequests.has(msg.id)) {
+                        const { resolve } = pendingRequests.get(msg.id);
+                        pendingRequests.delete(msg.id);
+                        resolve(msg.result);
+                    } else if (msg.method === 'textDocument/publishDiagnostics') {
+                        updateDiagnostics(msg.params.diagnostics);
+                    }
+                };
+
+                lspSocket.onclose = () => {
+                    console.log("Zen C LSP connection closed. Reconnecting in 5s...");
+                    setTimeout(connectLSP, 5000);
+                };
+            }
+
+            function sendLSPRequest(method, params) {
+                const id = requestId++;
+                return new Promise((resolve) => {
+                    pendingRequests.set(id, { resolve });
+                    lspSocket.send(JSON.stringify({ jsonrpc: '2.0', id, method, params }));
+                });
+            }
+
+            function sendLSPNotification(method, params) {
+                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
+                    lspSocket.send(JSON.stringify({ jsonrpc: '2.0', method, params }));
+                }
+            }
+
+            function updateDiagnostics(diagnostics) {
+                const markers = diagnostics.map(d => ({
+                    severity: d.severity === 1 ? monaco.MarkerSeverity.Error : monaco.MarkerSeverity.Warning,
+                    message: d.message,
+                    startLineNumber: d.range.start.line + 1,
+                    startColumn: d.range.start.character + 1,
+                    endLineNumber: d.range.end.line + 1,
+                    endColumn: d.range.end.character + 1,
+                    code: d.code
+                }));
+                monaco.editor.setModelMarkers(editor.getModel(), 'zenc', markers);
+            }
+
+            // Sync changes with LSP
+            let version = 1;
+            editor.onDidChangeModelContent(() => {
+                const content = editor.getValue();
+                sendLSPNotification('textDocument/didChange', {
+                    textDocument: { uri: 'file:///main.zc', version: ++version },
+                    contentChanges: [{ text: content }]
+                });
+            });
+
+            // Hover Provider
+            monaco.languages.registerHoverProvider('zenc', {
+                provideHover: async (model, position) => {
+                    const res = await sendLSPRequest('textDocument/hover', {
+                        textDocument: { uri: 'file:///main.zc' },
+                        position: { line: position.lineNumber - 1, character: position.column - 1 }
+                    });
+                    if (res && res.contents) {
+                        return { contents: [{ value: res.contents.value }] };
+                    }
+                }
+            });
+
+            // Completion Provider
+            monaco.languages.registerCompletionItemProvider('zenc', {
+                triggerCharacters: ['.', ':'],
+                provideCompletionItems: async (model, position) => {
+                    const res = await sendLSPRequest('textDocument/completion', {
+                        textDocument: { uri: 'file:///main.zc' },
+                        position: { line: position.lineNumber - 1, character: position.column - 1 }
+                    });
+                    if (res) {
+                        const items = (Array.isArray(res) ? res : res.items) || [];
+                        return {
+                            suggestions: items.map(item => ({
+                                label: item.label,
+                                kind: item.kind-1 || monaco.languages.CompletionItemKind.Property,
+                                insertText: item.label,
+                                detail: item.detail
+                            }))
+                        };
+                    }
+                }
+            });
+
+            connectLSP();
+
             const runBtn = document.getElementById('run-btn');
             const output = document.getElementById('output');
 

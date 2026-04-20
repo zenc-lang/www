@@ -1,12 +1,14 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 import subprocess
+import asyncio
 import tempfile
 import os
 import shutil
 import re
 import uuid
 import shlex
+import json
 
 app = FastAPI()
 
@@ -21,14 +23,8 @@ async def run_code(request: RunRequest):
         with open(zc_file, "w") as f:
             f.write(request.code)
 
-        # Generate a unique container name so we can kill it specifically if it hangs
         container_name = f"zenc-exec-{uuid.uuid4().hex[:8]}"
         
-        # Prepare Docker command
-        # Security Constraints:
-        # - --network none: Disable all network access
-        # - --cpus 0.5: Throttle to 50% of CPU time
-        # - -m 128m: Cap RAM at 128 MB
         docker_cmd = [
             "docker", "run", "--rm", "-t",
             "--name", container_name,
@@ -47,14 +43,12 @@ async def run_code(request: RunRequest):
 
         try:
             try:
-                # We execute Docker directly now. 'script' was causing signal isolation issues.
-                # 'docker run -t' already provides the TTY we need for colored output.
                 result = subprocess.run(
                     docker_cmd,
                     capture_output=True,
                     text=True,
                     stdin=subprocess.DEVNULL,
-                    timeout=15 # Outer timeout synced with internal limits (10s compile + 5s run)
+                    timeout=15 
                 )
             except subprocess.TimeoutExpired:
                 return {"output": "Execution reached the hard 15s time limit.", "error": "timeout"}
@@ -62,7 +56,6 @@ async def run_code(request: RunRequest):
             output = result.stdout + result.stderr
             output = output.replace('\r\n', '\n')
             
-            # Clean up noisy compiler logs from standard output
             ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
             clean_lines = []
             
@@ -78,12 +71,81 @@ async def run_code(request: RunRequest):
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
         finally:
-            # ROBUST CLEANUP:
-            # Even if subprocess.run times out or the request is cancelled, we MUST ensure the container is gone.
-            # Using --rm above is good, but if the docker client is killed abruptly, the daemon might not remove it.
-            # Explicitly killing it by name ensures no leaks.
             subprocess.run(["docker", "kill", container_name], capture_output=True, check=False)
             subprocess.run(["docker", "rm", "-f", container_name], capture_output=True, check=False)
+
+@app.websocket("/api/lsp")
+async def lsp_proxy(websocket: WebSocket):
+    await websocket.accept()
+    
+    container_name = f"zenc-lsp-{uuid.uuid4().hex[:8]}"
+    
+    # Persistent LSP sandbox
+    docker_cmd = [
+        "docker", "run", "--rm", "-i",
+        "--name", container_name,
+        "--network", "none",
+        "--cpus", "0.5",
+        "-m", "256m", # LSP needs a bit more RAM for indexing
+        "--pids-limit", "64",
+        "zenc_sandbox",
+        "zc", "lsp"
+    ]
+    
+    process = await asyncio.create_subprocess_exec(
+        *docker_cmd,
+        stdin=asyncio.subprocess.PIPE,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+    
+    async def forward_to_lsp():
+        try:
+            while True:
+                data = await websocket.receive_text()
+                # LSP expects Content-Length header
+                content = data.encode('utf-8')
+                header = f"Content-Length: {len(content)}\r\n\r\n"
+                process.stdin.write(header.encode('utf-8') + content)
+                await process.stdin.drain()
+        except Exception:
+            pass
+        finally:
+            if not process.stdin.is_closing():
+                process.stdin.close()
+
+    async def forward_to_websocket():
+        try:
+            while True:
+                # Read LSP headers
+                line = await process.stdout.readline()
+                if not line:
+                    break
+                
+                line = line.decode('utf-8')
+                if line.startswith("Content-Length: "):
+                    content_length = int(line.split(": ")[1].strip())
+                    
+                    # Read empty line after headers
+                    await process.stdout.readline()
+                    
+                    # Read body
+                    body = await process.stdout.readexactly(content_length)
+                    await websocket.send_text(body.decode('utf-8'))
+        except Exception:
+            pass
+        finally:
+            await websocket.close()
+
+    try:
+        # Run both forwarders concurrently
+        await asyncio.gather(forward_to_lsp(), forward_to_websocket())
+    except Exception:
+        pass
+    finally:
+        # Cleanup container
+        subprocess.run(["docker", "kill", container_name], capture_output=True, check=False)
+        subprocess.run(["docker", "rm", "-f", container_name], capture_output=True, check=False)
 
 if __name__ == "__main__":
     import uvicorn
