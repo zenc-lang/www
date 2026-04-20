@@ -1,0 +1,52 @@
+name: VPS System Maintenance
+
+on:
+  schedule:
+    # Run once a week at 4:30 AM UTC on Sundays
+    - cron: '30 4 * * 0'
+  workflow_dispatch:
+    # Allows manual triggering from the Actions tab
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up SSH Key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+
+      - name: Run Cleanup on VPS
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            set -e
+            echo "Starting VPS System Maintenance..."
+
+            echo "--- Cleaning up GitHub Actions Runner artifacts ---"
+            # Remove old runner tarballs and temp files
+            rm -f /home/actions-runner/*.tar.gz || true
+            rm -rf /home/actions-runner/_work/_temp/* || true
+            # Clean up old external node versions (keeping the most recent)
+            find /home/actions-runner -maxdepth 1 -name "externals.*" -type d | sort -r | tail -n +2 | xargs rm -rf || true
+
+            echo "--- Cleaning up temporary deployment artifacts ---"
+            # Remove old GH Pages deployment folders in root
+            rm -rf /root/actions_github_pages_* || true
+
+            echo "--- Cleaning up Docker system ---"
+            # Prune everything older than 24h (containers, images, volumes, build cache)
+            docker system prune -af --volumes --filter "until=24h"
+
+            echo "--- Cleaning up System Logs and Cache ---"
+            # Vacuum system journal logs older than 7 days
+            sudo journalctl --vacuum-time=7d
+            # Clean up apt cache
+            sudo apt-get clean
+
+            echo "--- Disk Usage After Cleanup ---"
+            df -h /
+            
+            echo "Maintenance completed successfully!"
+          EOF
