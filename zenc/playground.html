@@ -35,117 +35,154 @@
     </script>
 
     <style>
+        /* =========================================
+           ZEN C PLAYGROUND — Monk Style
+           Matches the Zen Garden aesthetic of the
+           main site: warm tones, serif headings,
+           raked-sand textures, quiet animations.
+           ========================================= */
+
         .playground-main {
-            height: calc(100vh - 100px);
+            height: calc(100vh - 65px);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding: 0 2rem;
             width: 100%;
             box-sizing: border-box;
             gap: 0;
-            border-top: 1px solid var(--border);
         }
 
+        /* --- Panels --- */
         .zen-panel {
             position: relative;
             display: flex;
             flex-direction: column;
-            background-color: transparent;
-        }
-
-        [data-theme="dark"] .zen-panel {
-            background-color: transparent;
+            background-color: var(--bg);
         }
 
         .zen-panel-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 48px;
-            min-height: 48px;
+            height: 44px;
+            min-height: 44px;
             flex-shrink: 0;
             box-sizing: border-box;
             padding: 0 20px;
             border-bottom: 1px solid var(--border);
             position: relative;
             z-index: 10;
-            background-color: transparent;
-            /* Raked sand texture on header for Zen vibe */
+            background-color: var(--surface);
+            /* Raked sand texture — the monk's garden */
             background-image:
                 repeating-linear-gradient(45deg,
                     transparent,
                     transparent 10px,
-                    rgba(180, 170, 150, 0.05) 10px,
-                    rgba(180, 170, 150, 0.05) 11px);
+                    rgba(180, 170, 150, 0.04) 10px,
+                    rgba(180, 170, 150, 0.04) 11px);
         }
 
         [data-theme="dark"] .zen-panel-header {
-            background-color: transparent;
+            background-color: var(--surface);
             background-image:
                 repeating-linear-gradient(45deg,
                     transparent,
                     transparent 10px,
-                    rgba(255, 255, 255, 0.015) 10px,
-                    rgba(255, 255, 255, 0.015) 11px);
+                    rgba(255, 255, 255, 0.012) 10px,
+                    rgba(255, 255, 255, 0.012) 11px);
         }
 
+        /* --- Buttons & Controls --- */
         .ui-btn {
             background: transparent;
             color: var(--muted);
             border: 1px solid transparent;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
             font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
+            font-weight: 500;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.01em;
         }
 
         .ui-btn:hover {
             color: var(--fg);
+            background: var(--surface-alt);
         }
 
         .ui-select {
             background: transparent;
             color: var(--muted);
             border: 1px solid transparent;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             outline: none;
             font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
+            font-weight: 500;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .ui-select:hover {
             color: var(--fg);
         }
 
+        /* Run button — the accent pulse */
         .run-btn {
             color: var(--accent);
-            font-weight: 600;
+            font-weight: 700;
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            padding: 5px 14px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .run-btn:hover {
-            color: #4ade80;
-            /* Brighter green */
+            background: var(--accent);
+            color: var(--bg);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(74, 222, 128, 0.15);
         }
 
         [data-theme="light"] .run-btn {
-            color: #16a34a;
-            /* Deeper green for light mode */
+            color: #15803d;
+            border-color: #15803d;
         }
 
+        [data-theme="light"] .run-btn:hover {
+            background: #15803d;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(21, 128, 61, 0.15);
+        }
+
+        /* Loading animation for compile */
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Layout --- */
         .playground-container {
             display: flex;
             flex: 1;
             overflow: hidden;
             gap: 0;
+            border-top: 1px solid var(--border);
         }
 
         #right-column {
@@ -157,14 +194,14 @@
         }
 
         #editor-wrapper {
-            flex: 1.5; /* Takes more space than terminal */
+            flex: 1.5;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
         }
 
-        /* PROJECT SIDEBAR & TABS */
+        /* --- Project Sidebar --- */
         #project-area {
             display: flex;
             flex: 1;
@@ -173,69 +210,68 @@
         }
 
         #file-sidebar {
-            width: 220px;
-            min-width: 220px;
+            width: 200px;
+            min-width: 200px;
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             background: var(--surface);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sidebar-section-header {
-            padding: 12px 15px;
-            font-size: 0.7rem;
+            padding: 14px 16px 10px;
+            font-size: 0.65rem;
             font-weight: 700;
             color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            letter-spacing: 0.1em;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         #file-list {
             flex: 1;
             overflow-y: auto;
-            padding: 5px 0;
+            padding: 2px 0;
         }
 
         .file-item {
-            padding: 8px 20px;
-            font-size: 0.85rem;
-            color: var(--fg);
+            padding: 7px 16px;
+            font-size: 0.82rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--muted);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            opacity: 0.7;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
+            gap: 8px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 2px solid transparent;
         }
 
         .file-item:hover {
-            background: rgba(148, 163, 184, 0.05);
-            opacity: 1;
+            color: var(--fg);
+            background: var(--surface-alt);
         }
 
         .file-item.active {
-            background: rgba(56, 189, 248, 0.05);
-            color: var(--accent);
-            opacity: 1;
+            color: var(--fg);
+            background: var(--surface-alt);
             border-left-color: var(--accent);
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .file-item .delete-file {
             margin-left: auto;
             opacity: 0;
             color: #ef4444;
-            padding: 2px;
+            padding: 2px 4px;
             border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.15s;
         }
 
         .file-item:hover .delete-file {
-            opacity: 0.6;
+            opacity: 0.4;
         }
 
         .file-item .delete-file:hover {
@@ -243,6 +279,7 @@
             background: rgba(239, 68, 68, 0.1);
         }
 
+        /* --- Editor & Tabs --- */
         #editor-main {
             flex: 1;
             display: flex;
@@ -251,15 +288,15 @@
         }
 
         #tab-bar {
-            height: 40px;
-            min-height: 40px;
+            height: 36px;
+            min-height: 36px;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             overflow-x: auto;
-            padding: 0 10px;
-            gap: 5px;
+            padding: 0 8px;
+            gap: 2px;
         }
 
         #editor-container {
@@ -269,32 +306,128 @@
         }
 
         .tab {
-            padding: 0 15px;
-            height: 30px;
+            padding: 0 14px;
+            height: 28px;
             display: flex;
             align-items: center;
             background: transparent;
-            border: 1px solid transparent;
-            border-radius: 6px;
-            font-size: 0.8rem;
+            border: none;
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
             color: var(--muted);
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
+            font-weight: 500;
         }
 
         .tab.active {
-            background: var(--bg);
-            border-color: var(--border);
             color: var(--fg);
-            font-weight: 500;
+            border-bottom-color: var(--accent);
+            font-weight: 600;
         }
 
         .tab:hover:not(.active) {
             color: var(--fg);
-            background: rgba(148, 163, 184, 0.05);
         }
 
+        /* --- Terminal Output Pane --- */
+        #terminal-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #terminal-wrapper .zen-panel-header {
+            height: 36px;
+            min-height: 36px;
+        }
+
+        .terminal-output {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* --- Tutorial Sidebar --- */
+        #tutorial-sidebar {
+            background: var(--surface);
+        }
+
+        #tutorial-sidebar h2 {
+            font-family: 'Kaisei Tokumin', serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--primary);
+            font-size: 1.15rem;
+            margin-top: 0;
+        }
+
+        #tutorial-sidebar p {
+            font-size: 0.88rem;
+            line-height: 1.65;
+        }
+
+        #tutorial-sidebar code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            background: var(--surface-alt);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        /* Tutorial list items */
+        .tutorial-btn {
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.82rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--muted);
+            border-left: 3px solid transparent;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tutorial-btn:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .tutorial-btn:hover {
+            background: var(--surface-alt);
+            color: var(--fg);
+            border-left-color: var(--border);
+        }
+
+        .tutorial-btn.active {
+            background: var(--surface-alt);
+            color: var(--fg);
+            font-weight: 600;
+            border-left-color: var(--accent);
+        }
+
+        /* Mission card */
+        #tutorial-mission {
+            margin: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #tutorial-mission:hover {
+            border-color: var(--muted);
+        }
+
+        /* --- Responsive --- */
         @media (max-width: 1024px) {
             .playground-container {
                 flex-direction: column;
@@ -302,18 +435,34 @@
 
             #tutorial-sidebar {
                 width: 100% !important;
-                height: 300px;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                height: 280px;
                 border-right: none !important;
                 border-bottom: 1px solid var(--border);
             }
 
             #file-sidebar {
-                display: none; /* Hide sidebar on mobile, use tabs */
+                display: none;
             }
 
             #terminal-wrapper {
-                height: 250px;
+                height: 220px;
                 flex: none;
+            }
+
+            .playground-main {
+                height: calc(100vh - 60px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .playground-main {
+                height: calc(100vh - 80px);
+            }
+
+            #tutorial-sidebar {
+                height: 240px;
             }
         }
     </style>
@@ -353,45 +502,43 @@
         </div>
     </header>
 
-    <main class="playground-main" style="padding: 0; display: flex; flex-direction: column;">
+    <main class="playground-main">
         <div class="playground-container" style="flex: 1; display: flex;">
 
             <!-- LEFT PANE: TUTORIALS -->
             <div id="tutorial-sidebar" class="zen-panel"
-                style="width: 28%; min-width: 320px; max-width: 400px; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; background: var(--surface);">
-                <div class="zen-panel-header"
-                    style="height: 48px; min-height: 48px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px;">
+                style="width: 28%; min-width: 300px; max-width: 380px; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden;">
+                <div class="zen-panel-header">
                     <span
-                        style="font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--fg); display: flex; align-items: center; gap: 8px;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; letter-spacing: 0.08em; text-transform: uppercase;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
-                        Guided Tutorials
+                        Guided Path
                     </span>
                 </div>
                 <div id="tutorial-content"
-                    style="flex: 2; padding: 1.5rem; overflow-y: auto; font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.6; color: var(--fg); border-bottom: 1px solid var(--border);">
-                    <h2 style="margin-top: 0; font-size: 1.25rem;">Welcome to the Playground</h2>
+                    style="flex: 2; padding: 1.5rem; overflow-y: auto; font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.7; color: var(--fg); border-bottom: 1px solid var(--border);">
+                    <h2>Welcome to the Playground</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Select a tutorial below to learn the
                         fundamentals of Zen C right inside your browser.</p>
                 </div>
                 <!-- MISSION SECTION -->
-                <div id="tutorial-mission"
-                    style="margin: 1rem; padding: 1.25rem; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 12px; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.75rem;">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)"
-                            stroke-width="3" style="opacity: 0.8;">
+                <div id="tutorial-mission" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)"
+                            stroke-width="3">
                             <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                         <span
-                            style="font-size: 0.7rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;">Mission</span>
+                            style="font-size: 0.65rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Mission</span>
                     </div>
                     <div id="mission-goal"
-                        style="font-size: 0.88rem; font-weight: 500; color: var(--fg); line-height: 1.7;"></div>
+                        style="font-size: 0.85rem; font-weight: 500; color: var(--fg); line-height: 1.7;"></div>
                     <div id="mission-status"
-                        style="margin-top: 1rem; font-size: 0.8rem; font-weight: 600; display: none; transition: all 0.3s;">
+                        style="margin-top: 0.75rem; font-size: 0.78rem; font-weight: 600; display: none; transition: all 0.3s;">
                     </div>
                 </div>
                 <div id="tutorial-list" style="flex: 2; overflow-y: auto; background: var(--bg);">
@@ -401,21 +548,18 @@
 
             <!-- RIGHT COLUMN: EDITOR + OUTPUT -->
             <div id="right-column">
-                <div id="editor-wrapper" class="zen-panel" style="border-right: none;">
-                    <div class="zen-panel-header" style="background: var(--surface);">
-                        <div style="display: flex; gap: 8px; align-items: center; flex: 1;">
+                <div id="editor-wrapper" class="zen-panel">
+                    <div class="zen-panel-header">
+                        <div style="display: flex; gap: 6px; align-items: center; flex: 1;">
                             <button class="ui-btn run-btn" id="run-btn">
-                                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
                                     <path d="M8 5v14l11-7z" />
                                 </svg>
-                                Run Code
+                                Run
                             </button>
 
-                            <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;">
-                            </div>
-
                             <button id="copy-btn" class="ui-btn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
                                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -423,18 +567,18 @@
                                 Copy
                             </button>
 
-                            <div style="width: 1px; height: 16px; background-color: var(--border); margin: 0 4px;">
+                            <div style="width: 1px; height: 14px; background-color: var(--border); margin: 0 2px;">
                             </div>
 
                             <select id="examples-select" class="ui-select"
-                                style="max-width: 160px; text-overflow: ellipsis;">
-                                <option value="" disabled selected>-- Reference Code --</option>
+                                style="max-width: 150px; text-overflow: ellipsis;">
+                                <option value="" disabled selected>-- Examples --</option>
                             </select>
 
                             <div style="flex: 1;"></div>
 
                             <button id="add-file-btn" class="ui-btn" style="color: var(--accent);">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                     <line x1="12" y1="5" x2="12" y2="19"></line>
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                 </svg>
@@ -460,23 +604,22 @@
                     </div>
                 </div>
 
-                <div id="terminal-wrapper" class="zen-panel" style="border-right: none;">
+                <div id="terminal-wrapper" class="zen-panel">
                     <div class="zen-panel-header">
                         <div style="display: flex; align-items: center; gap: 8px;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
-                                stroke-width="2">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
+                                stroke-width="2.5">
                                 <polyline points="4 17 10 11 4 5"></polyline>
                                 <line x1="12" y1="19" x2="20" y2="19"></line>
                             </svg>
                             <span
-                                style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; font-weight: 600;">OUTPUT</span>
+                                style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase;">Output</span>
                         </div>
-                        <button id="clear-terminal" class="ui-btn" style="padding: 4px 8px;">Clear</button>
+                        <button id="clear-terminal" class="ui-btn" style="padding: 3px 8px; font-size: 0.75rem;">Clear</button>
                     </div>
-                    <div class="terminal-output" id="output" style="padding: 0; background: transparent;"></div>
+                    <div class="terminal-output" id="output"></div>
                 </div>
             </div>
-        </div>
         </div>
     </main>
 
@@ -826,8 +969,7 @@
                 tutorialsData.forEach((tut, idx) => {
                     const btn = document.createElement('div');
                     btn.classList.add('tutorial-btn');
-                    btn.style.cssText = "padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between;";
-                    if (idx === 0) btn.style.borderTop = "1px solid var(--border)";
+                    if (currentTutorialIndex === idx) btn.classList.add('active');
 
                     const titleSpan = document.createElement('span');
                     titleSpan.textContent = tut.title;
@@ -835,50 +977,34 @@
 
                     const icon = document.createElement('div');
                     icon.innerHTML = tut.completed ?
-                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' :
-                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-                    icon.style.opacity = tut.completed ? "1" : "0.3";
+                        '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' :
+                        '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" opacity="0.25"><path d="M8 5v14l11-7z"/></svg>';
                     btn.appendChild(icon);
-
-                    btn.addEventListener('mouseenter', () => {
-                        if (currentTutorialIndex !== idx) btn.style.background = "var(--surface-alt)";
-                    });
-                    btn.addEventListener('mouseleave', () => {
-                        if (currentTutorialIndex !== idx) btn.style.background = "transparent";
-                    });
 
                     btn.addEventListener('click', async () => {
                         // Deselect others
-                        Array.from(tutorialList.children).forEach(child => child.style.background = "transparent");
-
+                        Array.from(tutorialList.children).forEach(child => child.classList.remove('active'));
+                        btn.classList.add('active');
                         currentTutorialIndex = idx;
-                        btn.style.background = "var(--surface-alt)";
 
-                        activeEditor.setValue(tut.code);
-                        
                         // Update project state for tutorials
                         if (tut.setup) await tut.setup(project);
                         project.files["main.zc"] = tut.code;
                         project.activeFile = "main.zc";
-                        editor.setValue(project.files["main.zc"]);
+                        editor.setValue(tut.code);
                         updateProjectUI();
                         saveProject();
 
+                        // Update tutorial content
+                        tutorialContent.innerHTML = tut.content;
+
                         // Show Mission
                         tutorialMission.style.display = 'block';
-                        setTimeout(() => {
-                            tutorialMission.style.opacity = '1';
-                            tutorialMission.style.transform = 'translateY(0)';
-                        }, 10);
-
                         missionGoal.innerHTML = tut.mission;
                         missionStatus.style.display = tut.completed ? 'block' : 'none';
                         if (tut.completed) {
-                            missionStatus.style.color = '#4ade80';
-                            missionStatus.innerHTML = 'Mission Accomplished!';
-                            tutorialMission.style.borderLeft = '4px solid #4ade80';
-                        } else {
-                            tutorialMission.style.borderLeft = '1px solid var(--border)';
+                            missionStatus.style.color = 'var(--accent)';
+                            missionStatus.innerHTML = '✓ Mission Accomplished';
                         }
                     });
 
@@ -1095,40 +1221,40 @@
             
             function updateTerminalTheme(theme) {
                 const isDark = theme === 'dark';
-                const premiumTheme = isDark ? {
-                    background: '#1e293b',
+                const zenTheme = isDark ? {
+                    background: '#0c0c0b',
                     foreground: '#e2e8f0',
-                    cursor: '#38bdf8',
-                    selectionBackground: 'rgba(56, 189, 248, 0.3)',
-                    black: '#1e293b',
+                    cursor: '#4ade80',
+                    selectionBackground: 'rgba(74, 222, 128, 0.2)',
+                    black: '#0c0c0b',
                     red: '#ef4444',
                     green: '#4ade80',
                     yellow: '#fbbf24',
-                    blue: '#3b82f6',
+                    blue: '#38bdf8',
                     magenta: '#a855f7',
                     cyan: '#38bdf8',
-                    white: '#f8fafc',
-                    brightBlack: '#475569',
+                    white: '#e2e8f0',
+                    brightBlack: '#64748b',
                     brightGreen: '#22c55e',
                     brightCyan: '#0ea5e9'
                 } : {
-                    background: '#f8fafc',
-                    foreground: '#1e293b',
-                    cursor: '#0284c7',
-                    selectionBackground: 'rgba(2, 132, 199, 0.2)',
-                    black: '#f8fafc',
+                    background: '#fdfdfc',
+                    foreground: '#1a1a19',
+                    cursor: '#15803d',
+                    selectionBackground: 'rgba(21, 128, 61, 0.15)',
+                    black: '#fdfdfc',
                     red: '#dc2626',
-                    green: '#16a34a',
+                    green: '#15803d',
                     yellow: '#d97706',
-                    blue: '#2563eb',
-                    magenta: '#9333ea',
+                    blue: '#0369a1',
+                    magenta: '#7c3aed',
                     cyan: '#0284c7',
-                    white: '#1e293b',
-                    brightBlack: '#64748b',
-                    brightGreen: '#15803d',
+                    white: '#1a1a19',
+                    brightBlack: '#94a3b8',
+                    brightGreen: '#16a34a',
                     brightCyan: '#0369a1'
                 };
-                terminal.options.theme = premiumTheme;
+                terminal.options.theme = zenTheme;
             }
             updateTerminalTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
@@ -1136,8 +1262,8 @@
             setTimeout(() => fitAddon.fit(), 100);
 
             function drawTerminalHeader() {
-                terminal.writeln("\x1b[1;36m>> Zen C Playground Session\x1b[0m");
-                terminal.writeln("\x1b[90mPress \x1b[1mRun\x1b[0m to compile and execute your code.\x1b[0m\r\n");
+                terminal.writeln("\x1b[32m>\x1b[0m \x1b[1mZen C Playground\x1b[0m");
+                terminal.writeln("\x1b[90mPress Run to compile and execute.\x1b[0m\r\n");
             }
             drawTerminalHeader();
 
