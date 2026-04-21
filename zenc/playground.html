@@ -1441,8 +1441,8 @@
                 const newHeightPx = startHeight + deltaY;
                 const percentage = (newHeightPx / totalHeight) * 100;
 
-                // Constraints: 20px safety margin ensures the resizer handle remains accessible
-                const minPx = 20;
+                // Constraints: 44px (header height) safety margin ensures the resizer handle is never lost
+                const minPx = 44;
 
                 if (newHeightPx >= minPx && (totalHeight - newHeightPx) >= minPx) {
                     const editorPct = percentage;
