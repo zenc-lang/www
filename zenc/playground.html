@@ -503,7 +503,7 @@
             #terminal-wrapper {
                 flex: 1;
                 height: auto;
-                min-height: 44px;
+                min-height: 0 !important;
             }
 
             .playground-main {
@@ -1442,7 +1442,13 @@
                 const minPx = 0;
 
                 if (newHeightPx >= minPx && (totalHeight - newHeightPx) >= minPx) {
-                    editorWrapper.style.height = `${percentage}%`;
+                    const editorPct = percentage;
+                    const terminalPct = 100 - percentage;
+                    
+                    editorWrapper.style.height = `${editorPct}%`;
+                    terminalWrapper.style.height = `${terminalPct}%`;
+                    terminalWrapper.style.flex = "none"; // Stop flexbox from fighting our explicit height
+                    
                     editor.layout();
                     fitAddon.fit();
                 }
