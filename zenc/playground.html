@@ -50,6 +50,7 @@
             width: 100%;
             box-sizing: border-box;
             gap: 0;
+            min-height: 0 !important;
         }
 
         /* --- Panels --- */
@@ -67,7 +68,7 @@
             align-items: center;
             justify-content: space-between;
             height: 44px;
-            min-height: 44px;
+            min-height: 0 !important;
             flex-shrink: 0;
             box-sizing: border-box;
             padding: 0 20px;
@@ -185,6 +186,7 @@
             overflow: hidden;
             gap: 0;
             border-top: 1px solid var(--border);
+            min-height: 0 !important;
         }
 
         #right-column {
@@ -193,6 +195,7 @@
             flex-direction: column;
             overflow: hidden;
             background: var(--bg);
+            min-height: 0 !important;
         }
 
         #editor-wrapper {
@@ -360,8 +363,7 @@
         }
 
         #terminal-wrapper .zen-panel-header {
-            height: 36px;
-            min-height: 36px;
+            min-height: 0 !important;
         }
 
         .terminal-output {
@@ -1414,7 +1416,7 @@
             resizer.addEventListener('mousedown', (e) => {
                 isResizing = true;
                 startY = e.clientY;
-                startHeight = editorWrapper.offsetHeight;
+                startHeight = editorWrapper.getBoundingClientRect().height;
                 resizer.classList.add('resizing');
                 document.body.style.cursor = 'row-resize';
                 document.body.style.userSelect = 'none';
@@ -1474,6 +1476,13 @@
             const savedHeight = localStorage.getItem('zenc_editor_height');
             if (savedHeight) {
                 editorWrapper.style.height = savedHeight;
+                // Sync terminal for dual-height consistency
+                const editorPct = parseFloat(savedHeight);
+                if (!isNaN(editorPct)) {
+                    terminalWrapper.style.height = `${100 - editorPct}%`;
+                    terminalWrapper.style.flex = "none";
+                }
+                
                 setTimeout(() => {
                     editor.layout();
                     fitAddon.fit();
