@@ -58,6 +58,7 @@
             display: flex;
             flex-direction: column;
             background-color: var(--bg);
+            min-height: 0;
         }
 
         .zen-panel-header {
@@ -200,6 +201,7 @@
             flex-direction: column;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
+            min-height: 0; /* Allow shrinking below content */
         }
 
         #layout-resizer {
@@ -1432,8 +1434,8 @@
                 const newHeightPx = startHeight + deltaY;
                 const percentage = (newHeightPx / totalHeight) * 100;
 
-                // Constraints: Min height for both panes
-                const minPx = 60;
+                // Constraints: Min height for both panes (44px is the header height)
+                const minPx = 44;
 
                 if (newHeightPx > minPx && (totalHeight - newHeightPx) > minPx) {
                     editorWrapper.style.height = `${percentage}%`;
