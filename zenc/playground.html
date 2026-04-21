@@ -413,45 +413,53 @@
             border-left-color: var(--accent);
         }
 
-        /* Ultra-Minimalist Mission */
+        /* Zen Mastery Mission Refinement */
         #tutorial-mission {
-            margin: 1.5rem 1.5rem 2rem 1.5rem;
-            padding: 0;
+            margin: 2.5rem 1.5rem 2rem 1.7rem;
+            padding: 0 0 0 1.2rem;
             background: transparent;
             border: none;
-            border-top: 1px solid var(--border);
-            padding-top: 1.5rem;
+            border-left: 2px solid var(--border);
+            transition: border-color 0.4s ease;
         }
 
-        #tutorial-mission:hover {
-            transform: none;
-        }
-
-        #tutorial-mission.mission-success .mission-header span {
-            color: var(--accent);
+        #tutorial-mission.mission-success {
+            border-left-color: var(--accent);
         }
 
         .mission-header {
             font-family: 'Kaisei Tokumin', serif;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: color 0.4s ease;
         }
 
-        .mission-label {
+        #tutorial-mission.mission-success .mission-header {
+            color: var(--accent);
+        }
+
+        /* Mastery Indicator in header */
+        .mission-header::before {
+            content: "○";
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 700;
+            font-size: 0.8rem;
             color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-            display: block;
-            opacity: 0.6;
+            opacity: 0.5;
+            margin-left: -2rem;
+            position: absolute;
+            transition: all 0.4s ease;
+        }
+
+        #tutorial-mission.mission-success .mission-header::before {
+            content: "✓";
+            color: var(--accent);
+            opacity: 1;
+            transform: scale(1.2);
         }
 
         /* --- Responsive --- */
@@ -554,13 +562,11 @@
                 </div>
                 <!-- MISSION SECTION -->
                 <div id="tutorial-mission" style="display: none;">
-                    <span class="mission-label">Objective</span>
                     <div class="mission-header">
                         <span id="mission-title-text">Seeking Enlightenment</span>
                     </div>
-                    <div id="mission-goal" style="font-size: 0.9rem; font-weight: 400; color: var(--fg); line-height: 1.7; opacity: 0.85;"></div>
-                    <div id="mission-status" style="margin-top: 0.5rem; font-size: 0.7rem; font-weight: 800; display: none; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace;">
-                    </div>
+                    <div id="mission-goal" style="font-size: 0.92rem; font-weight: 400; color: var(--fg); line-height: 1.7; opacity: 0.85;"></div>
+                    <div id="mission-status" style="display: none;"></div>
                 </div>
                 <div id="tutorial-list" style="flex: 2; overflow-y: auto; background: var(--bg);">
                     <!-- JS fills this -->
@@ -1025,10 +1031,10 @@
                         
                         // Reset success state
                         tutorialMission.classList.remove('mission-success');
-                        missionStatus.style.display = tut.completed ? 'block' : 'none';
+                        document.getElementById('mission-title-text').textContent = 'Seeking Enlightenment';
+                        missionStatus.style.display = 'none';
                         if (tut.completed) {
-                            missionStatus.style.color = 'var(--accent)';
-                            missionStatus.innerHTML = '✓ Enlightenment Achieved';
+                            document.getElementById('mission-title-text').textContent = 'Mastery Achieved';
                             tutorialMission.classList.add('mission-success');
                         }
                     });
@@ -1339,9 +1345,7 @@
                         const tut = tutorialsData[currentTutorialIndex];
                         if (tut.validator(data.output || "", editor.getValue())) {
                             tut.completed = true;
-                            missionStatus.style.display = 'block';
-                            missionStatus.style.color = 'var(--accent)';
-                            missionStatus.innerHTML = '✓ Enlightenment Achieved';
+                            document.getElementById('mission-title-text').textContent = 'Mastery Achieved';
                             tutorialMission.classList.add('mission-success');
 
                             // Update sidebar icon
