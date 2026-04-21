@@ -688,7 +688,8 @@
                     
                     let content = `// New file: ${name}\n`;
                     if (name.startsWith('plugins/')) {
-                        content = `#[plugin_init]\nfn z_plugin_init() -> ZPlugin* {\n    // Initialize your plugin here\n    return null;\n}\n`;
+                        const pluginName = name.split('/').pop().replace('.zc', '');
+                        content = `import "std/plugin.zc"\n\n// 1. Define the transpiler handler\nfn ${pluginName}_handler(body: char*, api: ZApi*) {\n    let out = api.out;\n    fputs(f"// Transpiled code for ${pluginName}\\n", out);\n    // Implement your logic here...\\n}\n\n// 2. Register the plugin metadata\nlet ${pluginName}_plugin = ZPlugin {\n    name: "${pluginName}",\n    handler: ${pluginName}_handler,\n    hover_handler: (body: char*, line: int, col: int) => {\n        return "Plugin: ${pluginName}";\n    }\n};\n\n// 3. Export the initializer\n@export\nfn z_plugin_init() -> ZPlugin* {\n    return &${pluginName}_plugin;\n}\n`;
                     }
                     
                     project.files[name] = content;
@@ -790,6 +791,20 @@
                     mission: "Start with an empty String, append <b>'Zen'</b> then <b>' C'</b>. Finally, print the length: <b>'Length: {s.length()}'</b>.",
                     code: `import "std/string.zc"\n\nfn main() {\n    let s = String::from("");\n    // Append and print here\n}`,
                     validator: (output, code) => output.includes("Length: 5")
+                },
+                {
+                    id: 'brainfuck',
+                    title: '7. Brainfuck Masterclass',
+                    content: `<h2>Brainfuck Masterclass</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Building a DSL Transpiler.</p>
+                    <p>Plugins allow you to extend Zen C with your own Domain Specific Languages. This example implements a Brainfuck-to-C transpiler.</p>
+                    <p>When you run this code, the compiler builds <code>plugins/brainfuck.zc</code> as a shared library and loads it to handle the <code>#brainfuck { }</code> block.</p>`,
+                    mission: "Modify the Brainfuck code to print <b>'ZEN'</b> instead of 'Hello'.",
+                    code: `import "plugins/brainfuck.zc" as bf\n\nfn main() {\n    print "Brainfuck says: ";\n    #bf {\n        ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.\n    }\n    println \"\";\n}`,
+                    setup: (proj) => {
+                        proj.files["plugins/brainfuck.zc"] = `import "std/plugin.zc"\ninclude <stdio.h>\n\nfn bf_transpile(body: char*, api: ZApi*) {\n    let out = api.out;\n    fputs("{ ", out);\n    fputs("static unsigned char tape[30000] = {0}; ", out);\n    fputs("unsigned char *ptr = tape; ", out);\n    \n    let idx = 0;\n    while (body[idx] != 0) {\n        let ch = body[idx];\n        match ch {\n            '>' => fputs("++ptr; ", out),\n            '<' => fputs("--ptr; ", out),\n            '+' => fputs("++*ptr; ", out),\n            '-' => fputs("--*ptr; ", out),\n            '.' => fputs("putchar(*ptr); ", out),\n            ',' => fputs("*ptr = getchar(); ", out),\n            '[' => fputs("while (*ptr) { ", out),\n            ']' => fputs("} ", out),\n            _ => (void)0\n        }\n        idx++;\n    }\n    fputs(" }", out);\n}\n\nlet bf_plugin = ZPlugin {\n    name: "bf",\n    handler: bf_transpile,\n    hover_handler: (body: char*, line: int, col: int) => "Brainfuck DSL Transpiler"\n};\n\n@export\nfn z_plugin_init() -> ZPlugin* {\n    return &bf_plugin;\n}\n`;
+                    },
+                    validator: (output, code) => output.includes("ZEN")
                 }
             ];
 
@@ -836,6 +851,7 @@
                         activeEditor.setValue(tut.code);
                         
                         // Update project state for tutorials
+                        if (tut.setup) tut.setup(project);
                         project.files["main.zc"] = tut.code;
                         project.activeFile = "main.zc";
                         editor.setValue(project.files["main.zc"]);
