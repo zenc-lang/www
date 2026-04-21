@@ -195,7 +195,7 @@
 
         #editor-wrapper {
             flex: none;
-            height: 60%; /* Starting height */
+            height: 50%; /* Balanced default */
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -1410,6 +1410,9 @@
                 document.body.style.cursor = 'row-resize';
                 document.body.style.userSelect = 'none';
                 
+                // Track start height to handle relative moves if needed, 
+                // but percentage-based is usually fine.
+                
                 // Add overlay to prevent iframe interference if any
                 const overlay = document.createElement('div');
                 overlay.id = 'resize-overlay';
@@ -1449,8 +1452,21 @@
                     if (overlay) overlay.remove();
                     editor.layout();
                     fitAddon.fit();
+                    
+                    // Save for persistence
+                    localStorage.setItem('zenc_editor_height', editorWrapper.style.height);
                 }
             });
+
+            // Initial Resize Sync
+            const savedHeight = localStorage.getItem('zenc_editor_height');
+            if (savedHeight) {
+                editorWrapper.style.height = savedHeight;
+                setTimeout(() => {
+                    editor.layout();
+                    fitAddon.fit();
+                }, 100);
+            }
 
             const copyBtn = document.getElementById('copy-btn');
             copyBtn.addEventListener('click', () => {
