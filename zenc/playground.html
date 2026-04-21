@@ -413,37 +413,33 @@
             border-left-color: var(--accent);
         }
 
-        /* Mission card */
+        /* Ultra-Minimalist Mission */
         #tutorial-mission {
-            margin: 0.75rem;
-            padding: 1.15rem 1.4rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--border);
-            border-radius: 8px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            margin: 1.5rem 1.5rem 2rem 1.5rem;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
         }
 
         #tutorial-mission:hover {
-            border-color: var(--muted);
-            transform: translateY(-2px);
+            transform: none;
         }
 
-        #tutorial-mission.mission-success {
-            border-left-color: var(--accent);
-            animation: mission-pulse 2s ease-in-out infinite;
+        #tutorial-mission.mission-success .mission-header span {
+            color: var(--accent);
         }
 
         .mission-header {
             font-family: 'Kaisei Tokumin', serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .mission-label {
@@ -453,14 +449,9 @@
             color: var(--muted);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.75rem;
             display: block;
-        }
-
-        @keyframes mission-pulse {
-            0% { box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-            50% { box-shadow: 0 0 15px rgba(74, 222, 128, 0.15); }
-            100% { box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+            opacity: 0.6;
         }
 
         /* --- Responsive --- */
@@ -563,15 +554,12 @@
                 </div>
                 <!-- MISSION SECTION -->
                 <div id="tutorial-mission" style="display: none;">
-                    <span class="mission-label">Path Mastery</span>
+                    <span class="mission-label">Objective</span>
                     <div class="mission-header">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" style="flex-shrink: 0;">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                        </svg>
-                        <span id="mission-title-text">Current Objective</span>
+                        <span id="mission-title-text">Seeking Enlightenment</span>
                     </div>
-                    <div id="mission-goal" style="font-size: 0.88rem; font-weight: 500; color: var(--fg); line-height: 1.7; opacity: 0.9;"></div>
-                    <div id="mission-status" style="margin-top: 1.25rem; font-size: 0.75rem; font-weight: 800; display: none; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace;">
+                    <div id="mission-goal" style="font-size: 0.9rem; font-weight: 400; color: var(--fg); line-height: 1.7; opacity: 0.85;"></div>
+                    <div id="mission-status" style="margin-top: 0.5rem; font-size: 0.7rem; font-weight: 800; display: none; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace;">
                     </div>
                 </div>
                 <div id="tutorial-list" style="flex: 2; overflow-y: auto; background: var(--bg);">
