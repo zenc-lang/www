@@ -226,22 +226,34 @@
             flex-direction: column;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
-            min-height: 210px !important;
+            min-height: 250px !important;
             /* Physically protect status bar, tabs, and header */
         }
 
         #layout-resizer {
-            height: 2px;
+            height: 6px;
             background: var(--border);
             cursor: row-resize;
             z-index: 100;
-            transition: background 0.2s, height 0.2s;
+            transition: background 0.2s;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* Invisible expanded hit area for easier grabbing */
+        #layout-resizer::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            cursor: row-resize;
         }
 
         #layout-resizer:hover,
         #layout-resizer.resizing {
             background: var(--accent);
-            height: 4px;
         }
 
         /* --- Project Sidebar --- */
@@ -347,6 +359,8 @@
             flex: 1;
             width: 100%;
             position: relative;
+            min-height: 0; /* Allow Monaco to shrink gracefully */
+            overflow: hidden;
         }
 
         .tab {
@@ -456,6 +470,7 @@
         /* --- Status Bar --- */
         .status-bar {
             height: 24px;
+            min-height: 24px;
             background-color: var(--surface-alt);
             border-top: 1px solid var(--border);
             display: flex;
@@ -1352,51 +1367,59 @@
                 let isResizing = false;
                 let startY, startHeight;
 
+                // Calculate the minimum editor height dynamically:
+                // zen-panel-header(44) + tab-bar(36) + status-bar(24) + some editor(50) = ~154px
+                // Use 250px to give a comfortable minimum with usable editor space
+                const MIN_EDITOR_PX = 250;
+                const MIN_TERMINAL_PX = 120;
+
                 const startResizing = (e) => {
+                    e.preventDefault();
                     isResizing = true;
                     startY = e.clientY;
                     startHeight = editorWrapper.getBoundingClientRect().height;
                     resizer.classList.add('resizing');
+                    document.body.style.cursor = 'row-resize';
+                    document.body.style.userSelect = 'none';
+                    
+                    // Remove any stale overlay first
+                    document.getElementById('resize-overlay')?.remove();
                     
                     const overlay = document.createElement('div');
                     overlay.id = 'resize-overlay';
-                    overlay.style.position = 'fixed';
-                    overlay.style.inset = '0';
-                    overlay.style.zIndex = '9999';
-                    overlay.style.cursor = 'row-resize';
+                    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;cursor:row-resize;';
                     document.body.appendChild(overlay);
-                    document.body.style.userSelect = 'none';
                 };
 
                 const handleMouseMove = (e) => {
                     if (!isResizing) return;
+                    e.preventDefault();
                     const deltaY = e.clientY - startY;
                     const totalHeight = rightColumn.getBoundingClientRect().height;
-                    // minEditor: 210px to protect Header+Tabs+StatusBar
-                    // minTerminal: 100px to protect TerminalHeader
-                    const clampedPx = Math.max(210, Math.min(totalHeight - 100, startHeight + deltaY));
+                    const maxEditorPx = totalHeight - MIN_TERMINAL_PX;
+                    const clampedPx = Math.max(MIN_EDITOR_PX, Math.min(maxEditorPx, startHeight + deltaY));
                     const pct = (clampedPx / totalHeight) * 100;
                     
-                    editorWrapper.style.height = `${pct}%`;
-                    terminalWrapper.style.height = `${100 - pct}%`;
-                    terminalWrapper.style.flex = "none";
+                    editorWrapper.style.height = pct + '%';
+                    terminalWrapper.style.height = (100 - pct) + '%';
+                    terminalWrapper.style.flex = 'none';
                     editor.layout();
-                    if (window.terminal && window.terminal.fit) window.terminal.fit();
                 };
 
                 const stopResizing = () => {
                     if (!isResizing) return;
                     isResizing = false;
                     resizer.classList.remove('resizing');
-                    document.getElementById('resize-overlay')?.remove();
+                    document.body.style.cursor = '';
                     document.body.style.userSelect = '';
+                    document.getElementById('resize-overlay')?.remove();
                     localStorage.setItem('zenc_editor_height', editorWrapper.style.height);
                     editor.layout();
                 };
 
                 resizer.addEventListener('mousedown', startResizing);
-                window.addEventListener('mousemove', handleMouseMove);
-                window.addEventListener('mouseup', stopResizing);
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', stopResizing);
 
                 const savedHeight = localStorage.getItem('zenc_editor_height');
                 if (savedHeight) {
