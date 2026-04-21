@@ -1246,20 +1246,22 @@
             });
 
             // 3. Status Bar & Logic
+            // 3. Status Bar & Logic
             const cursorPos = document.getElementById('cursor-pos');
             const fileStats = document.getElementById('file-stats');
-
-            editor.onDidChangeCursorPosition((e) => {
-                cursorPos.textContent = `Ln ${e.position.lineNumber}, Col ${e.position.column}`;
-            });
 
             function updateStatusBar() {
                 const count = Object.keys(project.files).length;
                 fileStats.textContent = `${count} ${count === 1 ? 'file' : 'files'}`;
             }
 
+            editor.onDidChangeCursorPosition((e) => {
+                cursorPos.textContent = `Ln ${e.position.lineNumber}, Col ${e.position.column}`;
+            });
+
             editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, function () {
-                document.getElementById('run-btn').click();
+                const runBtn = document.getElementById('run-btn');
+                if (runBtn) runBtn.click();
             });
 
             function updateProjectUI() {
@@ -1611,23 +1613,8 @@
                         updateStatusBar();
                     }
                 });
-
-                // --- EDITOR SHORTCUTS & STATUS BAR ---
-                const cursorPos = document.getElementById('cursor-pos');
-                const fileStats = document.getElementById('file-stats');
-
-                editor.onDidChangeCursorPosition((e) => {
-                    cursorPos.textContent = `Ln ${e.position.lineNumber}, Col ${e.position.column}`;
-                });
-
-                function updateStatusBar() {
-                    const count = Object.keys(project.files).length;
-                    fileStats.textContent = `${count} ${count === 1 ? 'file' : 'files'}`;
-                }
-
-                editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, function () {
-                    runBtn.click();
-                });
+            }
+                // --- SHARING & PORTABILITY ---
 
                 // --- SHARING & PORTABILITY ---
                 const shareBtn = document.getElementById('share-btn');
@@ -1741,7 +1728,6 @@
                     const containerRect = rightColumn.getBoundingClientRect();
                     const totalHeight = containerRect.height;
                     const newHeightPx = startHeight + deltaY;
-                    const percentage = (newHeightPx / totalHeight) * 100;
 
                     const minEditorPx = 150;
                     const minTerminalPx = 100;
