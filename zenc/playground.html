@@ -226,8 +226,8 @@
             flex-direction: column;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
-            min-height: 150px !important;
-            /* Physically protect status bar & tabs */
+            min-height: 210px !important;
+            /* Physically protect status bar, tabs, and header */
         }
 
         #layout-resizer {
@@ -1070,21 +1070,84 @@
             // --- 4. TUTORIALS & EXAMPLES ---
             const tutorialsData = [
                 {
-                    id: 'hello-world', title: '1. Hello, Zen C!',
-                    content: `<h2>Hello, Zen C!</h2><p>Every Zen C program starts with <code>main</code>.</p>`,
-                    mission: "Change the message to <b>'Zenith of C!'</b>",
+                    id: 'hello-world',
+                    title: '1. Hello, Zen C!',
+                    content: `<h2>Hello, Zen C!</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">First steps in the Zenith.</p>
+                    <p>Every Zen C program starts with a <code>main</code> function. You can use the <code>println</code> builtin to output strings followed by a newline.</p>`,
+                    mission: "Change the message from 'Hello, World!' to <b>'Zenith of C!'</b>",
                     code: `fn main() {\n    println "Hello, World!";\n}`,
                     validator: (output, code) => output.includes("Zenith of C!")
                 },
                 {
-                    id: 'plugins', title: '6. The Plugin Weave',
-                    content: `<h2>DSL Plugins</h2><p>Extend Zen C with your own DSLs.</p>`,
-                    mission: "Observe the transpiler output in the terminal.",
-                    code: `import plugin "plugins/my_plugin" as my\n\nfn main() {\n    my! { some content }\n}`,
+                    id: 'variables',
+                    title: '2. Alchemist\'s Variables',
+                    content: `<h2>Alchemist's Variables</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Constants and Storage.</p>
+                    <p>Use <code>def</code> for compile-time constants and <code>let</code> for variables. String interpolation with <code>{ }</code> makes formatting a breeze.</p>`,
+                    mission: "Calculate the <b>volume</b> of a sphere: <code>(4.0/3.0) * PI * r * r * r</code>. Print <b>'Sphere Volume: {v}'</b>.",
+                    code: `def PI = 3.14159;\n\nfn main() {\n    let r = 5.0;\n    // Calculate volume here\n    let v = (4.0 / 3.0) * PI * r * r * r;\n    println "Sphere Volume: {v}";\n}`,
+                    validator: (output, code) => output.includes("Sphere Volume: 523.598")
+                },
+                {
+                    id: 'control-flow',
+                    title: '3. Fibonacci Garden',
+                    content: `<h2>Fibonacci Garden</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Loops and Growth.</p>
+                    <p>Zen C <code>while</code> loops are clean and parenthesis-free. Perfect for generating sequences.</p>`,
+                    mission: "Generate Fibonacci numbers up to <b>100</b>, one per line. Use a <code>while</code> loop to compute and print them.",
+                    code: `fn main() {\n    let a = 1;\n    let b = 1;\n    // Implement Fibonacci loop here\n}`,
+                    validator: (output, code) => output.includes("1") && output.includes("5") && output.includes("89")
+                },
+                {
+                    id: 'structs',
+                    title: '4. Alchemist\'s Structs',
+                    content: `<h2>Alchemist's Structs</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Data Modeling.</p>
+                    <p>Structs organize related data. Functions can take structs as arguments to perform calculations.</p>`,
+                    mission: "Implement a function <code>fn dist_sq(p: Point) -> i32</code> that returns <code>p.x * p.x + p.y * p.y</code>. Print <b>'DistSq: {d}'</b> for the point (3, 4).",
+                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 3, y: 4 };\n    // Implement and call dist_sq here\n}`,
+                    validator: (output, code) => output.includes("DistSq: 25")
+                },
+                {
+                    id: 'pointers',
+                    title: '5. Master\'s Pointers',
+                    content: `<h2>Master\'s Pointers</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Memory Command.</p>
+                    <p>Pointers use the <code>T*</code> syntax. Use <code>&</code> to take an address and <code>*</code> to dereference.</p>`,
+                    mission: "Implement <code>fn double_val(p: i32*)</code> to double the value at the pointer. Call it on <code>n = 21</code> and print <b>'Result: {n}'</b>.",
+                    code: `fn double_val(p: i32*) {\n    // Implement doubling here\n}\n\nfn main() {\n    let n = 21;\n    // Call and print result here\n}`,
+                    validator: (output, code) => output.includes("Result: 42")
+                },
+                {
+                    id: 'strings',
+                    title: '6. Zen Strings',
+                    content: `<h2>Zen Strings</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Modern String Handling.</p>
+                    <p>Zen C provides a powerful <code>String</code> object in <code>std/string.zc</code> for dynamic manipulation.</p>`,
+                    mission: "Start with an empty String, append <b>'Zen'</b> then <b>' C'</b>. Finally, print the length: <b>'Length: {s.length()}'</b>.",
+                    code: `import "std/string.zc"\n\nfn main() {\n    let s = String::from("");\n    // Append and print here\n}`,
+                    validator: (output, code) => output.includes("Length: 5")
+                },
+                {
+                    id: 'brainfuck',
+                    title: '7. Brainfuck Masterclass',
+                    content: `<h2>Brainfuck Masterclass</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Building a DSL Transpiler.</p>
+                    <p>Plugins allow you to extend Zen C with your own Domain Specific Languages. This example implements a Brainfuck-to-C transpiler.</p>
+                    <p>When you run this code, the compiler builds <code>plugins/brainfuck.zc</code> as a shared library and loads it to handle the <code>bf! { }</code> block macro.</p>`,
+                    mission: "Modify the Brainfuck code to print <b>'ZEN'</b> instead of 'Hello'.",
+                    code: `import plugin "plugins/brainfuck" as bf\n\nfn main() {\n    print "Brainfuck says: ";\n    bf! {\n        ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.\n    }\n    println "";\n}`,
                     setup: async (proj) => {
-                        proj.files["plugins/my_plugin.zc"] = `import "std/plugin.zc"\nfn my_handler(body: char*, api: ZApi*) { fputs("// Custom DSL\\n", api.out); }\nlet my_plugin = ZPlugin { name: "my", handler: my_handler };\n@export fn z_plugin_init() -> ZPlugin* { return &my_plugin; }`;
+                        try {
+                            const resp = await fetch('lessons/brainfuck_plugin.zc');
+                            const content = await resp.text();
+                            proj.files["plugins/brainfuck.zc"] = content;
+                        } catch (e) {
+                            console.error("Failed to load Brainfuck plugin:", e);
+                        }
                     },
-                    validator: (output, code) => output.includes("Custom DSL")
+                    validator: (output, code) => output.includes("ZEN")
                 }
             ];
 
@@ -1097,10 +1160,20 @@
             function hydrateTutorials(activeEditor) {
                 tutorialList.innerHTML = '';
                 tutorialsData.forEach((tut, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'tutorial-btn';
-                    btn.innerHTML = `<div>${tut.title}</div><div class="tut-status-icon"></div>`;
-                    btn.onclick = (async () => {
+                    const btn = document.createElement('div');
+                    btn.classList.add('tutorial-btn');
+                    if (currentTutorialIndex === idx) btn.classList.add('active');
+
+                    btn.innerHTML = `
+                        <div>${tut.title}</div>
+                        <div class="tut-status-icon">
+                            ${tut.completed ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                        </div>
+                    `;
+
+                    btn.addEventListener('click', async () => {
+                        Array.from(tutorialList.children).forEach(child => child.classList.remove('active'));
+                        btn.classList.add('active');
                         currentTutorialIndex = idx;
                         if (tut.setup) await tut.setup(project);
                         project.files["main.zc"] = tut.code;
@@ -1236,6 +1309,7 @@
                                     tut.completed = true;
                                     document.getElementById('mission-title-text').textContent = 'Mastery Achieved';
                                     document.getElementById('tutorial-mission').classList.add('mission-success');
+                                    hydrateTutorials(editor); // Update icons in sidebar
                                 }
                             }
                             if (data.error && !data.output) terminal.writeln("\x1b[1;31m\r\n[Error]:\x1b[0m " + data.error);
@@ -1275,29 +1349,54 @@
                 const editorWrapper = document.getElementById('editor-wrapper');
                 const terminalWrapper = document.getElementById('terminal-wrapper');
                 const rightColumn = document.getElementById('right-column');
-                let isResizing = false, startY, startHeight;
+                let isResizing = false;
+                let startY, startHeight;
 
-                resizer.onmousedown = (e) => {
-                    isResizing = true; startY = e.clientY; startHeight = editorWrapper.getBoundingClientRect().height;
+                const startResizing = (e) => {
+                    isResizing = true;
+                    startY = e.clientY;
+                    startHeight = editorWrapper.getBoundingClientRect().height;
                     resizer.classList.add('resizing');
-                    const overlay = document.createElement('div'); overlay.id = 'resize-overlay';
-                    overlay.style.position = 'fixed'; overlay.style.inset = '0'; overlay.style.zIndex = '9999'; overlay.style.cursor = 'row-resize';
+                    
+                    const overlay = document.createElement('div');
+                    overlay.id = 'resize-overlay';
+                    overlay.style.position = 'fixed';
+                    overlay.style.inset = '0';
+                    overlay.style.zIndex = '9999';
+                    overlay.style.cursor = 'row-resize';
                     document.body.appendChild(overlay);
+                    document.body.style.userSelect = 'none';
                 };
 
-                window.onmousemove = (e) => {
+                const handleMouseMove = (e) => {
                     if (!isResizing) return;
                     const deltaY = e.clientY - startY;
                     const totalHeight = rightColumn.getBoundingClientRect().height;
-                    const clampedPx = Math.max(150, Math.min(totalHeight - 100, startHeight + deltaY));
+                    // minEditor: 210px to protect Header+Tabs+StatusBar
+                    // minTerminal: 100px to protect TerminalHeader
+                    const clampedPx = Math.max(210, Math.min(totalHeight - 100, startHeight + deltaY));
                     const pct = (clampedPx / totalHeight) * 100;
+                    
                     editorWrapper.style.height = `${pct}%`;
                     terminalWrapper.style.height = `${100 - pct}%`;
                     terminalWrapper.style.flex = "none";
                     editor.layout();
+                    if (window.terminal && window.terminal.fit) window.terminal.fit();
                 };
 
-                window.onmouseup = () => { if (isResizing) { isResizing = false; resizer.classList.remove('resizing'); document.getElementById('resize-overlay')?.remove(); localStorage.setItem('zenc_editor_height', editorWrapper.style.height); } };
+                const stopResizing = () => {
+                    if (!isResizing) return;
+                    isResizing = false;
+                    resizer.classList.remove('resizing');
+                    document.getElementById('resize-overlay')?.remove();
+                    document.body.style.userSelect = '';
+                    localStorage.setItem('zenc_editor_height', editorWrapper.style.height);
+                    editor.layout();
+                };
+
+                resizer.addEventListener('mousedown', startResizing);
+                window.addEventListener('mousemove', handleMouseMove);
+                window.addEventListener('mouseup', stopResizing);
 
                 const savedHeight = localStorage.getItem('zenc_editor_height');
                 if (savedHeight) {
