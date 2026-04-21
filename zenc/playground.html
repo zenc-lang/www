@@ -1432,8 +1432,8 @@
                 const newHeightPx = startHeight + deltaY;
                 const percentage = (newHeightPx / totalHeight) * 100;
 
-                // Constraints: Min 100px for both
-                const minPx = 100;
+                // Constraints: Min height for both panes
+                const minPx = 60;
 
                 if (newHeightPx > minPx && (totalHeight - newHeightPx) > minPx) {
                     editorWrapper.style.height = `${percentage}%`;
