@@ -1227,7 +1227,12 @@
                 });
             }
 
+            // 1. Core UI Elements
+            const examplesSelect = document.getElementById('examples-select');
+            const fileList = document.getElementById('file-list');
+            const tabBar = document.getElementById('tab-bar');
 
+            // 2. Main Editor Initializer (Early as possible)
             const editor = monaco.editor.create(document.getElementById('editor-container'), {
                 value: project.files[project.activeFile],
                 language: 'zenc',
@@ -1240,62 +1245,129 @@
                 padding: { top: 20 }
             });
 
-            // Initial UI Sync
-            updateProjectUI();
+            // 3. Status Bar & Logic
+            const cursorPos = document.getElementById('cursor-pos');
+            const fileStats = document.getElementById('file-stats');
 
-            // Hydrate logic
-            window._globalEditorInstance = editor;
-            hydrateTutorials(editor);
+            editor.onDidChangeCursorPosition((e) => {
+                cursorPos.textContent = `Ln ${e.position.lineNumber}, Col ${e.position.column}`;
+            });
 
-            // Examples Setup (after editor exists)
-            const examplesSelect = document.getElementById('examples-select');
-            let examplesData = [];
+            function updateStatusBar() {
+                const count = Object.keys(project.files).length;
+                fileStats.textContent = `${count} ${count === 1 ? 'file' : 'files'}`;
+            }
 
-            examplesSelect.addEventListener('change', (e) => {
-                const idx = e.target.value;
-                if (idx !== "" && examplesData[idx]) {
-                    project.files["main.zc"] = examplesData[idx].code;
-                    project.activeFile = "main.zc";
-                    editor.setValue(project.files["main.zc"]);
+            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, function () {
+                document.getElementById('run-btn').click();
+            });
+
+            function updateProjectUI() {
+                // Update Sidebar
+                fileList.innerHTML = '';
+                Object.keys(project.files).sort().forEach(filename => {
+                    const item = document.createElement('div');
+                    item.className = `file-item ${filename === project.activeFile ? 'active' : ''}`;
+
+                    const isPlugin = filename.startsWith('plugins/');
+                    const icon = isPlugin ?
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' :
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>';
+
+                    item.innerHTML = `
+                        ${icon}
+                        <span>${filename}</span>
+                        ${filename !== 'main.zc' ? '<span class="delete-file" title="Delete file">×</span>' : ''}
+                    `;
+
+                    item.onclick = (e) => {
+                        if (e.target.className === 'delete-file') {
+                            deleteFile(filename);
+                        } else {
+                            switchFile(filename);
+                        }
+                    };
+                    fileList.appendChild(item);
+                });
+
+                // Update Tabs
+                tabBar.innerHTML = '';
+                const tabFiles = [project.activeFile];
+                tabFiles.forEach(filename => {
+                    const tab = document.createElement('div');
+                    tab.className = `tab active`;
+                    tab.textContent = filename;
+                    tabBar.appendChild(tab);
+                });
+            }
+
+            function switchFile(filename) {
+                if (project.activeFile === filename) return;
+                project.files[project.activeFile] = editor.getValue();
+                project.activeFile = filename;
+                editor.setValue(project.files[filename]);
+                updateProjectUI();
+                saveProject();
+
+                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
+                    sendLSPNotification('textDocument/didChange', {
+                        textDocument: { uri: `file:///${filename}`, version: ++version },
+                        contentChanges: [{ text: editor.getValue() }]
+                    });
+                }
+            }
+
+            function addFile() {
+                const name = prompt("Enter filename (e.g. plugins/my_plugin.zc):", "plugins/new_plugin.zc");
+                if (name && !project.files[name]) {
+                    if (!name.endsWith('.zc')) {
+                        alert("Files must end with .zc");
+                        return;
+                    }
+                    let content = `// New file: ${name}\n`;
+                    if (name.startsWith('plugins/')) {
+                        const pluginName = name.split('/').pop().replace('.zc', '');
+                        content = `import "std/plugin.zc"\n\nfn ${pluginName}_handler(body: char*, api: ZApi*) {\n    let out = api.out;\n    fputs(f"// Transpiled code for ${pluginName}\\n", out);\n}\n\nlet ${pluginName}_plugin = ZPlugin {\n    name: "${pluginName}",\n    handler: ${pluginName}_handler\n};\n\n@export\nfn z_plugin_init() -> ZPlugin* {\n    return &${pluginName}_plugin;\n}\n`;
+                    }
+                    project.files[name] = content;
+                    switchFile(name);
+                }
+            }
+
+            function deleteFile(name) {
+                if (name === 'main.zc') return;
+                if (confirm(`Delete ${name}?`)) {
+                    delete project.files[name];
+                    if (project.activeFile === name) {
+                        project.activeFile = "main.zc";
+                        editor.setValue(project.files["main.zc"]);
+                    }
                     updateProjectUI();
                     saveProject();
                 }
-            });
+            }
 
-            loadExamples();
+            document.getElementById('add-file-btn').onclick = addFile;
 
-            const themeToggle = document.getElementById('theme-toggle');
-            const htmlElement = document.documentElement;
-
-            if (themeToggle) {
-                themeToggle.addEventListener('click', () => {
-                    const currentTheme = htmlElement.getAttribute('data-theme');
-                    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                    let newTheme;
-                    if (currentTheme === 'dark') {
-                        newTheme = 'light';
-                    } else if (currentTheme === 'light') {
-                        newTheme = 'dark';
-                    } else {
-                        newTheme = systemDark ? 'light' : 'dark';
-                    }
-
-                    htmlElement.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('theme', newTheme);
-                    document.cookie = `theme=${newTheme}; Domain=.zenc-lang.org; Path=/; Max-Age=31536000; SameSite=Lax`;
-
-                    // Update Monaco and Terminal
-                    const monacoTheme = newTheme === 'dark' ? 'zenc-dark' : 'zenc-light';
-                    monaco.editor.setTheme(monacoTheme);
-                    updateTerminalTheme(newTheme);
-                });
+            let examplesData = [];
+            async function loadExamples() {
+                try {
+                    const resp = await fetch('examples.json');
+                    examplesData = await resp.json();
+                    examplesSelect.innerHTML = '<option value="" disabled selected>-- Reference Code --</option>';
+                    examplesData.forEach((ex, idx) => {
+                        const opt = document.createElement('option');
+                        opt.value = idx;
+                        opt.textContent = ex.title;
+                        examplesSelect.appendChild(opt);
+                    });
+                } catch (err) { console.error("Failed to load examples:", err); }
             }
 
             // --- LSP INTEGRATION ---
             let lspSocket = null;
             let requestId = 0;
-            let version = 1; // Track document version for sync
+            let version = 1;
             const pendingRequests = new Map();
 
             function connectLSP() {
@@ -1305,22 +1377,10 @@
 
                 lspSocket.onopen = () => {
                     console.log("Connected to Zen C LSP");
-                    // Initialize LSP
-                    sendLSPRequest('initialize', {
-                        processId: null,
-                        rootUri: 'file:///',
-                        capabilities: {}
-                    });
-
-                    // Sync all files
+                    sendLSPRequest('initialize', { processId: null, rootUri: 'file:///', capabilities: {} });
                     Object.entries(project.files).forEach(([filename, content]) => {
                         sendLSPNotification('textDocument/didOpen', {
-                            textDocument: {
-                                uri: `file:///${filename}`,
-                                languageId: 'zenc',
-                                version: 1,
-                                text: content
-                            }
+                            textDocument: { uri: `file:///${filename}`, languageId: 'zenc', version: 1, text: content }
                         });
                     });
                 };
@@ -1331,20 +1391,13 @@
                         const { resolve } = pendingRequests.get(msg.id);
                         pendingRequests.delete(msg.id);
                         resolve(msg.result);
-
-                        // Handshake completion
-                        if (msg.id === 0) {
-                            sendLSPNotification('initialized', {});
-                        }
+                        if (msg.id === 0) sendLSPNotification('initialized', {});
                     } else if (msg.method === 'textDocument/publishDiagnostics') {
                         updateDiagnostics(msg.params.diagnostics);
                     }
                 };
 
-                lspSocket.onclose = () => {
-                    console.log("Zen C LSP connection closed. Reconnecting in 5s...");
-                    setTimeout(connectLSP, 5000);
-                };
+                lspSocket.onclose = () => { setTimeout(connectLSP, 5000); };
             }
 
             function sendLSPRequest(method, params) {
@@ -1385,12 +1438,10 @@
             monaco.languages.registerHoverProvider('zenc', {
                 provideHover: async (model, position) => {
                     const res = await sendLSPRequest('textDocument/hover', {
-                        textDocument: { uri: 'file:///main.zc' },
+                        textDocument: { uri: `file:///${project.activeFile}` },
                         position: { line: position.lineNumber - 1, character: position.column - 1 }
                     });
-                    if (res && res.contents) {
-                        return { contents: [{ value: res.contents.value }] };
-                    }
+                    if (res && res.contents) return { contents: [{ value: res.contents.value }] };
                 }
             });
 
@@ -1398,19 +1449,17 @@
                 triggerCharacters: ['.', ':', '-', '>'],
                 provideCompletionItems: async (model, position) => {
                     const res = await sendLSPRequest('textDocument/completion', {
-                        textDocument: { uri: 'file:///main.zc' },
+                        textDocument: { uri: `file:///${project.activeFile}` },
                         position: { line: position.lineNumber - 1, character: position.column - 1 }
                     });
                     if (res) {
                         const items = (Array.isArray(res) ? res : res.items) || [];
-                        return {
-                            suggestions: items.map(item => ({
-                                label: item.label,
-                                kind: item.kind - 1 || monaco.languages.CompletionItemKind.Property,
-                                insertText: item.label,
-                                detail: item.detail
-                            }))
-                        };
+                        return { suggestions: items.map(item => ({
+                            label: item.label,
+                            kind: item.kind - 1 || monaco.languages.CompletionItemKind.Property,
+                            insertText: item.label,
+                            detail: item.detail
+                        }))};
                     }
                 }
             });
@@ -1419,7 +1468,8 @@
                 connectLSP();
 
                 // --- TERMINAL INITIALIZATION ---
-                const terminal = new Terminal({
+                if (window.Terminal) {
+                    const terminal = new Terminal({
                     cursorBlink: true,
                     fontSize: 13,
                     fontFamily: 'JetBrains Mono, monospace',
@@ -1431,8 +1481,12 @@
                     convertEol: true
                 });
                 const fitAddon = new FitAddon.FitAddon();
-                terminal.loadAddon(fitAddon);
-                terminal.open(document.getElementById('output'));
+                    terminal.loadAddon(fitAddon);
+                    const outDiv = document.getElementById('output');
+                    if (outDiv) {
+                        terminal.open(outDiv);
+                        window.terminal = terminal;
+                    }
 
                 function updateTerminalTheme(theme) {
                     const isDark = theme === 'dark';
@@ -1473,8 +1527,8 @@
                 }
                 updateTerminalTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
-                window.addEventListener('resize', () => fitAddon.fit());
-                setTimeout(() => fitAddon.fit(), 100);
+                window.addEventListener('resize', () => { if (fitAddon) fitAddon.fit(); });
+                setTimeout(() => { if (fitAddon) fitAddon.fit(); }, 100);
 
                 function drawTerminalHeader() {
                     terminal.writeln("\x1b[32m>\x1b[0m \x1b[1mZen C Playground\x1b[0m");
@@ -1620,26 +1674,36 @@
                         if (imported && imported.files) {
                             project = imported;
                             saveProject();
-                            updateFileList();
+                            updateProjectUI();
                             switchFile(project.activeFile);
-                            terminal.writeln("\x1b[92mShared project imported successfully.\x1b[0m\r\n");
+                            if (window.terminal) terminal.writeln("\x1b[92mShared project imported successfully.\x1b[0m\r\n");
                         }
                     } catch (e) {
                         console.error("Import failed", e);
                     }
                 }
 
-                // Reset Functionality
+                // Initial UI Sync
+                updateProjectUI();
+                hydrateTutorials(editor);
+                loadExamples();
+
+                // Consolidated Examples & Reset Logic
                 examplesSelect.addEventListener('change', (e) => {
-                    if (e.target.value === 'reset') {
+                    const val = e.target.value;
+                    if (val === 'reset') {
                         if (confirm("This will clear your local project and reset to default. Continue?")) {
                             localStorage.removeItem('zenc_project');
-                            window.location.href = window.location.pathname; // Reload clean
+                            window.location.href = window.location.pathname;
                         }
                         e.target.value = '';
-                        return;
+                    } else if (val !== "" && examplesData[val]) {
+                        project.files["main.zc"] = examplesData[val].code;
+                        project.activeFile = "main.zc";
+                        editor.setValue(project.files["main.zc"]);
+                        updateProjectUI();
+                        saveProject();
                     }
-                    // ... existing examples logic follows ...
                 });
 
                 updateStatusBar();
