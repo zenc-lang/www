@@ -2,8 +2,8 @@ name: VPS System Maintenance
 
 on:
   schedule:
-    # Run once a week at 4:30 AM UTC on Sundays
-    - cron: '30 4 * * 0'
+    # Run once a day at 4:30 AM UTC
+    - cron: '30 4 * * *'
   workflow_dispatch:
     # Allows manual triggering from the Actions tab
 

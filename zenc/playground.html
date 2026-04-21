@@ -155,83 +155,129 @@
             overflow: hidden;
         }
 
-        #editor-wrapper {
-            flex: 2;
-            border-bottom: 1px solid var(--border);
+        /* PROJECT SIDEBAR & TABS */
+        #project-area {
             display: flex;
-            flex-direction: column;
-        }
-
-        #editor-container {
             flex: 1;
-            height: 100%;
-            position: relative;
+            overflow: hidden;
+            background: transparent;
         }
 
-        /* Make Monaco editor background transparent to let diagonal lines show */
-        .monaco-editor,
-        .monaco-editor-background,
-        .monaco-editor .margin {
-            background-color: transparent !important;
-        }
-
-        #terminal-wrapper {
-            flex: 1;
+        #file-sidebar {
+            width: 220px;
+            min-width: 220px;
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             background: var(--surface);
-        }
-
-        .terminal-output {
-            flex: 1;
-            padding: 15px 20px;
-            background: transparent;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            overflow-wrap: break-word;
-            text-align: left !important;
-            color: var(--fg);
-            font-family: 'JetBrains Mono', monospace;
-            z-index: 10;
-        }
-
-        #mission-goal code {
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(148, 163, 184, 0.05);
-            color: var(--muted);
-            padding: 1px 4px;
-            border-radius: 3px;
-            font-size: 0.85em;
-            margin: 0 1px;
-            border: 1px solid rgba(148, 163, 184, 0.1);
             transition: all 0.3s ease;
         }
 
-        #mission-goal code:hover {
-            background: rgba(74, 222, 128, 0.08);
-            color: #4ade80;
-            border-color: rgba(74, 222, 128, 0.2);
+        .sidebar-section-header {
+            padding: 12px 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        #mission-goal b {
+        #file-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px 0;
+        }
+
+        .file-item {
+            padding: 8px 20px;
+            font-size: 0.85rem;
             color: var(--fg);
-            font-weight: 600;
-            letter-spacing: -0.01em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.7;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
         }
 
-        /* Mission Sidebar Polish */
-        #tutorial-mission {
-            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        .file-item:hover {
+            background: rgba(148, 163, 184, 0.05);
+            opacity: 1;
+        }
+
+        .file-item.active {
+            background: rgba(56, 189, 248, 0.05);
+            color: var(--accent);
+            opacity: 1;
+            border-left-color: var(--accent);
+            font-weight: 500;
+        }
+
+        .file-item .delete-file {
+            margin-left: auto;
             opacity: 0;
-            transform: translateY(15px);
+            color: #ef4444;
+            padding: 2px;
+            border-radius: 4px;
         }
 
-        #tutorial-content h2,
-        #mission-goal b {
-            font-family: 'Inter', sans-serif;
-            letter-spacing: -0.02em;
+        .file-item:hover .delete-file {
+            opacity: 0.6;
+        }
+
+        .file-item .delete-file:hover {
+            opacity: 1;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        #editor-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #tab-bar {
+            height: 40px;
+            min-height: 40px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            padding: 0 10px;
+            gap: 5px;
+        }
+
+        .tab {
+            padding: 0 15px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--bg);
+            border-color: var(--border);
+            color: var(--fg);
+            font-weight: 500;
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--fg);
+            background: rgba(148, 163, 184, 0.05);
         }
 
         @media (max-width: 1024px) {
@@ -244,6 +290,10 @@
                 height: 300px;
                 border-right: none !important;
                 border-bottom: 1px solid var(--border);
+            }
+
+            #file-sidebar {
+                display: none; /* Hide sidebar on mobile, use tabs */
             }
 
             #terminal-wrapper {
@@ -337,8 +387,8 @@
             <!-- RIGHT COLUMN: EDITOR + OUTPUT -->
             <div id="right-column">
                 <div id="editor-wrapper" class="zen-panel" style="border-right: none;">
-                    <div class="zen-panel-header">
-                        <div style="display: flex; gap: 8px; align-items: center;">
+                    <div class="zen-panel-header" style="background: var(--surface);">
+                        <div style="display: flex; gap: 8px; align-items: center; flex: 1;">
                             <button class="ui-btn run-btn" id="run-btn">
                                 <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
                                     <path d="M8 5v14l11-7z" />
@@ -362,12 +412,37 @@
                             </div>
 
                             <select id="examples-select" class="ui-select"
-                                style="max-width: 200px; text-overflow: ellipsis;">
-                                <option value="" disabled selected>-- Load Reference Code --</option>
+                                style="max-width: 160px; text-overflow: ellipsis;">
+                                <option value="" disabled selected>-- Reference Code --</option>
                             </select>
+
+                            <div style="flex: 1;"></div>
+
+                            <button id="add-file-btn" class="ui-btn" style="color: var(--accent);">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                New File
+                            </button>
                         </div>
                     </div>
-                    <div id="editor-container" style="padding-top: 5px;"></div>
+                    <div id="project-area">
+                        <div id="file-sidebar">
+                            <div class="sidebar-section-header">
+                                Project Files
+                            </div>
+                            <div id="file-list">
+                                <!-- JS fills this -->
+                            </div>
+                        </div>
+                        <div id="editor-main">
+                            <div id="tab-bar">
+                                <!-- JS fills this -->
+                            </div>
+                            <div id="editor-container"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="terminal-wrapper" class="zen-panel" style="border-right: none;">
@@ -502,8 +577,118 @@
 
             const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'zenc-dark' : 'zenc-light';
 
-            const examplesSelect = document.getElementById('examples-select');
-            let examplesData = [];
+            // Project State
+            let project = {
+                files: {
+                    "main.zc": `fn main() {\n    println "Welcome to the Zen C Playground!";\n\n    let a = 10;\n    let b = 32;\n    let sum = a + b;\n\n    println "The sum of {a} and {b} is {sum}.";\n}`
+                },
+                activeFile: "main.zc"
+            };
+
+            // Migrate old storage if exists
+            const oldCode = localStorage.getItem('zenc_code');
+            const savedProject = localStorage.getItem('zenc_project');
+            
+            if (savedProject) {
+                project = JSON.parse(savedProject);
+            } else if (oldCode) {
+                project.files["main.zc"] = oldCode;
+            }
+
+            const fileList = document.getElementById('file-list');
+            const tabBar = document.getElementById('tab-bar');
+
+            function saveProject() {
+                localStorage.setItem('zenc_project', JSON.stringify(project));
+            }
+
+            function updateProjectUI() {
+                // Update Sidebar
+                fileList.innerHTML = '';
+                Object.keys(project.files).sort().forEach(filename => {
+                    const item = document.createElement('div');
+                    item.className = `file-item ${filename === project.activeFile ? 'active' : ''}`;
+                    
+                    const isPlugin = filename.startsWith('plugins/');
+                    const icon = isPlugin ? 
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' : 
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>';
+                    
+                    item.innerHTML = `
+                        ${icon}
+                        <span>${filename}</span>
+                        ${filename !== 'main.zc' ? '<span class="delete-file" title="Delete file">×</span>' : ''}
+                    `;
+                    
+                    item.onclick = (e) => {
+                        if (e.target.className === 'delete-file') {
+                            deleteFile(filename);
+                        } else {
+                            switchFile(filename);
+                        }
+                    };
+                    fileList.appendChild(item);
+                });
+
+                // Update Tabs
+                tabBar.innerHTML = '';
+                // For simplicity, we'll just show the active file and a few others
+                const tabFiles = [project.activeFile];
+                tabFiles.forEach(filename => {
+                    const tab = document.createElement('div');
+                    tab.className = `tab active`;
+                    tab.textContent = filename;
+                    tabBar.appendChild(tab);
+                });
+            }
+
+            function switchFile(filename) {
+                if (project.activeFile === filename) return;
+                
+                // Save current content
+                project.files[project.activeFile] = editor.getValue();
+                
+                project.activeFile = filename;
+                editor.setValue(project.files[filename]);
+                updateProjectUI();
+                saveProject();
+                
+                // Switch LSP context
+                // We'll update the active document in the LSP bridge
+            }
+
+            function addFile() {
+                const name = prompt("Enter filename (e.g. plugins/my_plugin.zc):", "plugins/new_plugin.zc");
+                if (name && !project.files[name]) {
+                    if (!name.endsWith('.zc')) {
+                        alert("Files must end with .zc");
+                        return;
+                    }
+                    
+                    let content = `// New file: ${name}\n`;
+                    if (name.startsWith('plugins/')) {
+                        content = `#[plugin_init]\nfn z_plugin_init() -> ZPlugin* {\n    // Initialize your plugin here\n    return null;\n}\n`;
+                    }
+                    
+                    project.files[name] = content;
+                    switchFile(name);
+                }
+            }
+
+            function deleteFile(name) {
+                if (name === 'main.zc') return;
+                if (confirm(`Delete ${name}?`)) {
+                    delete project.files[name];
+                    if (project.activeFile === name) {
+                        project.activeFile = "main.zc";
+                        editor.setValue(project.files["main.zc"]);
+                    }
+                    updateProjectUI();
+                    saveProject();
+                }
+            }
+
+            document.getElementById('add-file-btn').onclick = addFile;
 
             async function loadExamples() {
                 try {
@@ -511,7 +696,7 @@
                     examplesData = await resp.json();
 
                     // Clear existing and add new
-                    examplesSelect.innerHTML = '<option value="" disabled selected>-- Load Reference Code --</option>';
+                    examplesSelect.innerHTML = '<option value="" disabled selected>-- Reference Code --</option>';
                     examplesData.forEach((ex, idx) => {
                         const opt = document.createElement('option');
                         opt.value = idx;
@@ -568,7 +753,7 @@
                 {
                     id: 'pointers',
                     title: '5. Master\'s Pointers',
-                    content: `<h2>Master's Pointers</h2>
+                    content: `<h2>Master\'s Pointers</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">Memory Command.</p>
                     <p>Pointers use the <code>T*</code> syntax. Use <code>&</code> to take an address and <code>*</code> to dereference.</p>`,
                     mission: "Implement <code>fn double_val(p: i32*)</code> to double the value at the pointer. Call it on <code>n = 21</code> and print <b>'Result: {n}'</b>.",
@@ -598,6 +783,7 @@
                 tutorialList.innerHTML = '';
                 tutorialsData.forEach((tut, idx) => {
                     const btn = document.createElement('div');
+v');
                     btn.classList.add('tutorial-btn');
                     btn.style.cssText = "padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between;";
                     if (idx === 0) btn.style.borderTop = "1px solid var(--border)";
@@ -722,18 +908,17 @@
                     // Initialize LSP
                     sendLSPRequest('initialize', {
                         processId: null,
-                        rootUri: 'file:///',
-                        capabilities: {}
-                    });
-                    
-                    // Open the virtual main file
-                    sendLSPNotification('textDocument/didOpen', {
-                        textDocument: {
-                            uri: 'file:///main.zc',
-                            languageId: 'zenc',
-                            version: 1,
-                            text: editor.getValue()
-                        }
+                    console.log('LSP: WebSocket connected');
+                    // Sync all files in the project to the LSP
+                    Object.entries(project.files).forEach(([filename, content]) => {
+                        sendLSPNotification('textDocument/didOpen', {
+                            textDocument: {
+                                uri: `file:///${filename}`,
+                                languageId: 'zenc',
+                                version: 1,
+                                text: content
+                            }
+                        });
                     });
                 };
 
@@ -902,9 +1087,11 @@
             });
 
             runBtn.addEventListener('click', async () => {
-                const code = editor.getValue();
+                // Sync current file content before running
+                project.files[project.activeFile] = editor.getValue();
+                saveProject();
+
                 const startTime = performance.now();
-                
                 runBtn.disabled = true;
                 runBtn.innerHTML = '<span class="loading-spinner"></span> Compiling...';
                 
@@ -912,13 +1099,15 @@
                 terminal.clear();
                 drawTerminalHeader();
                 
-                terminal.writeln("\x1b[90m$ zc main.zc -o main && ./main\x1b[0m");
+                terminal.writeln("\x1b[90m>> Multi-phase build: Building plugins... compiling main.zc...\x1b[0m");
 
                 try {
                     const response = await fetch('/api/run', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ code })
+                        body: JSON.stringify({ 
+                            files: project.files 
+                        })
                     });
                     const data = await response.json();
                     const endTime = performance.now();
@@ -934,7 +1123,7 @@
                     // MISSION VALIDATION
                     if (currentTutorialIndex !== -1) {
                         const tut = tutorialsData[currentTutorialIndex];
-                        if (tut.validator(data.output || "", code)) {
+                        if (tut.validator(data.output || "", editor.getValue())) {
                             tut.completed = true;
                             missionStatus.style.display = 'block';
                             missionStatus.style.color = '#4ade80';

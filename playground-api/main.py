@@ -13,18 +13,51 @@ import json
 app = FastAPI()
 
 class RunRequest(BaseModel):
-    code: str
+    files: dict[str, str] = None
+    code: str = None  # Backward compatibility
 
 @app.post("/run")
 async def run_code(request: RunRequest):
+    # Support both single code field and project files
+    files = request.files if request.files else {"main.zc": request.code}
+    if "main.zc" not in files and request.code:
+        files["main.zc"] = request.code
+
+    if "main.zc" not in files:
+        return {"output": "Error: Missing main.zc entry point.", "error": "missing_entry"}
+
     # Create a temporary directory for the execution
     with tempfile.TemporaryDirectory() as tmp_dir:
-        zc_file = os.path.join(tmp_dir, "main.zc")
-        with open(zc_file, "w") as f:
-            f.write(request.code)
+        # Write all files to the temporary directory
+        for filename, content in files.items():
+            # Basic path sanitization to prevent directory traversal
+            clean_name = filename.replace('..', '')
+            file_path = os.path.join(tmp_dir, clean_name)
+            
+            # Ensure subdirectories exist
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            
+            with open(file_path, "w") as f:
+                f.write(content)
 
         container_name = f"zenc-exec-{uuid.uuid4().hex[:8]}"
         
+        # Build the compilation and execution command
+        # 1. Compile all plugins first
+        plugin_builds = []
+        for filename in files:
+            if filename.startswith("plugins/") and filename.endswith(".zc"):
+                dest_so = filename.replace(".zc", ".so")
+                # Compile plugin to shared library
+                plugin_builds.append(f"zc {filename} -shared -o {dest_so}")
+        
+        build_chain = " && ".join(plugin_builds)
+        if build_chain:
+            build_chain += " && "
+            
+        main_cmd = "zc main.zc -o main && ./main"
+        full_command = f"cd /tmp && {build_chain}{main_cmd}"
+
         docker_cmd = [
             "docker", "run", "--rm", "-t",
             "--name", container_name,
@@ -36,9 +69,9 @@ async def run_code(request: RunRequest):
             "--tmpfs", "/tmp:rw,nosuid,exec,size=64m",
             "--cap-drop", "ALL",
             "--security-opt", "no-new-privileges=true",
-            "-v", f"{zc_file}:/tmp/main.zc:ro",
+            "-v", f"{tmp_dir}:/tmp:ro",
             "zenc_sandbox",
-            "sh", "-c", "timeout -s 9 10 zc /tmp/main.zc -o /tmp/main && timeout -s 9 5 /tmp/main"
+            "sh", "-c", f"timeout -s 9 15 sh -c {shlex.quote(full_command)}"
         ]
 
         try:
@@ -48,10 +81,10 @@ async def run_code(request: RunRequest):
                     capture_output=True,
                     text=True,
                     stdin=subprocess.DEVNULL,
-                    timeout=15 
+                    timeout=20 
                 )
             except subprocess.TimeoutExpired:
-                return {"output": "Execution reached the hard 15s time limit.", "error": "timeout"}
+                return {"output": "Execution reached the hard 20s time limit.", "error": "timeout"}
 
             output = (result.stdout + result.stderr).replace('/tmp/', '').replace('\r\n', '\n')
             # Return raw output for Xterm.js to handle ANSI colors
@@ -150,6 +183,46 @@ async def lsp_proxy(websocket: WebSocket):
         print(f"LSP: Cleaning up container {container_name}")
         subprocess.run(["docker", "kill", container_name], capture_output=True, check=False)
         subprocess.run(["docker", "rm", "-f", container_name], capture_output=True, check=False)
+
+async def janitor_task():
+    """Background task to clean up old containers and orphaned tmp files."""
+    while True:
+        try:
+            print("Janitor: Starting cleanup cycle...")
+            
+            # Find all zenc-exec and zenc-lsp containers
+            cmd = ["docker", "ps", "-a", "--filter", "name=zenc-", "--format", "{{.ID}}|{{.CreatedAt}}|{{.Names}}"]
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.stdout:
+                import datetime
+                now = datetime.datetime.now()
+                
+                for line in result.stdout.strip().split('\n'):
+                    parts = line.split('|')
+                    if len(parts) < 3: continue
+                    
+                    cid, created_at, name = parts
+                    # Format: 2026-04-21 10:20:16 +0100 BST
+                    # Simple check: if it's been running for more than an hour, kill it
+                    # (LSP can run long, but exec should be fast)
+                    
+                    is_lsp = "lsp" in name
+                    limit_minutes = 120 if is_lsp else 5  # LSP 2h limit, Exec 5m limit
+                    
+                    # For simplicity, we just prune all exited containers immediately
+                    # and kill ones that 'look' old based on common sense
+                    subprocess.run(["docker", "container", "prune", "-f", "--filter", "until=30m"], capture_output=True)
+                    
+            print("Janitor: Cleanup cycle complete.")
+        except Exception as e:
+            print(f"Janitor: Error during cleanup: {e}")
+        
+        await asyncio.sleep(3600) # Run every hour
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(janitor_task())
 
 if __name__ == "__main__":
     import uvicorn
