@@ -40,6 +40,14 @@ async def run_code(request: RunRequest):
             with open(file_path, "w") as f:
                 f.write(content)
 
+        # Ensure Docker can read the temporary directory and files
+        os.chmod(tmp_dir, 0o755)
+        for root, dirs, dir_files in os.walk(tmp_dir):
+            for d in dirs:
+                os.chmod(os.path.join(root, d), 0o755)
+            for f in dir_files:
+                os.chmod(os.path.join(root, f), 0o644)
+
         container_name = f"zenc-exec-{uuid.uuid4().hex[:8]}"
         
         # Build the compilation and execution command
