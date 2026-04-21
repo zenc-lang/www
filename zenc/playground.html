@@ -737,60 +737,60 @@
                     title: '1. Hello, Zen C!',
                     content: `<h2>Hello, Zen C!</h2>
                     <p style="color: var(--muted); margin-bottom: 1rem;">First steps in the Zenith.</p>
-                    <p>Every Zen C program starts with a <code>main</code> function. You can use the <code>println</code> builtin to output strings followed by a newline.</p>`,
-                    mission: "Change the message from 'Hello, World!' to <b>'Zenith of C!'</b>",
-                    code: `fn main() {\n    println "Hello, World!";\n}`,
+                    <p>Every Zen C program can define <code>test</code> blocks for verification. The <code>println</code> builtin is used for output.</p>`,
+                    mission: "Change the output to <b>'Zenith of C!'</b> and run it.",
+                    code: `test \"hello\" {\n    println \"Zenith of C!\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
                     validator: (output, code) => output.includes("Zenith of C!")
                 },
                 {
                     id: 'variables',
                     title: '2. Alchemist\'s Variables',
                     content: `<h2>Alchemist's Variables</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Constants and Storage.</p>
-                    <p>Use <code>def</code> for compile-time constants and <code>let</code> for variables. String interpolation with <code>{ }</code> makes formatting a breeze.</p>`,
-                    mission: "Calculate the <b>volume</b> of a sphere: <code>(4.0/3.0) * PI * r * r * r</code>. Print <b>'Sphere Volume: {v}'</b>.",
-                    code: `def PI = 3.14159;\n\nfn main() {\n    let r = 5.0;\n    // Calculate volume here\n    let v = (4.0 / 3.0) * PI * r * r * r;\n    println "Sphere Volume: {v}";\n}`,
-                    validator: (output, code) => output.includes("Sphere Volume: 523.598")
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Type Inference and Interpolation.</p>
+                    <p>Zen C uses <code>let</code> for variables with optional type annotations. Braces <code>{ }</code> provide easy string interpolation.</p>`,
+                    mission: "Update the sum to use <b>30</b> and <b>70</b>, expecting <b>'Sum: 100'</b>.",
+                    code: `test \"vars\" {\n    let x = 30;\n    let y: int = 70;\n    println \"Sum: {x + y}\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
+                    validator: (output, code) => output.includes("Sum: 100")
+                },
+                {
+                    id: 'logic-match',
+                    title: '3. Logic & Patterns',
+                    content: `<h2>Logic & Patterns</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Advanced Pattern Matching.</p>
+                    <p>The <code>match</code> expression supports ranges (<code>..=</code>, <code>..<</code>) and logical OR (<code>||</code> or <code>or</code>).</p>`,
+                    mission: "Modify the match to return <b>400</b> for the range <b>10..=15</b>.",
+                    code: `fn classify(n: int) -> int {\n    match n {\n        1 || 2 => return 100,\n        3 or 4 => return 200,\n        5..<10 => return 300,\n        10..=15 => return 400,\n        _ => return -1\n    }\n}\n\nfn main() {\n    let res = classify(12);\n    println \"Result: {res}\";\n}`,
+                    validator: (output, code) => output.includes("Result: 400")
                 },
                 {
                     id: 'control-flow',
-                    title: '3. Fibonacci Garden',
+                    title: '4. Fibonacci Garden',
                     content: `<h2>Fibonacci Garden</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Loops and Growth.</p>
-                    <p>Zen C <code>while</code> loops are clean and parenthesis-free. Perfect for generating sequences.</p>`,
-                    mission: "Generate Fibonacci numbers up to <b>100</b>, one per line. Use a <code>while</code> loop to compute and print them.",
-                    code: `fn main() {\n    let a = 1;\n    let b = 1;\n    // Implement Fibonacci loop here\n}`,
-                    validator: (output, code) => output.includes("1") && output.includes("5") && output.includes("89")
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Inclusive Range Loops.</p>
+                    <p>Zen C <code>for</code> loops support inclusive ranges (<code>..=</code>) and custom <code>step</code> values.</p>`,
+                    mission: "Change the range to <b>0..=10</b> and step to <b>2</b> to compute a sum of <b>30</b>.",
+                    code: `test \"inclusive_range_step\" {\n    let sum = 0;\n    for i in 0..=10 step 2 {\n        sum += i;\n    }\n    println \"Sum: {sum}\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
+                    validator: (output, code) => output.includes("Sum: 30")
                 },
                 {
                     id: 'structs',
-                    title: '4. Alchemist\'s Structs',
+                    title: '5. Alchemist\'s Structs',
                     content: `<h2>Alchemist's Structs</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Data Modeling.</p>
-                    <p>Structs organize related data. Functions can take structs as arguments to perform calculations.</p>`,
-                    mission: "Implement a function <code>fn dist_sq(p: Point) -> i32</code> that returns <code>p.x * p.x + p.y * p.y</code>. Print <b>'DistSq: {d}'</b> for the point (3, 4).",
-                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 3, y: 4 };\n    // Implement and call dist_sq here\n}`,
-                    validator: (output, code) => output.includes("DistSq: 25")
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Methods and Self.</p>
+                    <p>Use <code>impl</code> to add methods to structs. Use <code>.field</code> shorthand to access members on <code>self</code>.</p>`,
+                    mission: "Implement <code>length_squared</code> and return <b>25.0</b> for a (3, 4) vector.",
+                    code: `struct Vec2 {\n    x: float,\n    y: float,\n}\n\nimpl Vec2 {\n    fn length_squared(self) -> float {\n        return .x * .x + .y * .y;\n    }\n}\n\nfn main() {\n    let v = Vec2 { x: 3.0, y: 4.0 };\n    println \"LengthSq: {v.length_squared()}\";\n}`,
+                    validator: (output, code) => output.includes("LengthSq: 25.0")
                 },
                 {
                     id: 'pointers',
-                    title: '5. Master\'s Pointers',
+                    title: '6. Master\'s Pointers',
                     content: `<h2>Master\'s Pointers</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Memory Command.</p>
-                    <p>Pointers use the <code>T*</code> syntax. Use <code>&</code> to take an address and <code>*</code> to dereference.</p>`,
-                    mission: "Implement <code>fn double_val(p: i32*)</code> to double the value at the pointer. Call it on <code>n = 21</code> and print <b>'Result: {n}'</b>.",
-                    code: `fn double_val(p: i32*) {\n    // Implement doubling here\n}\n\nfn main() {\n    let n = 21;\n    // Call and print result here\n}`,
-                    validator: (output, code) => output.includes("Result: 42")
-                },
-                {
-                    id: 'strings',
-                    title: '6. Zen Strings',
-                    content: `<h2>Zen Strings</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Modern String Handling.</p>
-                    <p>Zen C provides a powerful <code>String</code> object in <code>std/string.zc</code> for dynamic manipulation.</p>`,
-                    mission: "Start with an empty String, append <b>'Zen'</b> then <b>' C'</b>. Finally, print the length: <b>'Length: {s.length()}'</b>.",
-                    code: `import "std/string.zc"\n\nfn main() {\n    let s = String::from("");\n    // Append and print here\n}`,
-                    validator: (output, code) => output.includes("Length: 5")
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Auto-Dereference.</p>
+                    <p>Zen C automatically dereferences pointers when accessing fields with <code>.</code>, eliminating the need for <code>-></code>.</p>`,
+                    mission: "Use a pointer <code>ptr</code> to change <code>p.y</code> to <b>30</b>.",
+                    code: `struct Point {\n    x: int,\n    y: int,\n}\n\ntest \"auto_deref\" {\n    let p = Point { x: 10, y: 20 };\n    let ptr = &p;\n    ptr.y = 30;\n    println \"P.y: {p.y}\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
+                    validator: (output, code) => output.includes("P.y: 30")
                 },
                 {
                     id: 'brainfuck',
