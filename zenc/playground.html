@@ -416,15 +416,51 @@
         /* Mission card */
         #tutorial-mission {
             margin: 0.75rem;
-            padding: 1rem 1.25rem;
-            background: var(--surface-alt);
+            padding: 1.15rem 1.4rem;
+            background: var(--surface);
             border: 1px solid var(--border);
+            border-left: 4px solid var(--border);
             border-radius: 8px;
-            transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
 
         #tutorial-mission:hover {
             border-color: var(--muted);
+            transform: translateY(-2px);
+        }
+
+        #tutorial-mission.mission-success {
+            border-left-color: var(--accent);
+            animation: mission-pulse 2s ease-in-out infinite;
+        }
+
+        .mission-header {
+            font-family: 'Kaisei Tokumin', serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mission-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        @keyframes mission-pulse {
+            0% { box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+            50% { box-shadow: 0 0 15px rgba(74, 222, 128, 0.15); }
+            100% { box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
         }
 
         /* --- Responsive --- */
@@ -527,18 +563,15 @@
                 </div>
                 <!-- MISSION SECTION -->
                 <div id="tutorial-mission" style="display: none;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem;">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)"
-                            stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+                    <span class="mission-label">Path Mastery</span>
+                    <div class="mission-header">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" style="flex-shrink: 0;">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
-                        <span
-                            style="font-size: 0.65rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Mission</span>
+                        <span id="mission-title-text">Current Objective</span>
                     </div>
-                    <div id="mission-goal"
-                        style="font-size: 0.85rem; font-weight: 500; color: var(--fg); line-height: 1.7;"></div>
-                    <div id="mission-status"
-                        style="margin-top: 0.75rem; font-size: 0.78rem; font-weight: 600; display: none; transition: all 0.3s;">
+                    <div id="mission-goal" style="font-size: 0.88rem; font-weight: 500; color: var(--fg); line-height: 1.7; opacity: 0.9;"></div>
+                    <div id="mission-status" style="margin-top: 1.25rem; font-size: 0.75rem; font-weight: 800; display: none; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace;">
                     </div>
                 </div>
                 <div id="tutorial-list" style="flex: 2; overflow-y: auto; background: var(--bg);">
@@ -1001,10 +1034,14 @@
                         // Show Mission
                         tutorialMission.style.display = 'block';
                         missionGoal.innerHTML = tut.mission;
+                        
+                        // Reset success state
+                        tutorialMission.classList.remove('mission-success');
                         missionStatus.style.display = tut.completed ? 'block' : 'none';
                         if (tut.completed) {
                             missionStatus.style.color = 'var(--accent)';
-                            missionStatus.innerHTML = '✓ Mission Accomplished';
+                            missionStatus.innerHTML = '✓ Enlightenment Achieved';
+                            tutorialMission.classList.add('mission-success');
                         }
                     });
 
@@ -1315,15 +1352,14 @@
                         if (tut.validator(data.output || "", editor.getValue())) {
                             tut.completed = true;
                             missionStatus.style.display = 'block';
-                            missionStatus.style.color = '#4ade80';
-                            missionStatus.innerHTML = 'Mission Accomplished! Keep going.';
-                            tutorialMission.style.borderLeft = '4px solid #4ade80';
+                            missionStatus.style.color = 'var(--accent)';
+                            missionStatus.innerHTML = '✓ Enlightenment Achieved';
+                            tutorialMission.classList.add('mission-success');
 
                             // Update sidebar icon
                             const activeBtn = tutorialList.children[currentTutorialIndex];
                             const iconDiv = activeBtn.querySelector('div:last-child');
-                            iconDiv.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-                            iconDiv.style.opacity = "1";
+                            iconDiv.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                         }
                     }
 
