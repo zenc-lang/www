@@ -477,221 +477,171 @@
                 </div>
             </div>
         </div>
-        </div>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
     <script>
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
 
-        require(['vs/editor/editor.main'], function () {
-            monaco.languages.register({ id: 'zenc' });
+        require(['vs/editor/editor.main'], function (monaco) {
+            // --- GLOBAL STATE & SELECTORS ---
+            let editor = null;
+            let terminal = null;
+            let fitAddon = null;
+            let project = null;
+            let lspSocket = null;
+            let requestId = 0;
+            let version = 1;
+            const pendingRequests = new Map();
+            let currentTutorialIndex = -1;
 
-            monaco.languages.setMonarchTokensProvider('zenc', {
-                keywords: [
-                    'fn', 'def', 'let', 'if', 'else', 'while', 'loop', 'break', 'continue',
-                    'return', 'match', 'impl', 'struct', 'enum', 'trait', 'import', 'extern',
-                    'pub', 'mut', 'const', 'type', 'self', 'Self'
-                ],
-                typeKeywords: [
-                    'int', 'float', 'bool', 'char', 'str', 'void', 'u8', 'u16', 'u32', 'u64',
-                    'i8', 'i16', 'i32', 'i64', 'f32', 'f64'
-                ],
-                operators: [
-                    '=', '>', '<', '!', '~', '?', ':', '==', '<=', '>=', '!=',
-                    '&&', '||', '++', '--', '+', '-', '*', '/', '&', '|', '^', '%',
-                    '<<', '>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=', '^=',
-                    '%=', '<<=', '>>=', '>>>=', '->', '=>'
-                ],
-                symbols: /[=><!~?:&|+\-*\/\^%]+/,
-                tokenizer: {
-                    root: [
-                        [/[a-z_$][\w$]*/, {
-                            cases: {
-                                '@typeKeywords': 'type',
-                                '@keywords': 'keyword',
-                                '@default': 'identifier'
-                            }
-                        }],
-                        [/[A-Z][\w$]*/, 'type'],
-                        { include: '@whitespace' },
-                        [/[{}()\[\]]/, '@brackets'],
-                        [/@symbols/, {
-                            cases: {
-                                '@operators': 'operator',
-                                '@default': ''
-                            }
-                        }],
-                        [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
-                        [/0[xX][0-9a-fA-F]+/, 'number.hex'],
-                        [/\d+/, 'number'],
-                        [/[;,.]/, 'delimiter'],
-                        [/"([^"\\]|\\.)*$/, 'string.invalid'],
-                        [/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
-                        [/'[^\\']'/, 'string'],
-                        [/'/, 'string.invalid']
-                    ],
-                    string: [
-                        [/[^\\"]+/, 'string'],
-                        [/\\./, 'string.escape'],
-                        [/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
-                    ],
-                    whitespace: [
-                        [/[ \t\r\n]+/, 'white'],
-                        [/\/\*/, 'comment', '@comment'],
-                        [/\/\/.*$/, 'comment'],
-                    ],
-                    comment: [
-                        [/[^\/*]+/, 'comment'],
-                        [/\/\*/, 'comment', '@push'],
-                        ["\\*/", 'comment', '@pop'],
-                        [/[\/*]/, 'comment']
-                    ],
-                }
-            });
-
-            monaco.editor.defineTheme('zenc-dark', {
-                base: 'vs-dark',
-                inherit: true,
-                rules: [
-                    { token: 'keyword', foreground: 'f97316', fontStyle: 'bold' },
-                    { token: 'type', foreground: 'fbbf24' },
-                    { token: 'function', foreground: '38bdf8' },
-                    { token: 'string', foreground: 'a3e635' },
-                    { token: 'number', foreground: 'fb7185' },
-                    { token: 'comment', foreground: '71717a', fontStyle: 'italic' },
-                ],
-                colors: {
-                    'editor.background': '#00000000',
-                    'editor.foreground': '#e2e8f0',
-                    'editorLineNumber.foreground': '#475569',
-                    'editor.lineHighlightBackground': '#ffffff05',
-                    'editor.selectionBackground': '#334155',
-                }
-            });
-
-            monaco.editor.defineTheme('zenc-light', {
-                base: 'vs',
-                inherit: true,
-                rules: [
-                    { token: 'keyword', foreground: 'c2410c', fontStyle: 'bold' },
-                    { token: 'type', foreground: '7c3aed' },
-                    { token: 'function', foreground: '0369a1' },
-                    { token: 'string', foreground: '15803d' },
-                    { token: 'number', foreground: 'be123c' },
-                    { token: 'comment', foreground: '94a3b8', fontStyle: 'italic' },
-                ],
-                colors: {
-                    'editor.background': '#00000000',
-                    'editor.foreground': '#1a1a19',
-                    'editorLineNumber.foreground': '#94a3b8',
-                    'editor.lineHighlightBackground': '#00000005',
-                    'editor.selectionBackground': '#e2e8f0',
-                }
-            });
-
-            const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'zenc-dark' : 'zenc-light';
-
-            // Project State
-            let project = {
-                files: {
-                    "main.zc": `fn main() {\n    println "Welcome to the Zen C Playground!";\n\n    let a = 10;\n    let b = 32;\n    let sum = a + b;\n\n    println "The sum of {a} and {b} is {sum}.";\n}`
-                },
-                activeFile: "main.zc"
-            };
-
-            // Migrate/Load Project
-            const savedProject = localStorage.getItem('zenc_project');
-            if (savedProject) {
-                try {
-                    project = JSON.parse(savedProject);
-                } catch(e) { console.error("Malformed project storage"); }
-            } else {
-                const oldCode = localStorage.getItem('zenc_code');
-                if (oldCode) project.files["main.zc"] = oldCode;
-            }
-
+            const tutorialList = document.getElementById('tutorial-list');
+            const tutorialContent = document.getElementById('tutorial-content');
+            const tutorialMission = document.getElementById('tutorial-mission');
+            const missionGoal = document.getElementById('mission-goal');
+            const missionStatus = document.getElementById('mission-status');
             const fileList = document.getElementById('file-list');
             const tabBar = document.getElementById('tab-bar');
+            const runBtn = document.getElementById('run-btn');
+            const clearBtn = document.getElementById('clear-terminal');
+            const examplesSelect = document.getElementById('examples-select');
+            let examplesData = [];
+
+            // --- TUTORIAL DATA (Synced with tests/ suite) ---
+            const tutorialsData = [
+                {
+                    id: 'hello-world',
+                    title: '1. Hello, Zen C!',
+                    content: `<h2>Hello, Zen C!</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">First steps in the Zenith.</p>
+                    <p>Every Zen C program can define <code>test</code> blocks for verification. The <code>println</code> builtin is used for output.</p>`,
+                    mission: "Change the output to <b>'Zenith of C!'</b> and run it.",
+                    code: `test "hello" {\n    println "Zenith of C!";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
+                    validator: (output, code) => output.includes("Zenith of C!")
+                },
+                {
+                    id: 'variables',
+                    title: '2. Alchemist\'s Variables',
+                    content: `<h2>Alchemist's Variables</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Type Inference and Interpolation.</p>
+                    <p>Zen C uses <code>let</code> for variables with optional type annotations. Braces <code>{ }</code> provide easy string interpolation.</p>`,
+                    mission: "Update the sum to use <b>30</b> and <b>70</b>, expecting <b>'Sum: 100'</b>.",
+                    code: `test "vars" {\n    let x = 30;\n    let y: int = 70;\n    println "Sum: {x + y}";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
+                    validator: (output, code) => output.includes("Sum: 100")
+                },
+                {
+                    id: 'logic-match',
+                    title: '3. Logic & Patterns',
+                    content: `<h2>Logic & Patterns</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Advanced Pattern Matching.</p>
+                    <p>The <code>match</code> expression supports ranges (<code>..=</code>, <code>..<</code>) and logical OR (<code>||</code> or <code>or</code>).</p>`,
+                    mission: "Modify the match to return <b>400</b> for the range <b>10..=15</b>.",
+                    code: `fn classify(n: int) -> int {\n    match n {\n        1 || 2 => return 100,\n        3 or 4 => return 200,\n        5..<10 => return 300,\n        10..=15 => return 400,\n        _ => return -1\n    }\n}\n\nfn main() {\n    let res = classify(12);\n    println "Result: {res}";\n}`,
+                    validator: (output, code) => output.includes("Result: 400")
+                },
+                {
+                    id: 'control-flow',
+                    title: '4. Fibonacci Garden',
+                    content: `<h2>Fibonacci Garden</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Inclusive Range Loops.</p>
+                    <p>Zen C <code>for</code> loops support inclusive ranges (<code>..=</code>) and custom <code>step</code> values.</p>`,
+                    mission: "Change the range to <b>0..=10</b> and step to <b>2</b> to compute a sum of <b>30</b>.",
+                    code: `test "inclusive_range_step" {\n    let sum = 0;\n    for i in 0..=10 step 2 {\n        sum += i;\n    }\n    println "Sum: {sum}";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
+                    validator: (output, code) => output.includes("Sum: 30")
+                },
+                {
+                    id: 'structs',
+                    title: '5. Alchemist\'s Structs',
+                    content: `<h2>Alchemist's Structs</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Methods and Self.</p>
+                    <p>Use <code>impl</code> to add methods to structs. Use <code>.field</code> shorthand to access members on <code>self</code>.</p>`,
+                    mission: "Implement <code>length_squared</code> and return <b>25.0</b> for a (3, 4) vector.",
+                    code: `struct Vec2 {\n    x: float,\n    y: float,\n}\n\nimpl Vec2 {\n    fn length_squared(self) -> float {\n        return .x * .x + .y * .y;\n    }\n}\n\nfn main() {\n    let v = Vec2 { x: 3.0, y: 4.0 };\n    println "LengthSq: {v.length_squared()}";\n}`,
+                    validator: (output, code) => output.includes("LengthSq: 25.0")
+                },
+                {
+                    id: 'pointers',
+                    title: '6. Master\'s Pointers',
+                    content: `<h2>Master\'s Pointers</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Auto-Dereference.</p>
+                    <p>Zen C automatically dereferences pointers when accessing fields with <code>.</code>, eliminating the need for <code>-></code>.</p>`,
+                    mission: "Use a pointer <code>ptr</code> to change <code>p.y</code> to <b>30</b>.",
+                    code: `struct Point {\n    x: int,\n    y: int,\n}\n\ntest "auto_deref" {\n    let p = Point { x: 10, y: 20 };\n    let ptr = &p;\n    ptr.y = 30;\n    println "P.y: {p.y}";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
+                    validator: (output, code) => output.includes("P.y: 30")
+                },
+                {
+                    id: 'brainfuck',
+                    title: '7. Brainfuck Masterclass',
+                    content: `<h2>Brainfuck Masterclass</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Building a DSL Transpiler.</p>
+                    <p>Plugins allow you to extend Zen C with your own Domain Specific Languages. This example implements a Brainfuck-to-C transpiler.</p>
+                    <p>When you run this code, the compiler builds <code>plugins/brainfuck.zc</code> as a shared library and loads it to handle the <code>bf! { }</code> block macro.</p>`,
+                    mission: "Modify the Brainfuck code to print <b>'ZEN'</b> instead of 'Hello'.",
+                    code: `import plugin "plugins/brainfuck" as bf\n\nfn main() {\n    print "Brainfuck says: ";\n    bf! {\n        ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.\n    }\n    println "";\n}`,
+                    setup: async (proj) => {
+                        try {
+                            const resp = await fetch('lessons/brainfuck_plugin.zc');
+                            proj.files["plugins/brainfuck.zc"] = await resp.text();
+                        } catch (e) {
+                            console.error("Failed to load Brainfuck plugin:", e);
+                        }
+                    },
+                    validator: (output, code) => output.includes("ZEN")
+                }
+            ];
+
+            // --- HELPER FUNCTIONS ---
 
             function saveProject() {
-                localStorage.setItem('zenc_project', JSON.stringify(project));
+                if (project) localStorage.setItem('zenc_project', JSON.stringify(project));
             }
 
             function updateProjectUI() {
-                // Update Sidebar
+                if (!project || !fileList) return;
                 fileList.innerHTML = '';
                 Object.keys(project.files).sort().forEach(filename => {
                     const item = document.createElement('div');
                     item.className = `file-item ${filename === project.activeFile ? 'active' : ''}`;
-                    
                     const isPlugin = filename.startsWith('plugins/');
                     const icon = isPlugin ? 
                         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' : 
                         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>';
-                    
-                    item.innerHTML = `
-                        ${icon}
-                        <span>${filename}</span>
-                        ${filename !== 'main.zc' ? '<span class="delete-file" title="Delete file">×</span>' : ''}
-                    `;
-                    
+                    item.innerHTML = `${icon}<span>${filename}</span>${filename !== 'main.zc' ? '<span class="delete-file" title="Delete file">×</span>' : ''}`;
                     item.onclick = (e) => {
-                        if (e.target.className === 'delete-file') {
-                            deleteFile(filename);
-                        } else {
-                            switchFile(filename);
-                        }
+                        if (e.target.className === 'delete-file') deleteFile(filename); else switchFile(filename);
                     };
                     fileList.appendChild(item);
                 });
 
-                // Update Tabs
                 tabBar.innerHTML = '';
-                // For simplicity, we'll just show the active file and a few others
-                const tabFiles = [project.activeFile];
-                tabFiles.forEach(filename => {
-                    const tab = document.createElement('div');
-                    tab.className = `tab active`;
-                    tab.textContent = filename;
-                    tabBar.appendChild(tab);
-                });
+                const tab = document.createElement('div');
+                tab.className = `tab active`;
+                tab.textContent = project.activeFile;
+                tabBar.appendChild(tab);
             }
 
             function switchFile(filename) {
-                if (project.activeFile === filename) return;
-                
-                // Save current content
+                if (!project || !editor || project.activeFile === filename) return;
                 project.files[project.activeFile] = editor.getValue();
-                
                 project.activeFile = filename;
                 editor.setValue(project.files[filename]);
                 updateProjectUI();
                 saveProject();
-                
-                // Switch LSP context
-                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
-                    sendLSPNotification('textDocument/didChange', {
-                        textDocument: { uri: `file:///${filename}`, version: ++version },
-                        contentChanges: [{ text: editor.getValue() }]
-                    });
-                }
+                sendLSPNotification('textDocument/didChange', {
+                    textDocument: { uri: `file:///${filename}`, version: ++version },
+                    contentChanges: [{ text: editor.getValue() }]
+                });
             }
 
             function addFile() {
                 const name = prompt("Enter filename (e.g. plugins/my_plugin.zc):", "plugins/new_plugin.zc");
                 if (name && !project.files[name]) {
-                    if (!name.endsWith('.zc')) {
-                        alert("Files must end with .zc");
-                        return;
-                    }
-                    
+                    if (!name.endsWith('.zc')) { alert("Files must end with .zc"); return; }
                     let content = `// New file: ${name}\n`;
                     if (name.startsWith('plugins/')) {
                         const pluginName = name.split('/').pop().replace('.zc', '');
-                        content = `import "std/plugin.zc"\n\n// 1. Define the transpiler handler\nfn ${pluginName}_handler(body: char*, api: ZApi*) {\n    let out = api.out;\n    fputs(f"// Transpiled code for ${pluginName}\\n", out);\n    // Implement your logic here...\\n}\n\n// 2. Register the plugin metadata\nlet ${pluginName}_plugin = ZPlugin {\n    name: "${pluginName}",\n    handler: ${pluginName}_handler,\n    hover_handler: (body: char*, line: int, col: int) => {\n        return "Plugin: ${pluginName}";\n    }\n};\n\n// 3. Export the initializer\n@export\nfn z_plugin_init() -> ZPlugin* {\n    return &${pluginName}_plugin;\n}\n`;
+                        content = `import "std/plugin.zc"\n\nlet ${pluginName}_plugin = ZPlugin {\n    name: "${pluginName}",\n    handler: fn(body: char*, api: ZApi*) { fputs("// ${pluginName}\\n", api.out); },\n    hover_handler: fn(body: char*, line: int, col: int) -> char* { return "Plugin: ${pluginName}"; }\n};\n\n@export\nfn z_plugin_init() -> ZPlugin* { return &${pluginName}_plugin; }\n`;
                     }
-                    
                     project.files[name] = content;
                     switchFile(name);
                 }
@@ -710,524 +660,277 @@
                 }
             }
 
-            document.getElementById('add-file-btn').onclick = addFile;
-
-            async function loadExamples() {
-                try {
-                    const resp = await fetch('examples.json');
-                    examplesData = await resp.json();
-
-                    // Clear existing and add new
-                    examplesSelect.innerHTML = '<option value="" disabled selected>-- Reference Code --</option>';
-                    examplesData.forEach((ex, idx) => {
-                        const opt = document.createElement('option');
-                        opt.value = idx;
-                        opt.textContent = ex.title;
-                        examplesSelect.appendChild(opt);
-                    });
-                } catch (err) {
-                    console.error("Failed to load examples:", err);
-                }
-            }
-
-            // Tutorial Data & Hydration
-            const tutorialsData = [
-                {
-                    id: 'hello-world',
-                    title: '1. Hello, Zen C!',
-                    content: `<h2>Hello, Zen C!</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">First steps in the Zenith.</p>
-                    <p>Every Zen C program can define <code>test</code> blocks for verification. The <code>println</code> builtin is used for output.</p>`,
-                    mission: "Change the output to <b>'Zenith of C!'</b> and run it.",
-                    code: `test \"hello\" {\n    println \"Zenith of C!\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
-                    validator: (output, code) => output.includes("Zenith of C!")
-                },
-                {
-                    id: 'variables',
-                    title: '2. Alchemist\'s Variables',
-                    content: `<h2>Alchemist's Variables</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Type Inference and Interpolation.</p>
-                    <p>Zen C uses <code>let</code> for variables with optional type annotations. Braces <code>{ }</code> provide easy string interpolation.</p>`,
-                    mission: "Update the sum to use <b>30</b> and <b>70</b>, expecting <b>'Sum: 100'</b>.",
-                    code: `test \"vars\" {\n    let x = 30;\n    let y: int = 70;\n    println \"Sum: {x + y}\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
-                    validator: (output, code) => output.includes("Sum: 100")
-                },
-                {
-                    id: 'logic-match',
-                    title: '3. Logic & Patterns',
-                    content: `<h2>Logic & Patterns</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Advanced Pattern Matching.</p>
-                    <p>The <code>match</code> expression supports ranges (<code>..=</code>, <code>..<</code>) and logical OR (<code>||</code> or <code>or</code>).</p>`,
-                    mission: "Modify the match to return <b>400</b> for the range <b>10..=15</b>.",
-                    code: `fn classify(n: int) -> int {\n    match n {\n        1 || 2 => return 100,\n        3 or 4 => return 200,\n        5..<10 => return 300,\n        10..=15 => return 400,\n        _ => return -1\n    }\n}\n\nfn main() {\n    let res = classify(12);\n    println \"Result: {res}\";\n}`,
-                    validator: (output, code) => output.includes("Result: 400")
-                },
-                {
-                    id: 'control-flow',
-                    title: '4. Fibonacci Garden',
-                    content: `<h2>Fibonacci Garden</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Inclusive Range Loops.</p>
-                    <p>Zen C <code>for</code> loops support inclusive ranges (<code>..=</code>) and custom <code>step</code> values.</p>`,
-                    mission: "Change the range to <b>0..=10</b> and step to <b>2</b> to compute a sum of <b>30</b>.",
-                    code: `test \"inclusive_range_step\" {\n    let sum = 0;\n    for i in 0..=10 step 2 {\n        sum += i;\n    }\n    println \"Sum: {sum}\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
-                    validator: (output, code) => output.includes("Sum: 30")
-                },
-                {
-                    id: 'structs',
-                    title: '5. Alchemist\'s Structs',
-                    content: `<h2>Alchemist's Structs</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Methods and Self.</p>
-                    <p>Use <code>impl</code> to add methods to structs. Use <code>.field</code> shorthand to access members on <code>self</code>.</p>`,
-                    mission: "Implement <code>length_squared</code> and return <b>25.0</b> for a (3, 4) vector.",
-                    code: `struct Vec2 {\n    x: float,\n    y: float,\n}\n\nimpl Vec2 {\n    fn length_squared(self) -> float {\n        return .x * .x + .y * .y;\n    }\n}\n\nfn main() {\n    let v = Vec2 { x: 3.0, y: 4.0 };\n    println \"LengthSq: {v.length_squared()}\";\n}`,
-                    validator: (output, code) => output.includes("LengthSq: 25.0")
-                },
-                {
-                    id: 'pointers',
-                    title: '6. Master\'s Pointers',
-                    content: `<h2>Master\'s Pointers</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Auto-Dereference.</p>
-                    <p>Zen C automatically dereferences pointers when accessing fields with <code>.</code>, eliminating the need for <code>-></code>.</p>`,
-                    mission: "Use a pointer <code>ptr</code> to change <code>p.y</code> to <b>30</b>.",
-                    code: `struct Point {\n    x: int,\n    y: int,\n}\n\ntest \"auto_deref\" {\n    let p = Point { x: 10, y: 20 };\n    let ptr = &p;\n    ptr.y = 30;\n    println \"P.y: {p.y}\";\n}\n\nfn main() {\n    _z_run_tests();\n}`,
-                    validator: (output, code) => output.includes("P.y: 30")
-                },
-                {
-                    id: 'brainfuck',
-                    title: '7. Brainfuck Masterclass',
-                    content: `<h2>Brainfuck Masterclass</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Building a DSL Transpiler.</p>
-                    <p>Plugins allow you to extend Zen C with your own Domain Specific Languages. This example implements a Brainfuck-to-C transpiler.</p>
-                    <p>When you run this code, the compiler builds <code>plugins/brainfuck.zc</code> as a shared library and loads it to handle the <code>bf! { }</code> block macro.</p>`,
-                    mission: "Modify the Brainfuck code to print <b>'ZEN'</b> instead of 'Hello'.",
-                    code: `import plugin \"plugins/brainfuck\" as bf\n\nfn main() {\n    print \"Brainfuck says: \";\n    bf! {\n        ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.\n    }\n    println \"\";\n}`,
-                    setup: (proj) => {
-                        proj.files["plugins/brainfuck.zc"] = `import \"std/plugin.zc\"\n\ninclude <stdio.h>\n\nfn bf_transpile(body: char*, api: ZApi*) {\n    let out = api.out;\n    fputs(f\"\"\"{{\n    static unsigned char tape[30000] = {{0}};\n    unsigned char *ptr = tape;\n\"\"\", out);\n    \n    let idx = 0;\n    while (body[idx] != 0) {\n        let ch = body[idx];\n        match ch {\n            '>' => fputs(\"    ++ptr;\\n\", out),\n            '<' => fputs(\"    --ptr;\\n\", out),\n            '+' => fputs(\"    ++*ptr;\\n\", out),\n            '-' => fputs(\"    --*ptr;\\n\", out),\n            '.' => fputs(\"    putchar(*ptr);\\n\", out),\n            ',' => fputs(\"    *ptr = getchar();\\n\", out),\n            '[' => fputs(f\"    while (*ptr) {{ \\n\", out),\n            ']' => fputs(f\"    }} \\n\", out),\n            _ => (void)0\n        }\n        idx = idx + 1;\n    }\n    fputs(f\"}} \\n\", out);\n}\n\nfn bf_hover(body: char*, line: int, col: int) -> char* {\n    let p = body;\n    let r = 0; let c = 0;\n    while (p[0] != 0) {\n        if (r == line && c == col) {\n            match (int)p[0] {\n                '>' => return \"**:ptr++**: Increment the data pointer.\",\n                '<' => return \"**:ptr--**: Decrement the data pointer.\",\n                '+' => return \"**(*ptr)++**: Increment the byte at the data pointer.\",\n                '-' => return \"**(*ptr)--**: Decrement the byte at the data pointer.\",\n                '.' => return \"**:putchar**: Output the byte at the data pointer.\",\n                ',' => return \"**:getchar**: Accept one byte of input, storing its value in the byte at the data pointer.\",\n                '[' => return \"**:while(*ptr)**: If the byte at the data pointer is zero, jump forward to the command after the corresponding `]` command.\",\n                ']' => return \"**:end-while**: If the byte at the data pointer is nonzero, jump back to the command after the corresponding `[` command.\",\n                _ => return NULL\n            }\n        }\n        if (p[0] == 10) {\n            r++; c = 0;\n        } else {\n            c++;\n        }\n        p = &p[1];\n    }\n    return NULL;\n}\n\nlet bf_plugin = ZPlugin {\n    name: \"brainfuck\",\n    handler: bf_transpile,\n    hover_handler: bf_hover\n};\n\n@export\nfn z_plugin_init() -> ZPlugin* {\n    return &bf_plugin;\n}\n`;
-                    },
-                    validator: (output, code) => output.includes("ZEN")
-                }
-            ];
-
-            const tutorialList = document.getElementById('tutorial-list');
-            const tutorialContent = document.getElementById('tutorial-content');
-            const tutorialMission = document.getElementById('tutorial-mission');
-            const missionGoal = document.getElementById('mission-goal');
-            const missionStatus = document.getElementById('mission-status');
-            let currentTutorialIndex = -1;
-
             function hydrateTutorials(activeEditor) {
+                if (!tutorialList) return;
                 tutorialList.innerHTML = '';
                 tutorialsData.forEach((tut, idx) => {
                     const btn = document.createElement('div');
                     btn.classList.add('tutorial-btn');
-                    btn.style.cssText = "padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between;";
-                    if (idx === 0) btn.style.borderTop = "1px solid var(--border)";
+                    btn.style.cssText = "padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; border-left: 3px solid transparent;";
+                    btn.innerHTML = `<span>${tut.title}</span><div style="opacity: 0.3">${tut.completed ? '✅' : '▶'}</div>`;
+                    
+                    if (currentTutorialIndex === idx) btn.style.background = "var(--surface-alt)";
 
-                    const titleSpan = document.createElement('span');
-                    titleSpan.textContent = tut.title;
-                    btn.appendChild(titleSpan);
-
-                    const icon = document.createElement('div');
-                    icon.innerHTML = tut.completed ?
-                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' :
-                        '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-                    icon.style.opacity = tut.completed ? "1" : "0.3";
-                    btn.appendChild(icon);
-
-                    btn.addEventListener('mouseenter', () => {
-                        if (currentTutorialIndex !== idx) btn.style.background = "var(--surface-alt)";
-                    });
-                    btn.addEventListener('mouseleave', () => {
-                        if (currentTutorialIndex !== idx) btn.style.background = "transparent";
-                    });
-
-                    btn.addEventListener('click', () => {
-                        // Deselect others
-                        Array.from(tutorialList.children).forEach(child => child.style.background = "transparent");
-
-                        currentTutorialIndex = idx;
+                    btn.onclick = async () => {
+                        Array.from(tutorialList.children).forEach(c => c.style.background = "transparent");
                         btn.style.background = "var(--surface-alt)";
-
-                        activeEditor.setValue(tut.code);
-                        
-                        // Update project state for tutorials
-                        if (tut.setup) tut.setup(project);
+                        currentTutorialIndex = idx;
+                        if (tut.setup) await tut.setup(project);
                         project.files["main.zc"] = tut.code;
                         project.activeFile = "main.zc";
-                        editor.setValue(project.files["main.zc"]);
+                        activeEditor.setValue(tut.code);
+                        tutorialContent.innerHTML = tut.content;
+                        missionGoal.innerHTML = tut.mission;
+                        tutorialMission.style.display = 'block';
                         updateProjectUI();
                         saveProject();
-
-                        // Show Mission
-                        tutorialMission.style.display = 'block';
-                        setTimeout(() => {
-                            tutorialMission.style.opacity = '1';
-                            tutorialMission.style.transform = 'translateY(0)';
-                        }, 10);
-
-                        missionGoal.innerHTML = tut.mission;
-                        missionStatus.style.display = tut.completed ? 'block' : 'none';
-                        if (tut.completed) {
-                            missionStatus.style.color = '#4ade80';
-                            missionStatus.innerHTML = 'Mission Accomplished!';
-                            tutorialMission.style.borderLeft = '4px solid #4ade80';
-                        } else {
-                            tutorialMission.style.borderLeft = '1px solid var(--border)';
-                        }
-                    });
-
+                    };
                     tutorialList.appendChild(btn);
                 });
             }
 
-
-            const editor = monaco.editor.create(document.getElementById('editor-container'), {
-                value: project.files[project.activeFile],
-                language: 'zenc',
-                theme: currentTheme,
-                fontSize: 14,
-                fontFamily: 'JetBrains Mono',
-                minimap: { enabled: false },
-                automaticLayout: true,
-                cursorBlinking: 'smooth',
-                padding: { top: 20 }
-            });
-
-            // Initial UI Sync
-            updateProjectUI();
-            
-            // Hydrate logic
-            window._globalEditorInstance = editor;
-            hydrateTutorials(editor);
-
-            // Examples Setup (after editor exists)
-            const examplesSelect = document.getElementById('examples-select');
-            let examplesData = [];
-
-            examplesSelect.addEventListener('change', (e) => {
-                const idx = e.target.value;
-                if (idx !== "" && examplesData[idx]) {
-                    project.files["main.zc"] = examplesData[idx].code;
-                    project.activeFile = "main.zc";
-                    editor.setValue(project.files["main.zc"]);
-                    updateProjectUI();
-                    saveProject();
-                }
-            });
-
-            loadExamples();
-
-            const themeToggle = document.getElementById('theme-toggle');
-            const htmlElement = document.documentElement;
-
-            if (themeToggle) {
-                themeToggle.addEventListener('click', () => {
-                    const currentTheme = htmlElement.getAttribute('data-theme');
-                    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                    let newTheme;
-                    if (currentTheme === 'dark') {
-                        newTheme = 'light';
-                    } else if (currentTheme === 'light') {
-                        newTheme = 'dark';
-                    } else {
-                        newTheme = systemDark ? 'light' : 'dark';
-                    }
-
-                    htmlElement.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('theme', newTheme);
-                    document.cookie = `theme=${newTheme}; Domain=.zenc-lang.org; Path=/; Max-Age=31536000; SameSite=Lax`;
-
-                    // Update Monaco and Terminal
-                    const monacoTheme = newTheme === 'dark' ? 'zenc-dark' : 'zenc-light';
-                    monaco.editor.setTheme(monacoTheme);
-                    updateTerminalTheme(newTheme);
-                });
-            }
-
-            // --- LSP INTEGRATION ---
-            let lspSocket = null;
-            let requestId = 0;
-            let version = 1; // Track document version for sync
-            const pendingRequests = new Map();
-
-            function connectLSP() {
-                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-                const host = window.location.host;
-                lspSocket = new WebSocket(`${protocol}//${host}/api/lsp`);
-
-                lspSocket.onopen = () => {
-                    console.log("Connected to Zen C LSP");
-                    // Initialize LSP
-                    sendLSPRequest('initialize', {
-                        processId: null,
-                        rootUri: 'file:///',
-                        capabilities: {}
-                    });
-                    
-                    // Sync all files
-                    Object.entries(project.files).forEach(([filename, content]) => {
-                        sendLSPNotification('textDocument/didOpen', {
-                            textDocument: {
-                                uri: `file:///${filename}`,
-                                languageId: 'zenc',
-                                version: 1,
-                                text: content
-                            }
-                        });
-                    });
-                };
-
-                lspSocket.onmessage = async (event) => {
-                    const msg = JSON.parse(event.data);
-                    if (msg.id !== undefined && pendingRequests.has(msg.id)) {
-                        const { resolve } = pendingRequests.get(msg.id);
-                        pendingRequests.delete(msg.id);
-                        resolve(msg.result);
-
-                        // Handshake completion
-                        if (msg.id === 0) {
-                            sendLSPNotification('initialized', {});
-                        }
-                    } else if (msg.method === 'textDocument/publishDiagnostics') {
-                        updateDiagnostics(msg.params.diagnostics);
-                    }
-                };
-
-                lspSocket.onclose = () => {
-                    console.log("Zen C LSP connection closed. Reconnecting in 5s...");
-                    setTimeout(connectLSP, 5000);
-                };
-            }
-
-            function sendLSPRequest(method, params) {
-                const id = requestId++;
-                return new Promise((resolve) => {
-                    pendingRequests.set(id, { resolve });
-                    lspSocket.send(JSON.stringify({ jsonrpc: '2.0', id, method, params }));
-                });
-            }
-
-            function sendLSPNotification(method, params) {
-                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
-                    lspSocket.send(JSON.stringify({ jsonrpc: '2.0', method, params }));
-                }
-            }
-
-            function updateDiagnostics(diagnostics) {
-                const markers = diagnostics.map(d => ({
-                    severity: d.severity === 1 ? monaco.MarkerSeverity.Error : monaco.MarkerSeverity.Warning,
-                    message: d.message,
-                    startLineNumber: d.range.start.line + 1,
-                    startColumn: d.range.start.character + 1,
-                    endLineNumber: d.range.end.line + 1,
-                    endColumn: d.range.end.character + 1,
-                    code: d.code
-                }));
-                monaco.editor.setModelMarkers(editor.getModel(), 'zenc', markers);
-            }
-
-            editor.onDidChangeModelContent(() => {
-                const content = editor.getValue();
-                sendLSPNotification('textDocument/didChange', {
-                    textDocument: { uri: `file:///${project.activeFile}`, version: ++version },
-                    contentChanges: [{ text: content }]
-                });
-            });
-
-            monaco.languages.registerHoverProvider('zenc', {
-                provideHover: async (model, position) => {
-                    const res = await sendLSPRequest('textDocument/hover', {
-                        textDocument: { uri: 'file:///main.zc' },
-                        position: { line: position.lineNumber - 1, character: position.column - 1 }
-                    });
-                    if (res && res.contents) {
-                        return { contents: [{ value: res.contents.value }] };
-                    }
-                }
-            });
-
-            monaco.languages.registerCompletionItemProvider('zenc', {
-                triggerCharacters: ['.', ':', '-', '>'],
-                provideCompletionItems: async (model, position) => {
-                    const res = await sendLSPRequest('textDocument/completion', {
-                        textDocument: { uri: 'file:///main.zc' },
-                        position: { line: position.lineNumber - 1, character: position.column - 1 }
-                    });
-                    if (res) {
-                        const items = (Array.isArray(res) ? res : res.items) || [];
-                        return {
-                            suggestions: items.map(item => ({
-                                label: item.label,
-                                kind: item.kind-1 || monaco.languages.CompletionItemKind.Property,
-                                insertText: item.label,
-                                detail: item.detail
-                            }))
-                        };
-                    }
-                }
-            });
-
-            connectLSP();
-
-            // --- TERMINAL INITIALIZATION ---
-            const terminal = new Terminal({
-                cursorBlink: true,
-                fontSize: 13,
-                fontFamily: 'JetBrains Mono, monospace',
-                theme: {
-                    background: '#00000000',
-                    foreground: '#e2e8f0'
-                },
-                allowTransparency: true,
-                convertEol: true
-            });
-            const fitAddon = new FitAddon.FitAddon();
-            terminal.loadAddon(fitAddon);
-            terminal.open(document.getElementById('output'));
-            
-            function updateTerminalTheme(theme) {
-                const isDark = theme === 'dark';
-                const premiumTheme = isDark ? {
-                    background: '#1e293b',
-                    foreground: '#e2e8f0',
-                    cursor: '#38bdf8',
-                    selectionBackground: 'rgba(56, 189, 248, 0.3)',
-                    black: '#1e293b',
-                    red: '#ef4444',
-                    green: '#4ade80',
-                    yellow: '#fbbf24',
-                    blue: '#3b82f6',
-                    magenta: '#a855f7',
-                    cyan: '#38bdf8',
-                    white: '#f8fafc',
-                    brightBlack: '#475569',
-                    brightGreen: '#22c55e',
-                    brightCyan: '#0ea5e9'
+            function updateTerminalTheme(themeName) {
+                if (!terminal) return;
+                const isDark = themeName === 'dark';
+                terminal.options.theme = isDark ? {
+                    background: '#00000000', foreground: '#e2e8f0', cursor: '#38bdf8'
                 } : {
-                    background: '#f8fafc',
-                    foreground: '#1e293b',
-                    cursor: '#0284c7',
-                    selectionBackground: 'rgba(2, 132, 199, 0.2)',
-                    black: '#f8fafc',
-                    red: '#dc2626',
-                    green: '#16a34a',
-                    yellow: '#d97706',
-                    blue: '#2563eb',
-                    magenta: '#9333ea',
-                    cyan: '#0284c7',
-                    white: '#1e293b',
-                    brightBlack: '#64748b',
-                    brightGreen: '#15803d',
-                    brightCyan: '#0369a1'
+                    background: '#00000000', foreground: '#1e293b', cursor: '#0284c7'
                 };
-                terminal.options.theme = premiumTheme;
             }
-            updateTerminalTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-
-            window.addEventListener('resize', () => fitAddon.fit());
-            setTimeout(() => fitAddon.fit(), 100);
 
             function drawTerminalHeader() {
                 terminal.writeln("\x1b[1;36m>> Zen C Playground Session\x1b[0m");
                 terminal.writeln("\x1b[90mPress \x1b[1mRun\x1b[0m to compile and execute your code.\x1b[0m\r\n");
             }
-            drawTerminalHeader();
 
-            const runBtn = document.getElementById('run-btn');
-            const clearBtn = document.getElementById('clear-terminal');
+            // --- MAIN INITIALIZATION ---
+            try {
+                // 1. Language & Theme Setup
+                monaco.languages.register({ id: 'zenc' });
 
-            clearBtn.addEventListener('click', () => {
-                terminal.clear();
-                drawTerminalHeader();
-            });
-
-            runBtn.addEventListener('click', async () => {
-                // Sync current file content before running
-                project.files[project.activeFile] = editor.getValue();
-                saveProject();
-
-                const startTime = performance.now();
-                runBtn.disabled = true;
-                runBtn.innerHTML = '<span class="loading-spinner"></span> Compiling...';
-                
-                // Clear and Reprint Header
-                terminal.clear();
-                drawTerminalHeader();
-                
-                terminal.writeln("\x1b[90m>> Multi-phase build: Building plugins... compiling main.zc...\x1b[0m");
-
-                try {
-                    const response = await fetch('/api/run', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            files: project.files 
-                        })
-                    });
-                    const data = await response.json();
-                    const endTime = performance.now();
-                    const duration = ((endTime - startTime) / 1000).toFixed(2);
-                    
-                    if (data.output) {
-                        // Dim the compiler metadata (Compiling... Finished build...)
-                        const sanitizedOutput = data.output.replace(/^( {3}Compiling.*)$/mg, '\x1b[90m$1\x1b[0m')
-                                                           .replace(/^( {4}Finished build.*)$/mg, '\x1b[90m$1\x1b[0m');
-                        terminal.write(sanitizedOutput + "\r\n");
+                monaco.languages.setMonarchTokensProvider('zenc', {
+                    keywords: [
+                        'fn', 'def', 'let', 'if', 'else', 'while', 'loop', 'break', 'continue',
+                        'return', 'match', 'impl', 'struct', 'enum', 'trait', 'import', 'extern',
+                        'pub', 'mut', 'const', 'type', 'self', 'Self'
+                    ],
+                    typeKeywords: [
+                        'int', 'float', 'bool', 'char', 'str', 'void', 'u8', 'u16', 'u32', 'u64',
+                        'i8', 'i16', 'i32', 'i64', 'f32', 'f64'
+                    ],
+                    operators: [
+                        '=', '>', '<', '!', '~', '?', ':', '==', '<=', '>=', '!=',
+                        '&&', '||', '++', '--', '+', '-', '*', '/', '&', '|', '^', '%',
+                        '<<', '>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=', '^=',
+                        '%=', '<<=', '>>=', '>>>=', '->', '=>'
+                    ],
+                    symbols: /[=><!~?:&|+\-*\/\^%]+/,
+                    tokenizer: {
+                        root: [
+                            [/[a-z_$][\w$]*/, {
+                                cases: {
+                                    '@typeKeywords': 'type',
+                                    '@keywords': 'keyword',
+                                    '@default': 'identifier'
+                                }
+                            }],
+                            [/[A-Z][\w$]*/, 'type'],
+                            { include: '@whitespace' },
+                            [/[{}()\[\]]/, '@brackets'],
+                            [/@symbols/, {
+                                cases: {
+                                    '@operators': 'operator',
+                                    '@default': ''
+                                }
+                            }],
+                            [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+                            [/0[xX][0-9a-fA-F]+/, 'number.hex'],
+                            [/\d+/, 'number'],
+                            [/[;,.]/, 'delimiter'],
+                            [/"([^"\\]|\\.)*$/, 'string.invalid'],
+                            [/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
+                            [/'[^\\']'/, 'string'],
+                            [/'/, 'string.invalid']
+                        ],
+                        string: [
+                            [/[^\\"]+/, 'string'],
+                            [/\\./, 'string.escape'],
+                            [/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
+                        ],
+                        whitespace: [
+                            [/[ \t\r\n]+/, 'white'],
+                            [/\/\*/, 'comment', '@comment'],
+                            [/\/\/.*$/, 'comment'],
+                        ],
+                        comment: [
+                            [/[^\/*]+/, 'comment'],
+                            [/\/\*/, 'comment', '@push'],
+                            ["\\*/", 'comment', '@pop'],
+                            [/[\/*]/, 'comment']
+                        ],
                     }
-                    
-                    // MISSION VALIDATION
-                    if (currentTutorialIndex !== -1) {
-                        const tut = tutorialsData[currentTutorialIndex];
-                        if (tut.validator(data.output || "", editor.getValue())) {
-                            tut.completed = true;
-                            missionStatus.style.display = 'block';
-                            missionStatus.style.color = '#4ade80';
-                            missionStatus.innerHTML = 'Mission Accomplished! Keep going.';
-                            tutorialMission.style.borderLeft = '4px solid #4ade80';
+                });
 
-                            // Update sidebar icon
-                            const activeBtn = tutorialList.children[currentTutorialIndex];
-                            const iconDiv = activeBtn.querySelector('div:last-child');
-                            iconDiv.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-                            iconDiv.style.opacity = "1";
+                monaco.editor.defineTheme('zenc-dark', {
+                    base: 'vs-dark',
+                    inherit: true,
+                    rules: [
+                        { token: 'keyword', foreground: 'f97316', fontStyle: 'bold' },
+                        { token: 'type', foreground: 'fbbf24' },
+                        { token: 'function', foreground: '38bdf8' },
+                        { token: 'string', foreground: 'a3e635' },
+                        { token: 'number', foreground: 'fb7185' },
+                        { token: 'comment', foreground: '71717a', fontStyle: 'italic' },
+                    ],
+                    colors: {
+                        'editor.background': '#00000000',
+                        'editor.foreground': '#e2e8f0',
+                    }
+                });
+
+                monaco.editor.defineTheme('zenc-light', {
+                    base: 'vs',
+                    inherit: true,
+                    rules: [
+                        { token: 'keyword', foreground: 'c2410c', fontStyle: 'bold' },
+                        { token: 'type', foreground: '7c3aed' },
+                        { token: 'function', foreground: '0369a1' },
+                        { token: 'string', foreground: '15803d' },
+                        { token: 'number', foreground: 'be123c' },
+                        { token: 'comment', foreground: '94a3b8', fontStyle: 'italic' },
+                    ],
+                    colors: {
+                        'editor.background': '#00000000',
+                        'editor.foreground': '#1a1a19',
+                    }
+                });
+                
+                // 2. Project State Load
+                project = { files: { "main.zc": `fn main() {\n    println "Welcome to Zen C!";\n}` }, activeFile: "main.zc" };
+                const saved = localStorage.getItem('zenc_project');
+                if (saved) { try { project = JSON.parse(saved); } catch(e) {} }
+
+                // 3. Create Editor
+                const themeVal = document.documentElement.getAttribute('data-theme') === 'dark' ? 'zenc-dark' : 'zenc-light';
+                editor = monaco.editor.create(document.getElementById('editor-container'), {
+                    value: project.files[project.activeFile],
+                    language: 'zenc',
+                    theme: themeVal,
+                    fontSize: 14,
+                    fontFamily: 'JetBrains Mono',
+                    minimap: { enabled: false },
+                    automaticLayout: true
+                });
+
+                // 4. Create Terminal
+                terminal = new Terminal({ cursorBlink: true, fontSize: 13, fontFamily: 'JetBrains Mono, monospace', allowTransparency: true, convertEol: true });
+                fitAddon = new FitAddon.FitAddon();
+                terminal.loadAddon(fitAddon);
+                terminal.open(document.getElementById('output'));
+                updateTerminalTheme(document.documentElement.getAttribute('data-theme'));
+                drawTerminalHeader();
+
+                // 5. Wire Events
+                window.addEventListener('resize', () => fitAddon.fit());
+                setTimeout(() => fitAddon.fit(), 100);
+                
+                document.getElementById('add-file-btn').onclick = addFile;
+                clearBtn.onclick = () => { terminal.clear(); drawTerminalHeader(); };
+                
+                runBtn.onclick = async () => {
+                    project.files[project.activeFile] = editor.getValue();
+                    saveProject();
+                    runBtn.disabled = true; runBtn.innerHTML = "Compiling...";
+                    terminal.clear(); drawTerminalHeader();
+                    terminal.writeln("\x1b[90m>> Building plugins and compiling main.zc...\x1b[0m");
+                    
+                    try {
+                        const resp = await fetch('/api/run', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ files: project.files }) });
+                        const data = await resp.json();
+                        if (data.output) terminal.write(data.output + "\r\n");
+                        if (currentTutorialIndex !== -1) {
+                            const tut = tutorialsData[currentTutorialIndex];
+                            if (tut.validator(data.output || "", editor.getValue())) {
+                                tut.completed = true;
+                                hydrateTutorials(editor);
+                                missionStatus.style.display = 'block'; missionStatus.innerHTML = 'Mission Accomplished!';
+                            }
                         }
-                    }
+                    } catch (e) { terminal.writeln("\x1b[1;31m[Error]:\x1b[0m " + e.message); }
+                    finally { runBtn.disabled = false; runBtn.innerHTML = "Run Code"; fitAddon.fit(); }
+                };
 
-                    if (data.error && !data.output) {
-                        terminal.writeln("\x1b[1;31m\r\n[Error]:\x1b[0m " + data.error);
-                    } else if (!data.error) {
-                        terminal.writeln(`\x1b[1;32m\r\n[Success]:\x1b[0m Process finished in ${duration}s`);
-                    }
-                } catch (err) {
-                    terminal.writeln("\x1b[1;31m\r\n[Connection Error]:\x1b[0m " + err.message);
-                } finally {
-                    runBtn.disabled = false;
-                    runBtn.innerHTML = `
-                                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                                    <path d="M8 5v14l11-7z" />
-                                </svg>
-                                Run Code`;
-                    fitAddon.fit();
+                // 6. UI Sync & Tutorials
+                updateProjectUI();
+                hydrateTutorials(editor);
+                
+                async function loadExamples() {
+                    try {
+                        const resp = await fetch('examples.json');
+                        examplesData = await resp.json();
+                        examplesSelect.innerHTML = '<option value="" disabled selected>-- Reference Code --</option>';
+                        examplesData.forEach((ex, idx) => {
+                            const opt = document.createElement('option'); opt.value = idx; opt.textContent = ex.title; examplesSelect.appendChild(opt);
+                        });
+                    } catch (e) {}
                 }
-            });
+                loadExamples();
+                examplesSelect.onchange = (e) => {
+                    const ex = examplesData[e.target.value];
+                    if (ex) { project.files["main.zc"] = ex.code; project.activeFile = "main.zc"; editor.setValue(ex.code); updateProjectUI(); saveProject(); }
+                };
 
-            const copyBtn = document.getElementById('copy-btn');
-            copyBtn.addEventListener('click', () => {
-                navigator.clipboard.writeText(editor.getValue());
-                copyBtn.innerHTML = 'Copied!';
-                setTimeout(() => {
-                    copyBtn.innerHTML = `
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                                Copy`;
-                }, 2000);
-            });
+                // 7. LSP
+                function connectLSP() {
+                    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                    lspSocket = new WebSocket(`${protocol}//${window.location.host}/api/lsp`);
+                    lspSocket.onopen = () => {
+                        sendLSPRequest('initialize', { processId: null, rootUri: 'file:///', capabilities: {} });
+                        Object.entries(project.files).forEach(([f, c]) => sendLSPNotification('textDocument/didOpen', { textDocument: { uri: `file:///${f}`, languageId: 'zenc', version: 1, text: c } }));
+                    };
+                    lspSocket.onmessage = (event) => {
+                        const msg = JSON.parse(event.data);
+                        if (msg.id !== undefined && pendingRequests.has(msg.id)) {
+                            pendingRequests.get(msg.id).resolve(msg.result);
+                            pendingRequests.delete(msg.id);
+                            if (msg.id === 0) sendLSPNotification('initialized', {});
+                        } else if (msg.method === 'textDocument/publishDiagnostics') {
+                            const markers = msg.params.diagnostics.map(d => ({ severity: d.severity === 1 ? monaco.MarkerSeverity.Error : monaco.MarkerSeverity.Warning, message: d.message, startLineNumber: d.range.start.line + 1, startColumn: d.range.start.character + 1, endLineNumber: d.range.end.line + 1, endColumn: d.range.end.character + 1 }));
+                            monaco.editor.setModelMarkers(editor.getModel(), 'zenc', markers);
+                        }
+                    };
+                    lspSocket.onclose = () => setTimeout(connectLSP, 5000);
+                }
+                connectLSP();
+
+                function sendLSPRequest(method, params) { const id = requestId++; return new Promise(resolve => { pendingRequests.set(id, { resolve }); lspSocket.send(JSON.stringify({ jsonrpc: '2.0', id, method, params })); }); }
+                function sendLSPNotification(method, params) { if (lspSocket && lspSocket.readyState === WebSocket.OPEN) lspSocket.send(JSON.stringify({ jsonrpc: '2.0', method, params })); }
+
+                editor.onDidChangeModelContent(() => {
+                    sendLSPNotification('textDocument/didChange', { textDocument: { uri: `file:///${project.activeFile}`, version: ++version }, contentChanges: [{ text: editor.getValue() }] });
+                });
+
+                monaco.languages.registerHoverProvider('zenc', { provideHover: async (model, position) => {
+                    const res = await sendLSPRequest('textDocument/hover', { textDocument: { uri: 'file:///main.zc' }, position: { line: position.lineNumber - 1, character: position.column - 1 } });
+                    return res && res.contents ? { contents: [{ value: res.contents.value }] } : null;
+                }});
+
+                monaco.languages.registerCompletionItemProvider('zenc', { triggerCharacters: ['.', ':', '-', '>'], provideCompletionItems: async (model, position) => {
+                    const res = await sendLSPRequest('textDocument/completion', { textDocument: { uri: 'file:///main.zc' }, position: { line: position.lineNumber - 1, character: position.column - 1 } });
+                    if (res) { const items = (Array.isArray(res) ? res : res.items) || []; return { suggestions: items.map(item => ({ label: item.label, kind: item.kind-1 || monaco.languages.CompletionItemKind.Property, insertText: item.label, detail: item.detail })) }; }
+                }});
+
+            } catch (err) {
+                console.error("Playground initialization failed:", err);
+                if (terminal) {
+                    terminal.writeln("\x1b[1;31m[Fatal Error]:\x1b[0m Initialization failed: " + err.message);
+                } else {
+                    const out = document.getElementById('output');
+                    if (out) out.innerHTML = `<div style="padding: 20px; color: #ef4444; font-family: monospace;">Initialization failed: ${err.message}<br>Check console for details.</div>`;
+                }
+            }
         });
     </script>
 </body>
-
 </html>
