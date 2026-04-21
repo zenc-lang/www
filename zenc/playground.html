@@ -226,8 +226,8 @@
             flex-direction: column;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
-            min-height: 0;
-            /* Allow shrinking below content */
+            min-height: 150px !important;
+            /* Physically protect status bar & tabs */
         }
 
         #layout-resizer {
@@ -379,12 +379,12 @@
 
         /* --- Terminal Output Pane --- */
         #terminal-wrapper {
-            flex: 1;
+            flex: none;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            min-height: 0;
-            /* Allow shrinking */
+            min-height: 100px !important;
+            /* Protect terminal header */
         }
 
         #terminal-wrapper .zen-panel-header {
@@ -1677,23 +1677,22 @@
                     const newHeightPx = startHeight + deltaY;
                     const percentage = (newHeightPx / totalHeight) * 100;
 
-                    // Enhanced Asymmetric Constraints:
-                    // - minEditorPx: enough for Header(44) + Tabs(36) + Status(24) + spacing
-                    // - minTerminalPx: enough for Header(44) + some output
                     const minEditorPx = 150;
                     const minTerminalPx = 100;
 
-                    if (newHeightPx >= minEditorPx && (totalHeight - newHeightPx) >= minTerminalPx) {
-                        const editorPct = percentage;
-                        const terminalPct = 100 - percentage;
+                    // Clamping Logic: SNAP to the limits instead of ignoring events
+                    const clampedHeightPx = Math.max(minEditorPx, Math.min(totalHeight - minTerminalPx, newHeightPx));
+                    const percentage = (clampedHeightPx / totalHeight) * 100;
 
-                        editorWrapper.style.height = `${editorPct}%`;
-                        terminalWrapper.style.height = `${terminalPct}%`;
-                        terminalWrapper.style.flex = "none"; // Stop flexbox from fighting our explicit height
+                    const editorPct = percentage;
+                    const terminalPct = 100 - percentage;
 
-                        editor.layout();
-                        fitAddon.fit();
-                    }
+                    editorWrapper.style.height = `${editorPct}%`;
+                    terminalWrapper.style.height = `${terminalPct}%`;
+                    terminalWrapper.style.flex = "none"; // Stop flexbox from fighting our explicit height
+
+                    editor.layout();
+                    fitAddon.fit();
                 });
 
                 window.addEventListener('mouseup', () => {
