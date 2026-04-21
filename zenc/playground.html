@@ -585,14 +585,15 @@
                 activeFile: "main.zc"
             };
 
-            // Migrate old storage if exists
-            const oldCode = localStorage.getItem('zenc_code');
+            // Migrate/Load Project
             const savedProject = localStorage.getItem('zenc_project');
-            
             if (savedProject) {
-                project = JSON.parse(savedProject);
-            } else if (oldCode) {
-                project.files["main.zc"] = oldCode;
+                try {
+                    project = JSON.parse(savedProject);
+                } catch(e) { console.error("Malformed project storage"); }
+            } else {
+                const oldCode = localStorage.getItem('zenc_code');
+                if (oldCode) project.files["main.zc"] = oldCode;
             }
 
             const fileList = document.getElementById('file-list');
@@ -654,7 +655,12 @@
                 saveProject();
                 
                 // Switch LSP context
-                // We'll update the active document in the LSP bridge
+                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
+                    sendLSPNotification('textDocument/didChange', {
+                        textDocument: { uri: `file:///${filename}`, version: ++version },
+                        contentChanges: [{ text: editor.getValue() }]
+                    });
+                }
             }
 
             function addFile() {
@@ -783,7 +789,6 @@
                 tutorialList.innerHTML = '';
                 tutorialsData.forEach((tut, idx) => {
                     const btn = document.createElement('div');
-v');
                     btn.classList.add('tutorial-btn');
                     btn.style.cssText = "padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between;";
                     if (idx === 0) btn.style.borderTop = "1px solid var(--border)";
@@ -813,8 +818,14 @@ v');
                         currentTutorialIndex = idx;
                         btn.style.background = "var(--surface-alt)";
 
-                        tutorialContent.innerHTML = tut.content;
                         activeEditor.setValue(tut.code);
+                        
+                        // Update project state for tutorials
+                        project.files["main.zc"] = tut.code;
+                        project.activeFile = "main.zc";
+                        editor.setValue(project.files["main.zc"]);
+                        updateProjectUI();
+                        saveProject();
 
                         // Show Mission
                         tutorialMission.style.display = 'block';
@@ -838,18 +849,9 @@ v');
                 });
             }
 
-            examplesSelect.addEventListener('change', (e) => {
-                const idx = e.target.value;
-                if (idx !== "" && examplesData[idx]) {
-                    // Update editor if it exists (captured in closure below)
-                    window._globalEditorInstance.setValue(examplesData[idx].code);
-                }
-            });
-
-            loadExamples();
 
             const editor = monaco.editor.create(document.getElementById('editor-container'), {
-                value: `fn main() {\n    println "Welcome to the Zen C Playground!";\n\n    let a = 10;\n    let b = 32;\n    let sum = a + b;\n\n    println "The sum of {a} and {b} is {sum}.";\n}`,
+                value: project.files[project.activeFile],
                 language: 'zenc',
                 theme: currentTheme,
                 fontSize: 14,
@@ -860,9 +862,29 @@ v');
                 padding: { top: 20 }
             });
 
+            // Initial UI Sync
+            updateProjectUI();
+            
             // Hydrate logic
             window._globalEditorInstance = editor;
             hydrateTutorials(editor);
+
+            // Examples Setup (after editor exists)
+            const examplesSelect = document.getElementById('examples-select');
+            let examplesData = [];
+
+            examplesSelect.addEventListener('change', (e) => {
+                const idx = e.target.value;
+                if (idx !== "" && examplesData[idx]) {
+                    project.files["main.zc"] = examplesData[idx].code;
+                    project.activeFile = "main.zc";
+                    editor.setValue(project.files["main.zc"]);
+                    updateProjectUI();
+                    saveProject();
+                }
+            });
+
+            loadExamples();
 
             const themeToggle = document.getElementById('theme-toggle');
             const htmlElement = document.documentElement;
@@ -908,8 +930,11 @@ v');
                     // Initialize LSP
                     sendLSPRequest('initialize', {
                         processId: null,
-                    console.log('LSP: WebSocket connected');
-                    // Sync all files in the project to the LSP
+                        rootUri: 'file:///',
+                        capabilities: {}
+                    });
+                    
+                    // Sync all files
                     Object.entries(project.files).forEach(([filename, content]) => {
                         sendLSPNotification('textDocument/didOpen', {
                             textDocument: {
@@ -974,7 +999,7 @@ v');
             editor.onDidChangeModelContent(() => {
                 const content = editor.getValue();
                 sendLSPNotification('textDocument/didChange', {
-                    textDocument: { uri: 'file:///main.zc', version: ++version },
+                    textDocument: { uri: `file:///${project.activeFile}`, version: ++version },
                     contentChanges: [{ text: content }]
                 });
             });
