@@ -965,274 +965,15 @@
                 if (oldCode) project.files["main.zc"] = oldCode;
             }
 
-            const fileList = document.getElementById('file-list');
-            const tabBar = document.getElementById('tab-bar');
-
-            function saveProject() {
-                localStorage.setItem('zenc_project', JSON.stringify(project));
-            }
-
-            function updateProjectUI() {
-                // Update Sidebar
-                fileList.innerHTML = '';
-                Object.keys(project.files).sort().forEach(filename => {
-                    const item = document.createElement('div');
-                    item.className = `file-item ${filename === project.activeFile ? 'active' : ''}`;
-
-                    const isPlugin = filename.startsWith('plugins/');
-                    const icon = isPlugin ?
-                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' :
-                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>';
-
-                    item.innerHTML = `
-                        ${icon}
-                        <span>${filename}</span>
-                        ${filename !== 'main.zc' ? '<span class="delete-file" title="Delete file">×</span>' : ''}
-                    `;
-
-                    item.onclick = (e) => {
-                        if (e.target.className === 'delete-file') {
-                            deleteFile(filename);
-                        } else {
-                            switchFile(filename);
-                        }
-                    };
-                    fileList.appendChild(item);
-                });
-
-                // Update Tabs
-                tabBar.innerHTML = '';
-                // For simplicity, we'll just show the active file and a few others
-                const tabFiles = [project.activeFile];
-                tabFiles.forEach(filename => {
-                    const tab = document.createElement('div');
-                    tab.className = `tab active`;
-                    tab.textContent = filename;
-                    tabBar.appendChild(tab);
-                });
-            }
-
-            function switchFile(filename) {
-                if (project.activeFile === filename) return;
-
-                // Save current content
-                project.files[project.activeFile] = editor.getValue();
-
-                project.activeFile = filename;
-                editor.setValue(project.files[filename]);
-                updateProjectUI();
-                saveProject();
-
-                // Switch LSP context
-                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
-                    sendLSPNotification('textDocument/didChange', {
-                        textDocument: { uri: `file:///${filename}`, version: ++version },
-                        contentChanges: [{ text: editor.getValue() }]
-                    });
-                }
-            }
-
-            function addFile() {
-                const name = prompt("Enter filename (e.g. plugins/my_plugin.zc):", "plugins/new_plugin.zc");
-                if (name && !project.files[name]) {
-                    if (!name.endsWith('.zc')) {
-                        alert("Files must end with .zc");
-                        return;
-                    }
-
-                    let content = `// New file: ${name}\n`;
-                    if (name.startsWith('plugins/')) {
-                        const pluginName = name.split('/').pop().replace('.zc', '');
-                        content = `import "std/plugin.zc"\n\n// 1. Define the transpiler handler\nfn ${pluginName}_handler(body: char*, api: ZApi*) {\n    let out = api.out;\n    fputs(f"// Transpiled code for ${pluginName}\\n", out);\n    // Implement your logic here...\n}\n\n// 2. Register the plugin metadata\nlet ${pluginName}_plugin = ZPlugin {\n    name: "${pluginName}",\n    handler: ${pluginName}_handler,\n    hover_handler: fn(body: char*, line: int, col: int) -> char* {\n        return "Plugin: ${pluginName}";\n    }\n};\n\n// 3. Export the initializer\n@export\nfn z_plugin_init() -> ZPlugin* {\n    return &${pluginName}_plugin;\n}\n`;
-                    }
-
-                    project.files[name] = content;
-                    switchFile(name);
-                }
-            }
-
-            function deleteFile(name) {
-                if (name === 'main.zc') return;
-                if (confirm(`Delete ${name}?`)) {
-                    delete project.files[name];
-                    if (project.activeFile === name) {
-                        project.activeFile = "main.zc";
-                        editor.setValue(project.files["main.zc"]);
-                    }
-                    updateProjectUI();
-                    saveProject();
-                }
-            }
-
-            document.getElementById('add-file-btn').onclick = addFile;
-
-            async function loadExamples() {
-                try {
-                    const resp = await fetch('examples.json');
-                    examplesData = await resp.json();
-
-                    // Clear existing and add new
-                    examplesSelect.innerHTML = '<option value="" disabled selected>-- Reference Code --</option>';
-                    examplesData.forEach((ex, idx) => {
-                        const opt = document.createElement('option');
-                        opt.value = idx;
-                        opt.textContent = ex.title;
-                        examplesSelect.appendChild(opt);
-                    });
-                } catch (err) {
-                    console.error("Failed to load examples:", err);
-                }
-            }
-
-            // Tutorial Data & Hydration
-            const tutorialsData = [
-                {
-                    id: 'hello-world',
-                    title: '1. Hello, Zen C!',
-                    content: `<h2>Hello, Zen C!</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">First steps in the Zenith.</p>
-                    <p>Every Zen C program starts with a <code>main</code> function. You can use the <code>println</code> builtin to output strings followed by a newline.</p>`,
-                    mission: "Change the message from 'Hello, World!' to <b>'Zenith of C!'</b>",
-                    code: `fn main() {\n    println "Hello, World!";\n}`,
-                    validator: (output, code) => output.includes("Zenith of C!")
-                },
-                {
-                    id: 'variables',
-                    title: '2. Alchemist\'s Variables',
-                    content: `<h2>Alchemist's Variables</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Constants and Storage.</p>
-                    <p>Use <code>def</code> for compile-time constants and <code>let</code> for variables. String interpolation with <code>{ }</code> makes formatting a breeze.</p>`,
-                    mission: "Calculate the <b>volume</b> of a sphere: <code>(4.0/3.0) * PI * r * r * r</code>. Print <b>'Sphere Volume: {v}'</b>.",
-                    code: `def PI = 3.14159;\n\nfn main() {\n    let r = 5.0;\n    // Calculate volume here\n    let v = (4.0 / 3.0) * PI * r * r * r;\n    println "Sphere Volume: {v}";\n}`,
-                    validator: (output, code) => output.includes("Sphere Volume: 523.598")
-                },
-                {
-                    id: 'control-flow',
-                    title: '3. Fibonacci Garden',
-                    content: `<h2>Fibonacci Garden</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Loops and Growth.</p>
-                    <p>Zen C <code>while</code> loops are clean and parenthesis-free. Perfect for generating sequences.</p>`,
-                    mission: "Generate Fibonacci numbers up to <b>100</b>, one per line. Use a <code>while</code> loop to compute and print them.",
-                    code: `fn main() {\n    let a = 1;\n    let b = 1;\n    // Implement Fibonacci loop here\n}`,
-                    validator: (output, code) => output.includes("1") && output.includes("5") && output.includes("89")
-                },
-                {
-                    id: 'structs',
-                    title: '4. Alchemist\'s Structs',
-                    content: `<h2>Alchemist's Structs</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Data Modeling.</p>
-                    <p>Structs organize related data. Functions can take structs as arguments to perform calculations.</p>`,
-                    mission: "Implement a function <code>fn dist_sq(p: Point) -> i32</code> that returns <code>p.x * p.x + p.y * p.y</code>. Print <b>'DistSq: {d}'</b> for the point (3, 4).",
-                    code: `struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 3, y: 4 };\n    // Implement and call dist_sq here\n}`,
-                    validator: (output, code) => output.includes("DistSq: 25")
-                },
-                {
-                    id: 'pointers',
-                    title: '5. Master\'s Pointers',
-                    content: `<h2>Master\'s Pointers</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Memory Command.</p>
-                    <p>Pointers use the <code>T*</code> syntax. Use <code>&</code> to take an address and <code>*</code> to dereference.</p>`,
-                    mission: "Implement <code>fn double_val(p: i32*)</code> to double the value at the pointer. Call it on <code>n = 21</code> and print <b>'Result: {n}'</b>.",
-                    code: `fn double_val(p: i32*) {\n    // Implement doubling here\n}\n\nfn main() {\n    let n = 21;\n    // Call and print result here\n}`,
-                    validator: (output, code) => output.includes("Result: 42")
-                },
-                {
-                    id: 'strings',
-                    title: '6. Zen Strings',
-                    content: `<h2>Zen Strings</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Modern String Handling.</p>
-                    <p>Zen C provides a powerful <code>String</code> object in <code>std/string.zc</code> for dynamic manipulation.</p>`,
-                    mission: "Start with an empty String, append <b>'Zen'</b> then <b>' C'</b>. Finally, print the length: <b>'Length: {s.length()}'</b>.",
-                    code: `import "std/string.zc"\n\nfn main() {\n    let s = String::from("");\n    // Append and print here\n}`,
-                    validator: (output, code) => output.includes("Length: 5")
-                },
-                {
-                    id: 'brainfuck',
-                    title: '7. Brainfuck Masterclass',
-                    content: `<h2>Brainfuck Masterclass</h2>
-                    <p style="color: var(--muted); margin-bottom: 1rem;">Building a DSL Transpiler.</p>
-                    <p>Plugins allow you to extend Zen C with your own Domain Specific Languages. This example implements a Brainfuck-to-C transpiler.</p>
-                    <p>When you run this code, the compiler builds <code>plugins/brainfuck.zc</code> as a shared library and loads it to handle the <code>bf! { }</code> block macro.</p>`,
-                    mission: "Modify the Brainfuck code to print <b>'ZEN'</b> instead of 'Hello'.",
-                    code: `import plugin "plugins/brainfuck" as bf\n\nfn main() {\n    print "Brainfuck says: ";\n    bf! {\n        ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.\n    }\n    println "";\n}`,
-                    setup: async (proj) => {
-                        try {
-                            const resp = await fetch('lessons/brainfuck_plugin.zc');
-                            const content = await resp.text();
-                            proj.files["plugins/brainfuck.zc"] = content;
-                        } catch (e) {
-                            console.error("Failed to load Brainfuck plugin:", e);
-                        }
-                    },
-                    validator: (output, code) => output.includes("ZEN")
-                }
-            ];
-
-            const tutorialList = document.getElementById('tutorial-list');
-            const tutorialContent = document.getElementById('tutorial-content');
-            const tutorialMission = document.getElementById('tutorial-mission');
-            const missionGoal = document.getElementById('mission-goal');
-            const missionStatus = document.getElementById('mission-status');
-            let currentTutorialIndex = -1;
-
-            function hydrateTutorials(activeEditor) {
-                tutorialList.innerHTML = '';
-                tutorialsData.forEach((tut, idx) => {
-                    const btn = document.createElement('div');
-                    btn.classList.add('tutorial-btn');
-                    if (currentTutorialIndex === idx) btn.classList.add('active');
-
-                    const titleSpan = document.createElement('span');
-                    titleSpan.textContent = tut.title;
-                    btn.appendChild(titleSpan);
-
-                    const icon = document.createElement('div');
-                    icon.innerHTML = tut.completed ?
-                        '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' :
-                        '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" opacity="0.25"><path d="M8 5v14l11-7z"/></svg>';
-                    btn.appendChild(icon);
-
-                    btn.addEventListener('click', async () => {
-                        // Deselect others
-                        Array.from(tutorialList.children).forEach(child => child.classList.remove('active'));
-                        btn.classList.add('active');
-                        currentTutorialIndex = idx;
-
-                        // Update project state for tutorials
-                        if (tut.setup) await tut.setup(project);
-                        project.files["main.zc"] = tut.code;
-                        project.activeFile = "main.zc";
-                        editor.setValue(tut.code);
-                        updateProjectUI();
-                        saveProject();
-
-                        // Update tutorial content
-                        tutorialContent.innerHTML = tut.content;
-
-                        // Show Mission
-                        tutorialMission.style.display = 'block';
-                        missionGoal.innerHTML = tut.mission;
-
-                        // Reset success state
-                        tutorialMission.classList.remove('mission-success');
-                        document.getElementById('mission-title-text').textContent = 'Seeking Enlightenment';
-                        missionStatus.style.display = 'none';
-                        if (tut.completed) {
-                            document.getElementById('mission-title-text').textContent = 'Mastery Achieved';
-                            tutorialMission.classList.add('mission-success');
-                        }
-                    });
-
-                    tutorialList.appendChild(btn);
-                });
-            }
-
-            // 1. Core UI Elements
+            // --- 1. CORE UI SELECTION ---
             const examplesSelect = document.getElementById('examples-select');
             const fileList = document.getElementById('file-list');
             const tabBar = document.getElementById('tab-bar');
+            const cursorPos = document.getElementById('cursor-pos');
+            const fileStats = document.getElementById('file-stats');
+            const runBtn = document.getElementById('run-btn');
 
-            // 2. Main Editor Initializer (Early as possible)
+            // --- 2. MAIN EDITOR INITIALIZATION ---
             const editor = monaco.editor.create(document.getElementById('editor-container'), {
                 value: project.files[project.activeFile],
                 language: 'zenc',
@@ -1245,62 +986,42 @@
                 padding: { top: 20 }
             });
 
-            // 3. Status Bar & Logic
-            // 3. Status Bar & Logic
-            const cursorPos = document.getElementById('cursor-pos');
-            const fileStats = document.getElementById('file-stats');
-
             function updateStatusBar() {
                 const count = Object.keys(project.files).length;
                 fileStats.textContent = `${count} ${count === 1 ? 'file' : 'files'}`;
             }
-
             editor.onDidChangeCursorPosition((e) => {
                 cursorPos.textContent = `Ln ${e.position.lineNumber}, Col ${e.position.column}`;
             });
+            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => runBtn.click());
 
-            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, function () {
-                const runBtn = document.getElementById('run-btn');
-                if (runBtn) runBtn.click();
-            });
+            // --- 3. WORKSPACE LOGIC ---
+            function saveProject() {
+                localStorage.setItem('zenc_project', JSON.stringify(project));
+            }
 
             function updateProjectUI() {
-                // Update Sidebar
                 fileList.innerHTML = '';
                 Object.keys(project.files).sort().forEach(filename => {
                     const item = document.createElement('div');
                     item.className = `file-item ${filename === project.activeFile ? 'active' : ''}`;
-
                     const isPlugin = filename.startsWith('plugins/');
-                    const icon = isPlugin ?
-                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' :
+                    const icon = isPlugin ? 
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' : 
                         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>';
-
-                    item.innerHTML = `
-                        ${icon}
-                        <span>${filename}</span>
-                        ${filename !== 'main.zc' ? '<span class="delete-file" title="Delete file">×</span>' : ''}
-                    `;
-
+                    item.innerHTML = `${icon}<span>${filename}</span>${filename !== 'main.zc' ? '<span class="delete-file" title="Delete file">×</span>' : ''}`;
                     item.onclick = (e) => {
-                        if (e.target.className === 'delete-file') {
-                            deleteFile(filename);
-                        } else {
-                            switchFile(filename);
-                        }
+                        if (e.target.className === 'delete-file') deleteFile(filename);
+                        else switchFile(filename);
                     };
                     fileList.appendChild(item);
                 });
-
-                // Update Tabs
                 tabBar.innerHTML = '';
-                const tabFiles = [project.activeFile];
-                tabFiles.forEach(filename => {
-                    const tab = document.createElement('div');
-                    tab.className = `tab active`;
-                    tab.textContent = filename;
-                    tabBar.appendChild(tab);
-                });
+                const tab = document.createElement('div');
+                tab.className = 'tab active';
+                tab.textContent = project.activeFile;
+                tabBar.appendChild(tab);
+                updateStatusBar();
             }
 
             function switchFile(filename) {
@@ -1310,7 +1031,6 @@
                 editor.setValue(project.files[filename]);
                 updateProjectUI();
                 saveProject();
-
                 if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
                     sendLSPNotification('textDocument/didChange', {
                         textDocument: { uri: `file:///${filename}`, version: ++version },
@@ -1322,14 +1042,11 @@
             function addFile() {
                 const name = prompt("Enter filename (e.g. plugins/my_plugin.zc):", "plugins/new_plugin.zc");
                 if (name && !project.files[name]) {
-                    if (!name.endsWith('.zc')) {
-                        alert("Files must end with .zc");
-                        return;
-                    }
+                    if (!name.endsWith('.zc')) { alert("Files must end with .zc"); return; }
                     let content = `// New file: ${name}\n`;
                     if (name.startsWith('plugins/')) {
-                        const pluginName = name.split('/').pop().replace('.zc', '');
-                        content = `import "std/plugin.zc"\n\nfn ${pluginName}_handler(body: char*, api: ZApi*) {\n    let out = api.out;\n    fputs(f"// Transpiled code for ${pluginName}\\n", out);\n}\n\nlet ${pluginName}_plugin = ZPlugin {\n    name: "${pluginName}",\n    handler: ${pluginName}_handler\n};\n\n@export\nfn z_plugin_init() -> ZPlugin* {\n    return &${pluginName}_plugin;\n}\n`;
+                        const pName = name.split('/').pop().replace('.zc', '');
+                        content = `import "std/plugin.zc"\n\nfn ${pName}_handler(body: char*, api: ZApi*) {\n    fputs("// Transpiled ${pName}\\n", api.out);\n}\n\nlet ${pName}_plugin = ZPlugin { name: "${pName}", handler: ${pName}_handler };\n\n@export fn z_plugin_init() -> ZPlugin* { return &${pName}_plugin; }`;
                     }
                     project.files[name] = content;
                     switchFile(name);
@@ -1348,8 +1065,58 @@
                     saveProject();
                 }
             }
-
             document.getElementById('add-file-btn').onclick = addFile;
+
+            // --- 4. TUTORIALS & EXAMPLES ---
+            const tutorialsData = [
+                {
+                    id: 'hello-world', title: '1. Hello, Zen C!',
+                    content: `<h2>Hello, Zen C!</h2><p>Every Zen C program starts with <code>main</code>.</p>`,
+                    mission: "Change the message to <b>'Zenith of C!'</b>",
+                    code: `fn main() {\n    println "Hello, World!";\n}`,
+                    validator: (output, code) => output.includes("Zenith of C!")
+                },
+                {
+                    id: 'plugins', title: '6. The Plugin Weave',
+                    content: `<h2>DSL Plugins</h2><p>Extend Zen C with your own DSLs.</p>`,
+                    mission: "Observe the transpiler output in the terminal.",
+                    code: `import plugin "plugins/my_plugin" as my\n\nfn main() {\n    my! { some content }\n}`,
+                    setup: async (proj) => {
+                        proj.files["plugins/my_plugin.zc"] = `import "std/plugin.zc"\nfn my_handler(body: char*, api: ZApi*) { fputs("// Custom DSL\\n", api.out); }\nlet my_plugin = ZPlugin { name: "my", handler: my_handler };\n@export fn z_plugin_init() -> ZPlugin* { return &my_plugin; }`;
+                    },
+                    validator: (output, code) => output.includes("Custom DSL")
+                }
+            ];
+
+            const tutorialList = document.getElementById('tutorial-list');
+            const tutorialContent = document.getElementById('tutorial-content');
+            const tutorialMission = document.getElementById('tutorial-mission');
+            const missionGoal = document.getElementById('mission-goal');
+            let currentTutorialIndex = -1;
+
+            function hydrateTutorials(activeEditor) {
+                tutorialList.innerHTML = '';
+                tutorialsData.forEach((tut, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'tutorial-btn';
+                    btn.innerHTML = `<div>${tut.title}</div><div class="tut-status-icon"></div>`;
+                    btn.onclick = (async () => {
+                        currentTutorialIndex = idx;
+                        if (tut.setup) await tut.setup(project);
+                        project.files["main.zc"] = tut.code;
+                        project.activeFile = "main.zc";
+                        activeEditor.setValue(tut.code);
+                        updateProjectUI();
+                        saveProject();
+                        tutorialContent.innerHTML = tut.content;
+                        tutorialMission.style.display = 'block';
+                        missionGoal.innerHTML = tut.mission;
+                        tutorialMission.classList.remove('mission-success');
+                        document.getElementById('mission-title-text').textContent = (tut.completed ? 'Mastery Achieved' : 'Seeking Enlightenment');
+                    });
+                    tutorialList.appendChild(btn);
+                });
+            }
 
             let examplesData = [];
             async function loadExamples() {
@@ -1359,90 +1126,64 @@
                     examplesSelect.innerHTML = '<option value="" disabled selected>-- Reference Code --</option>';
                     examplesData.forEach((ex, idx) => {
                         const opt = document.createElement('option');
-                        opt.value = idx;
-                        opt.textContent = ex.title;
+                        opt.value = idx; opt.textContent = ex.title;
                         examplesSelect.appendChild(opt);
                     });
-                } catch (err) { console.error("Failed to load examples:", err); }
+                } catch (err) { console.error("Examples failed:", err); }
             }
 
-            // --- LSP INTEGRATION ---
-            let lspSocket = null;
-            let requestId = 0;
-            let version = 1;
+            // --- 5. LSP & TERMINAL ---
+            let lspSocket = null, requestId = 0, version = 1;
             const pendingRequests = new Map();
 
             function connectLSP() {
                 const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
                 const host = window.location.host;
                 lspSocket = new WebSocket(`${protocol}//${host}/api/lsp`);
-
                 lspSocket.onopen = () => {
-                    console.log("Connected to Zen C LSP");
                     sendLSPRequest('initialize', { processId: null, rootUri: 'file:///', capabilities: {} });
-                    Object.entries(project.files).forEach(([filename, content]) => {
-                        sendLSPNotification('textDocument/didOpen', {
-                            textDocument: { uri: `file:///${filename}`, languageId: 'zenc', version: 1, text: content }
-                        });
+                    Object.entries(project.files).forEach(([f, c]) => {
+                        sendLSPNotification('textDocument/didOpen', { textDocument: { uri: `file:///${f}`, languageId: 'zenc', version: 1, text: c } });
                     });
                 };
-
-                lspSocket.onmessage = async (event) => {
+                lspSocket.onmessage = (event) => {
                     const msg = JSON.parse(event.data);
                     if (msg.id !== undefined && pendingRequests.has(msg.id)) {
                         const { resolve } = pendingRequests.get(msg.id);
                         pendingRequests.delete(msg.id);
                         resolve(msg.result);
                         if (msg.id === 0) sendLSPNotification('initialized', {});
-                    } else if (msg.method === 'textDocument/publishDiagnostics') {
-                        updateDiagnostics(msg.params.diagnostics);
-                    }
+                    } else if (msg.method === 'textDocument/publishDiagnostics') updateDiagnostics(msg.params.diagnostics);
                 };
-
-                lspSocket.onclose = () => { setTimeout(connectLSP, 5000); };
+                lspSocket.onclose = () => setTimeout(connectLSP, 5000);
             }
 
             function sendLSPRequest(method, params) {
                 const id = requestId++;
-                return new Promise((resolve) => {
-                    pendingRequests.set(id, { resolve });
-                    lspSocket.send(JSON.stringify({ jsonrpc: '2.0', id, method, params }));
-                });
+                return new Promise(resolve => { pendingRequests.set(id, { resolve }); lspSocket.send(JSON.stringify({ jsonrpc: '2.0', id, method, params })); });
             }
 
             function sendLSPNotification(method, params) {
-                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) {
-                    lspSocket.send(JSON.stringify({ jsonrpc: '2.0', method, params }));
-                }
+                if (lspSocket && lspSocket.readyState === WebSocket.OPEN) lspSocket.send(JSON.stringify({ jsonrpc: '2.0', method, params }));
             }
 
             function updateDiagnostics(diagnostics) {
                 const markers = diagnostics.map(d => ({
                     severity: d.severity === 1 ? monaco.MarkerSeverity.Error : monaco.MarkerSeverity.Warning,
                     message: d.message,
-                    startLineNumber: d.range.start.line + 1,
-                    startColumn: d.range.start.character + 1,
-                    endLineNumber: d.range.end.line + 1,
-                    endColumn: d.range.end.character + 1,
-                    code: d.code
+                    startLineNumber: d.range.start.line + 1, startColumn: d.range.start.character + 1,
+                    endLineNumber: d.range.end.line + 1, endColumn: d.range.end.character + 1
                 }));
                 monaco.editor.setModelMarkers(editor.getModel(), 'zenc', markers);
             }
 
             editor.onDidChangeModelContent(() => {
-                const content = editor.getValue();
-                sendLSPNotification('textDocument/didChange', {
-                    textDocument: { uri: `file:///${project.activeFile}`, version: ++version },
-                    contentChanges: [{ text: content }]
-                });
+                sendLSPNotification('textDocument/didChange', { textDocument: { uri: `file:///${project.activeFile}`, version: ++version }, contentChanges: [{ text: editor.getValue() }] });
             });
 
             monaco.languages.registerHoverProvider('zenc', {
                 provideHover: async (model, position) => {
-                    const res = await sendLSPRequest('textDocument/hover', {
-                        textDocument: { uri: `file:///${project.activeFile}` },
-                        position: { line: position.lineNumber - 1, character: position.column - 1 }
-                    });
+                    const res = await sendLSPRequest('textDocument/hover', { textDocument: { uri: `file:///${project.activeFile}` }, position: { line: position.lineNumber - 1, character: position.column - 1 } });
                     if (res && res.contents) return { contents: [{ value: res.contents.value }] };
                 }
             });
@@ -1450,17 +1191,12 @@
             monaco.languages.registerCompletionItemProvider('zenc', {
                 triggerCharacters: ['.', ':', '-', '>'],
                 provideCompletionItems: async (model, position) => {
-                    const res = await sendLSPRequest('textDocument/completion', {
-                        textDocument: { uri: `file:///${project.activeFile}` },
-                        position: { line: position.lineNumber - 1, character: position.column - 1 }
-                    });
+                    const res = await sendLSPRequest('textDocument/completion', { textDocument: { uri: `file:///${project.activeFile}` }, position: { line: position.lineNumber - 1, character: position.column - 1 } });
                     if (res) {
                         const items = (Array.isArray(res) ? res : res.items) || [];
                         return { suggestions: items.map(item => ({
-                            label: item.label,
-                            kind: item.kind - 1 || monaco.languages.CompletionItemKind.Property,
-                            insertText: item.label,
-                            detail: item.detail
+                            label: item.label, kind: item.kind - 1 || monaco.languages.CompletionItemKind.Property,
+                            insertText: item.label, detail: item.detail
                         }))};
                     }
                 }
@@ -1468,330 +1204,127 @@
 
             try {
                 connectLSP();
-
-                // --- TERMINAL INITIALIZATION ---
                 if (window.Terminal) {
-                    const terminal = new Terminal({
-                    cursorBlink: true,
-                    fontSize: 13,
-                    fontFamily: 'JetBrains Mono, monospace',
-                    theme: {
-                        background: '#00000000',
-                        foreground: '#e2e8f0'
-                    },
-                    allowTransparency: true,
-                    convertEol: true
-                });
-                const fitAddon = new FitAddon.FitAddon();
-                    terminal.loadAddon(fitAddon);
+                    const terminal = new Terminal({ cursorBlink: true, fontSize: 13, fontFamily: 'JetBrains Mono, monospace', theme: { background: '#00000000', foreground: '#e2e8f0' }, allowTransparency: true, convertEol: true });
+                    const fitAddon = new FitAddon.FitAddon(); terminal.loadAddon(fitAddon);
                     const outDiv = document.getElementById('output');
-                    if (outDiv) {
-                        terminal.open(outDiv);
-                        window.terminal = terminal;
-                    }
-
-                function updateTerminalTheme(theme) {
-                    const isDark = theme === 'dark';
-                    const zenTheme = isDark ? {
-                        background: '#0c0c0b',
-                        foreground: '#e2e8f0',
-                        cursor: '#4ade80',
-                        selectionBackground: 'rgba(74, 222, 128, 0.2)',
-                        black: '#0c0c0b',
-                        red: '#ef4444',
-                        green: '#4ade80',
-                        yellow: '#fbbf24',
-                        blue: '#38bdf8',
-                        magenta: '#a855f7',
-                        cyan: '#38bdf8',
-                        white: '#e2e8f0',
-                        brightBlack: '#64748b',
-                        brightGreen: '#22c55e',
-                        brightCyan: '#0ea5e9'
-                    } : {
-                        background: '#fdfdfc',
-                        foreground: '#1a1a19',
-                        cursor: '#15803d',
-                        selectionBackground: 'rgba(21, 128, 61, 0.15)',
-                        black: '#fdfdfc',
-                        red: '#dc2626',
-                        green: '#15803d',
-                        yellow: '#d97706',
-                        blue: '#0369a1',
-                        magenta: '#7c3aed',
-                        cyan: '#0284c7',
-                        white: '#1a1a19',
-                        brightBlack: '#94a3b8',
-                        brightGreen: '#16a34a',
-                        brightCyan: '#0369a1'
+                    if (outDiv) { terminal.open(outDiv); window.terminal = terminal; }
+                    
+                    const updateTerminalTheme = (theme) => {
+                        const isDark = theme === 'dark';
+                        terminal.options.theme = isDark ? { background: '#0c0c0b', foreground: '#e2e8f0', cursor: '#4ade80' } : { background: '#fdfdfc', foreground: '#1a1a19', cursor: '#15803d' };
                     };
-                    terminal.options.theme = zenTheme;
-                }
-                updateTerminalTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+                    updateTerminalTheme(localStorage.getItem('theme') || 'dark');
+                    window.addEventListener('resize', () => fitAddon.fit());
+                    setTimeout(() => fitAddon.fit(), 100);
 
-                window.addEventListener('resize', () => { if (fitAddon) fitAddon.fit(); });
-                setTimeout(() => { if (fitAddon) fitAddon.fit(); }, 100);
+                    const drawHeader = () => { terminal.clear(); terminal.writeln("\x1b[32m>\x1b[0m \x1b[1mZen C Playground\x1b[0m"); terminal.writeln("\x1b[90mPress Run to compile and execute.\x1b[0m\r\n"); };
+                    drawHeader();
+                    document.getElementById('clear-terminal').onclick = drawHeader;
 
-                function drawTerminalHeader() {
-                    terminal.writeln("\x1b[32m>\x1b[0m \x1b[1mZen C Playground\x1b[0m");
-                    terminal.writeln("\x1b[90mPress Run to compile and execute.\x1b[0m\r\n");
-                }
-                drawTerminalHeader();
-
-                const runBtn = document.getElementById('run-btn');
-                const clearBtn = document.getElementById('clear-terminal');
-
-                clearBtn.addEventListener('click', () => {
-                    terminal.clear();
-                    drawTerminalHeader();
-                });
-
-                runBtn.addEventListener('click', async () => {
-                    // Sync current file content before running
-                    project.files[project.activeFile] = editor.getValue();
-                    saveProject();
-
-                    const startTime = performance.now();
-                    runBtn.disabled = true;
-                    runBtn.innerHTML = '<span class="loading-spinner"></span> Compiling...';
-
-                    // Clear and Reprint Header
-                    terminal.clear();
-                    drawTerminalHeader();
-
-                    terminal.writeln("\x1b[90m>> Multi-phase build: Building plugins... compiling main.zc...\x1b[0m");
-
-                    try {
-                        const response = await fetch('/api/run', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                files: project.files
-                            })
-                        });
-                        const data = await response.json();
-                        const endTime = performance.now();
-                        const duration = ((endTime - startTime) / 1000).toFixed(2);
-
-                        if (data.output) {
-                            // Dim the compiler metadata (Compiling... Finished build...)
-                            const sanitizedOutput = data.output.replace(/^( {3}Compiling.*)$/mg, '\x1b[90m$1\x1b[0m')
-                                .replace(/^( {4}Finished build.*)$/mg, '\x1b[90m$1\x1b[0m');
-                            terminal.write(sanitizedOutput + "\r\n");
-                        }
-
-                        // MISSION VALIDATION
-                        if (currentTutorialIndex !== -1) {
-                            const tut = tutorialsData[currentTutorialIndex];
-                            if (tut.validator(data.output || "", editor.getValue())) {
-                                tut.completed = true;
-                                document.getElementById('mission-title-text').textContent = 'Mastery Achieved';
-                                tutorialMission.classList.add('mission-success');
-
-                                // Update sidebar icon
-                                const activeBtn = tutorialList.children[currentTutorialIndex];
-                                const iconDiv = activeBtn.querySelector('div:last-child');
-                                iconDiv.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                    runBtn.onclick = async () => {
+                        project.files[project.activeFile] = editor.getValue(); saveProject();
+                        runBtn.disabled = true; runBtn.innerHTML = '<span class="loading-spinner"></span> Compiling...';
+                        drawHeader(); terminal.writeln("\x1b[90m>> Starting build pipeline...\x1b[0m");
+                        try {
+                            const response = await fetch('/api/run', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ files: project.files }) });
+                            const data = await response.json();
+                            if (data.output) terminal.write(data.output + "\r\n");
+                            if (currentTutorialIndex !== -1) {
+                                const tut = tutorialsData[currentTutorialIndex];
+                                if (tut.validator(data.output || "", editor.getValue())) {
+                                    tut.completed = true;
+                                    document.getElementById('mission-title-text').textContent = 'Mastery Achieved';
+                                    document.getElementById('tutorial-mission').classList.add('mission-success');
+                                }
                             }
-                        }
+                            if (data.error && !data.output) terminal.writeln("\x1b[1;31m\r\n[Error]:\x1b[0m " + data.error);
+                            else if (!data.error) terminal.writeln(`\x1b[1;32m\r\n[Success]:\x1b[0m Process finished.`);
+                        } catch (err) { terminal.writeln("\x1b[1;31m\r\n[Connection Error]:\x1b[0m " + err.message); }
+                        finally { runBtn.disabled = false; runBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z" /></svg> Run Code'; fitAddon.fit(); }
+                    };
+                }
 
-                        if (data.error && !data.output) {
-                            terminal.writeln("\x1b[1;31m\r\n[Error]:\x1b[0m " + data.error);
-                        } else if (!data.error) {
-                            terminal.writeln(`\x1b[1;32m\r\n[Success]:\x1b[0m Process finished in ${duration}s`);
-                        }
-                    } catch (err) {
-                        terminal.writeln("\x1b[1;31m\r\n[Connection Error]:\x1b[0m " + err.message);
-                    } finally {
-                        runBtn.disabled = false;
-                        runBtn.innerHTML = `
-                                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                                    <path d="M8 5v14l11-7z" />
-                                </svg>
-                                Run Code`;
-                        fitAddon.fit();
-                        updateStatusBar();
-                    }
-                });
-            }
-                // --- SHARING & PORTABILITY ---
+                // --- 6. SHARING & FINAL BOOT ---
+                document.getElementById('share-btn').onclick = () => {
+                    project.files[project.activeFile] = editor.getValue();
+                    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(project))));
+                    const url = new URL(window.location.href); url.searchParams.set('project', encoded);
+                    window.history.replaceState({}, '', url);
+                    navigator.clipboard.writeText(url.href).then(() => {
+                        const btn = document.getElementById('share-btn'); const old = btn.innerHTML; btn.innerHTML = '✓ Copied!';
+                        setTimeout(() => btn.innerHTML = old, 2000);
+                    });
+                };
 
-                // --- SHARING & PORTABILITY ---
-                const shareBtn = document.getElementById('share-btn');
-                const downloadBtn = document.getElementById('download-zc-btn');
-
-                shareBtn.addEventListener('click', () => {
-                    try {
-                        // Sync current file before sharing
-                        project.files[project.activeFile] = editor.getValue();
-                        const stateString = JSON.stringify(project);
-                        const encoded = btoa(unescape(encodeURIComponent(stateString)));
-                        const url = new URL(window.location.href);
-                        url.searchParams.set('project', encoded);
-
-                        window.history.replaceState({}, '', url);
-                        navigator.clipboard.writeText(url.href).then(() => {
-                            const originalText = shareBtn.innerHTML;
-                            shareBtn.innerHTML = '✓ Copied!';
-                            setTimeout(() => shareBtn.innerHTML = originalText, 2000);
-                        });
-                    } catch (e) {
-                        console.error("Sharing failed", e);
-                    }
-                });
-
-                downloadBtn.addEventListener('click', () => {
-                    const content = editor.getValue();
-                    const blob = new Blob([content], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = project.activeFile;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                });
-
-                // Handle Import from URL
                 const urlParams = new URLSearchParams(window.location.search);
                 const sharedProject = urlParams.get('project');
                 if (sharedProject) {
                     try {
-                        const decoded = decodeURIComponent(escape(atob(sharedProject)));
-                        const imported = JSON.parse(decoded);
-                        if (imported && imported.files) {
-                            project = imported;
-                            saveProject();
-                            updateProjectUI();
-                            switchFile(project.activeFile);
-                            if (window.terminal) terminal.writeln("\x1b[92mShared project imported successfully.\x1b[0m\r\n");
-                        }
-                    } catch (e) {
-                        console.error("Import failed", e);
-                    }
+                        const imported = JSON.parse(decodeURIComponent(escape(atob(sharedProject))));
+                        if (imported && imported.files) { project = imported; saveProject(); }
+                    } catch (e) { console.error("Import failed", e); }
                 }
 
-                // Initial UI Sync
                 updateProjectUI();
                 hydrateTutorials(editor);
                 loadExamples();
 
-                // Consolidated Examples & Reset Logic
-                examplesSelect.addEventListener('change', (e) => {
-                    const val = e.target.value;
-                    if (val === 'reset') {
-                        if (confirm("This will clear your local project and reset to default. Continue?")) {
-                            localStorage.removeItem('zenc_project');
-                            window.location.href = window.location.pathname;
-                        }
-                        e.target.value = '';
-                    } else if (val !== "" && examplesData[val]) {
-                        project.files["main.zc"] = examplesData[val].code;
-                        project.activeFile = "main.zc";
-                        editor.setValue(project.files["main.zc"]);
-                        updateProjectUI();
-                        saveProject();
-                    }
-                });
-
-                updateStatusBar();
-
-                // --- LAYOUT RESIZER ---
+                // --- 7. RESIZER LOGIC ---
                 const resizer = document.getElementById('layout-resizer');
                 const editorWrapper = document.getElementById('editor-wrapper');
                 const terminalWrapper = document.getElementById('terminal-wrapper');
                 const rightColumn = document.getElementById('right-column');
-                let isResizing = false;
-                let startY, startHeight;
+                let isResizing = false, startY, startHeight;
 
-                resizer.addEventListener('mousedown', (e) => {
-                    isResizing = true;
-                    startY = e.clientY;
-                    startHeight = editorWrapper.getBoundingClientRect().height;
+                resizer.onmousedown = (e) => {
+                    isResizing = true; startY = e.clientY; startHeight = editorWrapper.getBoundingClientRect().height;
                     resizer.classList.add('resizing');
-                    document.body.style.cursor = 'row-resize';
-                    document.body.style.userSelect = 'none';
-
-                    // Add overlay to prevent iframe interference if any
-                    const overlay = document.createElement('div');
-                    overlay.id = 'resize-overlay';
-                    overlay.style.position = 'fixed';
-                    overlay.style.inset = '0';
-                    overlay.style.zIndex = '9999';
-                    overlay.style.cursor = 'row-resize';
+                    const overlay = document.createElement('div'); overlay.id = 'resize-overlay';
+                    overlay.style.position = 'fixed'; overlay.style.inset = '0'; overlay.style.zIndex = '9999'; overlay.style.cursor = 'row-resize';
                     document.body.appendChild(overlay);
-                });
+                };
 
-                window.addEventListener('mousemove', (e) => {
+                window.onmousemove = (e) => {
                     if (!isResizing) return;
-
                     const deltaY = e.clientY - startY;
-                    const containerRect = rightColumn.getBoundingClientRect();
-                    const totalHeight = containerRect.height;
-                    const newHeightPx = startHeight + deltaY;
-
-                    const minEditorPx = 150;
-                    const minTerminalPx = 100;
-
-                    // Clamping Logic: SNAP to the limits instead of ignoring events
-                    const clampedHeightPx = Math.max(minEditorPx, Math.min(totalHeight - minTerminalPx, newHeightPx));
-                    const percentage = (clampedHeightPx / totalHeight) * 100;
-
-                    const editorPct = percentage;
-                    const terminalPct = 100 - percentage;
-
-                    editorWrapper.style.height = `${editorPct}%`;
-                    terminalWrapper.style.height = `${terminalPct}%`;
-                    terminalWrapper.style.flex = "none"; // Stop flexbox from fighting our explicit height
-
+                    const totalHeight = rightColumn.getBoundingClientRect().height;
+                    const clampedPx = Math.max(150, Math.min(totalHeight - 100, startHeight + deltaY));
+                    const pct = (clampedPx / totalHeight) * 100;
+                    editorWrapper.style.height = `${pct}%`;
+                    terminalWrapper.style.height = `${100 - pct}%`;
+                    terminalWrapper.style.flex = "none";
                     editor.layout();
-                    fitAddon.fit();
-                });
+                };
 
-                window.addEventListener('mouseup', () => {
-                    if (isResizing) {
-                        isResizing = false;
-                        resizer.classList.remove('resizing');
-                        document.body.style.cursor = '';
-                        document.body.style.userSelect = '';
-                        const overlay = document.getElementById('resize-overlay');
-                        if (overlay) overlay.remove();
-                        editor.layout();
-                        fitAddon.fit();
+                window.onmouseup = () => { if (isResizing) { isResizing = false; resizer.classList.remove('resizing'); document.getElementById('resize-overlay')?.remove(); localStorage.setItem('zenc_editor_height', editorWrapper.style.height); } };
 
-                        // Save for persistence
-                        localStorage.setItem('zenc_editor_height', editorWrapper.style.height);
-                    }
-                });
-
-                // Initial Resize Sync
                 const savedHeight = localStorage.getItem('zenc_editor_height');
                 if (savedHeight) {
                     editorWrapper.style.height = savedHeight;
-                    // Sync terminal for dual-height consistency
-                    const editorPct = parseFloat(savedHeight);
-                    if (!isNaN(editorPct)) {
-                        terminalWrapper.style.height = `${100 - editorPct}%`;
-                        terminalWrapper.style.flex = "none";
-                    }
-
-                    setTimeout(() => {
-                        editor.layout();
-                        fitAddon.fit();
-                    }, 100);
+                    const pct = parseFloat(savedHeight);
+                    if (!isNaN(pct)) { terminalWrapper.style.height = `${100 - pct}%`; terminalWrapper.style.flex = "none"; }
+                    setTimeout(() => { editor.layout(); }, 100);
                 }
 
-                const copyBtn = document.getElementById('copy-btn');
-                copyBtn.addEventListener('click', () => {
+                document.getElementById('copy-btn').onclick = () => {
                     navigator.clipboard.writeText(editor.getValue());
-                    copyBtn.innerHTML = 'Copied!';
-                    setTimeout(() => {
-                        copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy`;
-                    }, 2000);
-                });
+                    const btn = document.getElementById('copy-btn'); const old = btn.innerHTML; btn.innerHTML = 'Copied!';
+                    setTimeout(() => btn.innerHTML = old, 2000);
+                };
+
+                const themeToggle = document.getElementById('theme-toggle');
+                if (themeToggle) {
+                    themeToggle.onclick = () => {
+                        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                        document.documentElement.setAttribute('data-theme', newTheme);
+                        localStorage.setItem('theme', newTheme);
+                        monaco.editor.setTheme(newTheme === 'dark' ? 'zenc-dark' : 'zenc-light');
+                    };
+                }
+
             } catch (err) {
-                console.error("Playground initialization failed:", err);
-                const out = document.getElementById('output');
-                if (out) out.innerHTML = `<div style="padding: 20px; color: #ef4444; font-family: monospace;">Initialization failed: ${err.message}</div>`;
+                console.error("Initialization failed:", err);
             }
         });
     </script>
