@@ -451,22 +451,57 @@
         /* --- Status Bar --- */
         .status-bar {
             height: 24px;
-            background-color: var(--surface);
+            background-color: var(--surface-alt);
             border-top: 1px solid var(--border);
             display: flex;
             align-items: center;
-            padding: 0 16px;
+            padding: 0 12px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
             color: var(--muted);
             justify-content: space-between;
             z-index: 50;
+            user-select: none;
         }
 
         .status-item {
             display: flex;
             align-items: center;
             gap: 12px;
+            height: 100%;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0 4px;
+            height: 100%;
+            transition: color 0.2s;
+        }
+
+        .status-indicator:hover {
+            color: var(--fg);
+        }
+
+        .zen-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: inline-block;
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        .zen-dot.syncing {
+            background: var(--num);
+            box-shadow: 0 0 8px var(--num);
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
         }
 
         /* Zen Mastery Mission Refinement */
@@ -718,6 +753,39 @@
                                 <!-- JS fills this -->
                             </div>
                             <div id="editor-container"></div>
+                            
+                            <div class="status-bar">
+                                <div class="status-item">
+                                    <div class="status-indicator">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        <span id="editor-lang-tag">Zen C</span>
+                                    </div>
+                                    <div class="status-indicator">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                            <polyline points="13 2 13 9 20 9"></polyline>
+                                        </svg>
+                                        <span id="file-stats">1 file</span>
+                                    </div>
+                                </div>
+                                <div class="status-item">
+                                    <div class="status-indicator" title="Current line and column">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                                        </svg>
+                                        <span id="cursor-pos">Ln 1, Col 1</span>
+                                    </div>
+                                    <div class="status-indicator">
+                                        <span id="sync-dot" class="zen-dot"></span>
+                                        <span id="sync-status">Saved</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                 </div>
                 <!-- Resizer Handle -->
@@ -737,16 +805,6 @@
                         <button id="clear-terminal" class="ui-btn" style="padding: 3px 8px; font-size: 0.75rem;">Clear</button>
                     </div>
                     <div class="terminal-output" id="output"></div>
-                </div>
-                <div class="status-bar">
-                    <div class="status-item">
-                        <span id="editor-lang-tag">Zen C</span>
-                        <span id="cursor-pos">Ln 1, Col 1</span>
-                    </div>
-                    <div class="status-item">
-                        <span id="file-stats">1 file</span>
-                        <span id="sync-status">● Saved</span>
-                    </div>
                 </div>
             </div>
         </div>
