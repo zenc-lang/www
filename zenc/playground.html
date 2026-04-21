@@ -106,7 +106,7 @@
             gap: 6px;
             font-family: 'Inter', sans-serif;
             font-weight: 500;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: color 0.15s, background 0.15s, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             letter-spacing: 0.01em;
         }
 
@@ -126,7 +126,7 @@
             outline: none;
             font-family: 'Inter', sans-serif;
             font-weight: 500;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: color 0.15s, background 0.15s;
         }
 
         .ui-select:hover {
@@ -140,7 +140,7 @@
             border: 1px solid var(--accent);
             border-radius: 6px;
             padding: 5px 14px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: color 0.15s, background 0.15s, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s;
         }
 
         .run-btn:hover {
@@ -216,7 +216,7 @@
             display: flex;
             flex-direction: column;
             background: var(--surface);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Removed broad transition to fix theme-switch lag */
         }
 
         .sidebar-section-header {
@@ -244,7 +244,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.15s, color 0.15s, border-left-color 0.15s;
             border-left: 2px solid transparent;
         }
 
@@ -319,7 +319,7 @@
             color: var(--muted);
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.2s;
+            transition: color 0.15s, border-bottom-color 0.15s;
             font-weight: 500;
         }
 
@@ -385,7 +385,7 @@
             padding: 10px 20px;
             border-bottom: 1px solid var(--border);
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.15s, color 0.15s, border-left-color 0.15s;
             font-size: 0.82rem;
             font-weight: 500;
             display: flex;
@@ -420,7 +420,7 @@
             background: var(--surface-alt);
             border: 1px solid var(--border);
             border-radius: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #tutorial-mission:hover {
