@@ -179,6 +179,24 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Grain Texture — the monk's workspace */
+        .zen-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0.015;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        [data-theme="dark"] .zen-grain {
+            opacity: 0.1;
+            filter: contrast(150%) brightness(100%);
+        }
+
         /* --- Layout --- */
         .playground-container {
             display: flex;
@@ -427,11 +445,28 @@
             border-left-color: var(--border);
         }
 
-        .tutorial-btn.active {
-            background: var(--surface-alt);
-            color: var(--fg);
-            font-weight: 600;
             border-left-color: var(--accent);
+        }
+
+        /* --- Status Bar --- */
+        .status-bar {
+            height: 24px;
+            background-color: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--muted);
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         /* Zen Mastery Mission Refinement */
@@ -521,11 +556,16 @@
             #tutorial-sidebar {
                 height: 240px;
             }
+
+            .status-bar {
+                display: none; /* Hide on small screens for space */
+            }
         }
     </style>
 </head>
 
 <body>
+    <div class="zen-grain"></div>
     <header>
         <div class="container nav-container">
             <a href="/" class="logo">Zen C <span class="version">v0.4.4</span></a>
@@ -622,7 +662,26 @@
                             <select id="examples-select" class="ui-select"
                                 style="max-width: 150px; text-overflow: ellipsis;">
                                 <option value="" disabled selected>-- Examples --</option>
+                                <option value="reset">⟲ Reset Playground</option>
                             </select>
+
+                            <button id="share-btn" class="ui-btn" style="color: var(--accent);">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                                    <polyline points="16 6 12 2 8 6"></polyline>
+                                    <line x1="12" y1="2" x2="12" y2="15"></line>
+                                </svg>
+                                Share
+                            </button>
+                            
+                            <button id="download-zc-btn" class="ui-btn">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download
+                            </button>
 
                             <div style="flex: 1;"></div>
 
@@ -678,6 +737,16 @@
                         <button id="clear-terminal" class="ui-btn" style="padding: 3px 8px; font-size: 0.75rem;">Clear</button>
                     </div>
                     <div class="terminal-output" id="output"></div>
+                </div>
+                <div class="status-bar">
+                    <div class="status-item">
+                        <span id="editor-lang-tag">Zen C</span>
+                        <span id="cursor-pos">Ln 1, Col 1</span>
+                    </div>
+                    <div class="status-item">
+                        <span id="file-stats">1 file</span>
+                        <span id="sync-status">● Saved</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1403,8 +1472,95 @@
                                 </svg>
                                 Run Code`;
                     fitAddon.fit();
+                    updateStatusBar();
                 }
             });
+
+            // --- EDITOR SHORTCUTS & STATUS BAR ---
+            const cursorPos = document.getElementById('cursor-pos');
+            const fileStats = document.getElementById('file-stats');
+
+            editor.onDidChangeCursorPosition((e) => {
+                cursorPos.textContent = `Ln ${e.position.lineNumber}, Col ${e.position.column}`;
+            });
+
+            function updateStatusBar() {
+                const count = Object.keys(project.files).length;
+                fileStats.textContent = `${count} ${count === 1 ? 'file' : 'files'}`;
+            }
+
+            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, function() {
+                runBtn.click();
+            });
+
+            // --- SHARING & PORTABILITY ---
+            const shareBtn = document.getElementById('share-btn');
+            const downloadBtn = document.getElementById('download-zc-btn');
+
+            shareBtn.addEventListener('click', () => {
+                try {
+                    // Sync current file before sharing
+                    project.files[project.activeFile] = editor.getValue();
+                    const stateString = JSON.stringify(project);
+                    const encoded = btoa(unescape(encodeURIComponent(stateString)));
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('project', encoded);
+                    
+                    window.history.replaceState({}, '', url);
+                    navigator.clipboard.writeText(url.href).then(() => {
+                        const originalText = shareBtn.innerHTML;
+                        shareBtn.innerHTML = '✓ Copied!';
+                        setTimeout(() => shareBtn.innerHTML = originalText, 2000);
+                    });
+                } catch (e) {
+                    console.error("Sharing failed", e);
+                }
+            });
+
+            downloadBtn.addEventListener('click', () => {
+                const content = editor.getValue();
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = project.activeFile;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            // Handle Import from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sharedProject = urlParams.get('project');
+            if (sharedProject) {
+                try {
+                    const decoded = decodeURIComponent(escape(atob(sharedProject)));
+                    const imported = JSON.parse(decoded);
+                    if (imported && imported.files) {
+                        project = imported;
+                        saveProject();
+                        updateFileList();
+                        switchFile(project.activeFile);
+                        terminal.writeln("\x1b[92mShared project imported successfully.\x1b[0m\r\n");
+                    }
+                } catch (e) {
+                    console.error("Import failed", e);
+                }
+            }
+
+            // Reset Functionality
+            examplesSelect.addEventListener('change', (e) => {
+                if (e.target.value === 'reset') {
+                    if (confirm("This will clear your local project and reset to default. Continue?")) {
+                        localStorage.removeItem('zenc_project');
+                        window.location.href = window.location.pathname; // Reload clean
+                    }
+                    e.target.value = '';
+                    return;
+                }
+                // ... existing examples logic follows ...
+            });
+
+            updateStatusBar();
 
             // --- LAYOUT RESIZER ---
             const resizer = document.getElementById('layout-resizer');
