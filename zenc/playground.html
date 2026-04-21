@@ -194,11 +194,25 @@
         }
 
         #editor-wrapper {
-            flex: 1.5;
+            flex: none;
+            height: 60%; /* Starting height */
             display: flex;
             flex-direction: column;
             overflow: hidden;
             border-bottom: 1px solid var(--border);
+        }
+
+        #layout-resizer {
+            height: 2px;
+            background: var(--border);
+            cursor: row-resize;
+            z-index: 100;
+            transition: background 0.2s, height 0.2s;
+        }
+
+        #layout-resizer:hover, #layout-resizer.resizing {
+            background: var(--accent);
+            height: 4px;
         }
 
         /* --- Project Sidebar --- */
@@ -512,7 +526,6 @@
                     <a href="https://docs.zenc-lang.org/">Docs</a>
                     <a href="/playground.html" class="active">Playground</a>
                     <a href="/#sponsors">Sponsors</a>
-                    <a href="https://github.com/zenc-lang/zenc/issues/new?title=%5BPlayground%5D%20" target="_blank">Report Issue</a>
                     <a href="https://github.com/zenc-lang/zenc" class="github-link">GitHub ↗</a>
                 </div>
 
@@ -612,6 +625,16 @@
                                 </svg>
                                 New File
                             </button>
+
+                            <a href="https://github.com/zenc-lang/zenc/issues/new?title=%5BPlayground%5D%20" 
+                               target="_blank" class="ui-btn" style="text-decoration: none; color: var(--muted);">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                Report Bug
+                            </a>
                         </div>
                     </div>
                     <div id="project-area">
@@ -629,9 +652,10 @@
                             </div>
                             <div id="editor-container"></div>
                         </div>
-                    </div>
                 </div>
-
+                <!-- Resizer Handle -->
+                <div id="layout-resizer"></div>
+                
                 <div id="terminal-wrapper" class="zen-panel">
                     <div class="zen-panel-header">
                         <div style="display: flex; align-items: center; gap: 8px;">
@@ -1370,6 +1394,60 @@
                                     <path d="M8 5v14l11-7z" />
                                 </svg>
                                 Run Code`;
+                    fitAddon.fit();
+                }
+            });
+
+            // --- LAYOUT RESIZER ---
+            const resizer = document.getElementById('layout-resizer');
+            const editorWrapper = document.getElementById('editor-wrapper');
+            const rightColumn = document.getElementById('right-column');
+            let isResizing = false;
+
+            resizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                resizer.classList.add('resizing');
+                document.body.style.cursor = 'row-resize';
+                document.body.style.userSelect = 'none';
+                
+                // Add overlay to prevent iframe interference if any
+                const overlay = document.createElement('div');
+                overlay.id = 'resize-overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.inset = '0';
+                overlay.style.zIndex = '9999';
+                overlay.style.cursor = 'row-resize';
+                document.body.appendChild(overlay);
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+
+                const containerRect = rightColumn.getBoundingClientRect();
+                const relativeY = e.clientY - containerRect.top;
+                const percentage = (relativeY / containerRect.height) * 100;
+
+                // Constraints: Min 100px for both
+                const minPx = 100;
+                const totalHeight = containerRect.height;
+                const newHeightPx = (percentage / 100) * totalHeight;
+
+                if (newHeightPx > minPx && (totalHeight - newHeightPx) > minPx) {
+                    editorWrapper.style.height = `${percentage}%`;
+                    editor.layout();
+                    fitAddon.fit();
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    resizer.classList.remove('resizing');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    const overlay = document.getElementById('resize-overlay');
+                    if (overlay) overlay.remove();
+                    editor.layout();
                     fitAddon.fit();
                 }
             });
