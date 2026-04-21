@@ -666,7 +666,8 @@
             <!-- LEFT PANE: TUTORIALS -->
             <div id="tutorial-sidebar" class="zen-panel"
                 style="width: 28%; min-width: 300px; max-width: 380px; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden;">
-                <div class="zen-panel-header">
+                <div class="zen-panel-header"
+                    style="display: flex; align-items: center; justify-content: space-between;">
                     <span
                         style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; letter-spacing: 0.08em; text-transform: uppercase;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -676,6 +677,9 @@
                         </svg>
                         Guided Path
                     </span>
+                    <button id="exit-tutorial" class="ui-btn"
+                        style="padding: 2px 6px; font-size: 1rem; color: var(--muted); background: transparent; border: none; cursor: pointer; display: none;"
+                        title="Exit Guided Path">×</button>
                 </div>
                 <div id="tutorial-content"
                     style="flex: 2; padding: 1.5rem; overflow-y: auto; font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.7; color: var(--fg); border-bottom: 1px solid var(--border);">
@@ -1171,6 +1175,20 @@
             const missionGoal = document.getElementById('mission-goal');
             let currentTutorialIndex = -1;
 
+            function exitTutorial() {
+                currentTutorialIndex = -1;
+                Array.from(tutorialList.children).forEach(child => child.classList.remove('active'));
+                tutorialMission.style.display = 'none';
+                document.getElementById('exit-tutorial').style.display = 'none';
+                tutorialContent.innerHTML = `
+                    <h2>Welcome to the Playground</h2>
+                    <p style="color: var(--muted); margin-bottom: 1rem;">Select a tutorial below to learn the
+                        fundamentals of Zen C right inside your browser.</p>
+                `;
+            }
+
+            document.getElementById('exit-tutorial').onclick = exitTutorial;
+
             function hydrateTutorials(activeEditor) {
                 tutorialList.innerHTML = '';
                 tutorialsData.forEach((tut, idx) => {
@@ -1189,14 +1207,19 @@
                         Array.from(tutorialList.children).forEach(child => child.classList.remove('active'));
                         btn.classList.add('active');
                         currentTutorialIndex = idx;
+                        
+                        // ISOLATION: Reset files and re-apply from mission
+                        project.files = { "main.zc": tut.code };
                         if (tut.setup) await tut.setup(project);
-                        project.files["main.zc"] = tut.code;
+                        
                         project.activeFile = "main.zc";
-                        activeEditor.setValue(tut.code);
+                        activeEditor.setValue(project.files["main.zc"]);
                         updateProjectUI();
                         saveProject();
+                        
                         tutorialContent.innerHTML = tut.content;
                         tutorialMission.style.display = 'block';
+                        document.getElementById('exit-tutorial').style.display = 'block';
                         missionGoal.innerHTML = tut.mission;
                         tutorialMission.classList.remove('mission-success');
                         document.getElementById('mission-title-text').textContent = (tut.completed ? 'Mastery Achieved' : 'Seeking Enlightenment');
@@ -1211,11 +1234,29 @@
                     const resp = await fetch('examples.json');
                     examplesData = await resp.json();
                     examplesSelect.innerHTML = '<option value="" disabled selected>-- Reference Code --</option>';
+                    examplesSelect.innerHTML += '<option value="reset">⟲ Reset Playground</option>';
                     examplesData.forEach((ex, idx) => {
                         const opt = document.createElement('option');
                         opt.value = idx; opt.textContent = ex.title;
                         examplesSelect.appendChild(opt);
                     });
+
+                    examplesSelect.onchange = (e) => {
+                        const val = e.target.value;
+                        if (val === 'reset') {
+                            project = { activeFile: "main.zc", files: { "main.zc": "fn main() {\n    println \"Zenith established.\";\n}" } };
+                            exitTutorial();
+                        } else if (examplesData[val]) {
+                            const ex = examplesData[val];
+                            project.files = { "main.zc": ex.code };
+                            project.activeFile = "main.zc";
+                            exitTutorial();
+                        }
+                        editor.setValue(project.files["main.zc"]);
+                        updateProjectUI();
+                        saveProject();
+                        examplesSelect.selectedIndex = 0;
+                    };
                 } catch (err) { console.error("Examples failed:", err); }
             }
 
