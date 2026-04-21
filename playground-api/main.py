@@ -66,12 +66,12 @@ async def run_code(request: RunRequest):
             "-m", "128m",
             "--pids-limit", "64",
             "--read-only",
-            "--tmpfs", "/tmp:rw,nosuid,exec,size=64m",
+            "--tmpfs", "/tmp:rw,nosuid,exec,size=128m",
             "--cap-drop", "ALL",
             "--security-opt", "no-new-privileges=true",
-            "-v", f"{tmp_dir}:/tmp:ro",
+            "-v", f"{tmp_dir}:/src:ro",
             "zenc_sandbox",
-            "sh", "-c", f"timeout -s 9 15 sh -c {shlex.quote(full_command)}"
+            "sh", "-c", f"cp -r /src/* /tmp/ && cd /tmp && timeout -s 9 15 sh -c {shlex.quote(build_chain + main_cmd)}"
         ]
 
         try:
