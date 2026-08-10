@@ -97,7 +97,7 @@ struct JsonValue {
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **to_string** | `to_string(self) -> String` | Returns a serialized JSON string. |
+| **to_string** | `to_string(self) -> char*` | Returns a serialized JSON string (caller frees). |
 
 ## Memory Management
 
